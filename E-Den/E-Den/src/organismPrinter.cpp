@@ -7,7 +7,8 @@
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
-#define SDL_SCALE 3
+#define SDL_SCALE 10
+#define SCALE_FACTOR 0.8f
 #endif
 
 namespace EDen {
@@ -136,6 +137,8 @@ namespace EDen {
     dimy(param_dimy) {
     screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);	
     SDL_WM_SetCaption(param_organism->getName().c_str(),param_organism->getName().c_str());
+    scale = SDL_SCALE;
+    needToScale = false;
     resetScreen();
   };
 
@@ -152,19 +155,22 @@ namespace EDen {
         // putpixel(screen,x,y,SDL_MapRGB(screen->format,x%65,y%255,(x+y)%255));
         putpixel(screen,x,y,SDL_MapRGB(screen->format,0,0,0));
 
-    SDL_UpdateRect(screen,0,0,dimx,dimy);
-
     return true;
   };
 
   bool SDLOrganismPrinter::print() {
     resetScreen();
     
+    needToScale = false;
+
     if( org->getState() != BSP_dead) {
       req_print(org->getRootBodypart(),dimx/2,0,0.0f);
     };
     
     SDL_UpdateRect(screen,0,0,dimx,dimy);
+
+    if(needToScale) scale = scale * SCALE_FACTOR;
+
     return true;
   };
 
@@ -185,10 +191,15 @@ namespace EDen {
       dx = sin(2.0f * M_PI * (param_angle/360.0f));
       dy = cos(2.0f * M_PI * (param_angle/360.0f));
 
-      x2 = (int)(param_x + (dx * param_bp->getSize() * SDL_SCALE));
-      y2 = (int)(param_y + (dy * param_bp->getSize() * SDL_SCALE));
+      x2 = (int)(param_x + (dx * param_bp->getSize() * scale));
+      y2 = (int)(param_y + (dy * param_bp->getSize() * scale));
 
       //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
+
+      if((x1-offsetx <= 0) || (x1-offsetx > dimx) || (x2-offsetx <= 0) || (x2-offsetx > dimx) || 
+        (y1-offsety> dimy) || (y2-offsety > dimy)) {
+        needToScale = true;
+      };
 
       if((x1-offsetx >= 0) && (x1-offsetx < dimx) && (x2-offsetx >= 0) && (x2-offsetx < dimx) && 
         (y1-offsety >= 0) && (y1-offsety< dimy) && (y2-offsety >= 0) && (y2-offsety < dimy)) {

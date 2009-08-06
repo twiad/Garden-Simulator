@@ -28,6 +28,10 @@ namespace EDen {
   private:
     SDL_Surface *screen;
     SDL_Surface *pscreen;
+
+    float scale;
+    bool needToScale;
+
  
     bool resetScreen();
     int req_print(Bodypart* param_bp, int param_x, int param_y, float param_angle);

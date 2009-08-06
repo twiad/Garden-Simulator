@@ -13,7 +13,7 @@
 #define STARTING_WATER 1.5e7
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
-#define SDL_IDEL_CYCLES 10
+#define SDL_IDEL_CYCLES 1
 
 using namespace EDen; 
 using namespace std;
@@ -87,10 +87,10 @@ void printOrgs() {
 
 void sdl_run(int cycles) {
   printOrgs();
-  outputWaterAndGold(gp->getChemicalStorage());
-  outputWaterAndGold(organism->getRootBodypart()->getChemicalStorage());
-  printf("-[%d]-----------------------------------------------",cyclecount);
-  printf("\t\t\t[running %d cycles]\n",cycles);
+  //outputWaterAndGold(gp->getChemicalStorage());
+  //outputWaterAndGold(organism->getRootBodypart()->getChemicalStorage());
+  //printf("-[%d]-----------------------------------------------",cyclecount);
+  //printf("\t\t\t[running %d cycles]\n",cycles);
   run(cycles);
 //  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
 //  printOrgs();

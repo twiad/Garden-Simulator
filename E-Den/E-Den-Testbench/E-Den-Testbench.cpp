@@ -53,36 +53,33 @@ void outputWaterAndGold(Bodypart* bp) {
   }
 };
 
-void run(int cycles = 1) {
-  cyclecount += cycles;
-  for(int i = 0; i < cycles; i++) {
-    if((organism != 0) && (organism->getState() != BSP_dead)) {
-      //if(organism->getState() != BSP_dead) 
-        organism->updateGeneticProcessors();
-      //else std::cout << "#";
-        if((i%CHEM_SYSTEM_CLK_DEVIDER) == 0) {
-          organism->updateDelete();
-          organism->updateChemicalStorageLinks();
-        }
-      
-    };
-    
-    if((organism2 != 0) && (organism2->getState() != BSP_dead)) {
-      //if(organism2->getState() != BSP_dead)
-        organism2->updateGeneticProcessors();
-      //else std::cout << "#";
-      if((i%CHEM_SYSTEM_CLK_DEVIDER) == 0) {
-        organism2->updateDelete();
-        organism2->updateChemicalStorageLinks();
+void run(int cycles = 1, Organism* org = organism) {
+  if(op1 != 0) {
+    Organism* org;
+    std::list<Organism*> orgs = op1->getOrganisms();
+    cyclecount += cycles;
+    for(int i = 0; i < cycles; i++) {
+      for(std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
+        org = *it;
+        if((org != 0) && (org->getState() != BSP_dead)) {
+          //if(organism->getState() != BSP_dead) 
+            org->updateGeneticProcessors();
+          //else std::cout << "#";
+            if((i%CHEM_SYSTEM_CLK_DEVIDER) == 0) {
+              org->updateDelete();
+              org->updateChemicalStorageLinks();
+            };
+         
+        };
       };
-      
     };
   };
 };
 
 void printOrgs() {
-  if((op1 != 0) && (organism != 0)) op1->print();
-  //if((op2 != 0)) op2->print();
+  if(op1 != 0) {
+    op1->print();
+  };
 };
 
 void sdl_run(int cycles) {
@@ -140,19 +137,36 @@ bool wait_for_events()
 
 void sdl_test() {
   gp = new Groundpart();
-  Bodypart* bp = new Bodypart(BPT_Stick,"TESTPART3");
+  Bodypart* bp,* bp2;
+  
+  bp = new Bodypart(BPT_Stick,"TESTPART3");
   organism = new Organism("TestOrganism", bp);
   organism->connectToGoundpart(gp);
   op1 = new SDLOrganismPrinter(organism,1024,800);
-  op2 = new OrganismPrinter(organism);
-  Bodypart* bp2 = new Bodypart(BPT_Branch,"TESTPART3",organism);
+//  op2 = new OrganismPrinter(organism);
+  bp2 = new Bodypart(BPT_Branch,"TESTPART3",organism);
   bp->occupieSpawnpoint(bp2);
   bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
-  if(!(bp->spawnBodypart(bp2))) cout << "[!!] bp2 not spawned" << endl;
-  if(!(bp->spawnBodypart(bp3))) cout << "[!!] bp3 not spawned" << endl;
+  if(!(bp->spawnBodypart(bp2))) cout << "[!1] bp2 not spawned" << endl;
+  if(!(bp->spawnBodypart(bp3))) cout << "[!1] bp3 not spawned" << endl;
   bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
-  if(!(bp->spawnBodypart(bp3))) cout << "[!!] bp4 not spawned" << endl;
+  if(!(bp->spawnBodypart(bp3))) cout << "[!1] bp4 not spawned" << endl;
   bp3->getChemicalStorage()->add("Energie",20.0f);
+
+  bp = new Bodypart(BPT_Stick,"TESTPART3");
+  organism = new Organism("TestOrganism2", bp);
+  organism->connectToGoundpart(gp);
+  op1->add(organism);
+//  op2 = new OrganismPrinter(organism);
+  bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
+  bp->occupieSpawnpoint(bp2);
+  bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
+  if(!(bp->spawnBodypart(bp2))) cout << "[!2] bp2 not spawned" << endl;
+  if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
+  //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
+  //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
+  bp3->getChemicalStorage()->add("Energie",10.0f);
+
   cout << "Adding some initial Water ..." << endl;
   gp->getChemicalStorage()->add("Wasser",STARTING_WATER);
   cout << endl;

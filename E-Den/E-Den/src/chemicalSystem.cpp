@@ -150,11 +150,12 @@ namespace EDen {
 //  I:  apost/amax = bpost/bmax
 // II: apost+bpost = a+b
 
-      if((*it).second.max*size > 0.0) {
-        float bamaxquot = (other->getMaxAmount((*it).second.chemical))/((*it).second.max*size);
-        float basum = (other->getCurrentAmount((*it).second.chemical))+((*it).second.current);
+      ChemicalStorageEntry storageEntry = (*it).second;
+      if(storageEntry.max*size > 0.0) {
+        float bamaxquot = (other->getMaxAmount(storageEntry.chemical))/(storageEntry.max*size);
+        float basum = (other->getCurrentAmount(storageEntry.chemical))+(storageEntry.current);
         float newb = basum*(bamaxquot/(bamaxquot+1));
-        other->setCurrentAmount((*it).second.chemical,newb);
+        other->setCurrentAmount(storageEntry.chemical,newb);
         (*it).second.current = basum - newb;
       }
     };

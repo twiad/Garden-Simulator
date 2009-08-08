@@ -32,20 +32,22 @@ namespace EDen {
     float scale;
     bool needToScale;
 
- 
+    bool updateCaption();
     bool resetScreen();
+    bool cleanupDeadOrganisms();
     int req_print(Bodypart* param_bp, int param_x, int param_y, float param_angle);
 
     int dimx;
     int dimy;
   protected:
-    Organism* org;
+    std::list<Organism*> organisms;
   public:
     SDLOrganismPrinter(Organism* param_organism, int param_dimx = 500, int param_dimy = 800);
     ~SDLOrganismPrinter();
 
     virtual bool print();
 
+    bool add(Organism* param_organism);
 
   };
 }

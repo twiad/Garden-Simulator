@@ -8,7 +8,7 @@
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
 #define SDL_SCALE 10
-#define SCALE_FACTOR 0.8f
+#define SCALE_FACTOR 0.9f
 #endif
 
 namespace EDen {
@@ -132,11 +132,11 @@ namespace EDen {
   };
 
   SDLOrganismPrinter::SDLOrganismPrinter(Organism* param_organism, int param_dimx, int param_dimy): 
-    org(param_organism), 
     dimx(param_dimx), 
     dimy(param_dimy) {
     screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);	
-    SDL_WM_SetCaption(param_organism->getName().c_str(),param_organism->getName().c_str());
+    organisms.push_back(param_organism);
+    updateCaption();
     scale = SDL_SCALE;
     needToScale = false;
     resetScreen();
@@ -158,13 +158,48 @@ namespace EDen {
     return true;
   };
 
+  bool SDLOrganismPrinter::cleanupDeadOrganisms() {
+    Organism* org;
+    std::list<Organism*> new_orgs;
+
+    while(!organisms.empty()) {
+      org = organisms.back();
+      organisms.pop_back();
+      if(org)
+          if(org->getState() != BSP_dead)
+              new_orgs.push_front(org);
+          else {
+            delete org;
+          };
+    };
+
+    organisms.clear();
+    organisms.swap(new_orgs);
+
+    return true;
+  };
+
+  bool SDLOrganismPrinter::updateCaption() {
+    
+    
+    return true;
+  };
+
   bool SDLOrganismPrinter::print() {
     resetScreen();
-    
+    cleanupDeadOrganisms();
+    updateCaption();
     needToScale = false;
+    Organism* org;
+    int counter = 1;
+    int max = organisms.size() + 1;
 
-    if( org->getState() != BSP_dead) {
-      req_print(org->getRootBodypart(),dimx/2,0,0.0f);
+    for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+      org = *it;
+      if( org->getState() != BSP_dead) {
+        req_print(org->getRootBodypart(),(dimx/max)*counter,0,0.0f);
+      };
+      counter++;
     };
     
     SDL_UpdateRect(screen,0,0,dimx,dimy);

@@ -158,6 +158,15 @@ namespace EDen {
     return true;
   };
 
+  bool SDLOrganismPrinter::add(Organism* param_organism) {
+    organisms.push_front(param_organism);
+    return true;
+  };
+
+  std::list<Organism*> SDLOrganismPrinter::getOrganisms() {
+    return organisms;
+  };
+
   bool SDLOrganismPrinter::cleanupDeadOrganisms() {
     Organism* org;
     std::list<Organism*> new_orgs;
@@ -180,8 +189,13 @@ namespace EDen {
   };
 
   bool SDLOrganismPrinter::updateCaption() {
+    std::string newCaption = "";
+
+    for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+      newCaption += " " + (*it)->getName(); 
+    };
     
-    
+    SDL_WM_SetCaption(newCaption.c_str(),newCaption.c_str());
     return true;
   };
 

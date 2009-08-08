@@ -48,6 +48,7 @@ namespace EDen {
     virtual bool print();
 
     bool add(Organism* param_organism);
+    std::list<Organism*> getOrganisms();
 
   };
 }

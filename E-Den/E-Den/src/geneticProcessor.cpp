@@ -131,6 +131,7 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",15.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",150.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Sonne",20.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 10.0f));
       
       float pbp_water_percentage = 0.0f;
@@ -179,6 +180,7 @@ namespace EDen {
       //compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser", 100.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie", 15.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Sonne", 0.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 10.0f));
       
       pbp_water_percentage = 0.0f;
@@ -221,6 +223,7 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 2, 13.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",150.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",10.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Sonne", 0.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 3.0f));
       
       pbp_water_percentage = 0.0f;
@@ -246,9 +249,9 @@ namespace EDen {
       //  AND Type = Leaf
       //  AND "Energie" space_left_more than 10.0
       //  AND "Wasser" current_value_more than 15.0
-      //  AND "Sonne" current_value_more than 1.0
+      //  AND "Sonne" current_value_more than 5.0
       // THEN
-      //  Consume 1.0 "Sonne"
+      //  Consume 5.0 "Sonne"
       //  Convert 10.0 "Wasser" to 10.0 "Energie"
       //  Convert 0.1 "Wasser" to 5.0 "Goo"
       ///////////////////////////////////////////////////////////////////////

@@ -131,7 +131,7 @@ bool wait_for_events()
     }
     else {
       sdl_run(SDL_IDEL_CYCLES);
-      if(organism->getState() == BSP_dead) exit(1);
+      if(! op1->orgsAlive()) exit(1);
     }
   } //while
   return true;
@@ -191,7 +191,7 @@ void sdl_test() {
 
   cout << "Adding some initial Water ..." << endl;
   gp->getChemicalStorage()->add("Wasser",STARTING_WATER);
-  gp->getChemicalStorage()->add("Goo",10.0f);
+  gp->getChemicalStorage()->add("Goo",100.0f);
   cout << endl;
 
   printOrgs();

@@ -191,7 +191,7 @@ namespace EDen {
       bp->getChemicalStorage()->moveAllToStorage(bp->getParentBodypart()->getChemicalStorage());
       return true;
     }
-    else return false;
+    else return true;
   };
 
   GeneticChangeMaxSizeAction::GeneticChangeMaxSizeAction(Bodypart* param_bodypart, float param_amount):GeneticAction(GAT_ChangeMaxSize) {

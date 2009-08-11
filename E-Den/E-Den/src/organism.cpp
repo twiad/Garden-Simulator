@@ -68,7 +68,7 @@ namespace EDen {
         param_bodypart->setParentOrganism(0);
         
         if(resourceProvider != 0) {
-          resourceProvider->removeBodypart(*it);
+          resourceProvider->removeBodypart(param_bodypart);
         };
 
         foundSomething = true;

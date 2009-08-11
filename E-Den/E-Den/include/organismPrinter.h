@@ -54,6 +54,7 @@ namespace EDen {
     bool add(Organism* param_organism);
     std::list<Organism*> getOrganisms();
 
+    bool orgsAlive();
   };
 
   class SDL_SunlightProvider : public ResourceProvider {

@@ -51,7 +51,7 @@ namespace EDen {
   };
 
   bool ResourceProvider::singleDistributionStep(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info) {
-    if(param_info)
+    if(param_info && param_bodypart && (param_bodypart->getBodypartState() != BSP_dead))
       return param_bodypart->getChemicalStorage()->add(chemicalName,amount * param_info->factor);
     else return param_bodypart->getChemicalStorage()->add(chemicalName,amount);
   };

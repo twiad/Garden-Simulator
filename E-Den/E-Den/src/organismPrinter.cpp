@@ -245,9 +245,9 @@ namespace EDen {
       x2 = (int)(param_x + (dx * param_bp->getSize() * scale));
       y2 = (int)(param_y + (dy * param_bp->getSize() * scale));
 
-      px = (float(x1) / (float)dimx) * 3;
+      px = (float(y1) / (float)dimy) * 5;
       if(sun)
-          sun->setFactor(param_bp,px);
+          sun->setFactor(param_bp,px / scale);
 
       //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
 
@@ -296,5 +296,10 @@ namespace EDen {
     };
 
     return true;
+  };
+
+  bool SDLOrganismPrinter::orgsAlive() {
+    if(organisms.size() > 0) return true;
+    return false;
   };
 }

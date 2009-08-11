@@ -171,36 +171,39 @@ void sdl_test() {
   if(!(bp->spawnBodypart(bp3))) cout << "[!1] bp4 not spawned" << endl;
   bp3->getChemicalStorage()->add("Energie",20.0f);
 
-  bp = new Bodypart(BPT_Stick,"TESTPART3");
+/////////////////////////////////////////////////////////////////////////////
+
+  bp = new Bodypart(BPT_Stick,"TESTPART4");
   organism = new Organism("TestOrganism2", bp, sun);
   organism->connectToGoundpart(gp);
   op1->add(organism);
-//  op2 = new OrganismPrinter(organism);
-  bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
+  bp2 = new Bodypart(BPT_Stick,"TESTPART4",organism);
   bp->occupieSpawnpoint(bp2);
-  bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
+  bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
   if(!(bp->spawnBodypart(bp2))) cout << "[!2] bp2 not spawned" << endl;
   if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
-  //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
+  //bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
   //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
   bp3->getChemicalStorage()->add("Energie",10.0f);
 
-  bp = new Bodypart(BPT_Stick,"TESTPART3");
+//////////////////////////////////////////////////////////////////////////////
+
+  bp = new Bodypart(BPT_Stick,"TESTPART4");
   organism = new Organism("TestOrganism2", bp, sun);
   organism->connectToGoundpart(gp);
   op1->add(organism);
-//  op2 = new OrganismPrinter(organism);
-  bp2 = new Bodypart(BPT_Branch,"TESTPART3",organism);
+  bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
   bp->occupieSpawnpoint(bp2);
-  bp3 = new Bodypart(BPT_Stick,"TESTPART3",organism);
+  bp3 = new Bodypart(BPT_Stick,"TESTPART4",organism);
   if(!(bp->spawnBodypart(bp2))) cout << "[!2] bp2 not spawned" << endl;
   if(!(bp2->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
-  bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
+  bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
   if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
   bp3->getChemicalStorage()->add("Energie",10.0f);
 
   cout << "Adding some initial Water ..." << endl;
   gp->getChemicalStorage()->add("Wasser",STARTING_WATER);
+  gp->getChemicalStorage()->add("Goo",10.0f);
   cout << endl;
 
   printOrgs();

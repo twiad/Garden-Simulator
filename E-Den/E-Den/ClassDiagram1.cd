@@ -38,15 +38,15 @@
       <FileName>include\bodypart.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EDen::Chemical" Collapsed="true">
-    <Position X="33.75" Y="7" Width="1.5" />
+  <Class Name="EDen::Chemical">
+    <Position X="35.5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIABAAAAAAAAAAAAAAAAAAAAAgAAAAAAEAAAAAAA=</HashCode>
-      <FileName>include\chemicalSystem.h</FileName>
+      <FileName>include\chemicalsystem.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::ChemicalStorage">
-    <Position X="39.75" Y="2" Width="1.5" />
+    <Position X="33.75" Y="4.25" Width="1.5" />
     <NestedTypes>
       <Struct Name="EDen::ChemicalStorage::ChemicalStorageEntry" Collapsed="true">
         <TypeIdentifier>
@@ -71,227 +71,246 @@
     </NestedTypes>
     <TypeIdentifier>
       <HashCode>AACBQIAAAIAAABgAAIAAAAAEEAgQAEAAAAACgAACAAA=</HashCode>
-      <FileName>include\chemicalSystem.h</FileName>
+      <FileName>include\chemicalsystem.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::ChemicalStorageLink">
-    <Position X="33.75" Y="4.5" Width="1.5" />
+    <Position X="35.5" Y="4.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAQAAAAAAAAAEgAAAAAAgAAAAEAAA=</HashCode>
-      <FileName>include\chemicalSystem.h</FileName>
+      <FileName>include\chemicalsystem.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticProcessor" Collapsed="true">
     <Position X="32" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAABAABAAAAAAAAEAAGAABAAEABAAAAAAA=</HashCode>
-      <FileName>include\geneticProcessor.h</FileName>
+      <FileName>include\geneticprocessor.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticSimpleChemicalConvertAction" Collapsed="true">
     <Position X="23.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAhAAAAAAACAAAEAAAAAAAAgAAAAEAiAQAAAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticChemicalConsumeAction" Collapsed="true">
     <Position X="27.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIBAAQAAAAAAAAEAAAAAAAAgAAAAAACABAAAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EDen::GeneticSpawnBodypartAction" Collapsed="true">
+  <Class Name="EDen::GeneticSpawnBodypartAction">
     <Position X="0.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAgAAAAAABAAEAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EDen::GeneticChangeMaxChemicalAmountAction" Collapsed="true">
+  <Class Name="EDen::GeneticChangeMaxChemicalAmountAction">
     <Position X="5.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEEAAAAAAAAACAAAAABBBAAAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EDen::GeneticAddSpawnpointAction" Collapsed="true">
-    <Position X="12" Y="1.75" Width="1.5" />
+  <Class Name="EDen::GeneticAddSpawnpointAction">
+    <Position X="12" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABAAQAAEAAAAAAAAAAAACAABgAAAAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticHurtAction" Collapsed="true">
     <Position X="16.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAgAAAEAAAAAAAAgAAAAAABAAAAEAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticHealAction" Collapsed="true">
     <Position X="18.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAEAAAAAAAEACAAAAAAgAAAAAABAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticHealParentAction" Collapsed="true">
     <Position X="21" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAEAAAABAAEAAAAAAAAgAAAAAABAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticDieAction" Collapsed="true">
     <Position X="25.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAQAEAAAAAAAAIAAAAAABAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticGrowAction" Collapsed="true">
     <Position X="30" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAEAAgAAAAAgAAAAAABAAACAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EDen::GeneticShrinkAction" Collapsed="true">
+  <Class Name="EDen::GeneticShrinkAction">
     <Position X="3" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAgAAIAAABAAAAAAI=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EDen::GeneticEmptyChemicalStorageAction" Collapsed="true">
+  <Class Name="EDen::GeneticEmptyChemicalStorageAction">
     <Position X="7.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAEAEAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticChangeMaxSizeAction" Collapsed="true">
     <Position X="14.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAACAAAAAAAAEAAAAAAAAgAAAAAABAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemActions.h</FileName>
+      <FileName>include\geneticsystemactions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticChemicalCondition" Collapsed="true">
     <Position X="7.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAgAAAAAAAAAAEAAAAAAAAAAAAAAAAAAACAJQAAAA=</HashCode>
-      <FileName>include\geneticSystemConditions.h</FileName>
+      <FileName>include\geneticsystemconditions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticBodypartCreationCondition" Collapsed="true">
     <Position X="11.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemConditions.h</FileName>
+      <FileName>include\geneticsystemconditions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticBodypartTypeCondition" Collapsed="true">
     <Position X="14" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAAAAAAgAEAAAEAAAAAACBAgAAAAA=</HashCode>
-      <FileName>include\geneticSystemConditions.h</FileName>
+      <FileName>include\geneticsystemconditions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticBodypartStateCondition" Collapsed="true">
     <Position X="20.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAgAAAAAAAAAAAAAAAAAQACAAAAAAQAABAgAAAAA=</HashCode>
-      <FileName>include\geneticSystemConditions.h</FileName>
+      <FileName>include\geneticsystemconditions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticSpawnpointPresentCondition" Collapsed="true">
     <Position X="23" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAACBAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemConditions.h</FileName>
+      <FileName>include\geneticsystemconditions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticHealthpointsCondition" Collapsed="true">
     <Position X="0.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAIAAAAAAAEAAAAAAAAgAAAAAABAgAAAAA=</HashCode>
-      <FileName>include\geneticSystemConditions.h</FileName>
+      <FileName>include\geneticsystemconditions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticParentHealthpointsCondition" Collapsed="true">
     <Position X="2.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEIAAAAAAAAAAgAAAAAAAAAAAAAAgAAAAAABAgAAAAA=</HashCode>
-      <FileName>include\geneticSystemConditions.h</FileName>
+      <FileName>include\geneticsystemconditions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticBodypartSizeCondition" Collapsed="true">
     <Position X="5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAACAAAAAAAAAAAACAAAAAAgAAAAAABAgAAAAA=</HashCode>
-      <FileName>include\geneticSystemConditions.h</FileName>
+      <FileName>include\geneticsystemconditions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticCanGrowCondition" Collapsed="true">
     <Position X="9.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAgBAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemConditions.h</FileName>
+      <FileName>include\geneticsystemconditions.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticCondition" Collapsed="true">
     <Position X="11.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAAAAAACgAAAAAAAgAAAAEAgAAAAA=</HashCode>
-      <FileName>include\geneticSystemCore.h</FileName>
+      <FileName>include\geneticsystemcore.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticCompoundCondition" Collapsed="true">
     <Position X="17.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAQAAAABAAAAgAAAAAAAAAAAAABAACAAA=</HashCode>
-      <FileName>include\geneticSystemCore.h</FileName>
+      <FileName>include\geneticsystemcore.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticANDCondition" Collapsed="true">
     <Position X="16.25" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAACIAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemCore.h</FileName>
+      <FileName>include\geneticsystemcore.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticORCondition" Collapsed="true">
     <Position X="18.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIQAAAAAAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemCore.h</FileName>
+      <FileName>include\geneticsystemcore.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticAction" Collapsed="true">
     <Position X="15.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAQAAAAAAAAEAAAAAAAAAAAQAAQAAAAAAQA=</HashCode>
-      <FileName>include\geneticSystemCore.h</FileName>
+      <FileName>include\geneticsystemcore.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EDen::GeneticCompoundAction" Collapsed="true">
+  <Class Name="EDen::GeneticCompoundAction">
     <Position X="9.75" Y="1.75" Width="1.5" />
+    <NestedTypes>
+      <Typedef Name="EDen::GeneticCompoundAction::GeneticActionsList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>include\geneticsystemcore.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="EDen::GeneticCompoundAction::GeneticActionsListIterator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>include\geneticsystemcore.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <InheritanceLine Type="EDen::GeneticAction" ManuallyRouted="true">
+      <Path>
+        <Point X="16.25" Y="1.009" />
+        <Point X="10.5" Y="1.009" />
+        <Point X="10.5" Y="1.75" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>IAAAAAAAAAAAAAgAAAAEAEAAAAAAAAAAAAAAAAACAAA=</HashCode>
-      <FileName>include\geneticSystemCore.h</FileName>
+      <FileName>include\geneticsystemcore.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EDen::GeneticClause" Collapsed="true">
     <Position X="32" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAQgAAAAAAAAAgIABAAAAAEAAAAAAABAAAAAAAAAA=</HashCode>
-      <FileName>include\geneticSystemCore.h</FileName>
+      <FileName>include\geneticsystemcore.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EDen::Groundpart" Collapsed="true">
+  <Class Name="EDen::Groundpart">
     <Position X="30.25" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAIAAAAAACAAAAADAAAIAAA=</HashCode>
@@ -301,7 +320,7 @@
   <Class Name="EDen::Organism">
     <Position X="30.25" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>RgAIAAAAAAABIAAAAIAABIAgIABmCQAAVEAEEAAMAAA=</HashCode>
+      <HashCode>RgAIAAAAAAABIAAAAIAABoAgIABmCQAAVEAEEAAMAAA=</HashCode>
       <FileName>include\organism.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -369,7 +388,7 @@
     </TypeIdentifier>
   </Typedef>
   <Enum Name="EDen::GeneticChemicalConditionType" Collapsed="true">
-    <Position X="41.5" Y="2" Width="1.5" />
+    <Position X="0.5" Y="6.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAEAIAAAAEAAAQAAwAAAAAAAEgAAAAAAQAAAAAAAgA=</HashCode>
       <FileName>include\globals.h</FileName>

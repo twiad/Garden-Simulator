@@ -29,6 +29,7 @@ namespace EDen {
     // BodypartTypeInheritageMap bodypartTypeInheritage;
     GeneticClauseList relevantClauses;
 
+    bool addDummyGenecode();
     bool addClause(GeneticClause* newClause);
     //bool removeClauseFromRelevantClauses(GeneticClause* clause);
   public:

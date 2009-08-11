@@ -131,6 +131,7 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",15.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",150.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 10.0f));
       
       float pbp_water_percentage = 0.0f;
       Bodypart* parent_bodypart = bodypart->getParentBodypart();
@@ -178,6 +179,7 @@ namespace EDen {
       //compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser", 100.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie", 15.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 10.0f));
       
       pbp_water_percentage = 0.0f;
       parent_bodypart = bodypart->getParentBodypart();
@@ -219,6 +221,7 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 2, 13.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",150.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",10.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 3.0f));
       
       pbp_water_percentage = 0.0f;
       parent_bodypart = bodypart->getParentBodypart();
@@ -677,7 +680,7 @@ namespace EDen {
       //  Change maximum amount of "Wasser" to 75
       //  Change maximum amount of "Energie" to 10
       //  Change maximum amount of "Goo" to 20
-      //  Change maximum size to 10.0
+      //  Change maximum size to 5.0
       ///////////////////////////////////////////////////////////////////////
 
       gAndCond = new GeneticANDCondition();
@@ -700,7 +703,7 @@ namespace EDen {
         pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Wasser");
       };
 
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,10.0f));
+      compAct->add(new GeneticChangeMaxSizeAction(bodypart,5.0f));
 
       if(!unfullfilledBPTConditionFound) 
         addClause(new GeneticClause(gAndCond, compAct, "Branch Creation"));
@@ -872,7 +875,7 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartSizeCondition(bodypart,GBT_more,1.0f));
       gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,0.01f,"Energie"));
       gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,20.0f,"Wasser"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_less,5.0f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_less,15.0f,"Energie"));
       
 
       compAct->add(new GeneticSpawnBodypartAction(bodypart,BPT_Stick));
@@ -894,6 +897,7 @@ namespace EDen {
       //  AND "Energie" current_value_more than 0.30
       //  AND "Wasser" current_value_more than 0.30
       //  AND Spawnpoint Branch present
+      //  AND "Energy" percentage more than 7%
       // THEN
       //  Spawn Branch
       //  Consume 0.3 "Energie"
@@ -915,7 +919,8 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartSizeCondition(bodypart,GBT_more,1.5f));
       gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,0.3f,"Energie"));
       gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,0.3f,"Wasser"));
-      
+      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_more,1.5f,"Energie"));
+
       compAct->add(new GeneticSpawnBodypartAction(bodypart,BPT_Branch));
       compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",0.1f));
       compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Wasser",0.1f));

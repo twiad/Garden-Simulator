@@ -6,11 +6,16 @@
 #include <iostream>
 
 namespace EDen {
-  Organism::Organism(std::string param_name, Bodypart* param_rootBodypart): 
+  Organism::Organism(std::string param_name, Bodypart* param_rootBodypart, ResourceProvider* param_resourceProvider): 
       name(param_name), groundpart(0) 
   {
+    resourceProvider = param_resourceProvider;
     rootBodypart = param_rootBodypart;
     registerBodypart(param_rootBodypart);
+
+    if(resourceProvider) {
+      resourceProvider->addBodypart(rootBodypart);
+    };
   };
   
   Organism::~Organism() {
@@ -45,6 +50,9 @@ namespace EDen {
     bodyparts.push_back(param_bodypart);
     geneticProcessors.push_back(param_bodypart->getGeneticProcessor());
     param_bodypart->setParentOrganism(this);
+    if(resourceProvider != 0) {
+      resourceProvider->addBodypart(param_bodypart);
+    };
     return true;
   };
 
@@ -58,6 +66,11 @@ namespace EDen {
       if((*it) == param_bodypart) {
         bodyparts.erase(it);
         param_bodypart->setParentOrganism(0);
+        
+        if(resourceProvider != 0) {
+          resourceProvider->removeBodypart(*it);
+        };
+
         foundSomething = true;
         break;
       };
@@ -184,7 +197,7 @@ namespace EDen {
         bp->getParentBodypart()->unregisterChildBodypart(bp);
   //      bp->setParentBodypart(0);
       };
-    
+
       if(bp == rootBodypart) rootBodypart = 0;
 
       if(bp->getParentOrganism() != 0) {

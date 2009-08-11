@@ -131,11 +131,10 @@ namespace EDen {
     };
   };
 
-  SDLOrganismPrinter::SDLOrganismPrinter(Organism* param_organism, int param_dimx, int param_dimy): 
+  SDLOrganismPrinter::SDLOrganismPrinter(int param_dimx, int param_dimy): 
     dimx(param_dimx), 
     dimy(param_dimy) {
     screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);	
-    organisms.push_back(param_organism);
     updateCaption();
     scale = SDL_SCALE;
     needToScale = false;

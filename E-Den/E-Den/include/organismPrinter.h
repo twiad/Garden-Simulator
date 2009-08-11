@@ -42,7 +42,7 @@ namespace EDen {
   protected:
     std::list<Organism*> organisms;
   public:
-    SDLOrganismPrinter(Organism* param_organism, int param_dimx = 500, int param_dimy = 800);
+    SDLOrganismPrinter(int param_dimx = 500, int param_dimy = 800);
     ~SDLOrganismPrinter();
 
     virtual bool print();

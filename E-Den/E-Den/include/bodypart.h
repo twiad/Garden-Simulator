@@ -16,9 +16,6 @@ namespace EDen {
   
   class SpawnpointInformation {
   public:    
-    typedef std::list<BodypartType> BodypartTypeList;
-    typedef std::list<BodypartType>::iterator BodypartTypeListIterator;
-
     SpawnpointInformation(): occupied(false),position(0),connectedBodypart(0),ang2d(0.0f) {};
     ~SpawnpointInformation();
     BodypartTypeList supportedBpTypes;
@@ -34,9 +31,6 @@ namespace EDen {
 
   class Bodypart {
   protected:
-    typedef std::list<Bodypart*> BodypartList;
-    typedef std::list<Bodypart*>::iterator BodypartListIterator;
-    
     ChemicalStorage* chemStorage;
     GeneticProcessor* genProcessor;
 

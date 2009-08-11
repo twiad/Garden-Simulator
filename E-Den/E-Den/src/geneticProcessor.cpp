@@ -242,8 +242,10 @@ namespace EDen {
       // IF State = Alive
       //  AND Type = Leaf
       //  AND "Energie" space_left_more than 10.0
-      //  AND "Wasser" current_value_more than 10.0
+      //  AND "Wasser" current_value_more than 15.0
+      //  AND "Sonne" current_value_more than 1.0
       // THEN
+      //  Consume 1.0 "Sonne"
       //  Convert 10.0 "Wasser" to 10.0 "Energie"
       ///////////////////////////////////////////////////////////////////////
       
@@ -256,9 +258,11 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
       gAndCond->add(cond);
       gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_space_left_more,10.0f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,10.0f,"Wasser"));
+      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,15.0f,"Wasser"));
+      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,1.0f,"Sonne"));
 
-      compAct->add(new GeneticSimpleChemicalConvertAction(chemStorage,"Wasser","Energie",10.0f,1.0f));
+      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Sonne",1.0f));
+      compAct->add(new GeneticSimpleChemicalConvertAction(chemStorage,"Wasser","Energie",10.0f,2.0f));
 
       if(!unfullfilledBPTConditionFound) 
         addClause(new GeneticClause(gAndCond, compAct, "Leaf Energie Production"));
@@ -296,11 +300,11 @@ namespace EDen {
       // Rule:
       // IF State = Alive
       //  AND CanGrow
-      //  AND has more than 50.0% energy
-      //  AND has more than 12.0 energy
+      //  #AND has more than 25.0% energy
+      //  AND has more than 2.1 energy
       // THEN
-      //  Consume 10.000 "Energie"
-      //  Grow 1.0
+      //  Consume 0.500 "Energie"
+      //  Grow 0.1
       ///////////////////////////////////////////////////////////////////////
 
       gAndCond = new GeneticANDCondition();
@@ -310,11 +314,11 @@ namespace EDen {
       
       gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
       gAndCond->add(new GeneticCanGrowCondition(bodypart));
-      //gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_more,50.0f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,12.0f,"Energie"));
+      //gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_more,25.0f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,1.4f,"Energie"));
       
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",10.00f));
-      compAct->add(new GeneticGrowAction(bodypart,0.3f));
+      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",0.50f));
+      compAct->add(new GeneticGrowAction(bodypart,0.1f));
 
 
       if(!unfullfilledBPTConditionFound) 

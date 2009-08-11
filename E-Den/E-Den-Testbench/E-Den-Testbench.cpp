@@ -28,7 +28,21 @@ int cyclecount = 0;
 
 bool printall;
 
+class SDL_SunlightProvider : public ResourceProvider {
+private:
+  SDLOrganismPrinter* printer;
+public:
+  SDL_SunlightProvider(SDLOrganismPrinter * param_printer) : ResourceProvider("Sonne",BPT_Leaf,1.0f) {
+    printer = param_printer;
+    amount = 0.9f;
+    reactiveBodypartType = BPT_Leaf;
+    chemicalName = "Sonne";
+  };
 
+  ~SDL_SunlightProvider() {};
+};
+
+SDL_SunlightProvider* sun;
 
 void outputWaterAndGold(ChemicalStorage* cs) {
   if(cs) {
@@ -58,6 +72,7 @@ void run(int cycles = 1, Organism* org = organism) {
     Organism* org;
     std::list<Organism*> orgs = op1->getOrganisms();
     cyclecount += cycles;
+    sun->distibute();
     for(int i = 0; i < cycles; i++) {
       for(std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
         org = *it;
@@ -88,6 +103,7 @@ void sdl_run(int cycles) {
   //outputWaterAndGold(organism->getRootBodypart()->getChemicalStorage());
   //printf("-[%d]-----------------------------------------------",cyclecount);
   //printf("\t\t\t[running %d cycles]\n",cycles);
+
   run(cycles);
 //  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
 //  printOrgs();
@@ -139,10 +155,12 @@ void sdl_test() {
   gp = new Groundpart();
   Bodypart* bp,* bp2;
   
+  op1 = new SDLOrganismPrinter(1024,800);
+  sun = new SDL_SunlightProvider(op1);
   bp = new Bodypart(BPT_Stick,"TESTPART3");
-  organism = new Organism("TestOrganism", bp);
+  organism = new Organism("TestOrganism", bp, sun);
   organism->connectToGoundpart(gp);
-  op1 = new SDLOrganismPrinter(organism,1024,800);
+  op1->add(organism);
 //  op2 = new OrganismPrinter(organism);
   bp2 = new Bodypart(BPT_Branch,"TESTPART3",organism);
   bp->occupieSpawnpoint(bp2);
@@ -154,7 +172,7 @@ void sdl_test() {
   bp3->getChemicalStorage()->add("Energie",20.0f);
 
   bp = new Bodypart(BPT_Stick,"TESTPART3");
-  organism = new Organism("TestOrganism2", bp);
+  organism = new Organism("TestOrganism2", bp, sun);
   organism->connectToGoundpart(gp);
   op1->add(organism);
 //  op2 = new OrganismPrinter(organism);
@@ -165,6 +183,20 @@ void sdl_test() {
   if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
   //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
   //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
+  bp3->getChemicalStorage()->add("Energie",10.0f);
+
+  bp = new Bodypart(BPT_Stick,"TESTPART3");
+  organism = new Organism("TestOrganism2", bp, sun);
+  organism->connectToGoundpart(gp);
+  op1->add(organism);
+//  op2 = new OrganismPrinter(organism);
+  bp2 = new Bodypart(BPT_Branch,"TESTPART3",organism);
+  bp->occupieSpawnpoint(bp2);
+  bp3 = new Bodypart(BPT_Stick,"TESTPART3",organism);
+  if(!(bp->spawnBodypart(bp2))) cout << "[!2] bp2 not spawned" << endl;
+  if(!(bp2->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
+  bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
+  if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
   bp3->getChemicalStorage()->add("Energie",10.0f);
 
   cout << "Adding some initial Water ..." << endl;
@@ -184,7 +216,8 @@ void growthTest() {
   organism = new Organism("TestOrganism", bp);
   organism->connectToGoundpart(gp);
 
-  op1 = new SDLOrganismPrinter(organism);
+  op1 = new SDLOrganismPrinter();
+  op1->add(organism);
 
   Bodypart* bp2 = new Bodypart(BPT_Branch,"TESTPART3",organism);
   Bodypart* bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);

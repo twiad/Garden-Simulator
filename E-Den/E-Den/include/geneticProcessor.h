@@ -8,6 +8,7 @@
 #include "geneticSystemActions.h"
 #include "geneticSystemConditions.h"
 #include "chemicalSystem.h"
+#include "chemicalDistributionSystem.h"
 #include "bodypart.h"
 #include "globals.h"
 

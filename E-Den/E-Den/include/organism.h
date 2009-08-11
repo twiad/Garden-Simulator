@@ -6,6 +6,7 @@
 
 #include "bodypart.h"
 #include "groundpart.h"
+#include "chemicalDistributionSystem.h"
 
 namespace EDen {
   class Bodypart;
@@ -29,6 +30,7 @@ namespace EDen {
 
     Bodypart* rootBodypart;
     Groundpart* groundpart;
+    ResourceProvider* resourceProvider;
 
     BodypartList bodyparts;
     BodypartList bodypartsToDelete;
@@ -42,7 +44,7 @@ namespace EDen {
 
 
   public:
-    Organism(std::string param_name, Bodypart* param_rootBodypart);
+    Organism(std::string param_name, Bodypart* param_rootBodypart, ResourceProvider* param_resourceProvider = 0);
     ~Organism();
 
     std::string getName();

@@ -13,7 +13,10 @@ namespace EDen {
 
   typedef std::list<SpawnpointInformation*> SpawnpointInformationList;
   typedef std::list<SpawnpointInformation*>::iterator SpawnpointInformationListIterator;
-
+  
+  typedef std::list<Bodypart*> BodypartList;
+  typedef std::list<Bodypart*>::iterator BodypartListIterator;
+  
   enum GeneticChemicalConditionType {
     GCC_current_value_more = 1,
     GCC_current_value_less,
@@ -86,6 +89,8 @@ namespace EDen {
   };
 
   typedef BodypartState OrganismState;
+  typedef std::list<BodypartType> BodypartTypeList;
+  typedef std::list<BodypartType>::iterator BodypartTypeListIterator;
 };
 
 #endif

@@ -131,7 +131,7 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",15.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",150.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Sonne",20.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Sonne",120.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 10.0f));
       
       float pbp_water_percentage = 0.0f;

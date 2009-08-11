@@ -11,6 +11,7 @@
 #define SND_RUN_MULTIPLYER 2
 // STARTING_WATER_max: 2.0e5
 #define STARTING_WATER 2.0e5
+#define STARTING_GOO 300.0f
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
@@ -191,7 +192,7 @@ void sdl_test() {
 
   cout << "Adding some initial Water ..." << endl;
   gp->getChemicalStorage()->add("Wasser",STARTING_WATER);
-  gp->getChemicalStorage()->add("Goo",100.0f);
+  gp->getChemicalStorage()->add("Goo",STARTING_GOO);
   cout << endl;
 
   printOrgs();

@@ -672,9 +672,9 @@ namespace EDen {
       //  Add Stick OR Branch Spawnpoint to position 0 at 180.0°
       //  Add Stick OR Branch Spawnpoint to position 1 at -13.0 °
       //  Add Stick OR Branch Spawnpoint to position 2 at 13.0°
-      //  Change maximum amount of "Wasser" to 150
+      //  Change maximum amount of "Wasser" to 75
       //  Change maximum amount of "Energie" to 10
-      //  Change maximum size to 10.0 + parent water percentage * 100
+      //  Change maximum size to 10.0
       ///////////////////////////////////////////////////////////////////////
 
       gAndCond = new GeneticANDCondition();
@@ -685,9 +685,9 @@ namespace EDen {
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition(bodypart));
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 1, -13.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 2, 13.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",150.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 1, -12.5f));
+      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 2, 12.5f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",75.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",10.0f));
       
       pbp_water_percentage = 0.0f;
@@ -696,7 +696,7 @@ namespace EDen {
         pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Wasser");
       };
 
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,10.0f + (pbp_water_percentage * 100)));
+      compAct->add(new GeneticChangeMaxSizeAction(bodypart,10.0f));
 
       if(!unfullfilledBPTConditionFound) 
         addClause(new GeneticClause(gAndCond, compAct, "Branch Creation"));
@@ -713,10 +713,10 @@ namespace EDen {
       //  AND Type = Leaf
       //  AND "Energie" space_left_more than 10.0
       //  AND "Wasser" current_value_more than 15.0
-      //  AND "Goo" current_value_more than 0.1
+      //  AND "Goo" current_value_more than 0.5
       // THEN
-      //  Consume 0.1 "Goo"
-      //  Convert 10.0 "Wasser" to 10.0 "Energie"
+      //  Consume 1.0 "Goo"
+      //  Convert 1.0 "Wasser" to 10.0 "Energie"
       ///////////////////////////////////////////////////////////////////////
       
       gAndCond = new GeneticANDCondition();
@@ -729,10 +729,10 @@ namespace EDen {
       gAndCond->add(cond);
       gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_space_left_more,10.0f,"Energie"));
       gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,15.0f,"Wasser"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,0.1f,"Goo"));
+      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,1.0f,"Goo"));
 
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Goo",0.1f));
-      compAct->add(new GeneticSimpleChemicalConvertAction(chemStorage,"Wasser","Energie",10.0f,2.0f));
+      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Goo",1.0f));
+      compAct->add(new GeneticSimpleChemicalConvertAction(chemStorage,"Wasser","Energie",1.0f,10.0f));
 
       if(!unfullfilledBPTConditionFound) 
         addClause(new GeneticClause(gAndCond, compAct, "Leaf Energie Production"));

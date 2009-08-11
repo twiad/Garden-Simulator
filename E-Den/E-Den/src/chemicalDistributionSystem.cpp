@@ -18,30 +18,47 @@ namespace EDen {
 
   bool ResourceProvider::addBodypart(Bodypart* param_bodypart) {
     if(param_bodypart) {
-      if(param_bodypart->getBodypartType() == reactiveBodypartType)
-          bodyparts.push_back(param_bodypart);
+      if(param_bodypart->getBodypartType() == reactiveBodypartType) {
+        updateBodypartInformation(param_bodypart,new ExtendedBodypartInformation());  
+      };
 
       return true;
     } else return false; // if param was zeropointer
   };
 
+  ExtendedBodypartInformation* ResourceProvider::getInformation(Bodypart* param_bodypart) {
+    return bodyparts[param_bodypart];
+  };
+
   bool ResourceProvider::removeBodypart(Bodypart* param_bodypart) {
-    for(BodypartListIterator it = bodyparts.begin(); it != bodyparts.end(); it++) {
-      if(*it == param_bodypart) {
-        bodyparts.erase(it);
-      };
-    };
+    ExtendedBodypartInformation* info = bodyparts[param_bodypart];
+    if (info) delete info;
+    bodyparts.erase(param_bodypart);
 
     return true;
   };
 
-  bool ResourceProvider::singleDistributionStep(Bodypart* param_bodypart) {
-    return param_bodypart->getChemicalStorage()->add(chemicalName,amount);
+  bool ResourceProvider::updateBodypartInformation(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info) {
+    if((param_bodypart) && (param_info)) {
+      if(param_bodypart->getBodypartType() == reactiveBodypartType) {
+        ExtendedBodypartInformation* info = bodyparts[param_bodypart];
+        if (info) delete info;
+        bodyparts[param_bodypart] = param_info;
+      };
+
+      return true;
+    } else return false; // if param was zeropointer
+  };
+
+  bool ResourceProvider::singleDistributionStep(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info) {
+    if(param_info)
+      return param_bodypart->getChemicalStorage()->add(chemicalName,amount * param_info->factor);
+    else return param_bodypart->getChemicalStorage()->add(chemicalName,amount);
   };
 
   bool ResourceProvider::distibute() {
-    for(BodypartListIterator it = bodyparts.begin(); it != bodyparts.end(); it++) {
-      singleDistributionStep(*it);
+    for(std::map<Bodypart*,ExtendedBodypartInformation*>::iterator it = bodyparts.begin(); it != bodyparts.end(); it++) {
+      singleDistributionStep((*it).first,(*it).second);
     };
 
     return true;

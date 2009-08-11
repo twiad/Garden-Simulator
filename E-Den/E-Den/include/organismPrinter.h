@@ -11,6 +11,8 @@
 
 namespace EDen {
 
+  class SDL_SunlightProvider;
+
   class OrganismPrinter {
   private:
     bool print(Bodypart* bp, bool linebreak = true, bool lastelement = true, bool branch = false, int lvl = 0, int targetlvl = 0);
@@ -29,6 +31,8 @@ namespace EDen {
     SDL_Surface *screen;
     SDL_Surface *pscreen;
 
+    SDL_SunlightProvider* sun;
+
     float scale;
     bool needToScale;
 
@@ -42,7 +46,7 @@ namespace EDen {
   protected:
     std::list<Organism*> organisms;
   public:
-    SDLOrganismPrinter(int param_dimx = 500, int param_dimy = 800);
+    SDLOrganismPrinter(int param_dimx = 500, int param_dimy = 800, SDL_SunlightProvider* param_sun = 0);
     ~SDLOrganismPrinter();
 
     virtual bool print();
@@ -50,6 +54,22 @@ namespace EDen {
     bool add(Organism* param_organism);
     std::list<Organism*> getOrganisms();
 
+  };
+
+  class SDL_SunlightProvider : public ResourceProvider {
+  private:
+//    SDLOrganismPrinter* printer;
+  public:
+    SDL_SunlightProvider() : ResourceProvider("Sonne",BPT_Leaf,0.9f) {
+      // printer = param_printer;
+      amount = 0.9f;
+      reactiveBodypartType = BPT_Leaf;
+      chemicalName = "Sonne";
+    };
+
+    ~SDL_SunlightProvider() {};
+
+    bool setFactor(Bodypart* param_bodypart ,float param_factor);
   };
 }
 

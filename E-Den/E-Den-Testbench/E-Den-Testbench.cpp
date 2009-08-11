@@ -9,8 +9,8 @@
 #define CYCLES_TO_RUN 3000
 #define PRINT_OUT_ALL_N_CYCLES 3000
 #define SND_RUN_MULTIPLYER 2
-// STARTING_WATER_max: 2.0e7
-#define STARTING_WATER 1.0e7
+// STARTING_WATER_max: 2.0e5
+#define STARTING_WATER 2.0e5
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
@@ -27,20 +27,6 @@ OrganismPrinter* op2 = 0;
 int cyclecount = 0;
 
 bool printall;
-
-class SDL_SunlightProvider : public ResourceProvider {
-private:
-  SDLOrganismPrinter* printer;
-public:
-  SDL_SunlightProvider(SDLOrganismPrinter * param_printer) : ResourceProvider("Sonne",BPT_Leaf,1.0f) {
-    printer = param_printer;
-    amount = 0.9f;
-    reactiveBodypartType = BPT_Leaf;
-    chemicalName = "Sonne";
-  };
-
-  ~SDL_SunlightProvider() {};
-};
 
 SDL_SunlightProvider* sun;
 
@@ -155,8 +141,8 @@ void sdl_test() {
   gp = new Groundpart();
   Bodypart* bp,* bp2;
   
-  op1 = new SDLOrganismPrinter(1024,800);
-  sun = new SDL_SunlightProvider(op1);
+  sun = new SDL_SunlightProvider();
+  op1 = new SDLOrganismPrinter(1024,800,sun);
   bp = new Bodypart(BPT_Stick,"TESTPART4");
   organism = new Organism("TestOrganism", bp, sun);
   organism->connectToGoundpart(gp);

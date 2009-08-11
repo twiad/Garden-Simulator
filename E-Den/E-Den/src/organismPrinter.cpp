@@ -13,6 +13,8 @@
 
 namespace EDen {
 
+
+
   bool OrganismPrinter::print() {
     std::cout << "\n--[" << org->getName() << "]-[" << org->getBodypartCount() << "]--" << std::endl;
     printLetter(org->getRootBodypart(),true,true,false);
@@ -131,9 +133,10 @@ namespace EDen {
     };
   };
 
-  SDLOrganismPrinter::SDLOrganismPrinter(int param_dimx, int param_dimy): 
+  SDLOrganismPrinter::SDLOrganismPrinter(int param_dimx, int param_dimy, SDL_SunlightProvider* param_sun): 
     dimx(param_dimx), 
     dimy(param_dimy) {
+    sun = param_sun;
     screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);	
     updateCaption();
     scale = SDL_SCALE;
@@ -230,7 +233,7 @@ namespace EDen {
     if(param_bp) {
       int returnvalue = 1;
       int x1,y1,x2,y2;
-      float ang,dx,dy;
+      float ang,dx,dy,px;
       
       x1 = param_x;
       y1 = param_y;
@@ -241,6 +244,10 @@ namespace EDen {
 
       x2 = (int)(param_x + (dx * param_bp->getSize() * scale));
       y2 = (int)(param_y + (dy * param_bp->getSize() * scale));
+
+      px = (float(x1) / (float)dimx) * 3;
+      if(sun)
+          sun->setFactor(param_bp,px);
 
       //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
 
@@ -275,5 +282,19 @@ namespace EDen {
       return returnvalue;
     }
     else return 0;
+  };
+
+  bool SDL_SunlightProvider::setFactor(Bodypart* param_bodypart ,float param_factor) {
+    ExtendedBodypartInformation* info = getInformation(param_bodypart);
+    if(info)
+      info->factor = param_factor;
+
+    else {
+      info = new ExtendedBodypartInformation();
+      info->factor = param_factor;
+      updateBodypartInformation(param_bodypart,info);
+    };
+
+    return true;
   };
 }

@@ -13,16 +13,28 @@ namespace EDen {
 #include "chemicalSystem.h"
 #include "organism.h"
 
+class ExtendedBodypartInformation {
+public:
+  float factor;
+
+  ExtendedBodypartInformation() {factor = 1.0f;};
+  ~ExtendedBodypartInformation() {};
+};
+
 namespace EDen {
   class ResourceProvider {
   protected:  
     std::string chemicalName;
     float amount;
 
-    BodypartList bodyparts;
+    std::map<Bodypart*, ExtendedBodypartInformation*> bodyparts;
     BodypartType reactiveBodypartType;
 
-    virtual bool singleDistributionStep(Bodypart* param_bodypart);
+    ExtendedBodypartInformation* getInformation(Bodypart* param_bodypart);
+    bool updateBodypartInformation(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info);
+    
+    virtual bool singleDistributionStep(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info);
+
   public:
     ResourceProvider(std::string param_chemicalName, BodypartType param_bodypartType, float param_amount);
     ~ResourceProvider();

@@ -18,10 +18,11 @@ namespace EDen {
 
   bool ResourceProvider::addBodypart(Bodypart* param_bodypart) {
     if(param_bodypart) {
-      if(param_bodypart->getBodypartType() == reactiveBodypartType) {
-        updateBodypartInformation(param_bodypart,new ExtendedBodypartInformation());  
+      if(!bodyparts[param_bodypart]) {
+        if(param_bodypart->getBodypartType() == reactiveBodypartType) {
+          updateBodypartInformation(param_bodypart,new ExtendedBodypartInformation());  
+        };
       };
-
       return true;
     } else return false; // if param was zeropointer
   };
@@ -32,7 +33,7 @@ namespace EDen {
 
   bool ResourceProvider::removeBodypart(Bodypart* param_bodypart) {
     ExtendedBodypartInformation* info = bodyparts[param_bodypart];
-    if (info) delete info;
+    if(info) delete info;
     bodyparts.erase(param_bodypart);
 
     return true;
@@ -42,9 +43,9 @@ namespace EDen {
     if((param_bodypart) && (param_info)) {
       if(param_bodypart->getBodypartType() == reactiveBodypartType) {
         ExtendedBodypartInformation* info = bodyparts[param_bodypart];
-        if (info) delete info;
+        if(info) delete info;
         bodyparts[param_bodypart] = param_info;
-      };
+      } else delete param_info;
 
       return true;
     } else return false; // if param was zeropointer

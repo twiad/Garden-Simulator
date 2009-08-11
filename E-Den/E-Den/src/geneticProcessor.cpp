@@ -611,7 +611,7 @@ namespace EDen {
         pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Energie");
       };
 
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,1.0f + ((100.0f - pbp_water_percentage) * 0.015f)));
+      compAct->add(new GeneticChangeMaxSizeAction(bodypart,1.0f + ((100.0f - pbp_water_percentage) * 0.05f)));
       if(!unfullfilledBPTConditionFound) 
         addClause(new GeneticClause(gAndCond, compAct, "Leaf Creation"));
       else {
@@ -644,10 +644,10 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartCreationCondition(bodypart));
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 1, 0.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 2, 155.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 3, -155.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 4, 125.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 5, -125.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 2, 165.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 3, -165.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 4, 175.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 5, -175.0f));
       //compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 6));
       //compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser", 100.0f));
@@ -660,7 +660,7 @@ namespace EDen {
         pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Wasser");
       };
 
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,5.0f + (pbp_water_percentage * 50)));
+      compAct->add(new GeneticChangeMaxSizeAction(bodypart,5.0f + (pbp_water_percentage * 75)));
 
       if(!unfullfilledBPTConditionFound) 
         addClause(new GeneticClause(gAndCond, compAct, "Stick Creation"));

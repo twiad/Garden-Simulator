@@ -42,11 +42,12 @@ namespace EDen {
     bool resetScreen();
     bool cleanupDeadOrganisms();
     int req_print(Bodypart* param_bp, int param_x, int param_y, float param_angle);
+    int percentagePrinterCounter;
+  protected:
+    std::list<Organism*> organisms;
 
     int dimx;
     int dimy;
-  protected:
-    std::list<Organism*> organisms;
   public:
     SDLOrganismPrinter(int param_dimx = 500, int param_dimy = 800, RuntimeManager* param_runtimeUnit = 0);
     ~SDLOrganismPrinter();
@@ -57,6 +58,8 @@ namespace EDen {
     std::list<Organism*> getOrganisms();
 
     bool orgsAlive();
+    bool redrawScreen();
+    bool printOutPercentage(float value);
   };
 
   class SDL_SunlightProvider : public ResourceProvider {

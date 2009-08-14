@@ -157,4 +157,9 @@ namespace EDen {
   unsigned long RuntimeManager::getCycleCount() {
     return cycles;
   };
+
+  bool RuntimeManager::orgsAlive() {
+    if(organisms.size() > 0) return true;
+    return false;
+  };
 };

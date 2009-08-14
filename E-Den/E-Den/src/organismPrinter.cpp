@@ -159,6 +159,14 @@ namespace EDen {
         // putpixel(screen,x,y,SDL_MapRGB(screen->format,x%65,y%255,(x+y)%255));
         putpixel(screen,x,y,SDL_MapRGB(screen->format,0,0,0));
 
+    percentagePrinterCounter = 0;
+
+    return true;
+  };
+
+  bool SDLOrganismPrinter::redrawScreen() {
+    SDL_UpdateRect(screen,0,0,dimx,dimy);
+
     return true;
   };
 
@@ -192,9 +200,8 @@ namespace EDen {
   bool SDLOrganismPrinter::updateCaption() {
     std::string newCaption = "";
     if(runtimeManager) {
-      char str[33];
-      unsigned long cyclecount = runtimeManager->getCycleCount();
-      sprintf(str,"[%lu]-",cyclecount);
+      char str[64];
+      sprintf(str,"[%lu]-",runtimeManager->getCycleCount());
       newCaption += str;
     }
 
@@ -223,7 +230,7 @@ namespace EDen {
       counter++;
     };
     
-    SDL_UpdateRect(screen,0,0,dimx,dimy);
+    //redrawScreen();
 
     if(needToScale) scale = scale * SCALE_FACTOR;
 
@@ -272,7 +279,7 @@ namespace EDen {
         else if(param_bp->getBodypartType() == BPT_Branch) col = SDL_MapRGB(screen->format,255,0,0);
         else col = SDL_MapRGB(screen->format,255,255,255);
         Draw_Line(screen,x1-offsetx,dimy-(y1-offsety+1),x2-offsetx,dimy-(y2-offsety+1),col);
-//        SDL_UpdateRect(screen,std::min(x1,x2) - 1,std::min(y1,y2) - 1,std::max(x1,x2) + 1,std::max(y1,y2) + 1);
+//        SDL_UpdateRect(screen,std::min(x1-offsetx,x2-offsetx) - 1,std::min(dimy-(y1-offsety+1) - 1,dimy-(y2-offsety+1)), fabs((float)(x1-x2)) + 3,fabs((float)(y1-y2)) + 3);
       }
 
       SpawnpointInformationList bpSpawnpoints = param_bp->getSpawnpoints();
@@ -306,5 +313,19 @@ namespace EDen {
   bool SDLOrganismPrinter::orgsAlive() {
     if(organisms.size() > 0) return true;
     return false;
+  };
+
+  bool SDLOrganismPrinter::printOutPercentage(float value) {
+    Uint32 col;
+    int barheight = 2;
+    if(percentagePrinterCounter % 2) col = SDL_MapRGB(screen->format,255,0,0);
+    else col = SDL_MapRGB(screen->format,200,200,0);
+    
+    while(value > 1.0f) value = value * 0.01f;
+    
+    Draw_FillRect(screen,0,(barheight * percentagePrinterCounter),dimx*value,barheight,col);
+    SDL_UpdateRect(screen,0,(barheight * percentagePrinterCounter),dimx*value,barheight);
+    percentagePrinterCounter++;
+    return true;
   };
 }

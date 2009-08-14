@@ -10,9 +10,9 @@
 #define CYCLES_TO_RUN 3000
 #define PRINT_OUT_ALL_N_CYCLES 3000
 #define SND_RUN_MULTIPLYER 2
-// STARTING_WATER_max: 2.0e5
-#define STARTING_WATER 2.0e5
-#define STARTING_GOO 300.0f
+// STARTING_WATER_max: 2.0e6
+#define STARTING_WATER 2.0e6
+#define STARTING_GOO 200.0f
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
@@ -75,8 +75,12 @@ void sdl_run(int cycles) {
   //outputWaterAndGold(organism->getRootBodypart()->getChemicalStorage());
   //printf("-[%d]-----------------------------------------------",cyclecount);
   //printf("\t\t\t[running %d cycles]\n",cycles);
+  op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Wasser"));
+  op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Goo"));
+  op1->redrawScreen();
 
   run(cycles);
+
 //  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
 //  printOrgs();
 }
@@ -164,18 +168,18 @@ void sdl_test() {
 
 //////////////////////////////////////////////////////////////////////////////
 
-  bp = new Bodypart(BPT_Stick,"TESTPART4");
-  organism = new Organism("TestOrganism2", bp, runtime);
-  organism->connectToGoundpart(gp);
-  op1->add(organism); runtime->add(organism);
-  bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
-  bp->occupieSpawnpoint(bp2);
-  bp3 = new Bodypart(BPT_Stick,"TESTPART4",organism);
-  if(!(bp->spawnBodypart(bp2))) cout << "[!2] bp2 not spawned" << endl;
-  if(!(bp2->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
-  bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
-  if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
-  bp3->getChemicalStorage()->add("Energie",10.0f);
+  //bp = new Bodypart(BPT_Stick,"TESTPART4");
+  //organism = new Organism("TestOrganism2", bp, runtime);
+  //organism->connectToGoundpart(gp);
+  //op1->add(organism); runtime->add(organism);
+  //bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
+  //bp->occupieSpawnpoint(bp2);
+  //bp3 = new Bodypart(BPT_Stick,"TESTPART4",organism);
+  //if(!(bp->spawnBodypart(bp2))) cout << "[!2] bp2 not spawned" << endl;
+  //if(!(bp2->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
+  //bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
+  //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
+  //bp3->getChemicalStorage()->add("Energie",10.0f);
 
 //////////////////////////////////////////////////////////////////////////////
 

@@ -41,6 +41,8 @@ namespace EDen {
     bool update();
 
     unsigned long getCycleCount();
+    bool orgsAlive();
+
   };
 };
 

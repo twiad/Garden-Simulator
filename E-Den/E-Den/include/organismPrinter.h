@@ -5,6 +5,7 @@
 #define _E_DEN_ORGANISMPRINTER_HEADER_
 
 #include "organism.h"
+#include "runtimeManager.h"
 #include "SDL.h"
 #include "SDL_draw.h"
 #include "SDL_DirectPixelManipulation.h"
@@ -31,6 +32,7 @@ namespace EDen {
     SDL_Surface *screen;
     SDL_Surface *pscreen;
 
+    RuntimeManager* runtimeManager;
     SDL_SunlightProvider* sun;
 
     float scale;
@@ -46,7 +48,7 @@ namespace EDen {
   protected:
     std::list<Organism*> organisms;
   public:
-    SDLOrganismPrinter(int param_dimx = 500, int param_dimy = 800, SDL_SunlightProvider* param_sun = 0);
+    SDLOrganismPrinter(int param_dimx = 500, int param_dimy = 800, RuntimeManager* param_runtimeUnit = 0);
     ~SDLOrganismPrinter();
 
     virtual bool print();

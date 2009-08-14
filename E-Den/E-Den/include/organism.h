@@ -6,12 +6,13 @@
 
 #include "bodypart.h"
 #include "groundpart.h"
-#include "chemicalDistributionSystem.h"
+#include "runtimeManager.h"
 
 namespace EDen {
   class Bodypart;
   class GeneticProcessor;
   class Groundpart;
+  class RuntimeManager;
 
   typedef std::list<ChemicalStorageLink*> ChemicalStorageLinkList;
   typedef std::list<ChemicalStorageLink*>::iterator ChemicalStorageLinkListIterator;
@@ -30,7 +31,7 @@ namespace EDen {
 
     Bodypart* rootBodypart;
     Groundpart* groundpart;
-    ResourceProvider* resourceProvider;
+    RuntimeManager* runtimeManager;
 
     BodypartList bodyparts;
     BodypartList bodypartsToDelete;
@@ -42,9 +43,8 @@ namespace EDen {
     bool addGeneticProcessor(GeneticProcessor* param_geneticProcessor);
     bool removeGeneticProcessorWithBodypart(Bodypart* param_bodypart);
 
-
   public:
-    Organism(std::string param_name, Bodypart* param_rootBodypart, ResourceProvider* param_resourceProvider = 0);
+    Organism(std::string param_name, Bodypart* param_rootBodypart, RuntimeManager* param_runtimeManager = 0);
     ~Organism();
 
     std::string getName();

@@ -4,6 +4,10 @@
 #ifndef _E_DEN_GROUNDPART_HEADER_
 #define _E_DEN_GROUNDPART_HEADER_
 
+namespace EDen {
+  class Groundpart;
+};
+
 #include "globals.h"
 #include "chemicalSystem.h"
 #include "organism.h"

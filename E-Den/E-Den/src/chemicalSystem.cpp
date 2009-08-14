@@ -146,6 +146,7 @@ namespace EDen {
   };
 
   bool ChemicalStorage::sync(ChemicalStorage* other) {
+    /// TODO: UNDBEDINGT NOCH HYSTERESE CHECKEN!!! PERFORMANCE!
     for(ChemicalStorageMapIterator it = storage.begin(); it != storage.end(); it++) {
 //  I:  apost/amax = bpost/bmax
 // II: apost+bpost = a+b

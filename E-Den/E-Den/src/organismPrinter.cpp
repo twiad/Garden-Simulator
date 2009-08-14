@@ -133,10 +133,12 @@ namespace EDen {
     };
   };
 
-  SDLOrganismPrinter::SDLOrganismPrinter(int param_dimx, int param_dimy, SDL_SunlightProvider* param_sun): 
+  SDLOrganismPrinter::SDLOrganismPrinter(int param_dimx, int param_dimy, RuntimeManager* param_runtimeManager): 
     dimx(param_dimx), 
     dimy(param_dimy) {
-    sun = param_sun;
+    runtimeManager = param_runtimeManager;
+    sun = new SDL_SunlightProvider();
+    if(runtimeManager) runtimeManager->add(sun);
     screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);	
     updateCaption();
     scale = SDL_SCALE;
@@ -145,7 +147,7 @@ namespace EDen {
   };
 
   SDLOrganismPrinter::~SDLOrganismPrinter() {
-    
+    if(runtimeManager) runtimeManager->remove(sun);
   };
 
   bool SDLOrganismPrinter::resetScreen() {
@@ -179,9 +181,6 @@ namespace EDen {
       if(org)
           if(org->getState() != BSP_dead)
               new_orgs.push_front(org);
-          else {
-            delete org;
-          };
     };
 
     organisms.clear();

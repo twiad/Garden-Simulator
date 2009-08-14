@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "bodypart.h"
 #include "organismPrinter.h"
+#include "runtimeManager.h"
 #include "SDL.h"
 
 #define CYCLES_TO_RUN 3000
@@ -25,6 +26,7 @@ Bodypart* bp3 = 0;
 Groundpart* gp = 0;
 SDLOrganismPrinter* op1 = 0;
 OrganismPrinter* op2 = 0;
+RuntimeManager* runtime;
 int cyclecount = 0;
 
 bool printall;
@@ -55,26 +57,9 @@ void outputWaterAndGold(Bodypart* bp) {
 };
 
 void run(int cycles = 1, Organism* org = organism) {
-  if(op1 != 0) {
-    Organism* org;
-    std::list<Organism*> orgs = op1->getOrganisms();
-    cyclecount += cycles;
-    sun->distibute();
-    for(int i = 0; i < cycles; i++) {
-      for(std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
-        org = *it;
-        if((org != 0) && (org->getState() != BSP_dead)) {
-          //if(organism->getState() != BSP_dead) 
-            org->updateGeneticProcessors();
-          //else std::cout << "#";
-            if((i%CHEM_SYSTEM_CLK_DEVIDER) == 0) {
-              org->updateDelete();
-              org->updateChemicalStorageLinks();
-            };
-         
-        };
-      };
-    };
+  if(runtime) {
+    for(int i = 0; i < cycles; i++)
+        runtime->update();
   };
 };
 
@@ -139,15 +124,19 @@ bool wait_for_events()
 }
 
 void sdl_test() {
+  runtime = new RuntimeManager();
   gp = new Groundpart();
+  runtime->add(gp);
+
   Bodypart* bp,* bp2;
   
-  sun = new SDL_SunlightProvider();
-  op1 = new SDLOrganismPrinter(1024,800,sun);
+
+//  sun = new SDL_SunlightProvider();
+  op1 = new SDLOrganismPrinter(1024,800,runtime);
   bp = new Bodypart(BPT_Stick,"TESTPART4");
-  organism = new Organism("TestOrganism", bp, sun);
+  organism = new Organism("TestOrganism", bp, runtime);
   organism->connectToGoundpart(gp);
-  op1->add(organism);
+  op1->add(organism); runtime->add(organism);
 //  op2 = new OrganismPrinter(organism);
   bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
   bp->occupieSpawnpoint(bp2);
@@ -161,9 +150,9 @@ void sdl_test() {
 /////////////////////////////////////////////////////////////////////////////
 
   bp = new Bodypart(BPT_Stick,"TESTPART3");
-  organism = new Organism("TestOrganism2", bp, sun);
+  organism = new Organism("TestOrganism2", bp, runtime);
   organism->connectToGoundpart(gp);
-  op1->add(organism);
+  op1->add(organism); runtime->add(organism);
   bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
   bp->occupieSpawnpoint(bp2);
   bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
@@ -176,9 +165,9 @@ void sdl_test() {
 //////////////////////////////////////////////////////////////////////////////
 
   bp = new Bodypart(BPT_Stick,"TESTPART4");
-  organism = new Organism("TestOrganism2", bp, sun);
+  organism = new Organism("TestOrganism2", bp, runtime);
   organism->connectToGoundpart(gp);
-  op1->add(organism);
+  op1->add(organism); runtime->add(organism);
   bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
   bp->occupieSpawnpoint(bp2);
   bp3 = new Bodypart(BPT_Stick,"TESTPART4",organism);

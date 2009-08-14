@@ -22,6 +22,11 @@ namespace EDen {
     bool cleanupDeadOrganisms();
     bool deleteAll();
     unsigned long cycles;
+
+    int clock_frac_resources_provider;
+    int clock_frac_genproc;
+    int clock_frac_delete;
+    int clock_frac_chemlinks;
   public:
     RuntimeManager();
     ~RuntimeManager();

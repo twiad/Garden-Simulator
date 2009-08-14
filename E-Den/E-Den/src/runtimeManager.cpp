@@ -32,6 +32,11 @@ namespace EDen {
   };
 
   bool RuntimeManager::reset() {
+    clock_frac_resources_provider = 1;
+    clock_frac_genproc = 2;
+    clock_frac_delete = 200;
+    clock_frac_chemlinks = 1;
+    
     cycles = 0;
     deleteAll();
     return true;
@@ -109,9 +114,11 @@ namespace EDen {
   bool RuntimeManager::update() {
 
 // some Modulo for every provider?
-    for(std::list<ResourceProvider*>::iterator it = resourceProviders.begin(); it != resourceProviders.end(); it++) {
-      if(*it) {
-        (*it)->distibute();
+    if(cycles % clock_frac_resources_provider == 0) {
+      for(std::list<ResourceProvider*>::iterator it = resourceProviders.begin(); it != resourceProviders.end(); it++) {
+        if(*it) {
+          (*it)->distibute();
+        };
       };
     };
 
@@ -120,9 +127,9 @@ namespace EDen {
       org = *it;
       if((org) && (org->getState() != BSP_dead)) {
         // Modulo something for each subsystem?  
-        org->updateGeneticProcessors();
-        org->updateDelete();
-        org->updateChemicalStorageLinks();
+        if((cycles % clock_frac_genproc) == 0) org->updateGeneticProcessors();
+        if((cycles % clock_frac_delete) == 0) org->updateDelete();
+        if((cycles % clock_frac_chemlinks) == 0) org->updateChemicalStorageLinks();
       };
     };
 

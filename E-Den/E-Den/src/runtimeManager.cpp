@@ -5,7 +5,7 @@
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {
-    
+    reset();
   };
 
   RuntimeManager::~RuntimeManager() {
@@ -27,6 +27,8 @@ namespace EDen {
       delete resourceProviders.back();
       resourceProviders.pop_back();
     };
+
+    return true;
   };
 
   bool RuntimeManager::reset() {

@@ -191,6 +191,12 @@ namespace EDen {
 
   bool SDLOrganismPrinter::updateCaption() {
     std::string newCaption = "";
+    if(runtimeManager) {
+      char str[33];
+      unsigned long cyclecount = runtimeManager->getCycleCount();
+      sprintf(str,"[%lu]-",cyclecount);
+      newCaption += str;
+    }
 
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
       newCaption += " " + (*it)->getName(); 

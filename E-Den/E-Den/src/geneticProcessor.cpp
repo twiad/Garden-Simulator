@@ -594,7 +594,8 @@ namespace EDen {
       //  Add Stick OR Branch Spawnpoint to position 0 at 180°
       //  Change maximum amount of "Wasser" to 15
       //  Change maximum amount of "Energie" to 150
-      //  Change maximum size to 2.0f + (100.0f - parent "Energie" percentage) * 0.05
+      //  Change maximum amount of "Goo" to 3
+      //  Change maximum size to 1.0
       ///////////////////////////////////////////////////////////////////////
 
       gAndCond = new GeneticANDCondition();
@@ -607,6 +608,7 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",15.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",150.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo",3.0f));
       
       float pbp_water_percentage = 0.0f;
       Bodypart* parent_bodypart = bodypart->getParentBodypart();
@@ -614,7 +616,7 @@ namespace EDen {
         pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Energie");
       };
 
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,1.0f + ((100.0f - pbp_water_percentage) * 0.05f)));
+      compAct->add(new GeneticChangeMaxSizeAction(bodypart,2.5f));
       if(!unfullfilledBPTConditionFound) 
         addClause(new GeneticClause(gAndCond, compAct, "Leaf Creation"));
       else {
@@ -628,14 +630,15 @@ namespace EDen {
       //  AND Creation
       // THEN
       //  Add Stick OR Branch Spawnpoint to position 0 at 180.0°
-      //  Add Stick OR Branch Spawnpoint to position 1 at 0.0°
+      //  Add Stick OR Branch Spawnpoint to position 1 at 3.25°
       //  Add Leaf Spawnpoint to position 2
       //  Add Leaf Spawnpoint to position 3
       //  Add some more leafs ;)
+      //  Add Stick OR Branch Spawnpoint to position 6 at -3.25°
       //  Change maximum amount of "Wasser" to 100
       //  Change maximum amount of "Energie" to 15
       //  Change maximum amount of "Goo" to 5
-      //  Change maximum size to 5.0 + parent water percantage * 50
+      //  Change maximum size to 10.0
       ///////////////////////////////////////////////////////////////////////
 
       gAndCond = new GeneticANDCondition();
@@ -646,11 +649,12 @@ namespace EDen {
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition(bodypart));
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 1, 0.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 1, 3.25f));
       compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 2, 165.0f));
       compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 3, -165.0f));
       compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 4, 175.0f));
       compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 5, -175.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 6, -3.25f));
       //compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 6));
       //compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser", 100.0f));
@@ -663,7 +667,7 @@ namespace EDen {
         pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Wasser");
       };
 
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,5.0f + (pbp_water_percentage * 75)));
+      compAct->add(new GeneticChangeMaxSizeAction(bodypart,10.0f));
 
       if(!unfullfilledBPTConditionFound) 
         addClause(new GeneticClause(gAndCond, compAct, "Stick Creation"));
@@ -680,9 +684,11 @@ namespace EDen {
       //  Add Stick OR Branch Spawnpoint to position 0 at 180.0°
       //  Add Stick OR Branch Spawnpoint to position 1 at -9.0 °
       //  Add Stick OR Branch Spawnpoint to position 2 at 9.0°
+      //  Add Stick OR Branch Spawnpoint to position 1 at -18.0 °
+      //  Add Stick OR Branch Spawnpoint to position 2 at 18.0°
       //  Change maximum amount of "Wasser" to 75
       //  Change maximum amount of "Energie" to 10
-      //  Change maximum amount of "Goo" to 20
+      //  Change maximum amount of "Goo" to 50
       //  Change maximum size to 5.0
       ///////////////////////////////////////////////////////////////////////
 
@@ -696,9 +702,11 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 1, -9.0f));
       compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 2, 9.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 3, -18.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 4, 18.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",75.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",10.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo",20.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",15.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo",50.0f));
       
       pbp_water_percentage = 0.0f;
       parent_bodypart = bodypart->getParentBodypart();

@@ -215,10 +215,12 @@ namespace EDen {
 
   bool SDLOrganismPrinter::print() {
     resetScreen();
-    cleanupDeadOrganisms();
+    if(runtimeManager) organisms = runtimeManager->getOrganisms();
+    else cleanupDeadOrganisms();
     updateCaption();
     needToScale = false;
     Organism* org;
+
     int counter = 1;
     int max = organisms.size() + 1;
 

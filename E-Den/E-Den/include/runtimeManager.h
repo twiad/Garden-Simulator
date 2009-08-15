@@ -48,6 +48,7 @@ namespace EDen {
     unsigned long getCycleCount();
     bool orgsAlive();
 
+    std::list<Organism*> getOrganisms();
   };
 };
 

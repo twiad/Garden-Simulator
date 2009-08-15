@@ -172,4 +172,8 @@ namespace EDen {
     if(organisms.size() > 0) return true;
     return false;
   };
+
+  std::list<Organism*> RuntimeManager::getOrganisms() {
+    return organisms; 
+  };
 };

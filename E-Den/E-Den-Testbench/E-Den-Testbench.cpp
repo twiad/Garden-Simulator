@@ -11,8 +11,8 @@
 #define PRINT_OUT_ALL_N_CYCLES 3000
 #define SND_RUN_MULTIPLYER 2
 // STARTING_WATER_max: 2.0e6
-#define STARTING_WATER 2.0e6
-#define STARTING_GOO 200.0f
+#define STARTING_WATER 1.0e6
+#define STARTING_GOO 300.0f
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
@@ -140,7 +140,8 @@ void sdl_test() {
   bp = new Bodypart(BPT_Stick,"TESTPART4");
   organism = new Organism("TestOrganism", bp, runtime);
   organism->connectToGoundpart(gp);
-  op1->add(organism); runtime->add(organism);
+  //op1->add(organism); 
+  runtime->add(organism);
 //  op2 = new OrganismPrinter(organism);
   bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
   bp->occupieSpawnpoint(bp2);
@@ -156,7 +157,8 @@ void sdl_test() {
   bp = new Bodypart(BPT_Stick,"TESTPART3");
   organism = new Organism("TestOrganism2", bp, runtime);
   organism->connectToGoundpart(gp);
-  op1->add(organism); runtime->add(organism);
+  //op1->add(organism); 
+  runtime->add(organism);
   bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
   bp->occupieSpawnpoint(bp2);
   bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
@@ -165,13 +167,15 @@ void sdl_test() {
   //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
   //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
   bp3->getChemicalStorage()->add("Energie",10.0f);
+  bp3->getChemicalStorage()->add("Sonne",100.0f);
 
 //////////////////////////////////////////////////////////////////////////////
 
   //bp = new Bodypart(BPT_Stick,"TESTPART4");
   //organism = new Organism("TestOrganism2", bp, runtime);
   //organism->connectToGoundpart(gp);
-  //op1->add(organism); runtime->add(organism);
+  ////op1->add(organism); 
+  //runtime->add(organism);
   //bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
   //bp->occupieSpawnpoint(bp2);
   //bp3 = new Bodypart(BPT_Stick,"TESTPART4",organism);

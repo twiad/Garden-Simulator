@@ -368,11 +368,11 @@ namespace EDen {
       // IF State = Alive
       //  Type = Stick OR Branch
       //  Size > 1.5
-      //  AND "Energie" current_value_more than 1.0
+      //  AND "Energie" current_value_more than 7.0
       //  AND Spawnpoint Branch present
       // THEN
       //  Spawn Branch
-      //  Consume 0.8 "Energie"
+      //  Consume 6.0 "Energie"
       ///////////////////////////////////////////////////////////////////////
       
       gAndCond = new GeneticANDCondition();
@@ -388,11 +388,11 @@ namespace EDen {
       gAndCond->add(gOrCond);
       gAndCond->add(new GeneticSpawnpointPresentCondition(bodypart,BPT_Branch));
       gAndCond->add(new GeneticBodypartSizeCondition(bodypart,GBT_more,4.5f));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,10.00f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,7.00f,"Energie"));
       
       
       compAct->add(new GeneticSpawnBodypartAction(bodypart,BPT_Branch));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",8.0f));
+      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",6.0f));
       
 
       if(!unfullfilledBPTConditionFound) 

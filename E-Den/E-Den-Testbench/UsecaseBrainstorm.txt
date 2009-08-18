@@ -1,0 +1,3 @@
+- you always have 3 plants. 2 of one color 1 of the other. codes of those plants are stored persistant
+- if a plant dies, you are shown the seeds that have been produced by your plants. You may chose one seed to become your next third plant, preserving the color rule.
+- You may modify what part of the genetic code are mutated in which ranges.

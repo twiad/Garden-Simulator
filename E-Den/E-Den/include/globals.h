@@ -5,6 +5,7 @@
 #define _E_DEN_GLOBALS_HEADER_
 
 #include <list>
+#include <map>
 
 namespace EDen {
   class Organism;
@@ -91,6 +92,14 @@ namespace EDen {
   typedef BodypartState OrganismState;
   typedef std::list<BodypartType> BodypartTypeList;
   typedef std::list<BodypartType>::iterator BodypartTypeListIterator;
+
+  class GeneticClause;
+  typedef std::list<GeneticClause*> GeneticClauseList;
+  typedef std::list<GeneticClause*>::iterator GeneticClauseListIterator;
+
+  typedef std::map<BodypartType,BodypartType> BodypartTypeInheritageMap;
+  typedef std::map<BodypartType,BodypartType>::iterator BodypartTypeInheritageMapIterator;
+
 };
 
 #endif

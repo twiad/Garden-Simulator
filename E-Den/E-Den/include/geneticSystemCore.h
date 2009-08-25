@@ -19,6 +19,7 @@ namespace EDen {
 
     GeneticConditionType getConditionType();
     virtual bool fullfilled() = 0;
+    virtual bool setBodypart(Bodypart* param_bodypart) = 0;
     virtual bool dependsOnConditionType(GeneticConditionType param_conditionType);
   };
 
@@ -34,6 +35,7 @@ namespace EDen {
     bool add(GeneticCondition* newCondition);
     
     virtual bool fullfilled() = 0;
+    virtual bool setBodypart(Bodypart* param_bodypart);
     virtual bool dependsOnConditionType(GeneticConditionType param_conditionType) = 0;
   };
 
@@ -66,6 +68,7 @@ namespace EDen {
     GeneticActionType getActionType();
 
     virtual bool execute() = 0;
+    virtual bool setBodypart(Bodypart* param_bodypart) = 0;
   };
 
   class GeneticCompoundAction: public GeneticAction {
@@ -80,6 +83,7 @@ namespace EDen {
 
     bool add(GeneticAction* newAction);
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticClause {
@@ -95,6 +99,7 @@ namespace EDen {
     virtual ~GeneticClause();
 
     bool run();
+    bool setBodypart(Bodypart* param_bodypart);
   };
 } // namespace
 

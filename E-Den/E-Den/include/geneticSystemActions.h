@@ -5,7 +5,6 @@
 #include "geneticSystemCore.h"
 #include "chemicalSystem.h"
 
-
 #ifndef _E_DEN_CHEMICAL_SYSTEM_ACTIONS_HEADER_
 #define _E_DEN_CHEMICAL_SYSTEM_ACTIONS_HEADER_
 
@@ -26,20 +25,16 @@ namespace EDen {
     float ratio;
 
   public:
-    GeneticSimpleChemicalConvertAction(ChemicalStorage* nStorage,
-                                       std::string nFromChemName,
+    GeneticSimpleChemicalConvertAction(std::string nFromChemName,
                                        std::string nToChemName,
                                        float nAmount,
-                                       float nRatio = 1.0f): GeneticAction(GAT_SimpleConvert),
-                                                             storage(nStorage),
-                                                             fromChemName(nFromChemName),
-                                                             toChemName(nToChemName),
-                                                             amount(nAmount),
-                                                             ratio(nRatio) { verify(); };
+                                       float nRatio = 1.0f, 
+                                       Bodypart* p_bp = 0);
 
     virtual ~GeneticSimpleChemicalConvertAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticChemicalConsumeAction: public GeneticAction {
@@ -50,12 +45,12 @@ namespace EDen {
     std::string chemName;
     float amount;
   public:
-    GeneticChemicalConsumeAction(ChemicalStorage* nStorage, std::string nChemName, float nAmount):
-        GeneticAction(GAT_ChemicalConsume), storage(nStorage), chemName(nChemName), amount(nAmount) {verify();};
+    GeneticChemicalConsumeAction(std::string nChemName, float nAmount, Bodypart* p_bp = 0);
     
     virtual ~GeneticChemicalConsumeAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticSpawnBodypartAction: public GeneticAction {
@@ -63,11 +58,11 @@ namespace EDen {
     Bodypart* parentBodypart;
     BodypartType childBodypartType;
   public:
-    GeneticSpawnBodypartAction(Bodypart* param_parentBodypart, BodypartType param_childBodypartType):
-        GeneticAction(GAT_SpawnBP), parentBodypart(param_parentBodypart), childBodypartType(param_childBodypartType) {};
+    GeneticSpawnBodypartAction(BodypartType param_childBodypartType, Bodypart* param_parentBodypart = 0);
     virtual ~GeneticSpawnBodypartAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticChangeMaxChemicalAmountAction: public GeneticAction {
@@ -76,12 +71,12 @@ namespace EDen {
     float value;
     std::string chemName;
   public:
-    GeneticChangeMaxChemicalAmountAction(Bodypart* param_bodypart, std::string param_chemicalName, float param_value):
-        GeneticAction(GAT_ChangeMaxChemAmount), bp(param_bodypart), chemName(param_chemicalName), value(param_value) {};
+    GeneticChangeMaxChemicalAmountAction(std::string param_chemicalName, float param_value, Bodypart* param_bodypart = 0);
 
     virtual ~GeneticChangeMaxChemicalAmountAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticAddSpawnpointAction: public GeneticAction {
@@ -90,12 +85,13 @@ namespace EDen {
     SpawnpointInformation* sp;
     bool spawnpointAdded;
   public:
-    GeneticAddSpawnpointAction(Bodypart* param_bodypart, BodypartType param_bodypartType, int param_position, float param_ang2d);
-    GeneticAddSpawnpointAction(Bodypart* param_bodypart, std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d);
+    GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, Bodypart* param_bodypart = 0);
+    GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, Bodypart* param_bodypart = 0);
     
     virtual ~GeneticAddSpawnpointAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticHurtAction: public GeneticAction {
@@ -103,10 +99,11 @@ namespace EDen {
     Bodypart* bp;
     float amount;
   public:
-    GeneticHurtAction(Bodypart* param_bodypart, float param_amount);
+    GeneticHurtAction(float param_amount, Bodypart* p_bp = 0);
     virtual ~GeneticHurtAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticHealAction: public GeneticAction {
@@ -114,10 +111,11 @@ namespace EDen {
     Bodypart* bp;
     float amount;
   public:
-    GeneticHealAction(Bodypart* param_bodypart, float param_amount);
+    GeneticHealAction(float param_amount, Bodypart* p_bp = 0);
     ~GeneticHealAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticHealParentAction: public GeneticAction {
@@ -125,20 +123,22 @@ namespace EDen {
     Bodypart* bp;
     float amount;
   public:
-    GeneticHealParentAction(Bodypart* param_bodypart, float param_amount);
+    GeneticHealParentAction(float param_amount, Bodypart* p_bp = 0);
     ~GeneticHealParentAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticDieAction: public GeneticAction {
   private:
     Bodypart* bp;
   public:
-    GeneticDieAction(Bodypart* param_bodypart);
+    GeneticDieAction(Bodypart* param_bodypart = 0);
     virtual ~GeneticDieAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart = 0);
   };
 
   class GeneticGrowAction: public GeneticAction {
@@ -146,10 +146,11 @@ namespace EDen {
     Bodypart* bp;
     float amount;
   public:
-    GeneticGrowAction(Bodypart* param_bodypart, float param_amount);
+    GeneticGrowAction(float param_amount, Bodypart* p_bp = 0);
     virtual ~GeneticGrowAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart = 0);
   };
 
   class GeneticShrinkAction: public GeneticAction {
@@ -157,20 +158,22 @@ namespace EDen {
     Bodypart* bp;
     float amount;
   public:
-    GeneticShrinkAction(Bodypart* param_bodypart, float param_amount);
+    GeneticShrinkAction(float param_amount, Bodypart* p_bp = 0);
     virtual ~GeneticShrinkAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticEmptyChemicalStorageAction: public GeneticAction {
   protected:
     Bodypart* bp;
   public:
-    GeneticEmptyChemicalStorageAction(Bodypart* param_bodypart);
+    GeneticEmptyChemicalStorageAction(Bodypart* param_bodypart = 0);
     virtual ~GeneticEmptyChemicalStorageAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticChangeMaxSizeAction: public GeneticAction {
@@ -178,10 +181,11 @@ namespace EDen {
     Bodypart* bp;
     float amount;
   public:
-    GeneticChangeMaxSizeAction(Bodypart* param_bodypart, float param_amount);
+    GeneticChangeMaxSizeAction(float param_amount, Bodypart* p_bp = 0);
     virtual ~GeneticChangeMaxSizeAction();
 
     virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
 } // namespace

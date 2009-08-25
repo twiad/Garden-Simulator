@@ -28,6 +28,13 @@ namespace EDen {
     return true;
   };
 
+  bool GeneticCompoundCondition::setBodypart(Bodypart* param_bodypart) {
+    for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
+      (*it)->setBodypart(param_bodypart);
+    };
+    return true;
+  };
+
   GeneticCompoundAction::~GeneticCompoundAction() {
     GeneticAction* act;
     while(!childActions.empty()) {
@@ -36,6 +43,13 @@ namespace EDen {
       delete act;
     }
     // GeneticAction::~GeneticAction(); 
+  };
+
+  bool GeneticCompoundAction::setBodypart(Bodypart* param_bodypart) {
+    for(GeneticActionsListIterator it = childActions.begin(); it != childActions.end(); it++) {
+      (*it)->setBodypart(param_bodypart);
+    };
+    return true;
   };
 
   bool GeneticCompoundAction::add(GeneticAction* newAction) {
@@ -129,5 +143,11 @@ namespace EDen {
     else {
       return false;
     };
+  };
+
+  bool GeneticClause::setBodypart(Bodypart* param_bodypart) {
+    cond->setBodypart(param_bodypart);
+    act->setBodypart(param_bodypart);
+    return true;
   };
 };

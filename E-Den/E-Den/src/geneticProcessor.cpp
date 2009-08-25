@@ -14,7 +14,7 @@ namespace EDen {
     while(!relevantClauses.empty()) {
       clause = relevantClauses.back();
       relevantClauses.pop_back();
-      delete clause;
+      // delete clause;
     };
     
     // relevantClauses.clear();
@@ -60,10 +60,20 @@ namespace EDen {
     }
   };
 
-  bool GeneticProcessor::parseGeneticCode() {
-    addDummyGenecode();
+  bool GeneticProcessor::updateGeneticCode() {
     
-    
+    GeneticClause* clause;
+    while(!relevantClauses.empty()) {
+      clause = relevantClauses.back();
+      relevantClauses.pop_back();
+      // delete clause;
+    };
+
+//    bodypart->getGeneticCode()->setBodypart(bodypart);
+    GeneticClauseList originalClauses = bodypart->getGeneticCode()->getClauseList();
+
+    relevantClauses.assign(originalClauses.begin(),originalClauses.end());
+
     return true;
   };
 } // namespace

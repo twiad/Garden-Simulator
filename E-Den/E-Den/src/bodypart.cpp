@@ -8,14 +8,13 @@ namespace EDen {
     supportedBpTypes.clear();
   };
 
-  Bodypart::Bodypart(BodypartType bodypartType, std::string geneticCode, Organism* param_parentOrganism, Bodypart* param_parentBodypart): 
-        bpType(bodypartType) {
-    
+  Bodypart::Bodypart(BodypartType bodypartType, std::string dummyGenecodeIdentifier, Organism* param_parentOrganism, Bodypart* param_parentBodypart) {
     healthpoints = 100.0f;
     size = 1.0f;
     maxSize = 50.0f;
     
-    geneCode = geneticCode;
+    bpType = bodypartType;
+    geneCode = new GeneticCode(dummyGenecodeIdentifier);
     bpState = BSP_creation;
     
     chemStorage = new ChemicalStorage();
@@ -24,7 +23,26 @@ namespace EDen {
     parentOrganism = param_parentOrganism;
     parentBodypart = param_parentBodypart;
     
-    init();
+    init();      
+  };
+
+  Bodypart::Bodypart(BodypartType bodypartType, GeneticCode* param_geneticCode, Organism* param_parentOrganism, Bodypart* param_parentBodypart) {
+    healthpoints = 100.0f;
+    size = 1.0f;
+    maxSize = 50.0f;
+    
+    bpType = bodypartType;
+    geneCode = param_geneticCode;
+    geneCode->setBodypart(this);
+    bpState = BSP_creation;
+    
+    chemStorage = new ChemicalStorage();
+    genProcessor = new GeneticProcessor(this);
+    
+    parentOrganism = param_parentOrganism;
+    parentBodypart = param_parentBodypart;
+    
+    init();      
   };
   
   Bodypart::~Bodypart() {
@@ -36,10 +54,12 @@ namespace EDen {
     chemStorage = 0;
     childBodyparts.clear();
     spawnpoints.clear();
+    delete geneCode;
   };
 
   bool Bodypart::init() {
-    genProcessor->parseGeneticCode();
+    geneCode->setBodypart(this);
+    genProcessor->updateGeneticCode();
     genProcessor->executeRelevantClauses();
     bpState = BSP_alive;
     return true;
@@ -79,7 +99,7 @@ namespace EDen {
     return foundOne;
   };
 
-  std::string Bodypart::getGeneticCode() {
+  GeneticCode* Bodypart::getGeneticCode() {
     return geneCode;
   };
 

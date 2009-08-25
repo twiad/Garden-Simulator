@@ -20,18 +20,15 @@ namespace EDen {
     float triggerValue;
     std::string chemName;
   public:
-    GeneticChemicalCondition(ChemicalStorage* nstorage, 
-                             GeneticChemicalConditionType ntype, 
+    GeneticChemicalCondition(GeneticChemicalConditionType ntype, 
                              float ntriggerValue, 
-                             std::string nchemName): GeneticCondition(GCT_Chemical),
-                                                     storage(nstorage),
-                                                     chemCondType(ntype),
-                                                     triggerValue(ntriggerValue),
-                                                     chemName(nchemName) {};
+                             std::string nchemName,
+                             Bodypart * param_bp = 0);
     
     virtual ~GeneticChemicalCondition();
 
     virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
 
   };
 
@@ -39,10 +36,11 @@ namespace EDen {
   protected:  
     Bodypart* bp;
   public:
-    GeneticBodypartCreationCondition(Bodypart* param_bodypart): GeneticCondition(GCT_BodypartCreation), bp(param_bodypart) {};
+    GeneticBodypartCreationCondition(Bodypart* param_bodypart = 0): GeneticCondition(GCT_BodypartCreation), bp(param_bodypart) {};
     virtual ~GeneticBodypartCreationCondition();
 
     virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
   
   class GeneticBodypartTypeCondition: public GeneticCondition {
@@ -51,10 +49,10 @@ namespace EDen {
     BodypartType bpType;
     GeneticStdConditionType condType;
   public:
-    GeneticBodypartTypeCondition(Bodypart* bodypart, 
-      BodypartType bodypartType, GeneticStdConditionType conditionType): 
+    GeneticBodypartTypeCondition( 
+      BodypartType bodypartType, GeneticStdConditionType conditionType, Bodypart * param_bp = 0): 
           GeneticCondition(GCT_BodypartType), 
-          bp(bodypart),
+          bp(param_bp),
           bpType(bodypartType),
           condType(conditionType) {};
     virtual ~GeneticBodypartTypeCondition();
@@ -62,6 +60,7 @@ namespace EDen {
     BodypartType getBodypartType();
 
     virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticBodypartStateCondition: public GeneticCondition {
@@ -70,8 +69,8 @@ namespace EDen {
     BodypartState bpState;
     GeneticStdConditionType condType;
   public:
-    GeneticBodypartStateCondition(Bodypart* bodypart, 
-      BodypartState bodypartState, GeneticStdConditionType conditionType): 
+    GeneticBodypartStateCondition( 
+      BodypartState bodypartState, GeneticStdConditionType conditionType, Bodypart* bodypart = 0): 
           GeneticCondition(GCT_BodypartState), 
           bp(bodypart),
           bpState(bodypartState),
@@ -81,6 +80,7 @@ namespace EDen {
     BodypartState getBodypartState();
 
     virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticSpawnpointPresentCondition: public GeneticCondition {
@@ -88,11 +88,12 @@ namespace EDen {
     Bodypart* bp;
     BodypartType bpType;
   public:
-    GeneticSpawnpointPresentCondition(Bodypart* param_bodypart, BodypartType param_bpType): 
+    GeneticSpawnpointPresentCondition(BodypartType param_bpType, Bodypart* param_bodypart = 0): 
         GeneticCondition(GCT_SpawnpointPresent), bp(param_bodypart), bpType(param_bpType) {};
     virtual ~GeneticSpawnpointPresentCondition();
 
     virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticHealthpointsCondition: public GeneticCondition {
@@ -101,10 +102,11 @@ namespace EDen {
     float amount;
     GeneticStdConditionType condType;
   public:
-    GeneticHealthpointsCondition(Bodypart* param_bodypart, GeneticStdConditionType param_condType, float param_amount);
+    GeneticHealthpointsCondition(GeneticStdConditionType param_condType, float param_amount, Bodypart* param_bodypart = 0);
     virtual ~GeneticHealthpointsCondition();
 
     virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticParentHealthpointsCondition: public GeneticCondition {
@@ -113,10 +115,11 @@ namespace EDen {
     float amount;
     GeneticStdConditionType condType;
   public:
-    GeneticParentHealthpointsCondition(Bodypart* param_bodypart, GeneticStdConditionType param_condType, float param_amount);
+    GeneticParentHealthpointsCondition(GeneticStdConditionType param_condType, float param_amount, Bodypart* param_bodypart = 0);
     virtual ~GeneticParentHealthpointsCondition();
 
     virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticBodypartSizeCondition: public GeneticCondition { 
@@ -125,20 +128,22 @@ namespace EDen {
     float amount;
     GeneticStdConditionType condType;
   public:
-    GeneticBodypartSizeCondition(Bodypart* param_bodypart, GeneticStdConditionType param_condType, float param_amount);
+    GeneticBodypartSizeCondition(GeneticStdConditionType param_condType, float param_amount, Bodypart* param_bodypart = 0);
     virtual ~GeneticBodypartSizeCondition();
 
     virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 
   class GeneticCanGrowCondition: public GeneticCondition {
   protected:
     Bodypart* bp;
   public:
-    GeneticCanGrowCondition(Bodypart* param_bodypart);
+    GeneticCanGrowCondition(Bodypart* param_bodypart = 0);
     virtual ~GeneticCanGrowCondition();
 
     virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
   };
 } // namespace
 

@@ -4,8 +4,25 @@
 #include "geneticSystemConditions.h"
 
 namespace EDen {
+  GeneticChemicalCondition::GeneticChemicalCondition(
+                             GeneticChemicalConditionType ntype, 
+                             float ntriggerValue, 
+                             std::string nchemName,
+                             Bodypart * param_bp): GeneticCondition(GCT_Chemical),
+                                                     chemCondType(ntype),
+                                                     triggerValue(ntriggerValue),
+                                                     chemName(nchemName) {
+    if(param_bp) storage = param_bp->getChemicalStorage();
+    else storage = 0;
+  };
+  
   GeneticChemicalCondition::~GeneticChemicalCondition() {
     // GeneticCondition::~GeneticCondition();
+  };
+
+  bool GeneticChemicalCondition::setBodypart(Bodypart* param_bodypart) {
+    if(param_bodypart) storage = param_bodypart->getChemicalStorage();
+    return true;
   };
   
   bool GeneticChemicalCondition::fullfilled() {
@@ -66,6 +83,11 @@ namespace EDen {
     // GeneticCondition::~GeneticCondition();
   };
 
+  bool GeneticBodypartTypeCondition::setBodypart(Bodypart* p_bp) {
+    bp = p_bp;
+    return true;
+  };
+
   bool GeneticBodypartTypeCondition::fullfilled() {
     switch(condType) {
       case GBT_equal:
@@ -87,6 +109,11 @@ namespace EDen {
     // GeneticCondition::~GeneticCondition();
   };
 
+  bool GeneticBodypartStateCondition::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart;
+    return true;
+  };
+
   bool GeneticBodypartStateCondition::fullfilled() {
     switch(condType) {
       case GBT_equal:
@@ -104,15 +131,20 @@ namespace EDen {
     };
   };
 
-  GeneticHealthpointsCondition::GeneticHealthpointsCondition(Bodypart* param_bodypart, GeneticStdConditionType param_condType, float param_amount):
+  GeneticHealthpointsCondition::GeneticHealthpointsCondition(GeneticStdConditionType param_condType, float param_amount, Bodypart* param_bodypart):
     GeneticCondition(GCT_BodypartHP) {
-    bp = param_bodypart;
+    setBodypart(param_bodypart);
     condType = param_condType;
     amount = param_amount;
   };
 
   GeneticHealthpointsCondition::~GeneticHealthpointsCondition() {
     
+  };
+
+  bool GeneticHealthpointsCondition::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart; 
+    return true;
   };
 
   bool GeneticHealthpointsCondition::fullfilled() {
@@ -141,15 +173,20 @@ namespace EDen {
     };
   };
 
-  GeneticParentHealthpointsCondition::GeneticParentHealthpointsCondition(Bodypart* param_bodypart, GeneticStdConditionType param_condType, float param_amount):
+  GeneticParentHealthpointsCondition::GeneticParentHealthpointsCondition(GeneticStdConditionType param_condType, float param_amount, Bodypart* param_bodypart):
     GeneticCondition(GCT_BodypartHP) {
-    bp = param_bodypart;
+    setBodypart(param_bodypart);
     condType = param_condType;
     amount = param_amount;
   };
 
   GeneticParentHealthpointsCondition::~GeneticParentHealthpointsCondition() {
       
+  };
+
+  bool GeneticParentHealthpointsCondition::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart; 
+    return true;
   };
 
   bool GeneticParentHealthpointsCondition::fullfilled() {
@@ -181,15 +218,20 @@ namespace EDen {
     else return false;
   };
 
-  GeneticBodypartSizeCondition::GeneticBodypartSizeCondition(Bodypart* param_bodypart, GeneticStdConditionType param_condType, float param_amount):
+  GeneticBodypartSizeCondition::GeneticBodypartSizeCondition(GeneticStdConditionType param_condType, float param_amount, Bodypart* param_bodypart):
     GeneticCondition(GCT_BodypartSize) {
-    bp = param_bodypart;
+    setBodypart(param_bodypart);
     condType = param_condType;
     amount = param_amount;
   };
 
   GeneticBodypartSizeCondition::~GeneticBodypartSizeCondition() {
       
+  };
+
+  bool GeneticBodypartSizeCondition::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart; 
+    return true;
   };
 
   bool GeneticBodypartSizeCondition::fullfilled() {
@@ -227,8 +269,18 @@ namespace EDen {
     else return false;
   };
 
+  bool GeneticBodypartCreationCondition::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart; 
+    return true;
+  };
+
   GeneticSpawnpointPresentCondition::~GeneticSpawnpointPresentCondition() {
     // GeneticCondition::~GeneticCondition();       
+  };
+
+  bool GeneticSpawnpointPresentCondition::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart; 
+    return true;
   };
 
   bool GeneticSpawnpointPresentCondition::fullfilled() {
@@ -237,11 +289,16 @@ namespace EDen {
   };
 
   GeneticCanGrowCondition::GeneticCanGrowCondition(Bodypart* param_bp): GeneticCondition(GCT_BodypartSize) {
-    bp = param_bp;
+    setBodypart(param_bp);
   };
 
   GeneticCanGrowCondition::~GeneticCanGrowCondition() {
 
+  };
+
+  bool GeneticCanGrowCondition::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart; 
+    return true;
   };
 
   bool GeneticCanGrowCondition::fullfilled() {

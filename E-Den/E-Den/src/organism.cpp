@@ -169,6 +169,9 @@ namespace EDen {
     for(ChemicalStorageLinkListIterator it = storageLinks.begin(); it != storageLinks.end(); it++) {
       (*it)->update();
     };
+
+    storageLinks.push_back(storageLinks.front());
+    storageLinks.pop_front();
     return true;
   };
 
@@ -180,7 +183,10 @@ namespace EDen {
   };
 
   bool Organism::update() {
-    return updateChemicalStorageLinks() && updateGeneticProcessors() && updateDelete();
+    updateChemicalStorageLinks();
+    updateGeneticProcessors();  
+    updateDelete();
+    return true;
   };
 
   Bodypart* Organism::getRootBodypart() {

@@ -5,12 +5,13 @@
 #define _E_DEN_BODYPART_HEADER_
 
 #include "chemicalSystem.h"
-#include "geneticSystemCore.h"
+#include "geneticCode.h"
 #include "geneticProcessor.h"
 #include "organism.h"
 #include "globals.h"
 
 namespace EDen {
+  class GeneticCode;
   class GeneticProcessor;
   class Organism;
   
@@ -36,7 +37,7 @@ namespace EDen {
 
     BodypartType bpType;
     BodypartState bpState;
-    std::string geneCode;
+    GeneticCode* geneCode;
 
     SpawnpointInformationList spawnpoints;
 
@@ -51,7 +52,8 @@ namespace EDen {
     float size, maxSize;
     
   public:
-    Bodypart(BodypartType bodypartType = BPT_UNKNOWN, std::string geneticCode = "", Organism* param_parentOrganism = 0, Bodypart* param_parentBodypart = 0);
+    Bodypart(BodypartType bodypartType, std::string geneticCode, Organism* param_parentOrganism = 0, Bodypart* param_parentBodypart = 0);
+    Bodypart(BodypartType bodypartType = BPT_UNKNOWN, GeneticCode* param_geneticCode = new GeneticCode(), Organism* param_parentOrganism = 0, Bodypart* param_parentBodypart = 0);
     ~Bodypart();
 
     ChemicalStorage* getChemicalStorage();
@@ -59,7 +61,7 @@ namespace EDen {
 
     bool init();
 
-    std::string getGeneticCode();
+    GeneticCode* getGeneticCode();
     BodypartType getBodypartType();
 
     bool setBodypartState(BodypartState param_bpState);

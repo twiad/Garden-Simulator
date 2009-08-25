@@ -18,19 +18,15 @@ namespace EDen {
   class GeneticProcessor {
     friend class GeneticClause;
   protected:
-    typedef std::list<GeneticClause*> GeneticClauseList;
-    typedef std::list<GeneticClause*>::iterator GeneticClauseListIterator;
-
-    typedef std::map<BodypartType,BodypartType> BodypartTypeInheritageMap;
-    typedef std::map<BodypartType,BodypartType>::iterator BodypartTypeInheritageMapIterator;
-
     ChemicalStorage* chemStorage;
     Bodypart* bodypart;
     // BodypartTypeInheritageMap bodypartTypeInheritage;
     GeneticClauseList relevantClauses;
+    GeneticClauseList geneticCodeClauses;
 
-    bool addDummyGenecode();
+    GeneticClauseList getDummyGenecode(std::string geneticCode);
     bool addClause(GeneticClause* newClause);
+    bool mutate();
     //bool removeClauseFromRelevantClauses(GeneticClause* clause);
   public:
     GeneticProcessor(Bodypart* nBodypart);
@@ -40,7 +36,7 @@ namespace EDen {
     Bodypart* getBodypart();
 
     bool executeRelevantClauses();
-    bool parseGeneticCode();
+    bool updateGeneticCode();
   };
 } // namespace
 

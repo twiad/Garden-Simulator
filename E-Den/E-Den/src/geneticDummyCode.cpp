@@ -3,16 +3,15 @@
 #define GRUNDVERBRAUCH 0.045f
 
 namespace EDen {
-    bool GeneticProcessor::addDummyGenecode() {
-    std::string code = bodypart->getGeneticCode();
-
+  bool GeneticCode::generateDummyGenecode(std::string code) {
     if(code == "TESTPART1") {
+      speciesIdentifier = 500;
       GeneticANDCondition* andCond = new GeneticANDCondition();
-      andCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,0.05f,"Wasser"));
-      andCond->add(new GeneticChemicalCondition(chemStorage,GCC_space_left_more,0.005f,"Gold"));
+      andCond->add(new GeneticChemicalCondition(GCC_current_value_more,0.05f,"Wasser"));
+      andCond->add(new GeneticChemicalCondition(GCC_space_left_more,0.005f,"Gold"));
       
       GeneticCompoundAction* compAct = new GeneticCompoundAction();
-      compAct->add(new GeneticSimpleChemicalConvertAction(chemStorage,"Wasser","Gold",0.05f,0.1f));
+      compAct->add(new GeneticSimpleChemicalConvertAction("Wasser","Gold",0.05f,0.1f));
 
       addClause(new GeneticClause(
         // Conditions
@@ -25,12 +24,13 @@ namespace EDen {
         ));
     }
     else if(code == "TESTPART2") {
+      speciesIdentifier = 501;
       GeneticANDCondition* andCond = new GeneticANDCondition();
-      andCond->add(new GeneticChemicalCondition(chemStorage,GCC_space_left_more,0.1f,"BLAK"));
-      andCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,0.01f,"Gold"));
+      andCond->add(new GeneticChemicalCondition(GCC_space_left_more,0.1f,"BLAK"));
+      andCond->add(new GeneticChemicalCondition(GCC_current_value_more,0.01f,"Gold"));
       
       GeneticCompoundAction* compAct = new GeneticCompoundAction();
-      compAct->add(new GeneticSimpleChemicalConvertAction(chemStorage,"Gold","BLAK",0.01f,10.0f));
+      compAct->add(new GeneticSimpleChemicalConvertAction("Gold","BLAK",0.01f,10.0f));
 
       addClause(new GeneticClause(
         // Conditions
@@ -42,6 +42,7 @@ namespace EDen {
         ));
     }
     else if(code == "TESTPART3") {
+      speciesIdentifier = 502;
       bool unfullfilledBPTConditionFound = false;
       GeneticANDCondition* gAndCond = 0;
       GeneticORCondition* gOrCond = 0;
@@ -67,30 +68,18 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
 
-      cond = new GeneticBodypartTypeCondition(bodypart, BPT_Leaf, GBT_equal);
-      unfullfilledBPTConditionFound = !(cond->fullfilled());
+      cond = new GeneticBodypartTypeCondition(BPT_Leaf, GBT_equal);
       gAndCond->add(cond);
-      gAndCond->add(new GeneticBodypartCreationCondition(bodypart));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",15.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",150.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Sonne",120.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 10.0f));
+      gAndCond->add(new GeneticBodypartCreationCondition());
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",15.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",150.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne",120.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 10.0f));
       
-      float pbp_water_percentage = 0.0f;
-      Bodypart* parent_bodypart = bodypart->getParentBodypart();
-      if (parent_bodypart) {
-        pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Energie");
-      };
-
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,1.0f + ((100.0f - pbp_water_percentage) * 0.015f)));
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Leaf Creation"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      compAct->add(new GeneticChangeMaxSizeAction(1.5f));
+      addClause(new GeneticClause(gAndCond, compAct, "Leaf Creation"));
+    
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF Type = Stick
@@ -109,38 +98,26 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
 
-      cond = new GeneticBodypartTypeCondition(bodypart, BPT_Stick, GBT_equal);
-      unfullfilledBPTConditionFound = !(cond->fullfilled());
+      cond = new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal);
       gAndCond->add(cond);
-      gAndCond->add(new GeneticBodypartCreationCondition(bodypart));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 1, 0.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 2, 145.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 3, -145.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 4, 125.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 5, -125.0f));
-      //compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 6));
-      //compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 7));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser", 100.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie", 35.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Sonne", 0.01f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 10.0f));
+      gAndCond->add(new GeneticBodypartCreationCondition());
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, 0.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 2, 145.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 3, -145.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 4, 125.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 5, -125.0f));
+      //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 6));
+      //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser", 100.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie", 35.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne", 0.01f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 10.0f));
       
-      pbp_water_percentage = 0.0f;
-      parent_bodypart = bodypart->getParentBodypart();
-      if (parent_bodypart) {
-        pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Wasser");
-      };
+      compAct->add(new GeneticChangeMaxSizeAction(5.0f));
 
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,5.0f + (pbp_water_percentage * 50)));
-
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Stick Creation"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      addClause(new GeneticClause(gAndCond, compAct, "Stick Creation"));
+ 
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF Type = Branch
@@ -157,33 +134,21 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
 
-      cond = new GeneticBodypartTypeCondition(bodypart, BPT_Branch, GBT_equal);
-      unfullfilledBPTConditionFound = !(cond->fullfilled());
+      cond = new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal);
       gAndCond->add(cond);
-      gAndCond->add(new GeneticBodypartCreationCondition(bodypart));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 1, -13.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 2, 13.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",150.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",10.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Sonne", 0.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 3.0f));
+      gAndCond->add(new GeneticBodypartCreationCondition());
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, -13.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 2, 13.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",150.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",10.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne", 0.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 3.0f));
       
-      pbp_water_percentage = 0.0f;
-      parent_bodypart = bodypart->getParentBodypart();
-      if (parent_bodypart) {
-        pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Wasser");
-      };
+      compAct->add(new GeneticChangeMaxSizeAction(10.0f));
 
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,10.0f + (pbp_water_percentage * 100)));
-
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Branch Creation"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      addClause(new GeneticClause(gAndCond, compAct, "Branch Creation"));
+     
       ////////////////////////// Creation Rules End Here ////////////////////
 
       ///////////////////////////////////////////////////////////////////////
@@ -202,26 +167,20 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
       
-      cond = new GeneticBodypartTypeCondition(bodypart, BPT_Leaf, GBT_equal);
-      unfullfilledBPTConditionFound = !(cond->fullfilled());
+      cond = new GeneticBodypartTypeCondition(BPT_Leaf, GBT_equal);
 
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(cond);
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_space_left_more,10.0f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,15.0f,"Wasser"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,1.0f,"Sonne"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_space_left_more,10.0f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,15.0f,"Wasser"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.0f,"Sonne"));
 
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Sonne",1.0f));
-      compAct->add(new GeneticSimpleChemicalConvertAction(chemStorage,"Wasser","Energie",10.0f,2.0f));
-      compAct->add(new GeneticSimpleChemicalConvertAction(chemStorage,"Wasser","Goo",0.1f,50.0f));
+      compAct->add(new GeneticChemicalConsumeAction("Sonne",1.0f));
+      compAct->add(new GeneticSimpleChemicalConvertAction("Wasser","Energie",10.0f,2.0f));
+      compAct->add(new GeneticSimpleChemicalConvertAction("Wasser","Goo",0.1f,50.0f));
 
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Leaf Energie Production"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      addClause(new GeneticClause(gAndCond, compAct, "Leaf Energie Production"));
+      
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
@@ -231,21 +190,12 @@ namespace EDen {
 
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
+   
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       
-      unfullfilledBPTConditionFound = false;
-      
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",GRUNDVERBRAUCH));
-
-
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Energie consumption"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
+    
+      addClause(new GeneticClause(gAndCond, compAct, "Energie consumption"));
             
       ///////////////////////////////////////////////////////////////////////
       // Rule:
@@ -261,27 +211,16 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
       
-      unfullfilledBPTConditionFound = false;
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticCanGrowCondition());
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,25.0f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.375f,"Energie"));
       
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticCanGrowCondition(bodypart));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_more,25.0f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,1.375f,"Energie"));
-      
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",0.50f));
-      compAct->add(new GeneticGrowAction(bodypart,0.1f));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",0.50f));
+      compAct->add(new GeneticGrowAction(0.1f));
 
-
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Energie consumption and grow"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };      
-      
-      
-
-
+      addClause(new GeneticClause(gAndCond, compAct, "Energie consumption and grow"));
+    
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
@@ -299,26 +238,20 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
       
-      cond = new GeneticBodypartTypeCondition(bodypart, BPT_Stick, GBT_equal);
-      unfullfilledBPTConditionFound = !(cond->fullfilled());
+      cond = new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal);
 
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(cond);
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,10.0f,"Wasser"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,2.0f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_space_left_more,4.0f,"Energie"));
-      gAndCond->add(new GeneticSpawnpointPresentCondition(bodypart,BPT_Leaf));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,10.0f,"Wasser"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,2.0f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_space_left_more,4.0f,"Energie"));
+      gAndCond->add(new GeneticSpawnpointPresentCondition(BPT_Leaf));
 
-      compAct->add(new GeneticSpawnBodypartAction(bodypart,BPT_Leaf));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",2.0f));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Wasser",10.0f));
+      compAct->add(new GeneticSpawnBodypartAction(BPT_Leaf));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",2.0f));
+      compAct->add(new GeneticChemicalConsumeAction("Wasser",10.0f));
 
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Spawn Leaf"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
+      addClause(new GeneticClause(gAndCond, compAct, "Spawn Leaf"));
 
       ///////////////////////////////////////////////////////////////////////
       // Rule:
@@ -338,30 +271,23 @@ namespace EDen {
       gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
       
-      gOrCond->add(new GeneticBodypartTypeCondition(bodypart, BPT_Stick, GBT_equal));
-      gOrCond->add(new GeneticBodypartTypeCondition(bodypart, BPT_Branch, GBT_equal));
+      gOrCond->add(new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal));
+      gOrCond->add(new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal));
         
-      unfullfilledBPTConditionFound = !(gOrCond->fullfilled());
-
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(gOrCond);
-      gAndCond->add(new GeneticSpawnpointPresentCondition(bodypart,BPT_Stick));
-      gAndCond->add(new GeneticBodypartSizeCondition(bodypart,GBT_more,4.5f));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,0.01f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,20.0f,"Wasser"));
-//      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_less,46.0f,"Sonne"));
+      gAndCond->add(new GeneticSpawnpointPresentCondition(BPT_Stick));
+      gAndCond->add(new GeneticBodypartSizeCondition(GBT_more,4.5f));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,0.01f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,20.0f,"Wasser"));
+//      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,46.0f,"Sonne"));
       
 
-      compAct->add(new GeneticSpawnBodypartAction(bodypart,BPT_Stick));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",0.01f));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Wasser",20.0f));
+      compAct->add(new GeneticSpawnBodypartAction(BPT_Stick));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",0.01f));
+      compAct->add(new GeneticChemicalConsumeAction("Wasser",20.0f));
 
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Spawn Stick"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
+      addClause(new GeneticClause(gAndCond, compAct, "Spawn Stick"));
 
       ///////////////////////////////////////////////////////////////////////
       // Rule:
@@ -379,28 +305,20 @@ namespace EDen {
       gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
       
-      gOrCond->add(new GeneticBodypartTypeCondition(bodypart, BPT_Stick, GBT_equal));
-      gOrCond->add(new GeneticBodypartTypeCondition(bodypart, BPT_Branch, GBT_equal));
+      gOrCond->add(new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal));
+      gOrCond->add(new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal));
         
-      unfullfilledBPTConditionFound = !(gOrCond->fullfilled());
-
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(gOrCond);
-      gAndCond->add(new GeneticSpawnpointPresentCondition(bodypart,BPT_Branch));
-      gAndCond->add(new GeneticBodypartSizeCondition(bodypart,GBT_more,4.5f));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,7.00f,"Energie"));
+      gAndCond->add(new GeneticSpawnpointPresentCondition(BPT_Branch));
+      gAndCond->add(new GeneticBodypartSizeCondition(GBT_more,4.5f));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,7.00f,"Energie"));
       
       
-      compAct->add(new GeneticSpawnBodypartAction(bodypart,BPT_Branch));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",6.0f));
+      compAct->add(new GeneticSpawnBodypartAction(BPT_Branch));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",6.0f));
       
-
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Spawn Branche"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
+      addClause(new GeneticClause(gAndCond, compAct, "Spawn Branche"));
 
       ///////////////////////////////////////////////////////////////////////
       // Rule:
@@ -413,26 +331,19 @@ namespace EDen {
       
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
-        
-      unfullfilledBPTConditionFound = false;
 
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_less,0.0001f,"Energie"));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,0.0001f,"Energie"));
       
-      compAct->add(new GeneticHurtAction(bodypart,1.0f));
-      compAct->add(new GeneticShrinkAction(bodypart,0.97f));
+      compAct->add(new GeneticHurtAction(1.0f));
+      compAct->add(new GeneticShrinkAction(0.97f));
       
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "lose HP on low Energie"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
+      addClause(new GeneticClause(gAndCond, compAct, "lose HP on low Energie"));
 
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
-      //  AND Healthpoints less_than 0.01
+      //  AND Healthpoints less_than 0.1
       // THEN
       //  EmptyChemicalStorage
       //  Die
@@ -441,21 +352,13 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
         
-      unfullfilledBPTConditionFound = false;
-
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticHealthpointsCondition(bodypart,GBT_less,0.01f));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticHealthpointsCondition(GBT_less,0.1f));
       
-      compAct->add(new GeneticEmptyChemicalStorageAction(bodypart));
-      compAct->add(new GeneticDieAction(bodypart));
-
+      compAct->add(new GeneticEmptyChemicalStorageAction());
+      compAct->add(new GeneticDieAction());
       
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Die if not enough HP"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
+      addClause(new GeneticClause(gAndCond, compAct, "Die if not enough HP"));
 
       ///////////////////////////////////////////////////////////////////////
       // Rule:
@@ -471,22 +374,15 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
         
-      unfullfilledBPTConditionFound = false;
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticHealthpointsCondition(GBT_less,100.0f));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.5f,"Energie"));
+      
+      compAct->add(new GeneticHealAction(1.0f));
+      compAct->add(new GeneticGrowAction(1.0f));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",1.0f));
 
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticHealthpointsCondition(bodypart,GBT_less,100.0f));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,1.5f,"Energie"));
-      
-      compAct->add(new GeneticHealAction(bodypart,1.0f));
-      compAct->add(new GeneticGrowAction(bodypart,1.0f));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",1.0f));
-      
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Convert Energie to HP"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
+      addClause(new GeneticClause(gAndCond, compAct, "Convert Energie to HP"));
 
       ///////////////////////////////////////////////////////////////////////
       // Rule:
@@ -500,23 +396,17 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
         
-      unfullfilledBPTConditionFound = false;
-
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticParentHealthpointsCondition(bodypart,GBT_less,100.0f));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticParentHealthpointsCondition(GBT_less,100.0f));
       
-      compAct->add(new GeneticHealParentAction(bodypart,1.0f));
-      compAct->add(new GeneticHurtAction(bodypart,1.0f));
+      compAct->add(new GeneticHealParentAction(1.0f));
+      compAct->add(new GeneticHurtAction(1.0f));
       
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Heal Parent"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
+      addClause(new GeneticClause(gAndCond, compAct, "Heal Parent"));
 
     }
     else if(code == "TESTPART4") {
+      speciesIdentifier = 503;
       bool unfullfilledBPTConditionFound = false;
       GeneticANDCondition* gAndCond = 0;
       GeneticORCondition* gOrCond = 0;
@@ -543,29 +433,19 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
 
-      cond = new GeneticBodypartTypeCondition(bodypart, BPT_Leaf, GBT_equal);
-      unfullfilledBPTConditionFound = !(cond->fullfilled());
+      cond = new GeneticBodypartTypeCondition(BPT_Leaf, GBT_equal);
+
       gAndCond->add(cond);
-      gAndCond->add(new GeneticBodypartCreationCondition(bodypart));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",15.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",150.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo",3.0f));
+      gAndCond->add(new GeneticBodypartCreationCondition());
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",15.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",150.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo",3.0f));
       
-      float pbp_water_percentage = 0.0f;
-      Bodypart* parent_bodypart = bodypart->getParentBodypart();
-      if (parent_bodypart) {
-        pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Energie");
-      };
-
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,2.5f));
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Leaf Creation"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      compAct->add(new GeneticChangeMaxSizeAction(2.5f));
+      
+      addClause(new GeneticClause(gAndCond, compAct, "Leaf Creation"));
+      
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF Type = Stick
@@ -586,38 +466,26 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
 
-      cond = new GeneticBodypartTypeCondition(bodypart, BPT_Stick, GBT_equal);
-      unfullfilledBPTConditionFound = !(cond->fullfilled());
+      cond = new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal);
       gAndCond->add(cond);
-      gAndCond->add(new GeneticBodypartCreationCondition(bodypart));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 1, 3.25f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 2, 165.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 3, -165.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 4, 175.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 5, -175.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 6, -3.25f));
-      //compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 6));
-      //compAct->add(new GeneticAddSpawnpointAction(bodypart, BPT_Leaf, 7));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser", 100.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie", 15.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo", 5.0f));
+      gAndCond->add(new GeneticBodypartCreationCondition());
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, 3.25f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 2, 165.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 3, -165.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 4, 175.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 5, -175.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 6, -3.25f));
+      //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 6));
+      //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser", 100.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie", 15.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 5.0f));
       
-      pbp_water_percentage = 0.0f;
-      parent_bodypart = bodypart->getParentBodypart();
-      if (parent_bodypart) {
-        pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Wasser");
-      };
+      compAct->add(new GeneticChangeMaxSizeAction(5.0f));
 
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,5.0f));
-
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Stick Creation"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      addClause(new GeneticClause(gAndCond, compAct, "Stick Creation"));
+      
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF Type = Branch
@@ -637,34 +505,22 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
 
-      cond = new GeneticBodypartTypeCondition(bodypart, BPT_Branch, GBT_equal);
-      unfullfilledBPTConditionFound = !(cond->fullfilled());
+      cond = new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal);
       gAndCond->add(cond);
-      gAndCond->add(new GeneticBodypartCreationCondition(bodypart));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 0, 180.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 1, -9.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 2, 9.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 3, -18.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bodypart, bpts, 4, 18.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Wasser",75.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Energie",5.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction(bodypart,"Goo",10.0f));
+      gAndCond->add(new GeneticBodypartCreationCondition());
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, -9.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 2, 9.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 3, -18.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 4, 18.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",75.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",5.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo",10.0f));
       
-      pbp_water_percentage = 0.0f;
-      parent_bodypart = bodypart->getParentBodypart();
-      if (parent_bodypart) {
-        pbp_water_percentage = parent_bodypart->getChemicalStorage()->getCurrentPercentage("Wasser");
-      };
+      compAct->add(new GeneticChangeMaxSizeAction(30.0f));
 
-      compAct->add(new GeneticChangeMaxSizeAction(bodypart,30.0f));
-
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Branch Creation"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      addClause(new GeneticClause(gAndCond, compAct, "Branch Creation"));
+      
       ////////////////////////// Creation Rules End Here ////////////////////
 
       ///////////////////////////////////////////////////////////////////////
@@ -682,25 +538,19 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
       
-      cond = new GeneticBodypartTypeCondition(bodypart, BPT_Leaf, GBT_equal);
-      unfullfilledBPTConditionFound = !(cond->fullfilled());
+      cond = new GeneticBodypartTypeCondition(BPT_Leaf, GBT_equal);
 
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(cond);
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_space_left_more,10.0f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,15.0f,"Wasser"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,1.0f,"Goo"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_space_left_more,10.0f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,15.0f,"Wasser"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.0f,"Goo"));
 
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Goo",1.0f));
-      compAct->add(new GeneticSimpleChemicalConvertAction(chemStorage,"Wasser","Energie",1.0f,10.0f));
+      compAct->add(new GeneticChemicalConsumeAction("Goo",1.0f));
+      compAct->add(new GeneticSimpleChemicalConvertAction("Wasser","Energie",1.0f,10.0f));
 
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Leaf Energie Production"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      addClause(new GeneticClause(gAndCond, compAct, "Leaf Energie Production"));
+     
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
@@ -713,9 +563,9 @@ namespace EDen {
       
       unfullfilledBPTConditionFound = false;
       
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",GRUNDVERBRAUCH));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
 
 
       if(!unfullfilledBPTConditionFound) 
@@ -742,24 +592,15 @@ namespace EDen {
       
       unfullfilledBPTConditionFound = false;
       
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticCanGrowCondition(bodypart));
-      //gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_more,25.0f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,1.375f,"Energie"));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticCanGrowCondition());
+      //gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,25.0f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.375f,"Energie"));
       
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",0.50f));
-      compAct->add(new GeneticGrowAction(bodypart,0.1f));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",0.50f));
+      compAct->add(new GeneticGrowAction(0.1f));
 
-
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Energie consumption and grow"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };      
-      
-      
-
+      addClause(new GeneticClause(gAndCond, compAct, "Energie consumption and grow"));
 
       ///////////////////////////////////////////////////////////////////////
       // Rule:
@@ -777,19 +618,18 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
       
-      cond = new GeneticBodypartTypeCondition(bodypart, BPT_Stick, GBT_equal);
-      unfullfilledBPTConditionFound = !(cond->fullfilled());
+      cond = new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal);
 
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(cond);
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,10.0f,"Wasser"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,2.0f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,10.0f,"Wasser"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,2.0f,"Energie"));
 
-      gAndCond->add(new GeneticSpawnpointPresentCondition(bodypart,BPT_Leaf));
+      gAndCond->add(new GeneticSpawnpointPresentCondition(BPT_Leaf));
 
-      compAct->add(new GeneticSpawnBodypartAction(bodypart,BPT_Leaf));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",2.0f));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Wasser",10.0f));
+      compAct->add(new GeneticSpawnBodypartAction(BPT_Leaf));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",2.0f));
+      compAct->add(new GeneticChemicalConsumeAction("Wasser",10.0f));
 
       if(!unfullfilledBPTConditionFound) 
         addClause(new GeneticClause(gAndCond, compAct, "Spawn Leaf"));
@@ -817,23 +657,23 @@ namespace EDen {
       gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
       
-      gOrCond->add(new GeneticBodypartTypeCondition(bodypart, BPT_Stick, GBT_equal));
-      gOrCond->add(new GeneticBodypartTypeCondition(bodypart, BPT_Branch, GBT_equal));
+      gOrCond->add(new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal));
+      gOrCond->add(new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal));
         
-      unfullfilledBPTConditionFound = !(gOrCond->fullfilled());
+      //unfullfilledBPTConditionFound = !(gOrCond->fullfilled());
 
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(gOrCond);
-      gAndCond->add(new GeneticSpawnpointPresentCondition(bodypart,BPT_Stick));
-      gAndCond->add(new GeneticBodypartSizeCondition(bodypart,GBT_more,1.0f));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,0.01f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,20.0f,"Wasser"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_less,15.0f,"Energie"));
+      gAndCond->add(new GeneticSpawnpointPresentCondition(BPT_Stick));
+      gAndCond->add(new GeneticBodypartSizeCondition(GBT_more,1.0f));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,0.01f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,20.0f,"Wasser"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,15.0f,"Energie"));
       
 
-      compAct->add(new GeneticSpawnBodypartAction(bodypart,BPT_Stick));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",0.01f));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Wasser",20.0f));
+      compAct->add(new GeneticSpawnBodypartAction(BPT_Stick));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",0.01f));
+      compAct->add(new GeneticChemicalConsumeAction("Wasser",20.0f));
 
       if(!unfullfilledBPTConditionFound) 
         addClause(new GeneticClause(gAndCond, compAct, "Spawn Stick"));
@@ -861,29 +701,23 @@ namespace EDen {
       gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
       
-      gOrCond->add(new GeneticBodypartTypeCondition(bodypart, BPT_Stick, GBT_equal));
-      gOrCond->add(new GeneticBodypartTypeCondition(bodypart, BPT_Branch, GBT_equal));
+      gOrCond->add(new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal));
+      gOrCond->add(new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal));
         
-      unfullfilledBPTConditionFound = !(gOrCond->fullfilled());
-
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(gOrCond);
-      gAndCond->add(new GeneticSpawnpointPresentCondition(bodypart,BPT_Branch));
-      gAndCond->add(new GeneticBodypartSizeCondition(bodypart,GBT_more,1.5f));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,0.3f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,0.3f,"Wasser"));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_more,1.5f,"Energie"));
+      gAndCond->add(new GeneticSpawnpointPresentCondition(BPT_Branch));
+      gAndCond->add(new GeneticBodypartSizeCondition(GBT_more,1.5f));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,0.3f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,0.3f,"Wasser"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,1.5f,"Energie"));
 
-      compAct->add(new GeneticSpawnBodypartAction(bodypart,BPT_Branch));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",0.1f));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Wasser",0.1f));
+      compAct->add(new GeneticSpawnBodypartAction(BPT_Branch));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",0.1f));
+      compAct->add(new GeneticChemicalConsumeAction("Wasser",0.1f));
 
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Spawn Branche"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
+ 
+      addClause(new GeneticClause(gAndCond, compAct, "Spawn Branche"));
 
       ///////////////////////////////////////////////////////////////////////
       // Rule:
@@ -897,21 +731,14 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
         
-      unfullfilledBPTConditionFound = false;
-
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_percentage_less,0.0001f,"Energie"));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,0.0001f,"Energie"));
       
-      compAct->add(new GeneticHurtAction(bodypart,1.0f));
-      compAct->add(new GeneticShrinkAction(bodypart,0.97f));
+      compAct->add(new GeneticHurtAction(1.0f));
+      compAct->add(new GeneticShrinkAction(0.97f));
       
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "lose HP on low Energie"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      addClause(new GeneticClause(gAndCond, compAct, "lose HP on low Energie"));
+  
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
@@ -926,20 +753,15 @@ namespace EDen {
         
       unfullfilledBPTConditionFound = false;
 
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticHealthpointsCondition(bodypart,GBT_less,0.01f));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticHealthpointsCondition(GBT_less,0.01f));
       
-      compAct->add(new GeneticEmptyChemicalStorageAction(bodypart));
-      compAct->add(new GeneticDieAction(bodypart));
+      compAct->add(new GeneticEmptyChemicalStorageAction());
+      compAct->add(new GeneticDieAction());
 
       
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Die if not enough HP"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      addClause(new GeneticClause(gAndCond, compAct, "Die if not enough HP"));
+    
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
@@ -956,21 +778,16 @@ namespace EDen {
         
       unfullfilledBPTConditionFound = false;
 
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticHealthpointsCondition(bodypart,GBT_less,100.0f));
-      gAndCond->add(new GeneticChemicalCondition(chemStorage,GCC_current_value_more,1.5f,"Energie"));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticHealthpointsCondition(GBT_less,100.0f));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.5f,"Energie"));
       
-      compAct->add(new GeneticHealAction(bodypart,1.0f));
-      compAct->add(new GeneticGrowAction(bodypart,1.0f));
-      compAct->add(new GeneticChemicalConsumeAction(chemStorage,"Energie",1.0f));
+      compAct->add(new GeneticHealAction(1.0f));
+      compAct->add(new GeneticGrowAction(1.0f));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",1.0f));
       
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Convert Energie to HP"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
-
+      addClause(new GeneticClause(gAndCond, compAct, "Convert Energie to HP"));
+ 
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
@@ -983,20 +800,15 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
         
-      unfullfilledBPTConditionFound = false;
 
-      gAndCond->add(new GeneticBodypartStateCondition(bodypart,BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticParentHealthpointsCondition(bodypart,GBT_less,100.0f));
+
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticParentHealthpointsCondition(GBT_less,100.0f));
       
-      compAct->add(new GeneticHealParentAction(bodypart,1.0f));
-      compAct->add(new GeneticHurtAction(bodypart,1.0f));
-      
-      if(!unfullfilledBPTConditionFound) 
-        addClause(new GeneticClause(gAndCond, compAct, "Heal Parent"));
-      else {
-        delete gAndCond;
-        delete compAct;
-      };
+      compAct->add(new GeneticHealParentAction(1.0f));
+      compAct->add(new GeneticHurtAction(1.0f));
+
+      addClause(new GeneticClause(gAndCond, compAct, "Heal Parent"));
 
     };
     

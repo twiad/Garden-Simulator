@@ -275,7 +275,7 @@ namespace EDen {
         Uint32 col;
         
         if(param_bp->getBodypartType() == BPT_Leaf) 
-          if(param_bp->getGeneticCode() == "TESTPART3") col = SDL_MapRGB(screen->format,0,200,0);
+          if(param_bp->getGeneticCode()->getSpeciesIdentifier() == 502) col = SDL_MapRGB(screen->format,0,200,0);
           else col = SDL_MapRGB(screen->format,0,000,200);
         else if(param_bp->getBodypartType() == BPT_Stick) col = SDL_MapRGB(screen->format,200,100,0);
         else if(param_bp->getBodypartType() == BPT_Branch) col = SDL_MapRGB(screen->format,255,0,0);

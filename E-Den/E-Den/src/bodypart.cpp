@@ -62,6 +62,7 @@ namespace EDen {
     genProcessor->updateGeneticCode();
     genProcessor->executeRelevantClauses();
     bpState = BSP_alive;
+    genProcessor->updateGeneticCode();
     return true;
   };
 

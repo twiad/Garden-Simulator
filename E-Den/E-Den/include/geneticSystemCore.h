@@ -20,7 +20,7 @@ namespace EDen {
     GeneticConditionType getConditionType();
     virtual bool fullfilled() = 0;
     virtual bool setBodypart(Bodypart* param_bodypart) = 0;
-    virtual bool dependsOnConditionType(GeneticConditionType param_conditionType);
+    virtual bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType);
     virtual GeneticCondition* copy() = 0;
   };
 
@@ -37,7 +37,7 @@ namespace EDen {
     
     virtual bool fullfilled() = 0;
     virtual bool setBodypart(Bodypart* param_bodypart);
-    virtual bool dependsOnConditionType(GeneticConditionType param_conditionType) = 0;
+    virtual bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType) = 0;
     virtual GeneticCondition* copy() = 0;
   };
 
@@ -47,7 +47,7 @@ namespace EDen {
     virtual ~GeneticANDCondition();
 
     virtual bool fullfilled();
-    virtual bool dependsOnConditionType(GeneticConditionType param_conditionType);
+    virtual bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType);
     virtual GeneticCondition* copy();
   };
 
@@ -57,7 +57,7 @@ namespace EDen {
     virtual ~GeneticORCondition();
 
     virtual bool fullfilled();
-    virtual bool dependsOnConditionType(GeneticConditionType param_conditionType);
+    virtual bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType);
     virtual GeneticCondition* copy();
   };
 
@@ -107,6 +107,8 @@ namespace EDen {
     bool run();
     bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticClause* copy();
+
+    bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType);
   };
 } // namespace
 

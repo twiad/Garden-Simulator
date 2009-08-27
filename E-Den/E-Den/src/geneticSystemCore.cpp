@@ -8,8 +8,8 @@ namespace EDen {
     return condType; 
   };
 
-  bool GeneticCondition::dependsOnConditionType(GeneticConditionType param_conditionType) {
-    if(param_conditionType == condType) return true;
+  bool GeneticCondition::dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType) {
+    if((param_conditionType == condType) && (! (fullfilled()))) return true;
     else return false;
   };
 
@@ -98,11 +98,11 @@ namespace EDen {
     return result && notEmpty;
   };
 
-  bool GeneticANDCondition::dependsOnConditionType(GeneticConditionType param_conditionType) {
+  bool GeneticANDCondition::dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType) {
     bool result = false;
     
     for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
-      if ((*it)->dependsOnConditionType(param_conditionType)) {
+      if ((*it)->dependsOnUnfullfilledConditionType(param_conditionType)) {
         result = true;
         break; 
       };
@@ -132,13 +132,13 @@ namespace EDen {
     return result;
   };
 
-  bool GeneticORCondition::dependsOnConditionType(GeneticConditionType param_conditionType) {
+  bool GeneticORCondition::dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType) {
     bool result = true;
     bool notEmpty = false;
     
     for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
       notEmpty = true;
-      if (!((*it)->dependsOnConditionType(param_conditionType))) {
+      if (!((*it)->dependsOnUnfullfilledConditionType(param_conditionType))) {
         result = false;
         break; 
       };
@@ -163,9 +163,7 @@ namespace EDen {
   bool GeneticClause::run() {
     if(cond->fullfilled()) {
       act->execute();
-      if(cond->dependsOnConditionType(GCT_BodypartCreation)) {
-        deleteMe = true;
-      };
+      
       return true; 
     }
     else {
@@ -177,5 +175,9 @@ namespace EDen {
     cond->setBodypart(param_bodypart);
     act->setBodypart(param_bodypart);
     return true;
+  };
+
+  bool GeneticClause::dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType) {
+    return cond->dependsOnUnfullfilledConditionType(param_conditionType);
   };
 };

@@ -26,8 +26,11 @@ namespace EDen {
 
     GeneticClauseList getDummyGenecode(std::string geneticCode);
     bool addClause(GeneticClause* newClause);
+    
     bool mutate();
     //bool removeClauseFromRelevantClauses(GeneticClause* clause);
+
+    bool removeCreationClauses();
   public:
     GeneticProcessor(Bodypart* nBodypart);
 

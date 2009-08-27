@@ -69,10 +69,38 @@ namespace EDen {
       // delete clause;
     };
 
-//    bodypart->getGeneticCode()->setBodypart(bodypart);
     GeneticClauseList originalClauses = bodypart->getGeneticCode()->getClauseList();
 
-    relevantClauses.assign(originalClauses.begin(),originalClauses.end());
+    // here we want to sort out irrelevant clauses ... that are those ones which depend on a bodypartTypeCondition which is unfullfilled
+
+    for(GeneticClauseListIterator it = originalClauses.begin(); it != originalClauses.end(); it++) {
+      if(!( (*it)->dependsOnUnfullfilledConditionType(GCT_BodypartType) ||
+            (*it)->dependsOnUnfullfilledConditionType(GCT_BodypartCreation) )) {
+        relevantClauses.push_back(*it);
+      };
+    };
+
+    // no filter:
+    //    relevantClauses.assign(originalClauses.begin(),originalClauses.end());
+
+    return true;
+  };
+
+  bool GeneticProcessor::removeCreationClauses() {
+    GeneticClauseList nextRelevantClauses;
+      
+    while(!relevantClauses.empty()) {
+      relevantClauses.back()->run();
+      if(!relevantClauses.back()->dependsOnUnfullfilledConditionType(GCT_BodypartCreation))
+        nextRelevantClauses.push_front(relevantClauses.back());
+      //else 
+      //  delete relevantClauses.back();
+
+      relevantClauses.pop_back();
+    }
+
+    relevantClauses.clear();
+    relevantClauses.swap(nextRelevantClauses);
 
     return true;
   };

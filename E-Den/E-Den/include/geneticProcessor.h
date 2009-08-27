@@ -30,7 +30,7 @@ namespace EDen {
     bool mutate();
     //bool removeClauseFromRelevantClauses(GeneticClause* clause);
 
-    bool removeCreationClauses();
+    //bool removeCreationClauses();
   public:
     GeneticProcessor(Bodypart* nBodypart);
 

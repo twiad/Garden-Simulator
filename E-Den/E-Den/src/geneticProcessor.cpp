@@ -40,10 +40,9 @@ namespace EDen {
       
       while(!relevantClauses.empty()) {
         relevantClauses.back()->run();
-        if(!relevantClauses.back()->deleteMe)
+        //deleteMe is not used at the moment
+        //if(!relevantClauses.back()->deleteMe)
           nextRelevantClauses.push_front(relevantClauses.back());
-        //else 
-        //  delete relevantClauses.back();
 
         relevantClauses.pop_back();
       }
@@ -86,22 +85,22 @@ namespace EDen {
     return true;
   };
 
-  bool GeneticProcessor::removeCreationClauses() {
-    GeneticClauseList nextRelevantClauses;
-      
-    while(!relevantClauses.empty()) {
-      relevantClauses.back()->run();
-      if(!relevantClauses.back()->dependsOnUnfullfilledConditionType(GCT_BodypartCreation))
-        nextRelevantClauses.push_front(relevantClauses.back());
-      //else 
-      //  delete relevantClauses.back();
+  //bool GeneticProcessor::removeCreationClauses() {
+  //  GeneticClauseList nextRelevantClauses;
+  //    
+  //  while(!relevantClauses.empty()) {
+  //    relevantClauses.back()->run();
+  //    if(!relevantClauses.back()->dependsOnUnfullfilledConditionType(GCT_BodypartCreation))
+  //      nextRelevantClauses.push_front(relevantClauses.back());
+  //    //else 
+  //    //  delete relevantClauses.back();
 
-      relevantClauses.pop_back();
-    }
+  //    relevantClauses.pop_back();
+  //  }
 
-    relevantClauses.clear();
-    relevantClauses.swap(nextRelevantClauses);
+  //  relevantClauses.clear();
+  //  relevantClauses.swap(nextRelevantClauses);
 
-    return true;
-  };
+  //  return true;
+  //};
 } // namespace

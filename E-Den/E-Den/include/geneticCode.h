@@ -18,7 +18,7 @@ namespace EDen {
     bool addClause(GeneticClause* clause);
   public:
     GeneticCode(std::string dummyCodeIdentifier = "TESTPART3");
-    GeneticCode(GeneticClauseList param_clauseList);
+    GeneticCode(GeneticClauseList param_clauseList, unsigned int param_speciesIdentifier = 0);
     ~GeneticCode();
 
     unsigned int getSpeciesIdentifier();
@@ -26,6 +26,7 @@ namespace EDen {
 
     bool mutate();
     GeneticClauseList getClauseList();
+    GeneticCode* copy();
   };
 
 } // namespace

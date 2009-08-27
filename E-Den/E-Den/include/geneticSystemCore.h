@@ -21,6 +21,7 @@ namespace EDen {
     virtual bool fullfilled() = 0;
     virtual bool setBodypart(Bodypart* param_bodypart) = 0;
     virtual bool dependsOnConditionType(GeneticConditionType param_conditionType);
+    virtual GeneticCondition* copy() = 0;
   };
 
   class GeneticCompoundCondition: public GeneticCondition {
@@ -37,6 +38,7 @@ namespace EDen {
     virtual bool fullfilled() = 0;
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual bool dependsOnConditionType(GeneticConditionType param_conditionType) = 0;
+    virtual GeneticCondition* copy() = 0;
   };
 
   class GeneticANDCondition: public GeneticCompoundCondition {
@@ -46,6 +48,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool dependsOnConditionType(GeneticConditionType param_conditionType);
+    virtual GeneticCondition* copy();
   };
 
   class GeneticORCondition: public GeneticCompoundCondition {
@@ -55,6 +58,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool dependsOnConditionType(GeneticConditionType param_conditionType);
+    virtual GeneticCondition* copy();
   };
 
   class GeneticAction {
@@ -69,6 +73,7 @@ namespace EDen {
 
     virtual bool execute() = 0;
     virtual bool setBodypart(Bodypart* param_bodypart) = 0;
+    virtual GeneticAction* copy() = 0;
   };
 
   class GeneticCompoundAction: public GeneticAction {
@@ -84,6 +89,7 @@ namespace EDen {
     bool add(GeneticAction* newAction);
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticClause {
@@ -100,6 +106,7 @@ namespace EDen {
 
     bool run();
     bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticClause* copy();
   };
 } // namespace
 

@@ -45,6 +45,14 @@ namespace EDen {
     // GeneticAction::~GeneticAction(); 
   };
 
+  GeneticAction* GeneticCompoundAction::copy() {
+    GeneticCompoundAction* act = new GeneticCompoundAction();
+    for(GeneticActionsListIterator it = childActions.begin(); it != childActions.end(); it++) {
+      act->add((*it)->copy());
+    };
+    return act;
+  };
+
   bool GeneticCompoundAction::setBodypart(Bodypart* param_bodypart) {
     for(GeneticActionsListIterator it = childActions.begin(); it != childActions.end(); it++) {
       (*it)->setBodypart(param_bodypart);
@@ -69,6 +77,14 @@ namespace EDen {
 
   GeneticANDCondition::~GeneticANDCondition() {
     // GeneticCompoundCondition::~GeneticCompoundCondition(); 
+  };
+
+  GeneticCondition* GeneticANDCondition::copy() {
+    GeneticANDCondition* cond = new GeneticANDCondition();
+    for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
+      cond->add((*it)->copy());
+    };
+    return cond;
   };
 
   bool GeneticANDCondition::fullfilled() {
@@ -97,6 +113,14 @@ namespace EDen {
 
   GeneticORCondition::~GeneticORCondition() {
 
+  };
+
+  GeneticCondition* GeneticORCondition::copy() {
+    GeneticORCondition* cond = new GeneticORCondition();
+    for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
+      cond->add((*it)->copy());
+    };
+    return cond;
   };
 
   bool GeneticORCondition::fullfilled() {
@@ -130,6 +154,10 @@ namespace EDen {
   GeneticClause::~GeneticClause() {
     delete cond;
     delete act;
+  };
+
+  GeneticClause* GeneticClause::copy() {
+    return new GeneticClause(cond->copy(),act->copy(),description);
   };
 
   bool GeneticClause::run() {

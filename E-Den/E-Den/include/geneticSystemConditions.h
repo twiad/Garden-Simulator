@@ -29,7 +29,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
-
+    virtual GeneticCondition* copy();
   };
 
   class GeneticBodypartCreationCondition: public GeneticCondition {
@@ -41,6 +41,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
   };
   
   class GeneticBodypartTypeCondition: public GeneticCondition {
@@ -61,6 +62,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
   };
 
   class GeneticBodypartStateCondition: public GeneticCondition {
@@ -81,6 +83,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
   };
 
   class GeneticSpawnpointPresentCondition: public GeneticCondition {
@@ -94,6 +97,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
   };
 
   class GeneticHealthpointsCondition: public GeneticCondition {
@@ -107,6 +111,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
   };
 
   class GeneticParentHealthpointsCondition: public GeneticCondition {
@@ -120,6 +125,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
   };
 
   class GeneticBodypartSizeCondition: public GeneticCondition { 
@@ -133,6 +139,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
   };
 
   class GeneticCanGrowCondition: public GeneticCondition {
@@ -144,6 +151,7 @@ namespace EDen {
 
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
   };
 } // namespace
 

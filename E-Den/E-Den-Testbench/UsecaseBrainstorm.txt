@@ -1,3 +1,7 @@
+TODO: Genetic clauses, can may have a processor, that processes them. conditions and actions get their parents (bodypart, chemstorage, etc) set by the clause during setProcessor method. If they run without set setup ... we will crash (assert)
+
+
+Usecase:
 - you always have 3 plants. 2 of one color 1 of the other. codes of those plants are stored persistant
 - if a plant dies, you are shown the seeds that have been produced by your plants. You may chose one seed to become your next third plant, preserving the color rule.
 - You may modify what part of the genetic code are mutated in which ranges.

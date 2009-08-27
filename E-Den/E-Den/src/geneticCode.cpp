@@ -9,8 +9,8 @@ namespace EDen {
     generateDummyGenecode(dummyCodeIdentifier); 
   };
 
-  GeneticCode::GeneticCode(GeneticClauseList param_clauseList) {
-    speciesIdentifier = 0;
+  GeneticCode::GeneticCode(GeneticClauseList param_clauseList, unsigned int param_speciesIdentifier) {
+    speciesIdentifier = param_speciesIdentifier;
     clauses = param_clauseList;
   };
 
@@ -21,6 +21,15 @@ namespace EDen {
       clauses.pop_back();
       delete clause;
     }; 
+  };
+
+  GeneticCode* GeneticCode::copy() {
+    GeneticClauseList newClauses;
+    for(GeneticClauseListIterator it = clauses.begin(); it != clauses.end(); it++) {
+      newClauses.push_back((*it)->copy());
+    };
+
+    return new GeneticCode(newClauses,speciesIdentifier);
   };
 
   bool GeneticCode::setBodypart(Bodypart* p_bp) {

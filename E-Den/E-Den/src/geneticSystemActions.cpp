@@ -19,6 +19,10 @@ namespace EDen {
     //GeneticAction::~GeneticAction();
   };
 
+  GeneticAction* GeneticSimpleChemicalConvertAction::copy() {
+    return new GeneticSimpleChemicalConvertAction(fromChemName,toChemName,amount,ratio);
+  };
+
   bool GeneticSimpleChemicalConvertAction::setBodypart(Bodypart* param_bodypart) {
     if(param_bodypart) storage = param_bodypart->getChemicalStorage();
     return true;
@@ -43,6 +47,10 @@ namespace EDen {
     //GeneticAction::~GeneticAction();
   };
 
+  GeneticAction* GeneticChemicalConsumeAction::copy() {
+    return new GeneticChemicalConsumeAction(chemName,amount);
+  };
+
   bool GeneticChemicalConsumeAction::setBodypart(Bodypart* param_bodypart) {
     if(param_bodypart) storage = param_bodypart->getChemicalStorage();
     return true;
@@ -64,13 +72,17 @@ namespace EDen {
     //GeneticAction::~GeneticAction();
   };
 
+  GeneticAction* GeneticSpawnBodypartAction::copy() {
+    return new GeneticSpawnBodypartAction(childBodypartType);
+  };
+
   bool GeneticSpawnBodypartAction::setBodypart(Bodypart* p_bp) {
     parentBodypart = p_bp;
     return true;
   };
 
   bool GeneticSpawnBodypartAction::execute() {
-    Bodypart* bp = new Bodypart(childBodypartType,parentBodypart->getGeneticCode(),parentBodypart->getParentOrganism());
+    Bodypart* bp = new Bodypart(childBodypartType,parentBodypart->getGeneticCode()->copy(),parentBodypart->getParentOrganism());
     
     if(parentBodypart->spawnBodypart(bp)) {
       return true;
@@ -87,6 +99,10 @@ namespace EDen {
 
   GeneticChangeMaxChemicalAmountAction::~GeneticChangeMaxChemicalAmountAction() {
     //GeneticAction::~GeneticAction();
+  };
+
+  GeneticAction* GeneticChangeMaxChemicalAmountAction::copy() {
+    return new GeneticChangeMaxChemicalAmountAction(chemName,value);
   };
 
   bool GeneticChangeMaxChemicalAmountAction::setBodypart(Bodypart* param_bodypart) {
@@ -123,6 +139,10 @@ namespace EDen {
     if(!spawnpointAdded) delete sp;
   };
 
+  GeneticAction* GeneticAddSpawnpointAction::copy() {
+    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d);
+  };
+
   bool GeneticAddSpawnpointAction::setBodypart(Bodypart* p_bp) {
     bp = p_bp;
     return true;
@@ -144,6 +164,10 @@ namespace EDen {
       
   };
 
+  GeneticAction* GeneticGrowAction::copy() {
+    return new GeneticGrowAction(amount);
+  };
+
   bool GeneticGrowAction::setBodypart(Bodypart* param_bodypart) {
     bp = param_bodypart; 
     return true;
@@ -161,6 +185,10 @@ namespace EDen {
   };
   
   GeneticShrinkAction::~GeneticShrinkAction() {};
+
+  GeneticAction* GeneticShrinkAction::copy() {
+    return new GeneticShrinkAction(amount);
+  };
 
   bool GeneticShrinkAction::setBodypart(Bodypart* p_bp) {
     bp = p_bp;
@@ -182,6 +210,10 @@ namespace EDen {
       
   };
 
+  GeneticAction* GeneticHurtAction::copy() {
+    return new GeneticHurtAction(amount);
+  };
+
   bool GeneticHurtAction::setBodypart(Bodypart* p_bp) {
     bp = p_bp;
     return true;
@@ -200,6 +232,10 @@ namespace EDen {
 
   GeneticHealParentAction::~GeneticHealParentAction() {
     
+  };
+
+  GeneticAction* GeneticHealParentAction::copy() {
+    return new GeneticHealParentAction(amount);
   };
 
   bool GeneticHealParentAction::setBodypart(Bodypart* p_bp) {
@@ -225,6 +261,10 @@ namespace EDen {
       
   };
 
+  GeneticAction* GeneticHealAction::copy() {
+    return new GeneticHealAction(amount);
+  };
+
   bool GeneticHealAction::setBodypart(Bodypart* p_bp) {
     bp = p_bp;
     return true;
@@ -241,6 +281,10 @@ namespace EDen {
 
   GeneticDieAction::~GeneticDieAction() {
   
+  };
+
+  GeneticAction* GeneticDieAction::copy() {
+    return new GeneticDieAction();
   };
 
   bool GeneticDieAction::setBodypart(Bodypart* p_bp) {
@@ -261,6 +305,10 @@ namespace EDen {
 
   GeneticEmptyChemicalStorageAction::~GeneticEmptyChemicalStorageAction() {
     
+  };
+
+  GeneticAction* GeneticEmptyChemicalStorageAction::copy() {
+    return new GeneticEmptyChemicalStorageAction();
   };
 
   bool GeneticEmptyChemicalStorageAction::setBodypart(Bodypart* p_bp) {
@@ -284,6 +332,10 @@ namespace EDen {
 
   GeneticChangeMaxSizeAction::~GeneticChangeMaxSizeAction() {
     
+  };
+
+  GeneticAction* GeneticChangeMaxSizeAction::copy() {
+    return new GeneticChangeMaxSizeAction(amount);
   };
 
   bool GeneticChangeMaxSizeAction::setBodypart(Bodypart* p_bp) {

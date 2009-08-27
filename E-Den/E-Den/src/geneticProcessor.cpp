@@ -42,13 +42,13 @@ namespace EDen {
         relevantClauses.back()->run();
         if(!relevantClauses.back()->deleteMe)
           nextRelevantClauses.push_front(relevantClauses.back());
-        else 
-          delete relevantClauses.back();
+        //else 
+        //  delete relevantClauses.back();
 
         relevantClauses.pop_back();
       }
 
-      relevantClauses.clear(); //pointer ... hmm .. who deletes them?
+      relevantClauses.clear();
       relevantClauses.swap(nextRelevantClauses);
 
       return true;

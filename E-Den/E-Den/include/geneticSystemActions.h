@@ -35,6 +35,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticChemicalConsumeAction: public GeneticAction {
@@ -51,6 +52,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticSpawnBodypartAction: public GeneticAction {
@@ -63,6 +65,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticChangeMaxChemicalAmountAction: public GeneticAction {
@@ -77,6 +80,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticAddSpawnpointAction: public GeneticAction {
@@ -92,6 +96,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticHurtAction: public GeneticAction {
@@ -104,6 +109,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticHealAction: public GeneticAction {
@@ -116,6 +122,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticHealParentAction: public GeneticAction {
@@ -128,6 +135,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticDieAction: public GeneticAction {
@@ -139,6 +147,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart = 0);
+    virtual GeneticAction* copy();
   };
 
   class GeneticGrowAction: public GeneticAction {
@@ -151,6 +160,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart = 0);
+    virtual GeneticAction* copy();
   };
 
   class GeneticShrinkAction: public GeneticAction {
@@ -163,6 +173,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticEmptyChemicalStorageAction: public GeneticAction {
@@ -174,6 +185,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
   class GeneticChangeMaxSizeAction: public GeneticAction {
@@ -186,6 +198,7 @@ namespace EDen {
 
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
   };
 
 } // namespace

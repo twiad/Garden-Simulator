@@ -1,6 +1,6 @@
 #include "geneticProcessor.h"
 
-#define GRUNDVERBRAUCH 0.045f
+#define GRUNDVERBRAUCH 0.040f
 
 namespace EDen {
   bool GeneticCode::generateDummyGenecode(std::string code) {

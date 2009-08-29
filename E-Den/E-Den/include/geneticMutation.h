@@ -4,6 +4,14 @@
 #ifndef _E_DEN_GENETIC_MUTATION_HEADER_
 #define _E_DEN_GENETIC_MUTATION_HEADER_
 
+#include <list>
+
+namespace EDen {
+  class GeneticMutation;
+  typedef std::list<GeneticMutation*> GeneticMutationList;
+  typedef std::list<GeneticMutation*>::iterator GeneticMutationListIterator; 
+};
+
 #include "globals.h"
 #include "geneticSystemCore.h"
 
@@ -16,8 +24,8 @@ namespace EDen {
     ~GeneticMutation();
 
     float getProbability();
-    bool setProbability(flaot param_prob);
-    virtual bool execute() = 0;
+    bool setProbability(float param_prob);
+    virtual bool execute(GeneticClause* clause) = 0;
   };
 
 } // namespace

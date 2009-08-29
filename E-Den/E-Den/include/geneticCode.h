@@ -6,12 +6,14 @@
 
 #include "globals.h"
 #include "geneticSystemCore.h"
+#include "geneticMutation.h"
 
 namespace EDen {
   class GeneticCode {
     bool generateDummyGenecode(std::string dummyCodeIdentifier);
   protected:
     GeneticClauseList clauses;
+    GeneticMutationList possibleMutations;
 
     unsigned int speciesIdentifier;
     

@@ -22,7 +22,6 @@ namespace EDen {
     Bodypart* bodypart;
     // BodypartTypeInheritageMap bodypartTypeInheritage;
     GeneticClauseList relevantClauses;
-    GeneticClauseList geneticCodeClauses;
 
     GeneticClauseList getDummyGenecode(std::string geneticCode);
     bool addClause(GeneticClause* newClause);

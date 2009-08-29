@@ -53,6 +53,13 @@ namespace EDen {
   };
 
   bool GeneticCode::mutate() {
+    // for all clauses, for all possible mutations do mutation.execute(clause)
+    for(GeneticClauseListIterator clause = clauses.begin(); clause != clauses.end(); clause++) {
+      for(GeneticMutationListIterator mutation = possibleMutations.begin(); mutation != possibleMutations.end(); mutation++) {
+        (*mutation)->execute(*clause);
+      };
+    };
+    
     return false;
   };
 };

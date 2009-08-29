@@ -85,6 +85,10 @@ namespace EDen {
     return true;
   };
 
+  bool GeneticProcessor::mutate() {
+    return bodypart->getGeneticCode()->mutate(); 
+  };
+
   //bool GeneticProcessor::removeCreationClauses() {
   //  GeneticClauseList nextRelevantClauses;
   //    

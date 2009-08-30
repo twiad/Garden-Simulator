@@ -224,6 +224,28 @@ namespace EDen {
     return true;
   };
 
+  GeneticSimpleMutateAction::GeneticSimpleMutateAction(Bodypart* p_bp) {
+    bp = p_bp;
+  };
+  
+  GeneticSimpleMutateAction::~GeneticSimpleMutateAction() {
+    
+  };
+
+  bool GeneticSimpleMutateAction::execute() {
+    bp->getGeneticCode()->mutate();
+    return true;
+  };
+
+  bool GeneticSimpleMutateAction::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart;
+    return true;
+  };
+
+  GeneticAction* GeneticSimpleMutateAction::copy() {
+    return new GeneticSimpleMutateAction(); 
+  };
+
   GeneticHealParentAction::GeneticHealParentAction(float param_amount, Bodypart* p_bp):
     GeneticAction(GAT_Hurt) {
     setBodypart(p_bp);

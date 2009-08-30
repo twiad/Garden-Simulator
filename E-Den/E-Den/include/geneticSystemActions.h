@@ -113,6 +113,18 @@ namespace EDen {
     virtual GeneticAction* copy();
   };
 
+  class GeneticSimpleMutateAction: public GeneticAction {
+  protected:
+    Bodypart* bp;
+  public:
+    GeneticSimpleMutateAction(Bodypart* p_bp = 0);
+    virtual ~GeneticSimpleMutateAction();
+
+    virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
+  };
+
   class GeneticHealAction: public GeneticAction {
   protected:
     Bodypart* bp;

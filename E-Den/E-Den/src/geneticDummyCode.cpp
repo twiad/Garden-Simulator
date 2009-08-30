@@ -206,6 +206,7 @@ namespace EDen {
       // THEN
       //  Consume 0.500 "Energie"
       //  Grow 0.1
+      //  Mutate
       ///////////////////////////////////////////////////////////////////////
 
       gAndCond = new GeneticANDCondition();
@@ -218,6 +219,7 @@ namespace EDen {
       
       compAct->add(new GeneticChemicalConsumeAction("Energie",0.50f));
       compAct->add(new GeneticGrowAction(0.1f));
+      compAct->add(new GeneticSimpleMutateAction());
 
       addClause(new GeneticClause(gAndCond, compAct, "Energie consumption and grow"));
     
@@ -812,6 +814,8 @@ namespace EDen {
 
     };
     
+    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-89.8f,89.8f,2.774f,0.5f,"Silli Anglular Mutation"));
+
     return true;
   };
 };

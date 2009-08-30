@@ -2,6 +2,8 @@
 // by Franz Koehler 2009
 
 #include "geneticMutation.h"
+#include <iostream>
+#include <ctime>
 
 namespace EDen {
 
@@ -33,6 +35,7 @@ namespace EDen {
       for(GeneticActionsListIterator it = actions.begin(); it != actions.end(); it++) {
         crawl(*it);
       };
+      return true;
     } 
     else  {
       return execute(p_act);
@@ -46,6 +49,7 @@ namespace EDen {
       for(GeneticConditionsListIterator it = conditions.begin(); it != conditions.end(); it++) {
         crawl(*it);
       };
+      return true;
     } 
     else  {
       return execute(p_cond);
@@ -61,11 +65,15 @@ namespace EDen {
 /////////////////////////////////////////////////////////////////////////////////////////
 
   Randomizer::Randomizer() {
-
+    std::srand((unsigned) time(NULL));
   };
 
   float Randomizer::value() {
-    return 1.0; 
+    
+    
+    float xmpf = ((float)(std::rand() % 10000)) / 9999.0f;
+    std::cout << " rnd: " << xmpf << std::endl;
+    return xmpf;
   }; // returns a value betwien 0 and 1 (possibly including both of them)
   
   float Randomizer::value(float min, float max) {

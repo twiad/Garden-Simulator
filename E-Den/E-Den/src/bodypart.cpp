@@ -32,7 +32,8 @@ namespace EDen {
     maxSize = 50.0f;
     
     bpType = bodypartType;
-    geneCode = param_geneticCode;
+    if(param_geneticCode) geneCode = param_geneticCode;
+    else geneCode = new GeneticCode();
     geneCode->setBodypart(this);
     bpState = BSP_creation;
     

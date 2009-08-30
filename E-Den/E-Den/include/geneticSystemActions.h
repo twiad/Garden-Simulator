@@ -84,6 +84,7 @@ namespace EDen {
   };
 
   class GeneticAddSpawnpointAction: public GeneticAction {
+  friend class GeneticSpawnpoint2DAngleMutation;
   private:
     Bodypart* bp;
     SpawnpointInformation* sp;

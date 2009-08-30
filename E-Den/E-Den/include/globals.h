@@ -7,6 +7,15 @@
 #include <list>
 #include <map>
 
+
+template <class T> const T& maxi ( const T& a, const T& b ) {
+  return (b<a)?a:b;     // or: return comp(b,a)?a:b; for the comp version
+}
+
+template <class T> const T& mini ( const T& a, const T& b ) {
+  return (b>a)?a:b;     
+}
+
 namespace EDen {
   class Organism;
   class Bodypart;

@@ -5,6 +5,17 @@
 #define _E_DEN_GENETIC_SYSTEM_HEADER_
 
 #include <list>
+
+namespace EDen {
+  class GeneticCondition;
+  typedef std::list<GeneticCondition*> GeneticConditionsList;
+  typedef std::list<GeneticCondition*>::iterator GeneticConditionsListIterator;
+
+  class GeneticAction;
+  typedef std::list<GeneticAction*> GeneticActionsList;
+  typedef std::list<GeneticAction*>::iterator GeneticActionsListIterator;
+};
+
 #include "chemicalSystem.h"
 #include "globals.h"
 
@@ -26,13 +37,12 @@ namespace EDen {
 
   class GeneticCompoundCondition: public GeneticCondition {
   protected:
-    typedef std::list<GeneticCondition*> GeneticConditionsList;
-    typedef std::list<GeneticCondition*>::iterator GeneticConditionsListIterator;
     GeneticConditionsList childConditions;
   public:
     GeneticCompoundCondition(): GeneticCondition(GCT_Compound) {};
     virtual ~GeneticCompoundCondition();
 
+    GeneticConditionsList getChildConditions();
     bool add(GeneticCondition* newCondition);
     
     virtual bool fullfilled() = 0;
@@ -78,15 +88,13 @@ namespace EDen {
 
   class GeneticCompoundAction: public GeneticAction {
   protected:
-    typedef std::list<GeneticAction*> GeneticActionsList;
-    typedef std::list<GeneticAction*>::iterator GeneticActionsListIterator;
-
     GeneticActionsList childActions;
   public:
     GeneticCompoundAction(): GeneticAction(GAT_Compound) {};
     virtual ~GeneticCompoundAction();
 
     bool add(GeneticAction* newAction);
+    GeneticActionsList getChildActions();
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();

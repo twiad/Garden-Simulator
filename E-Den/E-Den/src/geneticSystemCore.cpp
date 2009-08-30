@@ -28,6 +28,10 @@ namespace EDen {
     return true;
   };
 
+  GeneticConditionsList GeneticCompoundCondition::getChildConditions() {
+    return childConditions; 
+  };
+
   bool GeneticCompoundCondition::setBodypart(Bodypart* param_bodypart) {
     for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
       (*it)->setBodypart(param_bodypart);
@@ -63,6 +67,10 @@ namespace EDen {
   bool GeneticCompoundAction::add(GeneticAction* newAction) {
     childActions.push_back(newAction);
     return true;
+  };
+  
+  GeneticActionsList GeneticCompoundAction::getChildActions() {
+    return childActions; 
   };
 
   bool GeneticCompoundAction::execute() {

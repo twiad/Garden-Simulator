@@ -53,7 +53,7 @@ namespace EDen {
     
   public:
     Bodypart(BodypartType bodypartType, std::string geneticCode, Organism* param_parentOrganism = 0, Bodypart* param_parentBodypart = 0);
-    Bodypart(BodypartType bodypartType = BPT_UNKNOWN, GeneticCode* param_geneticCode = new GeneticCode(), Organism* param_parentOrganism = 0, Bodypart* param_parentBodypart = 0);
+    Bodypart(BodypartType bodypartType = BPT_UNKNOWN, GeneticCode* param_geneticCode = 0, Organism* param_parentOrganism = 0, Bodypart* param_parentBodypart = 0);
     ~Bodypart();
 
     ChemicalStorage* getChemicalStorage();

@@ -5,12 +5,14 @@
 
 namespace EDen {
 
-  GeneticMutation::GeneticMutation(float param_probability) {
+  GeneticMutation::GeneticMutation(float param_probability, std::string p_description) {
     prob = param_probability; 
+    description = p_description;
+    randomizer = new Randomizer();
   };
 
   GeneticMutation::~GeneticMutation() {
-    
+    delete randomizer;
   };
 
   float GeneticMutation::getProbability() {
@@ -22,6 +24,77 @@ namespace EDen {
       prob = param_prob;
       return true;
     } else return false;
+  };
+
+  bool GeneticMutation::crawl(GeneticAction* p_act) {
+    if(p_act->getActionType() == GAT_Compound) {
+      bool retval = false;
+      GeneticActionsList actions = ((GeneticCompoundAction*)(p_act))->getChildActions();
+      for(GeneticActionsListIterator it = actions.begin(); it != actions.end(); it++) {
+        crawl(*it);
+      };
+    } 
+    else  {
+      return execute(p_act);
+    };
+  };
+
+  bool GeneticMutation::crawl(GeneticCondition* p_cond) {
+    if(p_cond->getConditionType() == GCT_Compound) {
+      bool retval = false;
+      GeneticConditionsList conditions = ((GeneticCompoundCondition*)(p_cond))->getChildConditions();
+      for(GeneticConditionsListIterator it = conditions.begin(); it != conditions.end(); it++) {
+        crawl(*it);
+      };
+    } 
+    else  {
+      return execute(p_cond);
+    };
+  };
+
+  bool GeneticMutation::execute(GeneticClause* clause) {
+    bool a = crawl(clause->act);
+    bool b = crawl(clause->cond);
+    return a && b;
+  };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+  Randomizer::Randomizer() {
+
+  };
+
+  float Randomizer::value() {
+    return 1.0; 
+  }; // returns a value betwien 0 and 1 (possibly including both of them)
+  
+  float Randomizer::value(float min, float max) {
+    return min + (value()*(max-min));
+  }; 
+
+
+  //////////////////////////////////////////////////////////////////
+
+  GeneticSpawnpoint2DAngleMutation::GeneticSpawnpoint2DAngleMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption) : GeneticMutation(p_prob,p_desciption) {
+    min = p_min;
+    max = p_max;
+    maxstep = p_maxstep;
+  };
+  
+
+  bool GeneticSpawnpoint2DAngleMutation::execute(GeneticAction* p_act) {
+    if(randomizer->value() < prob) {
+      if(p_act->getActionType() == GAT_AddSpawnpoint) {
+        float oldang = ((GeneticAddSpawnpointAction*)(p_act))->sp->ang2d;
+        ((GeneticAddSpawnpointAction*)(p_act))->sp->ang2d = randomizer->value(maxi<float>(min,oldang - maxstep),mini<float>(max,oldang + maxstep));
+      };
+      return true; 
+    }
+    return false;
+  };
+
+  GeneticMutation* GeneticSpawnpoint2DAngleMutation::copy() {
+    return new GeneticSpawnpoint2DAngleMutation(min,max,maxstep,prob);
   };
 
 }; // namespace

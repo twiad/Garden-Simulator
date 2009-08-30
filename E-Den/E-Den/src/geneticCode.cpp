@@ -9,9 +9,10 @@ namespace EDen {
     generateDummyGenecode(dummyCodeIdentifier); 
   };
 
-  GeneticCode::GeneticCode(GeneticClauseList param_clauseList, unsigned int param_speciesIdentifier) {
+  GeneticCode::GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList p_mutations, unsigned int param_speciesIdentifier) {
     speciesIdentifier = param_speciesIdentifier;
     clauses = param_clauseList;
+    possibleMutations = p_mutations;
   };
 
   GeneticCode::~GeneticCode() {
@@ -21,6 +22,13 @@ namespace EDen {
       clauses.pop_back();
       delete clause;
     }; 
+
+    GeneticMutation* mutation;
+    while(!possibleMutations.empty()) {
+      mutation = possibleMutations.back();
+      possibleMutations.pop_back();
+      delete mutation;
+    };
   };
 
   GeneticCode* GeneticCode::copy() {
@@ -28,8 +36,13 @@ namespace EDen {
     for(GeneticClauseListIterator it = clauses.begin(); it != clauses.end(); it++) {
       newClauses.push_back((*it)->copy());
     };
+  
+    GeneticMutationList newMutations;
+    for(GeneticMutationListIterator it = possibleMutations.begin(); it != possibleMutations.end(); it++) {
+      newMutations.push_back((*it)->copy());
+    };
 
-    return new GeneticCode(newClauses,speciesIdentifier);
+    return new GeneticCode(newClauses,newMutations,speciesIdentifier);
   };
 
   bool GeneticCode::setBodypart(Bodypart* p_bp) {

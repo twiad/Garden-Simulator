@@ -71,7 +71,7 @@ namespace EDen {
   float Randomizer::value() {
     
     
-    float xmpf = ((float)(std::rand() % 1000)) / 999.0f;
+    float xmpf = ((float)(std::rand() % 100)) / 99.0f;
     // std::cout << " rnd: " << xmpf << std::endl;
     return xmpf;
   }; // returns a value betwien 0 and 1 (possibly including both of them)

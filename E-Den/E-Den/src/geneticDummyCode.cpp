@@ -816,7 +816,7 @@ namespace EDen {
 
     };
     
-    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,5.0f,0.1f,"Silli Anglular Mutation"));
+    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,25.0f,0.1f,"Silli Anglular Mutation"));
 
     return true;
   };

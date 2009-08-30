@@ -26,6 +26,8 @@ namespace EDen {
 
     bool addSupportedType(BodypartType param_bpType);
     bool isSupportedType(BodypartType param_bpType);
+
+    SpawnpointInformation* copy();
     // we will need more information like position and orientation here latere
     float ang2d;
   };

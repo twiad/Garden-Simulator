@@ -8,6 +8,15 @@ namespace EDen {
     supportedBpTypes.clear();
   };
 
+  SpawnpointInformation* SpawnpointInformation::copy() {
+    SpawnpointInformation* spnew = new SpawnpointInformation();
+    spnew->ang2d = ang2d;
+    spnew->position = position;
+    spnew->supportedBpTypes = supportedBpTypes;
+
+    return spnew;
+  };
+
   Bodypart::Bodypart(BodypartType bodypartType, std::string dummyGenecodeIdentifier, Organism* param_parentOrganism, Bodypart* param_parentBodypart) {
     healthpoints = 100.0f;
     size = 1.0f;

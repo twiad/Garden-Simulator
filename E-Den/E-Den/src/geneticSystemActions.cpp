@@ -136,7 +136,7 @@ namespace EDen {
   };
 
   GeneticAddSpawnpointAction::~GeneticAddSpawnpointAction() {
-    if(!spawnpointAdded) delete sp;
+    delete sp;
   };
 
   GeneticAction* GeneticAddSpawnpointAction::copy() {
@@ -149,7 +149,7 @@ namespace EDen {
   };
 
   bool GeneticAddSpawnpointAction::execute() {
-    bp->addSpawnpoint(sp);
+    bp->addSpawnpoint(sp->copy());
     spawnpointAdded = true;
     return true;
   };

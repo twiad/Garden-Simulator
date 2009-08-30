@@ -71,8 +71,8 @@ namespace EDen {
   float Randomizer::value() {
     
     
-    float xmpf = ((float)(std::rand() % 10000)) / 9999.0f;
-    std::cout << " rnd: " << xmpf << std::endl;
+    float xmpf = ((float)(std::rand() % 1000)) / 999.0f;
+    // std::cout << " rnd: " << xmpf << std::endl;
     return xmpf;
   }; // returns a value betwien 0 and 1 (possibly including both of them)
   
@@ -93,8 +93,11 @@ namespace EDen {
   bool GeneticSpawnpoint2DAngleMutation::execute(GeneticAction* p_act) {
     if(randomizer->value() < prob) {
       if(p_act->getActionType() == GAT_AddSpawnpoint) {
-        float oldang = ((GeneticAddSpawnpointAction*)(p_act))->sp->ang2d;
-        ((GeneticAddSpawnpointAction*)(p_act))->sp->ang2d = randomizer->value(maxi<float>(min,oldang - maxstep),mini<float>(max,oldang + maxstep));
+        SpawnpointInformation* sp = ((GeneticAddSpawnpointAction*)(p_act))->sp;
+        if(sp->position != 0) {
+          float oldang = sp->ang2d;
+          sp->ang2d = randomizer->value(maxi<float>(min,oldang - maxstep),mini<float>(max,oldang + maxstep));
+        };
       };
       return true; 
     }

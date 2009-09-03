@@ -108,4 +108,28 @@ namespace EDen {
     return new GeneticSpawnpoint2DAngleMutation(min,max,maxstep,prob);
   };
 
+  //
+
+  GeneticMaxSizeMutation::GeneticMaxSizeMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption) : GeneticMutation(p_prob,p_desciption) {
+    min = p_min;
+    max = p_max;
+    maxstep = p_maxstep;
+  };
+  
+
+  bool GeneticMaxSizeMutation::execute(GeneticAction* p_act) {
+    if(randomizer->value() < prob) {
+      if(p_act->getActionType() == GAT_ChangeMaxSize) {
+        float oldsize = ((GeneticChangeMaxSizeAction*)(p_act))->amount;
+        ((GeneticChangeMaxSizeAction*)(p_act))->amount = randomizer->value(maxi<float>(min,oldsize - maxstep),mini<float>(max,oldsize + maxstep));
+      };
+      return true; 
+    }
+    return false;
+  };
+
+  GeneticMutation* GeneticMaxSizeMutation::copy() {
+    return new GeneticMaxSizeMutation(min,max,maxstep,prob);
+  };
+
 }; // namespace

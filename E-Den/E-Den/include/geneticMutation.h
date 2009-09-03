@@ -47,7 +47,6 @@ namespace EDen {
       virtual GeneticMutation* copy() = 0;
     };
 
-
     class GeneticSpawnpoint2DAngleMutation : public GeneticMutation {
       friend class GeneticAddSpawnpointAction;
       float min,max,maxstep;
@@ -55,6 +54,17 @@ namespace EDen {
       virtual bool execute(GeneticAction* p_act);
     public:
       GeneticSpawnpoint2DAngleMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption = "2DAngleMutation");
+      virtual GeneticMutation* copy();
+    };
+
+    class GeneticMaxSizeMutation : public GeneticMutation {
+    friend class GeneticChangeMaxSizeAction;
+    
+      float min,max,maxstep;
+    protected:
+      virtual bool execute(GeneticAction* p_act);
+    public:
+      GeneticMaxSizeMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption = "MaxSizeMutation");
       virtual GeneticMutation* copy();
     };
 

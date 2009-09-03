@@ -202,6 +202,7 @@ namespace EDen {
   };
 
   class GeneticChangeMaxSizeAction: public GeneticAction {
+  friend class GeneticMaxSizeMutation;
   protected:
     Bodypart* bp;
     float amount;

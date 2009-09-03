@@ -279,6 +279,7 @@ namespace EDen {
           else col = SDL_MapRGB(screen->format,0,000,200);
         else if(param_bp->getBodypartType() == BPT_Stick) col = SDL_MapRGB(screen->format,200,100,0);
         else if(param_bp->getBodypartType() == BPT_Branch) col = SDL_MapRGB(screen->format,255,0,0);
+        else if(param_bp->getBodypartType() == BPT_Seed) col = SDL_MapRGB(screen->format,100,100,100);
         else col = SDL_MapRGB(screen->format,255,255,255);
         Draw_Line(screen,x1-offsetx,dimy-(y1-offsety+1),x2-offsetx,dimy-(y2-offsety+1),col);
 //        SDL_UpdateRect(screen,std::min(x1-offsetx,x2-offsetx) - 1,std::min(dimy-(y1-offsety+1) - 1,dimy-(y2-offsety+1)), fabs((float)(x1-x2)) + 3,fabs((float)(y1-y2)) + 3);

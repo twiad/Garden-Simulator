@@ -54,6 +54,33 @@ namespace EDen {
       bpts.push_back(BPT_Branch);
       bpts.push_back(BPT_Stick);
 
+
+      ///////////////////////////////////////////////////////////////////////
+      // Rule:
+      // IF Type = Seed
+      //  AND Creation
+      // THEN
+      //  Add Stick position 0 at 180°
+      //  Change maximum amount of "Wasser" to 15
+      //  Change maximum amount of "Energie" to 150
+      //  Change maximum size to 2.0f + (100.0f - parent "Energie" percentage) * 0.05
+      ///////////////////////////////////////////////////////////////////////
+
+      gAndCond = new GeneticANDCondition();
+      compAct = new GeneticCompoundAction();
+
+      cond = new GeneticBodypartTypeCondition(BPT_Seed, GBT_equal);
+      gAndCond->add(cond);
+      gAndCond->add(new GeneticBodypartCreationCondition());
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, 0, 180.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",500.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",500.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne",100.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 0.0f));
+      
+      compAct->add(new GeneticChangeMaxSizeAction(2.0f));
+      addClause(new GeneticClause(gAndCond, compAct, "Seed Creation"));
+
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF Type = Leaf
@@ -107,7 +134,7 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 3, -145.0f));
       compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 4, 125.0f));
       compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 5, -125.0f));
-      //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 6));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Seed, 6, 0.0f));
       //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser", 100.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie", 35.0f));
@@ -206,7 +233,6 @@ namespace EDen {
       // THEN
       //  Consume 0.500 "Energie"
       //  Grow 0.1
-      //  Mutate
       ///////////////////////////////////////////////////////////////////////
 
       gAndCond = new GeneticANDCondition();
@@ -219,10 +245,41 @@ namespace EDen {
       
       compAct->add(new GeneticChemicalConsumeAction("Energie",0.50f));
       compAct->add(new GeneticGrowAction(0.1f));
-      compAct->add(new GeneticSimpleMutateAction());
 
       addClause(new GeneticClause(gAndCond, compAct, "Energie consumption and grow"));
     
+      ///////////////////////////////////////////////////////////////////////
+      // Rule:
+      // IF State = Alive
+      //  Type = Stick
+      //  AND "Wasser" current_value_more than 10.00
+      //  AND "Energie" current_value_more than 2.0
+      //  AND "Energie" space_left_more than 4.0
+      //  AND Spawnpoint Seed present
+      // THEN
+      //  Spawn Seed
+      //  Consume "Energie" 2.0
+      //  Consume "Wasser" 10.0
+      ///////////////////////////////////////////////////////////////////////
+      
+      gAndCond = new GeneticANDCondition();
+      compAct = new GeneticCompoundAction();
+      
+      cond = new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal);
+
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(cond);
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,10.0f,"Wasser"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,2.0f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_space_left_more,4.0f,"Energie"));
+      gAndCond->add(new GeneticSpawnpointPresentCondition(BPT_Seed));
+
+      compAct->add(new GeneticSpawnBodypartAction(BPT_Seed));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",2.0f));
+      compAct->add(new GeneticChemicalConsumeAction("Wasser",10.0f));
+
+      addClause(new GeneticClause(gAndCond, compAct, "Spawn Leaf"));
+
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
@@ -264,6 +321,7 @@ namespace EDen {
       //  AND "Energie" current_value_more than 0.01
       //  AND "Wasser" current_value_more than 20.0
       // THEN
+      //  Mutate
       //  Spawn Stick
       //  Consume 0.01 "Energie"
       //  Consume 20.0 "Wasser"
@@ -285,6 +343,7 @@ namespace EDen {
 //      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,46.0f,"Sonne"));
       
 
+      compAct->add(new GeneticSimpleMutateAction());
       compAct->add(new GeneticSpawnBodypartAction(BPT_Stick));
       compAct->add(new GeneticChemicalConsumeAction("Energie",0.01f));
       compAct->add(new GeneticChemicalConsumeAction("Wasser",20.0f));
@@ -299,6 +358,7 @@ namespace EDen {
       //  AND "Energie" current_value_more than 7.0
       //  AND Spawnpoint Branch present
       // THEN
+      //  Mutate
       //  Spawn Branch
       //  Consume 6.0 "Energie"
       ///////////////////////////////////////////////////////////////////////
@@ -316,7 +376,7 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartSizeCondition(GBT_more,4.5f));
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,7.00f,"Energie"));
       
-      
+      compAct->add(new GeneticSimpleMutateAction());
       compAct->add(new GeneticSpawnBodypartAction(BPT_Branch));
       compAct->add(new GeneticChemicalConsumeAction("Energie",6.0f));
       
@@ -602,7 +662,7 @@ namespace EDen {
       
       compAct->add(new GeneticChemicalConsumeAction("Energie",0.50f));
       compAct->add(new GeneticGrowAction(0.1f));
-      compAct->add(new GeneticSimpleMutateAction());
+      // compAct->add(new GeneticSimpleMutateAction());
 
       addClause(new GeneticClause(gAndCond, compAct, "Energie consumption and grow"));
 
@@ -696,6 +756,7 @@ namespace EDen {
       //  AND Spawnpoint Branch present
       //  AND "Energy" percentage more than 7%
       // THEN
+      //  Mutate
       //  Spawn Branch
       //  Consume 0.3 "Energie"
       //  Consume 0.3 "Wasser"
@@ -716,6 +777,7 @@ namespace EDen {
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,0.3f,"Wasser"));
       gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,1.5f,"Energie"));
 
+      compAct->add(new GeneticSimpleMutateAction());
       compAct->add(new GeneticSpawnBodypartAction(BPT_Branch));
       compAct->add(new GeneticChemicalConsumeAction("Energie",0.1f));
       compAct->add(new GeneticChemicalConsumeAction("Wasser",0.1f));
@@ -816,8 +878,9 @@ namespace EDen {
 
     };
     
-    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,25.0f,0.1f,"Silli Anglular Mutation"));
-
+    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.1f,"Silli Anglular Mutation"));
+    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.1f,"Silli MaxSize Mutation"));
+    
     return true;
   };
 };

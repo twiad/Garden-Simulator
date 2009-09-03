@@ -223,7 +223,28 @@ namespace EDen {
       compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
     
       addClause(new GeneticClause(gAndCond, compAct, "Energie consumption"));
-            
+
+      ///////////////////////////////////////////////////////////////////////
+      // Rule:
+      // IF State = Alive
+      //  AND Type = Seed
+      //  AND "Energie" more than 90%
+      // THEN
+      //  DetatchSeed
+      ///////////////////////////////////////////////////////////////////////
+
+      /*gAndCond = new GeneticANDCondition();
+      compAct = new GeneticCompoundAction();
+   
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      gAndCond->add(new GeneticBodypartTypeCondition(BPT_Seed,GBT_equal));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,50.0,"Energie"));
+      
+      compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
+      compAct->add(new GeneticDropSeedAction());
+    
+      addClause(new GeneticClause(gAndCond, compAct, "Drop Seed"));
+      */      
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive

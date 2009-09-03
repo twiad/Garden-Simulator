@@ -370,4 +370,27 @@ namespace EDen {
     return true;
   };
 
+  GeneticDropSeedAction::GeneticDropSeedAction(Bodypart* p_bp) {
+    bp = p_bp;
+  };
+
+  GeneticDropSeedAction::~GeneticDropSeedAction() {
+    
+  };
+
+  bool GeneticDropSeedAction::execute() {
+    bp->setBodypartState(BSP_seed);
+    bp->detachToNewOrganism();
+    return true;
+  };
+
+  bool GeneticDropSeedAction::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart;
+    return true;
+  };
+  
+  GeneticAction* GeneticDropSeedAction::copy() {
+    return new GeneticDropSeedAction();
+  };
+
 } // namespace

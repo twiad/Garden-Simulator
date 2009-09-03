@@ -215,6 +215,18 @@ namespace EDen {
     virtual GeneticAction* copy();
   };
 
+  class GeneticDropSeedAction: public GeneticAction {
+  protected:
+    Bodypart* bp;
+  public:
+    GeneticDropSeedAction(Bodypart* p_bp = 0);
+    virtual ~GeneticDropSeedAction();
+
+    virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
+  };
+
 } // namespace
 
 #endif

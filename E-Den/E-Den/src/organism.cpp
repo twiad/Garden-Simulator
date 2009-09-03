@@ -142,6 +142,10 @@ namespace EDen {
         };
       };
     } while(foundSomething == true);
+
+    if(runtimeManager) {
+      runtimeManager->unregisterBodypart(param_bodypart);
+    };
     return true;
   };
 
@@ -176,6 +180,22 @@ namespace EDen {
   };
 
   bool Organism::updateGeneticProcessors() {
+    GeneticProcessorList newProcs;
+    GeneticProcessor* lastProc;
+    
+    //while(!geneticProcessors.empty()) {
+    //  lastProc = geneticProcessors.back();
+    //  do {
+    //    lastProc->executeRelevantClauses();
+    //  } 
+    //  while(lastProc != geneticProcessors.back());
+    //  geneticProcessors.pop_back();
+    //  newProcs.push_back(lastProc);
+    //};
+
+    //geneticProcessors.swap(newProcs);
+    
+    // old version .. faster, but crashes :P
     for(GeneticProcessorListIterator it = geneticProcessors.begin(); it != geneticProcessors.end(); it++) {
       (*it)->executeRelevantClauses();
     };
@@ -228,6 +248,10 @@ namespace EDen {
     };
     if( !foundOne ) bodypartsToDelete.push_back(param_bodypart);
     return true;
+  };
+
+  RuntimeManager* Organism::getRuntimeManager() {
+    return runtimeManager; 
   };
 
 };

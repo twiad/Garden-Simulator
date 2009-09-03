@@ -59,6 +59,7 @@ namespace EDen {
     bool unregisterBodypart(Bodypart* param_bodypart);
     bool deleteBodypart(Bodypart* param_bodypart);
     int getBodypartCount();
+    RuntimeManager* getRuntimeManager();
     bool addChemicalStorageLink(ChemicalStorageLink* param_chemLink);
     
     bool connectToGoundpart(Groundpart* param_groundpart);

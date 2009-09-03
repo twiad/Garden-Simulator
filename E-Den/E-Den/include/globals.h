@@ -95,6 +95,7 @@ namespace EDen {
     BSP_creation = 1,
     BSP_alive,
     BSP_dead,
+    BSP_seed,
     BSP_UNKNOWN
   };
 

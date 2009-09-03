@@ -163,6 +163,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\geneticCode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\geneticDummyCode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\geneticMutation.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\geneticProcessor.cpp"
 				>
 			</File>
@@ -186,6 +198,10 @@
 				RelativePath=".\src\organism.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\runtimeManager.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -202,6 +218,14 @@
 			</File>
 			<File
 				RelativePath=".\include\chemicalSystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\geneticCode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\geneticMutation.h"
 				>
 			</File>
 			<File
@@ -230,6 +254,10 @@
 			</File>
 			<File
 				RelativePath=".\include\organism.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\runtimeManager.h"
 				>
 			</File>
 		</Filter>

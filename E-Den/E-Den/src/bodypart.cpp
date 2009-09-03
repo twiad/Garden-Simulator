@@ -295,6 +295,8 @@ namespace EDen {
 
   Organism* Bodypart::detachToNewOrganism() {
     Organism* org;
+    RuntimeManager* runtime;
+
     std::string name = "Parentless Organism";
     if(parentBodypart != 0) {
       parentBodypart->unregisterChildBodypart(this);
@@ -304,12 +306,17 @@ namespace EDen {
     if(parentOrganism != 0) {
       name = parentOrganism->getName();
       name = "." + name;
+      runtime = parentOrganism->getRuntimeManager();
       detachFromOrganism();
     };
 
     org = new Organism(name,this);
     attachToOrganism(org);
     
+    if(runtime) {
+      runtime->add(org);
+    };
+
     return org;
   };
 

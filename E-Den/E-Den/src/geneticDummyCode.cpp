@@ -233,7 +233,7 @@ namespace EDen {
       //  DetatchSeed
       ///////////////////////////////////////////////////////////////////////
 
-      /*gAndCond = new GeneticANDCondition();
+      gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
    
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
@@ -244,7 +244,7 @@ namespace EDen {
       compAct->add(new GeneticDropSeedAction());
     
       addClause(new GeneticClause(gAndCond, compAct, "Drop Seed"));
-      */      
+            
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive

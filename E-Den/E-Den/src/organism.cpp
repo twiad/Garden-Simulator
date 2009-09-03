@@ -170,12 +170,33 @@ namespace EDen {
   };
 
   bool Organism::updateChemicalStorageLinks() {
-    for(ChemicalStorageLinkListIterator it = storageLinks.begin(); it != storageLinks.end(); it++) {
-      (*it)->update();
+    ChemicalStorageLinkList newStoragLinks;
+    ChemicalStorageLink* lastLink;
+    
+    while(!storageLinks.empty()) {
+      do {
+        lastLink = storageLinks.back();
+        lastLink->update();
+      } 
+      while(lastLink != storageLinks.back());
+      storageLinks.pop_back();
+      newStoragLinks.push_back(lastLink);
     };
 
-    storageLinks.push_back(storageLinks.front());
-    storageLinks.pop_front();
+    if(!newStoragLinks.empty()) {
+      newStoragLinks.push_back(newStoragLinks.front());
+      newStoragLinks.pop_front();
+    };
+
+    storageLinks.swap(newStoragLinks);
+
+    // last version
+    //for(ChemicalStorageLinkListIterator it = storageLinks.begin(); it != storageLinks.end(); it++) {
+    //  (*it)->update();
+    //};
+
+    //storageLinks.push_back(storageLinks.front());
+    //storageLinks.pop_front();
     return true;
   };
 
@@ -183,22 +204,22 @@ namespace EDen {
     GeneticProcessorList newProcs;
     GeneticProcessor* lastProc;
     
-    //while(!geneticProcessors.empty()) {
-    //  lastProc = geneticProcessors.back();
-    //  do {
-    //    lastProc->executeRelevantClauses();
-    //  } 
-    //  while(lastProc != geneticProcessors.back());
-    //  geneticProcessors.pop_back();
-    //  newProcs.push_back(lastProc);
-    //};
+    while(!geneticProcessors.empty()) {
+      do {
+        lastProc = geneticProcessors.back();
+        lastProc->executeRelevantClauses();
+      } 
+      while(lastProc != geneticProcessors.back());
+      geneticProcessors.pop_back();
+      newProcs.push_back(lastProc);
+    };
 
-    //geneticProcessors.swap(newProcs);
+    geneticProcessors.swap(newProcs);
     
     // old version .. faster, but crashes :P
-    for(GeneticProcessorListIterator it = geneticProcessors.begin(); it != geneticProcessors.end(); it++) {
-      (*it)->executeRelevantClauses();
-    };
+    //for(GeneticProcessorListIterator it = geneticProcessors.begin(); it != geneticProcessors.end(); it++) {
+    //  (*it)->executeRelevantClauses();
+    //};
     return true;
   };
 

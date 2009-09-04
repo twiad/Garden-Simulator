@@ -72,7 +72,7 @@ namespace EDen {
       cond = new GeneticBodypartTypeCondition(BPT_Seed, GBT_equal);
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition());
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, 0, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, 0, 90.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne",100.0f));
@@ -228,7 +228,7 @@ namespace EDen {
       // Rule:
       // IF State = Alive
       //  AND Type = Seed
-      //  AND "Energie" more than 90%
+      //  AND "Energie" more than 97%
       // THEN
       //  DetatchSeed
       ///////////////////////////////////////////////////////////////////////
@@ -238,7 +238,7 @@ namespace EDen {
    
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(new GeneticBodypartTypeCondition(BPT_Seed,GBT_equal));
-      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,50.0,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,57.0,"Energie"));
       
       compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
       compAct->add(new GeneticDropSeedAction());

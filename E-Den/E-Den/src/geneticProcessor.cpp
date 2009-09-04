@@ -35,9 +35,26 @@ namespace EDen {
   };
 
   bool GeneticProcessor::executeRelevantClauses() {
-    if(bodypart->getBodypartState() != BSP_dead) {  
+    BodypartState state = bodypart->getBodypartState();
+    
+    if(state != BSP_dead) {  
       GeneticClauseList nextRelevantClauses;
       
+      if(state == BSP_seed) {
+        Bodypart* bp = new Bodypart(BPT_Stick,bodypart->getGeneticCode()->copy(),bodypart->getParentOrganism());
+        
+
+        if(!bodypart->spawnBodypart(bp)) {
+          delete bp; 
+        }
+        else {
+          bodypart->setBodypartState(BSP_creation);
+          bp->setBodypartState(BSP_creation);
+          //bodypart->init();
+          //bp->init();
+        };
+      };
+
       while(!relevantClauses.empty()) {
         relevantClauses.back()->run();
         //deleteMe is not used at the moment

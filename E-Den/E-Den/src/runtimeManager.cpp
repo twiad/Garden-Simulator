@@ -42,9 +42,14 @@ namespace EDen {
     return true;
   };
 
-  bool RuntimeManager::add(Organism* param_org) {
+  bool RuntimeManager::add(Organism* param_org, bool p_connectToGroundpart) {
     if(param_org) {
       organisms.push_front(param_org);
+
+      if(p_connectToGroundpart) {
+        param_org->connectToGoundpart(groundparts.front());
+
+      };
       return true; 
     } else return false;
   };

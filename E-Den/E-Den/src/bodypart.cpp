@@ -314,7 +314,8 @@ namespace EDen {
     attachToOrganism(org);
     
     if(runtime) {
-      runtime->add(org);
+      runtime->add(org,true);
+
     };
 
     return org;

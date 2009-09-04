@@ -174,11 +174,11 @@ namespace EDen {
     ChemicalStorageLink* lastLink;
     
     while(!storageLinks.empty()) {
-      do {
+      //do {
         lastLink = storageLinks.back();
         lastLink->update();
-      } 
-      while(lastLink != storageLinks.back());
+      //} 
+      //while(lastLink != storageLinks.back());
       storageLinks.pop_back();
       newStoragLinks.push_back(lastLink);
     };

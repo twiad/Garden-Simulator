@@ -33,7 +33,7 @@ namespace EDen {
 
     bool reset();
 
-    bool add(Organism* param_org);
+    bool add(Organism* param_org, bool connectToGroundpart = false);
     bool add(ResourceProvider* param_resourceProvider);
     bool add(Groundpart* param_groudnpart);
 

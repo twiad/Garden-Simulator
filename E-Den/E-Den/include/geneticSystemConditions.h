@@ -153,6 +153,18 @@ namespace EDen {
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
   };
+
+  class GeneticHasParentCondition: public GeneticCondition {
+  protected:
+    Bodypart* bp;
+  public:
+    GeneticHasParentCondition(Bodypart* param_bodypart = 0);
+    virtual ~GeneticHasParentCondition();
+
+    virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
+  };
 } // namespace
 
 #endif

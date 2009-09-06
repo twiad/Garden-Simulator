@@ -341,4 +341,26 @@ namespace EDen {
     if(bp->getSize() < bp->getMaxSize()) return true;
     else return false;
   };
+
+  GeneticHasParentCondition::GeneticHasParentCondition(Bodypart* param_bodypart) : GeneticCondition(GCT_HasParent) {
+    bp = param_bodypart;
+  };
+
+  GeneticHasParentCondition::~GeneticHasParentCondition() {
+    
+  };
+
+  bool GeneticHasParentCondition::fullfilled() {
+    if(bp->getParentBodypart()) return true;
+    else return false;
+  };
+  
+  bool GeneticHasParentCondition::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart;
+    return true;
+  };
+  
+  GeneticCondition* GeneticHasParentCondition::copy() {
+    return new GeneticHasParentCondition();  
+  };
 } // namespace

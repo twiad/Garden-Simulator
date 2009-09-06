@@ -370,7 +370,7 @@ namespace EDen {
     return true;
   };
 
-  GeneticDropSeedAction::GeneticDropSeedAction(Bodypart* p_bp) {
+  GeneticDropSeedAction::GeneticDropSeedAction(Bodypart* p_bp):GeneticAction(GAT_DropSeed) {
     bp = p_bp;
   };
 

@@ -209,8 +209,8 @@ namespace EDen {
         lastProc = geneticProcessors.back();
         lastProc->executeRelevantClauses();
       } 
-      while(lastProc != geneticProcessors.back());
-      geneticProcessors.pop_back();
+      while((!geneticProcessors.empty()) && (lastProc != geneticProcessors.back()));
+      if(!geneticProcessors.empty()) geneticProcessors.pop_back();
       newProcs.push_back(lastProc);
     };
 

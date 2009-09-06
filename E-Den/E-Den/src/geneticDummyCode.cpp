@@ -228,6 +228,7 @@ namespace EDen {
       // Rule:
       // IF State = Alive
       //  AND Type = Seed
+      //  AND HasParent
       //  AND "Energie" more than 97%
       // THEN
       //  DetatchSeed
@@ -238,6 +239,7 @@ namespace EDen {
    
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(new GeneticBodypartTypeCondition(BPT_Seed,GBT_equal));
+      gAndCond->add(new GeneticHasParentCondition());
       gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,57.0,"Energie"));
       
       compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));

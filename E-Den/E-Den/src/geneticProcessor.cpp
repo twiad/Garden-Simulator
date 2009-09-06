@@ -50,7 +50,10 @@ namespace EDen {
         else {
           bodypart->setBodypartState(BSP_creation);
           bp->setBodypartState(BSP_creation);
-          //bodypart->init();
+          executeRelevantClauses();
+          bp->getGeneticProcessor()->executeRelevantClauses();
+          bodypart->setBodypartState(BSP_alive);
+          bp->setBodypartState(BSP_alive);
           //bp->init();
         };
       };

@@ -57,6 +57,7 @@ namespace EDen {
     GCT_BodypartHP,
     GCT_BodypartSize,
     GCT_SpawnpointPresent,
+    GCT_HasParent,
     GCT_UNKNOWN
   };
 
@@ -71,6 +72,7 @@ namespace EDen {
     GAT_Grow,
     GAT_Shrink,
     GAT_EmptyStorage,
+    GAT_DropSeed,
     
 // This actions should be used during creation (or maybe growth action combinations)   
     GAT_ChangeMaxChemAmount,

@@ -44,12 +44,14 @@ namespace EDen {
         Bodypart* bp = new Bodypart(BPT_Stick,bodypart->getGeneticCode()->copy(),bodypart->getParentOrganism());
 
         bodypart->setBodypartState(BSP_creation);
-        //bp->setBodypartState(BSP_creation);
         executeRelevantClauses();
         bodypart->resetSpawnpoints();
-        bodypart->addSpawnpoint(BPT_Stick,1);
-        
-        
+  
+        SpawnpointInformation* sp = new SpawnpointInformation();
+        sp->position = 1;
+        sp->addSupportedType(BPT_Stick);
+        sp->ang2d = 180.0f;
+        bodypart->addSpawnpoint(sp);
 
         if(!bodypart->spawnBodypart(bp)) {
           delete bp; 

@@ -72,6 +72,7 @@ namespace EDen {
     bool update();
     bool destroy();
 
+    bool resetSpawnpoints();
     bool addSpawnpoint(BodypartType param_bpType, int param_position = 0);
     bool addSpawnpoint(SpawnpointInformation* sp);
 

@@ -184,6 +184,17 @@ namespace EDen {
     return true;
   };
 
+  bool Bodypart::resetSpawnpoints() {
+    SpawnpointInformation* sp;
+    while(!spawnpoints.empty()) {
+      sp = spawnpoints.back();
+      spawnpoints.pop_back();
+      delete sp;
+    };
+
+    return true;
+  };
+
   bool Bodypart::spawnBodypart(Bodypart* bp) { 
     if((!spawnPointAvailable(bp->getBodypartType())) || (!bp->spawnPointAvailable(bpType))) {
       return false;

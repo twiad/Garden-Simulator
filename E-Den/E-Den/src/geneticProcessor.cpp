@@ -48,12 +48,16 @@ namespace EDen {
           delete bp; 
         }
         else {
+          bodypart->resetSpawnpoints();
+          bodypart->occupieSpawnpoint(BPT_Stick);
+          bodypart->addSpawnpoint(BPT_Stick,1);
           bodypart->setBodypartState(BSP_creation);
           bp->setBodypartState(BSP_creation);
           executeRelevantClauses();
           bp->getGeneticProcessor()->executeRelevantClauses();
           bodypart->setBodypartState(BSP_alive);
           bp->setBodypartState(BSP_alive);
+
           //bp->init();
         };
       };

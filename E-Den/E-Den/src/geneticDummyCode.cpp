@@ -72,7 +72,7 @@ namespace EDen {
       cond = new GeneticBodypartTypeCondition(BPT_Seed, GBT_equal);
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition());
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, 0, 90.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, 0, 0.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne",100.0f));

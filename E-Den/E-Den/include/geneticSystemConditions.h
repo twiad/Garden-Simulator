@@ -128,6 +128,20 @@ namespace EDen {
     virtual GeneticCondition* copy();
   };
 
+  class GeneticParentOrganismLifetimeCondition: public GeneticCondition {
+  protected:
+    Bodypart* bp;
+    int amount;
+    GeneticStdConditionType condType;
+  public:
+    GeneticParentOrganismLifetimeCondition(GeneticStdConditionType param_condType, int param_amount, Bodypart* param_bodypart = 0);
+    virtual ~GeneticParentOrganismLifetimeCondition();
+
+    virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
+  };
+
   class GeneticBodypartSizeCondition: public GeneticCondition { 
   protected:
     Bodypart* bp;

@@ -428,17 +428,21 @@ namespace EDen {
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
-      //  AND Healthpoints less_than 0.1
+      //  AND Healthpoints less_than 0.1 OR ParentOrganismLifetime > 2000
       // THEN
       //  EmptyChemicalStorage
       //  Die
       ///////////////////////////////////////////////////////////////////////
       
       gAndCond = new GeneticANDCondition();
+      gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
-        
+      
+      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,2000));
+      gOrCond->add(new GeneticHealthpointsCondition(GBT_less,0.1f));
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
-      gAndCond->add(new GeneticHealthpointsCondition(GBT_less,0.1f));
+      gAndCond->add(gOrCond);
+      
       
       compAct->add(new GeneticEmptyChemicalStorageAction());
       compAct->add(new GeneticDieAction());

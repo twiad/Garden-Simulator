@@ -7,7 +7,7 @@
 
 namespace EDen {
   Organism::Organism(std::string param_name, Bodypart* param_rootBodypart, RuntimeManager* param_runtimeManager): 
-      name(param_name), groundpart(0) 
+      name(param_name), groundpart(0), lifetime(0) 
   {
     runtimeManager = param_runtimeManager;
     rootBodypart = param_rootBodypart;
@@ -44,6 +44,15 @@ namespace EDen {
 
   std::string Organism::getName() {
     return name;
+  };
+
+  int Organism::getLifetime() {
+    return lifetime;
+  };
+
+  bool Organism::incLifetime() {
+    lifetime++;
+    return true;
   };
 
   bool Organism::registerBodypart(Bodypart* param_bodypart) {
@@ -224,6 +233,7 @@ namespace EDen {
   };
 
   bool Organism::update() {
+    incLifetime();
     updateChemicalStorageLinks();
     updateGeneticProcessors();  
     updateDelete();

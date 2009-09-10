@@ -238,6 +238,52 @@ namespace EDen {
     else return false;
   };
 
+  GeneticParentOrganismLifetimeCondition::GeneticParentOrganismLifetimeCondition(GeneticStdConditionType param_condType, int param_amount, Bodypart* param_bodypart): GeneticCondition(GCT_OrganismLifetime) {
+    condType = param_condType;
+    bp = param_bodypart;
+    amount = param_amount;
+  };
+
+  GeneticParentOrganismLifetimeCondition::~GeneticParentOrganismLifetimeCondition() {};
+
+  bool GeneticParentOrganismLifetimeCondition::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart; 
+    return true;
+  };
+
+  GeneticCondition* GeneticParentOrganismLifetimeCondition::copy() {
+    return new GeneticParentOrganismLifetimeCondition(condType, amount);
+  };
+
+  bool GeneticParentOrganismLifetimeCondition::fullfilled() {
+    if(bp->getParentOrganism()) {
+      switch(condType) {
+        case GBT_equal:
+          if(bp->getParentOrganism()->getLifetime() == amount) return true;
+          else return false;
+          break;
+        case GBT_less:
+          if(bp->getParentOrganism()->getLifetime() < amount) return true;
+          else return false;
+          break;
+        case GBT_more:
+          if(bp->getParentOrganism()->getLifetime() > amount) return true;
+          else return false;
+          break;
+        case GBT_notEqual:
+          if(bp->getParentOrganism()->getLifetime() != amount) return true;
+          else return false;
+          break;
+        case GBT_UNKNOWN:
+          return false;
+          break;
+        default:
+          return false;
+      };
+    } else return false;
+  };
+
+
   GeneticBodypartSizeCondition::GeneticBodypartSizeCondition(GeneticStdConditionType param_condType, float param_amount, Bodypart* param_bodypart):
     GeneticCondition(GCT_BodypartSize) {
     setBodypart(param_bodypart);

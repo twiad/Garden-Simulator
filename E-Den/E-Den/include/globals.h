@@ -58,6 +58,7 @@ namespace EDen {
     GCT_BodypartSize,
     GCT_SpawnpointPresent,
     GCT_HasParent,
+    GCT_OrganismLifetime,
     GCT_UNKNOWN
   };
 

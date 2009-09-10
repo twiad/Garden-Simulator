@@ -28,6 +28,7 @@ namespace EDen {
   class Organism {
   protected:
     std::string name;
+    int lifetime;
 
     Bodypart* rootBodypart;
     Groundpart* groundpart;
@@ -49,6 +50,8 @@ namespace EDen {
 
     std::string getName();
     OrganismState getState();
+    int getLifetime();
+    bool incLifetime();
 
     bool updateChemicalStorageLinks();
     bool updateGeneticProcessors();

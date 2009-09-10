@@ -138,6 +138,7 @@ namespace EDen {
         org->updateGeneticProcessors();
         org->updateDelete();
         org->updateChemicalStorageLinks();
+        org->incLifetime();
       };
     };
 

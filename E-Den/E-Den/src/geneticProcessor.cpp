@@ -42,24 +42,28 @@ namespace EDen {
       
       if(state == BSP_seed) {
         Bodypart* bp = new Bodypart(BPT_Stick,bodypart->getGeneticCode()->copy(),bodypart->getParentOrganism());
+
+        bodypart->setBodypartState(BSP_creation);
+        //bp->setBodypartState(BSP_creation);
+        executeRelevantClauses();
+        bodypart->resetSpawnpoints();
+        bodypart->addSpawnpoint(BPT_Stick,1);
+        
         
 
         if(!bodypart->spawnBodypart(bp)) {
           delete bp; 
+        } 
+        else { 
+          SpawnpointInformationList spi = bp->getSpawnpoints();
+          for(SpawnpointInformationListIterator it = spi.begin(); it != spi.end(); it++) {
+            if((*it)->connectedBodypart == bodypart) {
+              (*it)->position = 0;
+            }
+          }
         }
-        else {
-          bodypart->resetSpawnpoints();
-          bodypart->occupieSpawnpoint(BPT_Stick);
-          bodypart->addSpawnpoint(BPT_Stick,1);
-          bodypart->setBodypartState(BSP_creation);
-          bp->setBodypartState(BSP_creation);
-          executeRelevantClauses();
-          bp->getGeneticProcessor()->executeRelevantClauses();
-          bodypart->setBodypartState(BSP_alive);
-          bp->setBodypartState(BSP_alive);
 
-          //bp->init();
-        };
+        bodypart->setBodypartState(BSP_alive);
       };
 
       while(!relevantClauses.empty()) {

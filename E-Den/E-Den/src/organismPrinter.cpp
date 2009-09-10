@@ -171,7 +171,7 @@ namespace EDen {
   };
 
   bool SDLOrganismPrinter::add(Organism* param_organism) {
-    static bool alternate = true;
+    static bool alternate;
     
     if(alternate) organisms.push_front(param_organism);
     else organisms.push_back(param_organism);

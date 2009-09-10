@@ -344,7 +344,7 @@ namespace EDen {
       //  AND "Energie" current_value_more than 0.01
       //  AND "Wasser" current_value_more than 20.0
       // THEN
-      //  Mutate
+      //  //Mutate
       //  Spawn Stick
       //  Consume 0.01 "Energie"
       //  Consume 20.0 "Wasser"
@@ -362,14 +362,14 @@ namespace EDen {
       gAndCond->add(new GeneticSpawnpointPresentCondition(BPT_Stick));
       gAndCond->add(new GeneticBodypartSizeCondition(GBT_more,4.5f));
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,0.01f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,20.0f,"Wasser"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,450.0f,"Wasser"));
 //      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,46.0f,"Sonne"));
       
 
-      compAct->add(new GeneticSimpleMutateAction());
+      //compAct->add(new GeneticSimpleMutateAction());
       compAct->add(new GeneticSpawnBodypartAction(BPT_Stick));
       compAct->add(new GeneticChemicalConsumeAction("Energie",0.01f));
-      compAct->add(new GeneticChemicalConsumeAction("Wasser",20.0f));
+      compAct->add(new GeneticChemicalConsumeAction("Wasser",450.0f));
 
       addClause(new GeneticClause(gAndCond, compAct, "Spawn Stick"));
 
@@ -379,11 +379,13 @@ namespace EDen {
       //  Type = Stick OR Branch
       //  Size > 1.5
       //  AND "Energie" current_value_more than 7.0
+      //  AND "Water" current_value_more than 250.0
       //  AND Spawnpoint Branch present
       // THEN
       //  Mutate
       //  Spawn Branch
       //  Consume 6.0 "Energie"
+      //  Consume 250.0 "Water"
       ///////////////////////////////////////////////////////////////////////
       
       gAndCond = new GeneticANDCondition();
@@ -397,11 +399,11 @@ namespace EDen {
       gAndCond->add(gOrCond);
       gAndCond->add(new GeneticSpawnpointPresentCondition(BPT_Branch));
       gAndCond->add(new GeneticBodypartSizeCondition(GBT_more,4.5f));
-      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,7.00f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,20.00f,"Energie"));
       
       compAct->add(new GeneticSimpleMutateAction());
       compAct->add(new GeneticSpawnBodypartAction(BPT_Branch));
-      compAct->add(new GeneticChemicalConsumeAction("Energie",6.0f));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",20.0f));
       
       addClause(new GeneticClause(gAndCond, compAct, "Spawn Branche"));
 
@@ -441,7 +443,7 @@ namespace EDen {
       gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
       
-      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,1700));
+      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,2000));
       gOrCond->add(new GeneticHealthpointsCondition(GBT_less,0.1f));
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(gOrCond);
@@ -909,7 +911,7 @@ namespace EDen {
     };
     
     possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.1f,"Silli Anglular Mutation"));
-    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.1f,"Silli MaxSize Mutation"));
+    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.05f,"Silli MaxSize Mutation"));
     
     return true;
   };

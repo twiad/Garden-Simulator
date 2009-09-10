@@ -318,7 +318,12 @@ namespace EDen {
     bp->setMaxSize(0.0f);
     bp->shrink(0.0f);
     bp->setBodypartState(BSP_dead);
-    //if(bp->getParentOrganism()) bp->getParentOrganism()->getRuntimeManager()->unregisterBodypart(bp);
+
+    Organism* org = bp->getParentOrganism();
+    if(org) {
+      RuntimeManager* rm = org->getRuntimeManager();
+      if(rm) rm->unregisterBodypart(bp);
+    };
     return true;
   };
 

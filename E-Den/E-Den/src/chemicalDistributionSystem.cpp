@@ -52,9 +52,12 @@ namespace EDen {
   };
 
   bool ResourceProvider::singleDistributionStep(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info) {
-    if(param_info && param_bodypart && (param_bodypart->getBodypartState() != BSP_dead))
-      return param_bodypart->getChemicalStorage()->add(chemicalName,amount * param_info->factor);
-    else return false; //param_bodypart->getChemicalStorage()->add(chemicalName,amount);
+    if(param_info && param_bodypart && (param_bodypart->getBodypartState() != BSP_dead)) {
+      ChemicalStorage* chemStorage = param_bodypart->getChemicalStorage();
+      if(chemStorage)
+        return chemStorage->add(chemicalName,amount * param_info->factor);
+    }
+    return false; //param_bodypart->getChemicalStorage()->add(chemicalName,amount);
   };
 
   bool ResourceProvider::distibute() {

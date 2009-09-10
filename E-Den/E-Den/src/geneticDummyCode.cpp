@@ -408,17 +408,20 @@ namespace EDen {
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
-      //  AND "Energie" percentage_less than 0.0001
+      //  AND "Energie" percentage_less than 0.0001 OR OrganismLifetime > 2000
       // THEN
       //  Hurt 1.0
       //  Shrink 0.97
       ///////////////////////////////////////////////////////////////////////
       
       gAndCond = new GeneticANDCondition();
+      //gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
 
-      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      //gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,140));
       gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,0.0001f,"Energie"));
+      gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      //gAndCond->add(gOrCond);
       
       compAct->add(new GeneticHurtAction(1.0f));
       compAct->add(new GeneticShrinkAction(0.97f));
@@ -438,9 +441,10 @@ namespace EDen {
       gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
       
-      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,200));
+      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,140));
       gOrCond->add(new GeneticHealthpointsCondition(GBT_less,0.1f));
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
+      //gAndCond->add(new GeneticHealthpointsCondition(GBT_less,0.1f));
       gAndCond->add(gOrCond);
       
       

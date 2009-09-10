@@ -327,12 +327,11 @@ namespace EDen {
       detachFromOrganism();
     };
 
-    org = new Organism(name,this);
+    org = new Organism(name,this,runtime);
     attachToOrganism(org);
     
     if(runtime) {
       runtime->add(org,true);
-
     };
 
     return org;

@@ -134,6 +134,12 @@ namespace EDen {
 
   bool Bodypart::destroy() {
     //Bodypart* lastBP;
+    if(parentOrganism) {
+      if(parentOrganism->getRuntimeManager()) {
+        parentOrganism->getRuntimeManager()->unregisterBodypart(this);
+      };
+    };
+    
     {
       Bodypart* bp;
       while(!childBodyparts.empty()) {

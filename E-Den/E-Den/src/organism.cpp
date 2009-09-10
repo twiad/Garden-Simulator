@@ -70,16 +70,15 @@ namespace EDen {
 
     removeChemStorageLinksWithBodypart(param_bodypart);
     removeGeneticProcessorWithBodypart(param_bodypart);
+    if(runtimeManager) {
+      runtimeManager->unregisterBodypart(param_bodypart);
+    };
 
     for(BodypartListIterator it = bodyparts.begin(); it != bodyparts.end(); it++) {
       if((*it) == param_bodypart) {
         bodyparts.erase(it);
         param_bodypart->setParentOrganism(0);
         
-        if(runtimeManager) {
-          runtimeManager->unregisterBodypart(param_bodypart);
-        };
-
         foundSomething = true;
         break;
       };
@@ -277,7 +276,10 @@ namespace EDen {
         break;
       }
     };
-    if( !foundOne ) bodypartsToDelete.push_back(param_bodypart);
+    if( !foundOne ) {
+      bodypartsToDelete.push_back(param_bodypart);
+      //runtimeManager->unregisterBodypart(param_bodypart);
+    };
     return true;
   };
 

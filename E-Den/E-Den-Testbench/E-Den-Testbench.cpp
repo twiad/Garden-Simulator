@@ -11,8 +11,8 @@
 #define PRINT_OUT_ALL_N_CYCLES 3000
 #define SND_RUN_MULTIPLYER 2
 // STARTING_WATER_max: 2.0e7
-#define STARTING_WATER 1.5e7
-#define STARTING_GOO 1500.0f
+#define STARTING_WATER 2.0e7
+#define STARTING_GOO 450.0f
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
@@ -110,9 +110,9 @@ bool wait_for_events()
 		     case SDL_MOUSEBUTTONUP:           //mouse button pressed
 			     printf("Mouse button %d pressed x:%d, y:%d\n", event.button.button, event.button.x, event.button.y );
            if(event.button.button == 1) 
-             gp->getChemicalStorage()->add("Wasser",event.button.x*100.0f);
+             gp->getChemicalStorage()->add("Wasser",event.button.x*1000.0f);
            else
-             gp->getChemicalStorage()->add("Wasser",-event.button.x*100.0f);
+             gp->getChemicalStorage()->add("Wasser",-event.button.x*1000.0f);
 			     break; 
 	       case SDL_QUIT:		
 	         exit ( 1 );

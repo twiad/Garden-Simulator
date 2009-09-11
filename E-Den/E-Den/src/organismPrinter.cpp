@@ -204,16 +204,19 @@ namespace EDen {
 
   bool SDLOrganismPrinter::updateCaption() {
     std::string newCaption = "";
+    char str[64];
     if(runtimeManager) {
-      char str[64];
       sprintf(str,"[%lu]-",runtimeManager->getCycleCount());
       newCaption += str;
     }
 
-    for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
-      newCaption += " " + (*it)->getName(); 
-    };
+    //for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+    //  newCaption += " " + (*it)->getName(); 
+    //};
     
+    sprintf(str,"[%d]",organisms.size());
+    newCaption += str;
+
     SDL_WM_SetCaption(newCaption.c_str(),newCaption.c_str());
     return true;
   };

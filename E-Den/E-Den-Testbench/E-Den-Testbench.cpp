@@ -173,19 +173,19 @@ void sdl_test() {
 
 //////////////////////////////////////////////////////////////////////////////
 
-  bp = new Bodypart(BPT_Stick,"TESTPART4");
-  organism = new Organism("TestOrganism2", bp, runtime);
-  organism->connectToGoundpart(gp);
-  //op1->add(organism); 
-  runtime->add(organism);
-  bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
-  bp->occupieSpawnpoint(bp2);
-  bp3 = new Bodypart(BPT_Stick,"TESTPART4",organism);
-  if(!(bp->spawnBodypart(bp2))) cout << "[!2] bp2 not spawned" << endl;
-  if(!(bp2->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
-  bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
-  if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
-  bp3->getChemicalStorage()->add("Energie",10.0f);
+  //bp = new Bodypart(BPT_Stick,"TESTPART4");
+  //organism = new Organism("TestOrganism2", bp, runtime);
+  //organism->connectToGoundpart(gp);
+  ////op1->add(organism); 
+  //runtime->add(organism);
+  //bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
+  //bp->occupieSpawnpoint(bp2);
+  //bp3 = new Bodypart(BPT_Stick,"TESTPART4",organism);
+  //if(!(bp->spawnBodypart(bp2))) cout << "[!2] bp2 not spawned" << endl;
+  //if(!(bp2->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
+  //bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
+  //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
+  //bp3->getChemicalStorage()->add("Energie",10.0f);
 
 //////////////////////////////////////////////////////////////////////////////
 

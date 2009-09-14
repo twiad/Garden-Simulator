@@ -240,7 +240,7 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(new GeneticBodypartTypeCondition(BPT_Seed,GBT_equal));
       gAndCond->add(new GeneticHasParentCondition());
-      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,96.0,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,95.0,"Energie"));
       
       compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
       compAct->add(new GeneticDropSeedAction());
@@ -435,7 +435,7 @@ namespace EDen {
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
-      //  AND Healthpoints less_than 0.1 OR ParentOrganismLifetime > 1327
+      //  AND Healthpoints less_than 0.1 OR ParentOrganismLifetime > 2000
       // THEN
       //  EmptyChemicalStorage
       //  Die
@@ -445,7 +445,7 @@ namespace EDen {
       gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
       
-      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,700));
+      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,2000));
       gOrCond->add(new GeneticHealthpointsCondition(GBT_less,0.1f));
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(gOrCond);

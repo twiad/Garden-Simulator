@@ -385,8 +385,15 @@ namespace EDen {
   };
 
   bool GeneticDropSeedAction::execute() {
-    bp->setBodypartState(BSP_seed);
-    bp->detachToNewOrganism();
+    Organism* org = bp->getParentOrganism();
+    if(org) {
+      RuntimeManager* rtm = org->getRuntimeManager();
+      if(rtm)
+        if(rtm->getOrganismCount() < MAX_PLANT_COUNT) {
+          bp->setBodypartState(BSP_seed);
+          bp->detachToNewOrganism();
+        }
+    };
     return true;
   };
 

@@ -6,6 +6,7 @@
 
 #ifndef _E_DEN_RUNTIMEMANAGER_HEADER_
 #define _E_DEN_RUNTIMEMANAGER_HEADER_
+#define MAX_PLANT_COUNT 10
 
 #include "globals.h"
 #include "organism.h"
@@ -21,6 +22,7 @@ namespace EDen {
 
     bool cleanupDeadOrganisms();
     bool deleteAll();
+    bool deleteAllOfSpecies(int speciesID);
     unsigned long cycles;
 
     int clock_frac_resources_provider;
@@ -46,6 +48,7 @@ namespace EDen {
     bool update();
 
     unsigned long getCycleCount();
+    int getOrganismCount();
     bool orgsAlive();
 
     std::list<Organism*> getOrganisms();

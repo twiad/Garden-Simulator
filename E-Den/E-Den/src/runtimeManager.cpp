@@ -31,6 +31,24 @@ namespace EDen {
     return true;
   };
 
+  bool RuntimeManager::deleteAllOfSpecies(int speciesID) {
+    std::list<Organism*> oldOrgs;
+    Organism* org = 0;
+    while(!organisms.empty() && (organisms.front() != org)) {
+      org = organisms.front();
+      organisms.pop_front();
+      if(org->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier() != speciesID) {
+        oldOrgs.push_back(org);
+      }
+      else {
+        delete org;
+      };
+    };
+    
+    organisms.clear();
+    organisms.swap(oldOrgs);
+  };
+
   bool RuntimeManager::reset() {
     clock_frac_resources_provider = 1;
     clock_frac_genproc = 1;
@@ -173,6 +191,10 @@ namespace EDen {
   unsigned long RuntimeManager::getCycleCount() {
     return cycles;
   };
+
+  int RuntimeManager::getOrganismCount() {
+    return organisms.size();
+  }
 
   bool RuntimeManager::orgsAlive() {
     if(organisms.size() > 0) return true;

@@ -10,8 +10,8 @@
 #define CYCLES_TO_RUN 3000
 #define PRINT_OUT_ALL_N_CYCLES 3000
 #define SND_RUN_MULTIPLYER 2
-// STARTING_WATER_max: 2.0e7
-#define STARTING_WATER 2.0e7
+// STARTING_WATER_max: 2.0e9
+#define STARTING_WATER 2.0e9
 #define STARTING_GOO 450.0f
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
@@ -135,8 +135,9 @@ void sdl_test() {
   Bodypart* bp,* bp2;
   
 
-//  sun = new SDL_SunlightProvider();
-//  op1 = new SDLOrganismPrinter(1024,800,runtime);
+  sun = new SDL_SunlightProvider();
+  op1 = new SDLOrganismPrinter(1024,800,runtime);
+
 //  bp = new Bodypart(BPT_Stick,"TESTPART4");
 //  organism = new Organism("TestOrganism", bp, runtime);
 //  organism->connectToGoundpart(gp);

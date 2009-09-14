@@ -136,21 +136,21 @@ void sdl_test() {
   
 
 //  sun = new SDL_SunlightProvider();
-  op1 = new SDLOrganismPrinter(1024,800,runtime);
-  bp = new Bodypart(BPT_Stick,"TESTPART4");
-  organism = new Organism("TestOrganism", bp, runtime);
-  organism->connectToGoundpart(gp);
-  //op1->add(organism); 
-  runtime->add(organism);
-//  op2 = new OrganismPrinter(organism);
-  bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
-  bp->occupieSpawnpoint(bp2);
-  bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
-  if(!(bp->spawnBodypart(bp2))) cout << "[!1] bp2 not spawned" << endl;
-  if(!(bp->spawnBodypart(bp3))) cout << "[!1] bp3 not spawned" << endl;
-  bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
-  if(!(bp->spawnBodypart(bp3))) cout << "[!1] bp4 not spawned" << endl;
-  bp3->getChemicalStorage()->add("Energie",20.0f);
+//  op1 = new SDLOrganismPrinter(1024,800,runtime);
+//  bp = new Bodypart(BPT_Stick,"TESTPART4");
+//  organism = new Organism("TestOrganism", bp, runtime);
+//  organism->connectToGoundpart(gp);
+//  //op1->add(organism); 
+//  runtime->add(organism);
+////  op2 = new OrganismPrinter(organism);
+//  bp2 = new Bodypart(BPT_Branch,"TESTPART4",organism);
+//  bp->occupieSpawnpoint(bp2);
+//  bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
+//  if(!(bp->spawnBodypart(bp2))) cout << "[!1] bp2 not spawned" << endl;
+//  if(!(bp->spawnBodypart(bp3))) cout << "[!1] bp3 not spawned" << endl;
+//  bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
+//  if(!(bp->spawnBodypart(bp3))) cout << "[!1] bp4 not spawned" << endl;
+//  bp3->getChemicalStorage()->add("Energie",20.0f);
 
 /////////////////////////////////////////////////////////////////////////////
 

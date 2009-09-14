@@ -1,6 +1,8 @@
 #include "geneticProcessor.h"
 
-#define GRUNDVERBRAUCH 0.080f
+#define GRUNDVERBRAUCH 0.050f
+#define LIFETIME 1000
+#define SEED_DROP_ENERGIE_PERCENTAGE 96.0f
 
 namespace EDen {
   bool GeneticCode::generateDummyGenecode(std::string code) {
@@ -240,7 +242,7 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(new GeneticBodypartTypeCondition(BPT_Seed,GBT_equal));
       gAndCond->add(new GeneticHasParentCondition());
-      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,95.0,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,SEED_DROP_ENERGIE_PERCENTAGE,"Energie"));
       
       compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
       compAct->add(new GeneticDropSeedAction());
@@ -445,7 +447,7 @@ namespace EDen {
       gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
       
-      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,2000));
+      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,LIFETIME));
       gOrCond->add(new GeneticHealthpointsCondition(GBT_less,0.1f));
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(gOrCond);

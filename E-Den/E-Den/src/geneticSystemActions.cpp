@@ -34,7 +34,7 @@ namespace EDen {
   };
 
   bool GeneticSimpleChemicalConvertAction::execute() {
-    return(storage->add(fromChemName, -amount) && storage->add(toChemName, amount*ratio));
+    return(storage->add(fromChemName, -amount*storage->getSize()) && storage->add(toChemName, amount*ratio*storage->getSize()));
   };
 
   GeneticChemicalConsumeAction::GeneticChemicalConsumeAction(std::string nChemName, float nAmount, Bodypart* p_bp):
@@ -61,8 +61,8 @@ namespace EDen {
   };
 
   bool GeneticChemicalConsumeAction::execute() {
-    return storage->add(chemName,-amount);
-    //return storage->add(chemName,-amount*storage->getSize());
+    //return storage->add(chemName,-amount);
+    return storage->add(chemName,-amount*storage->getSize());
   };
 
   GeneticSpawnBodypartAction::GeneticSpawnBodypartAction(BodypartType param_childBodypartType, Bodypart* param_parentBodypart):

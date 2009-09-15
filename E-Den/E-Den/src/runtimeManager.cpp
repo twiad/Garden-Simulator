@@ -18,6 +18,11 @@ namespace EDen {
       organisms.pop_back();
     };
 
+    while(! seeds.empty()) {
+      delete seeds.back();
+      seeds.pop_back();
+    };
+
     while(! groundparts.empty()) {
       delete groundparts.back();
       groundparts.pop_back();
@@ -44,7 +49,7 @@ namespace EDen {
         delete org;
       };
     };
-    
+
     organisms.clear();
     organisms.swap(oldOrgs);
   };
@@ -62,7 +67,10 @@ namespace EDen {
 
   bool RuntimeManager::add(Organism* param_org, bool p_connectToGroundpart) {
     if(param_org) {
-      organisms.push_front(param_org);
+      if((param_org->getState() != BSP_seed) || (organisms.size() < MAX_PLANT_COUNT))
+        organisms.push_front(param_org);
+      else
+        seeds.push_front(param_org);
 
       if(p_connectToGroundpart) {
         param_org->connectToGoundpart(groundparts.front());
@@ -182,6 +190,11 @@ namespace EDen {
           };
     };
 
+    while(!seeds.empty() && (new_orgs.size() < MAX_PLANT_COUNT)) {
+      new_orgs.push_back(seeds.front());
+      seeds.pop_front();
+    };
+
     organisms.clear();
     organisms.swap(new_orgs);
 
@@ -195,6 +208,10 @@ namespace EDen {
   int RuntimeManager::getOrganismCount() {
     return organisms.size();
   }
+
+  int RuntimeManager::getSeedCount() {
+    return seeds.size();
+  };
 
   bool RuntimeManager::orgsAlive() {
     if(organisms.size() > 0) return true;

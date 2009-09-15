@@ -18,6 +18,7 @@ namespace EDen {
   protected:
     std::list<ResourceProvider*> resourceProviders;
     std::list<Organism*> organisms;
+    std::list<Organism*> seeds;
     std::list<Groundpart*> groundparts;
 
     bool cleanupDeadOrganisms();
@@ -49,6 +50,7 @@ namespace EDen {
 
     unsigned long getCycleCount();
     int getOrganismCount();
+    int getSeedCount();
     bool orgsAlive();
 
     std::list<Organism*> getOrganisms();

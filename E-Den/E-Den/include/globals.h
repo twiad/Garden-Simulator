@@ -112,7 +112,6 @@ namespace EDen {
 
   typedef std::map<BodypartType,BodypartType> BodypartTypeInheritageMap;
   typedef std::map<BodypartType,BodypartType>::iterator BodypartTypeInheritageMapIterator;
-
 };
 
 #endif

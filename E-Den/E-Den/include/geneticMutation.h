@@ -33,17 +33,17 @@ namespace EDen {
       Randomizer* randomizer; // should point to a more central unit in future versions
       // TODO: possible performance improvement if mutations remember their clauses ... management overhead for now (and mutations do not happen that often ...)
 
-      bool crawl(GeneticAction* p_act);
-      bool crawl(GeneticCondition* p_cond);
-      virtual bool execute(GeneticAction* p_act) {return false;};
-      virtual bool execute(GeneticCondition* p_cond) {return false;};
+      bool crawl(GeneticAction* p_act,float strength);
+      bool crawl(GeneticCondition* p_cond,float strength);
+      virtual bool execute(GeneticAction* p_act,float strength) {return false;};
+      virtual bool execute(GeneticCondition* p_cond,float strength) {return false;};
     public:
       GeneticMutation(float param_probability, std::string p_description = "No Description ...");
       ~GeneticMutation();
 
       float getProbability();
       bool setProbability(float param_prob);
-      bool execute(GeneticClause* clause);
+      bool execute(GeneticClause* clause,float strength);
       virtual GeneticMutation* copy() = 0;
     };
 
@@ -51,7 +51,7 @@ namespace EDen {
       friend class GeneticAddSpawnpointAction;
       float min,max,maxstep;
     protected:
-      virtual bool execute(GeneticAction* p_act);
+      virtual bool execute(GeneticAction* p_act,float strength);
     public:
       GeneticSpawnpoint2DAngleMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption = "2DAngleMutation");
       virtual GeneticMutation* copy();
@@ -62,7 +62,7 @@ namespace EDen {
     
       float min,max,maxstep;
     protected:
-      virtual bool execute(GeneticAction* p_act);
+      virtual bool execute(GeneticAction* p_act,float strength);
     public:
       GeneticMaxSizeMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption = "MaxSizeMutation");
       virtual GeneticMutation* copy();

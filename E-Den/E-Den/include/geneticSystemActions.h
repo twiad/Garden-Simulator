@@ -116,8 +116,9 @@ namespace EDen {
   class GeneticSimpleMutateAction: public GeneticAction {
   protected:
     Bodypart* bp;
+    float strength;
   public:
-    GeneticSimpleMutateAction(Bodypart* p_bp = 0);
+    GeneticSimpleMutateAction(Bodypart* p_bp = 0, float p_strength = 1.0f);
     virtual ~GeneticSimpleMutateAction();
 
     virtual bool execute();

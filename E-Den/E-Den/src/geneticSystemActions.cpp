@@ -224,7 +224,8 @@ namespace EDen {
     return true;
   };
 
-  GeneticSimpleMutateAction::GeneticSimpleMutateAction(Bodypart* p_bp) {
+  GeneticSimpleMutateAction::GeneticSimpleMutateAction(Bodypart* p_bp, float p_strength) {
+    strength = p_strength;
     bp = p_bp;
   };
   
@@ -233,7 +234,7 @@ namespace EDen {
   };
 
   bool GeneticSimpleMutateAction::execute() {
-    bp->getGeneticCode()->mutate();
+    bp->getGeneticCode()->mutate(strength);
     return true;
   };
 
@@ -243,7 +244,7 @@ namespace EDen {
   };
 
   GeneticAction* GeneticSimpleMutateAction::copy() {
-    return new GeneticSimpleMutateAction(); 
+    return new GeneticSimpleMutateAction(0,strength); 
   };
 
   GeneticHealParentAction::GeneticHealParentAction(float param_amount, Bodypart* p_bp):

@@ -65,11 +65,11 @@ namespace EDen {
     return speciesIdentifier; 
   };
 
-  bool GeneticCode::mutate() {
+  bool GeneticCode::mutate(float strength) {
     // for all clauses, for all possible mutations do mutation.execute(clause)
     for(GeneticClauseListIterator clause = clauses.begin(); clause != clauses.end(); clause++) {
       for(GeneticMutationListIterator mutation = possibleMutations.begin(); mutation != possibleMutations.end(); mutation++) {
-        (*mutation)->execute(*clause);
+        (*mutation)->execute(*clause,strength);
       };
     };
     

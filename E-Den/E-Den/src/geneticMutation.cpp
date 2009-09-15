@@ -28,37 +28,37 @@ namespace EDen {
     } else return false;
   };
 
-  bool GeneticMutation::crawl(GeneticAction* p_act) {
+  bool GeneticMutation::crawl(GeneticAction* p_act,float strength) {
     if(p_act->getActionType() == GAT_Compound) {
       bool retval = false;
       GeneticActionsList actions = ((GeneticCompoundAction*)(p_act))->getChildActions();
       for(GeneticActionsListIterator it = actions.begin(); it != actions.end(); it++) {
-        crawl(*it);
+        crawl(*it,strength);
       };
       return true;
     } 
     else  {
-      return execute(p_act);
+      return execute(p_act,strength);
     };
   };
 
-  bool GeneticMutation::crawl(GeneticCondition* p_cond) {
+  bool GeneticMutation::crawl(GeneticCondition* p_cond,float strength) {
     if(p_cond->getConditionType() == GCT_Compound) {
       bool retval = false;
       GeneticConditionsList conditions = ((GeneticCompoundCondition*)(p_cond))->getChildConditions();
       for(GeneticConditionsListIterator it = conditions.begin(); it != conditions.end(); it++) {
-        crawl(*it);
+        crawl(*it,strength);
       };
       return true;
     } 
     else  {
-      return execute(p_cond);
+      return execute(p_cond,strength);
     };
   };
 
-  bool GeneticMutation::execute(GeneticClause* clause) {
-    bool a = crawl(clause->act);
-    bool b = crawl(clause->cond);
+  bool GeneticMutation::execute(GeneticClause* clause,float strength) {
+    bool a = crawl(clause->act,strength);
+    bool b = crawl(clause->cond,strength);
     return a && b;
   };
 
@@ -90,8 +90,8 @@ namespace EDen {
   };
   
 
-  bool GeneticSpawnpoint2DAngleMutation::execute(GeneticAction* p_act) {
-    if(randomizer->value() < prob) {
+  bool GeneticSpawnpoint2DAngleMutation::execute(GeneticAction* p_act,float strength) {
+    if(randomizer->value() < prob*strength) {
       if(p_act->getActionType() == GAT_AddSpawnpoint) {
         SpawnpointInformation* sp = ((GeneticAddSpawnpointAction*)(p_act))->sp;
         if(sp->position != 0) {
@@ -117,8 +117,8 @@ namespace EDen {
   };
   
 
-  bool GeneticMaxSizeMutation::execute(GeneticAction* p_act) {
-    if(randomizer->value() < prob) {
+  bool GeneticMaxSizeMutation::execute(GeneticAction* p_act,float strength) {
+    if(randomizer->value() < prob*strength) {
       if(p_act->getActionType() == GAT_ChangeMaxSize) {
         float oldsize = ((GeneticChangeMaxSizeAction*)(p_act))->amount;
         ((GeneticChangeMaxSizeAction*)(p_act))->amount = randomizer->value(maxi<float>(min,oldsize - maxstep),mini<float>(max,oldsize + maxstep));

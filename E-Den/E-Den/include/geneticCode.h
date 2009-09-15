@@ -26,7 +26,7 @@ namespace EDen {
     unsigned int getSpeciesIdentifier();
     bool setBodypart(Bodypart* p_bp);
 
-    bool mutate();
+    bool mutate(float strength = 1.0f);
     GeneticClauseList getClauseList();
     GeneticCode* copy();
   };

@@ -3,6 +3,8 @@
 #define GRUNDVERBRAUCH 0.050f
 #define LIFETIME 1000
 #define SEED_DROP_ENERGIE_PERCENTAGE 96.0f
+#define BRANCHE_MUTATION 1.2
+#define SEED_MUTATION 0.3
 
 namespace EDen {
   bool GeneticCode::generateDummyGenecode(std::string code) {
@@ -244,7 +246,7 @@ namespace EDen {
       gAndCond->add(new GeneticHasParentCondition());
       gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,SEED_DROP_ENERGIE_PERCENTAGE,"Energie"));
       
-      compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
+      compAct->add(new GeneticSimpleMutateAction(0,SEED_MUTATION));
       compAct->add(new GeneticDropSeedAction());
     
       addClause(new GeneticClause(gAndCond, compAct, "Drop Seed"));
@@ -404,7 +406,7 @@ namespace EDen {
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,20.00f,"Energie"));
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,350.00f,"Wasser"));
       
-      compAct->add(new GeneticSimpleMutateAction());
+      compAct->add(new GeneticSimpleMutateAction(0,BRANCHE_MUTATION));
       compAct->add(new GeneticSpawnBodypartAction(BPT_Branch));
       compAct->add(new GeneticChemicalConsumeAction("Energie",20.0f));
       compAct->add(new GeneticChemicalConsumeAction("Wasser",350.0f));

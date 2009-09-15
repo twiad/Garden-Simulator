@@ -6,7 +6,6 @@
 
 #ifndef _E_DEN_RUNTIMEMANAGER_HEADER_
 #define _E_DEN_RUNTIMEMANAGER_HEADER_
-#define MAX_PLANT_COUNT 10
 
 #include "globals.h"
 #include "organism.h"

@@ -2,6 +2,7 @@
 // by Franz Koehler 2009
 
 #include "runtimeManager.h"
+#define MAX_PLANT_COUNT 5
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {

@@ -206,7 +206,7 @@ namespace EDen {
     std::string newCaption = "";
     char str[64];
     if(runtimeManager) {
-      sprintf(str,"[%lu,%d]-",runtimeManager->getCycleCount(),runtimeManager->getSeedCount());
+      sprintf(str,"[%lu]- [%d",runtimeManager->getCycleCount(),runtimeManager->getSeedCount());
       newCaption += str;
     }
 
@@ -214,7 +214,7 @@ namespace EDen {
     //  newCaption += " " + (*it)->getName(); 
     //};
     
-    sprintf(str,"[%d]",organisms.size());
+    sprintf(str,"|%d]",organisms.size());
     newCaption += str;
 
     SDL_WM_SetCaption(newCaption.c_str(),newCaption.c_str());

@@ -74,12 +74,14 @@ namespace EDen {
   class GeneticAction {
   protected:
     GeneticActionType actType;
+    bool active;
 
   public:
-    GeneticAction(GeneticActionType param_actType = GAT_UNKNOWN): actType(param_actType) {};
+    GeneticAction(GeneticActionType param_actType = GAT_UNKNOWN, bool p_active = true): actType(param_actType), active(p_active) {};
     virtual ~GeneticAction() {};
 
     GeneticActionType getActionType();
+    bool getActive();
 
     virtual bool execute() = 0;
     virtual bool setBodypart(Bodypart* param_bodypart) = 0;

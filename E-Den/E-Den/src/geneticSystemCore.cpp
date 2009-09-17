@@ -159,6 +159,10 @@ namespace EDen {
     return actType;  
   };
 
+  bool GeneticAction::getActive() {
+    return active;
+  };
+
   GeneticClause::~GeneticClause() {
     delete cond;
     delete act;

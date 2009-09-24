@@ -1,7 +1,7 @@
 #include "geneticProcessor.h"
 
 #define GRUNDVERBRAUCH 0.06f
-#define LIFETIME 2000
+#define LIFETIME 1800
 #define SEED_DROP_ENERGIE_PERCENTAGE 96.1f
 #define BRANCHE_MUTATION 0.1f
 #define SEED_MUTATION 1.5f

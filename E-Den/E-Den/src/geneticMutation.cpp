@@ -122,14 +122,39 @@ namespace EDen {
       if(p_act->getActionType() == GAT_ChangeMaxSize) {
         float oldsize = ((GeneticChangeMaxSizeAction*)(p_act))->amount;
         ((GeneticChangeMaxSizeAction*)(p_act))->amount = randomizer->value(maxi<float>(min,oldsize - maxstep),mini<float>(max,oldsize + maxstep));
+        return true; 
       };
-      return true; 
     }
     return false;
   };
 
   GeneticMutation* GeneticMaxSizeMutation::copy() {
     return new GeneticMaxSizeMutation(min,max,maxstep,prob);
+  };
+
+   
+  GeneticMaxAmountMutation::GeneticMaxAmountMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_chemicalName, std::string p_desciption): GeneticMutation(p_prob,p_desciption) {
+    min = p_min;
+    max = p_max;
+    maxstep = p_maxstep;
+    chemName = p_chemicalName;
+  };
+
+  GeneticMutation* GeneticMaxAmountMutation::copy() {
+    return new GeneticMaxAmountMutation(min,max,maxstep,prob,chemName);
+  };
+
+  bool GeneticMaxAmountMutation::execute(GeneticAction* p_act, float strength) {
+    if(randomizer->value() < prob*strength) {
+      if(p_act->getActionType() == GAT_ChangeMaxChemAmount) {
+        if(((GeneticChangeMaxChemicalAmountAction*)(p_act))->chemName == chemName) {
+          float oldsize = ((GeneticChangeMaxChemicalAmountAction*)(p_act))->value;
+          ((GeneticChangeMaxChemicalAmountAction*)(p_act))->value = randomizer->value(maxi<float>(min,oldsize - maxstep),mini<float>(max,oldsize + maxstep));
+          return true; 
+        };
+      };
+    }
+    return false;
   };
 
 }; // namespace

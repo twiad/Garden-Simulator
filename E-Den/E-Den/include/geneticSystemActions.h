@@ -69,6 +69,7 @@ namespace EDen {
   };
 
   class GeneticChangeMaxChemicalAmountAction: public GeneticAction {
+  friend class GeneticMaxAmountMutation;
   private:
     Bodypart* bp;
     float value;

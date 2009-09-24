@@ -918,6 +918,8 @@ namespace EDen {
     
     possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.1f,"Silli Anglular Mutation"));
     possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.05f,"Silli MaxSize Mutation"));
+    possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,2.0f,0.02f,"Energie","Max Amount Mutation: Energie"));
+    possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,2.0f,0.1f,"Wasser","Max Amount Mutation: Wasser"));
     
     return true;
   };

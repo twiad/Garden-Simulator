@@ -68,6 +68,18 @@ namespace EDen {
       virtual GeneticMutation* copy();
     };
 
+    class GeneticMaxAmountMutation : public GeneticMutation {
+    friend class GeneticChangeMaxChemicalAmountAction;
+    
+      float min,max,maxstep;
+      std::string chemName;
+    protected:
+      virtual bool execute(GeneticAction* p_act,float strength);
+    public:
+      GeneticMaxAmountMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_chemicalName, std::string p_desciption = "MaxSizeMutation");
+      virtual GeneticMutation* copy();
+    };
+
 
 //  } // namespace Mutations
 

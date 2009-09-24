@@ -53,6 +53,8 @@ namespace EDen {
 
     organisms.clear();
     organisms.swap(oldOrgs);
+
+    return true;
   };
 
   bool RuntimeManager::reset() {

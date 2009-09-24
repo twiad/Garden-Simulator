@@ -154,9 +154,8 @@ namespace EDen {
     if(active) {
       bp->addSpawnpoint(sp->copy());
       spawnpointAdded = true;
-      return true;
     };
-    return false;
+    return true;
   };
 
   GeneticGrowAction::GeneticGrowAction(float param_amount, Bodypart* param_bodypart):

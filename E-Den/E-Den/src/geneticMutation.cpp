@@ -157,4 +157,23 @@ namespace EDen {
     return false;
   };
 
+  
+  GeneticSpawnpointActiveMutation::GeneticSpawnpointActiveMutation(float p_prob, std::string p_desciption): GeneticMutation(p_prob,p_desciption) {
+    
+  };
+
+  GeneticMutation* GeneticSpawnpointActiveMutation::copy() {
+    return new GeneticSpawnpointActiveMutation(prob,description);
+  };
+
+  bool GeneticSpawnpointActiveMutation::execute(GeneticAction* p_act,float strength) {
+    if(randomizer->value() < prob*strength) {
+      if(p_act->getActionType() == GAT_AddSpawnpoint) {
+        ((GeneticAddSpawnpointAction*)(p_act))->active = !(((GeneticAddSpawnpointAction*)(p_act))->active);
+        return true; 
+      };
+    }
+    return false;
+  };
+
 }; // namespace

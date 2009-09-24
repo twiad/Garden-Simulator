@@ -80,7 +80,14 @@ namespace EDen {
       virtual GeneticMutation* copy();
     };
 
-
+    class GeneticSpawnpointActiveMutation : public GeneticMutation {
+    friend class GeneticAddSpawnpointAction;
+    protected:
+      virtual bool execute(GeneticAction* p_act,float strength);
+    public:
+      GeneticSpawnpointActiveMutation(float p_prob, std::string p_desciption = "SpawnpointActiveMutation");
+      virtual GeneticMutation* copy();
+    };
 //  } // namespace Mutations
 
 } // namespace EDen

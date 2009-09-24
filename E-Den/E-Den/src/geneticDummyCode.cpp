@@ -917,7 +917,8 @@ namespace EDen {
     possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.05f,"Max Size Mutation"));
     possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.02f,"Energie", "Max Amount Mutation: Energie"));
     possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.1f,"Wasser", "Max Amount Mutation: Wasser"));
-    
+    possibleMutations.push_back(new GeneticSpawnpointActiveMutation(0.01f, "Spawnpoint Active Mutation"));
+
     return true;
   };
 };

@@ -11,6 +11,7 @@
 #include "organism.h"
 #include "groundpart.h"
 #include "chemicalDistributionSystem.h"
+#include "geneticMutation.h"
 
 namespace EDen {
   class RuntimeManager {
@@ -20,10 +21,14 @@ namespace EDen {
     std::list<Organism*> seeds;
     std::list<Groundpart*> groundparts;
 
+    Randomizer* randomizer;
+
     bool cleanupDeadOrganisms();
     bool deleteAll();
     bool deleteAllOfSpecies(int speciesID);
     unsigned long cycles;
+
+    Organism* getNextSeed();
 
     int clock_frac_resources_provider;
     int clock_frac_genproc;

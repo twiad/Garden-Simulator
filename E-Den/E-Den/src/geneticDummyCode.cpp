@@ -263,7 +263,7 @@ namespace EDen {
       // Rule:
       // IF State = Alive
       //  AND CanGrow
-      //  #AND has more than 25.0% energy
+      //  AND has more than 25.0% energy
       //  AND has more than 2.1 energy
       // THEN
       //  Consume 0.500 "Energie"

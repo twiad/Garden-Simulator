@@ -8,6 +8,7 @@
 
 namespace EDen {
   class GeneticMutation;
+  class Randomizer;
   typedef std::list<GeneticMutation*> GeneticMutationList;
   typedef std::list<GeneticMutation*>::iterator GeneticMutationListIterator; 
 };

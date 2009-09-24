@@ -6,6 +6,7 @@
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {
+    randomizer = new Randomizer();
     reset();
   };
 
@@ -55,6 +56,15 @@ namespace EDen {
     organisms.swap(oldOrgs);
 
     return true;
+  };
+
+  Organism* RuntimeManager::getNextSeed() {
+    int pos = (int)randomizer->value(0.0f,(float)seeds.size());
+    std::list<Organism*>::iterator it = seeds.begin();
+    for(int i = 0; i < pos; i++) {
+      it++;
+    };
+    return *it;
   };
 
   bool RuntimeManager::reset() {
@@ -194,8 +204,9 @@ namespace EDen {
     };
 
     while(!seeds.empty() && (new_orgs.size() < MAX_PLANT_COUNT)) {
-      new_orgs.push_back(seeds.front());
-      seeds.pop_front();
+      Organism* org = getNextSeed();
+      new_orgs.push_back(org);
+      seeds.remove(org);
     };
 
     organisms.clear();

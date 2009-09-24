@@ -169,8 +169,10 @@ namespace EDen {
   bool GeneticSpawnpointActiveMutation::execute(GeneticAction* p_act,float strength) {
     if(randomizer->value() < prob*strength) {
       if(p_act->getActionType() == GAT_AddSpawnpoint) {
-        ((GeneticAddSpawnpointAction*)(p_act))->active = !(((GeneticAddSpawnpointAction*)(p_act))->active);
-        return true; 
+        if(((GeneticAddSpawnpointAction*)(p_act))->sp->position != 0) {
+          ((GeneticAddSpawnpointAction*)(p_act))->active = !(((GeneticAddSpawnpointAction*)(p_act))->active);
+          return true; 
+        };
       };
     }
     return false;

@@ -90,9 +90,10 @@ namespace EDen {
     Bodypart* bp;
     SpawnpointInformation* sp;
     bool spawnpointAdded;
+    bool active;
   public:
-    GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, Bodypart* param_bodypart = 0);
-    GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, Bodypart* param_bodypart = 0);
+    GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, bool p_active = true, Bodypart* param_bodypart = 0);
+    GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, bool p_active = true, Bodypart* param_bodypart = 0);
     
     virtual ~GeneticAddSpawnpointAction();
 

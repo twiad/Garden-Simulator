@@ -771,7 +771,6 @@ namespace EDen {
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,0.01f,"Energie"));
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,20.0f,"Wasser"));
       gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,15.0f,"Energie"));
-      
 
       compAct->add(new GeneticSpawnBodypartAction(BPT_Stick));
       compAct->add(new GeneticChemicalConsumeAction("Energie",0.01f));
@@ -904,8 +903,6 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
         
-
-
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(new GeneticParentHealthpointsCondition(GBT_less,100.0f));
       
@@ -916,10 +913,10 @@ namespace EDen {
 
     };
     
-    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.1f,"Silli Anglular Mutation"));
-    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.05f,"Silli MaxSize Mutation"));
-    possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,2.0f,0.02f,"Energie","Max Amount Mutation: Energie"));
-    possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,2.0f,0.1f,"Wasser","Max Amount Mutation: Wasser"));
+    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.1f,"Anglular Mutation"));
+    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.05f,"Max Size Mutation"));
+    possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.02f,"Energie", "Max Amount Mutation: Energie"));
+    possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.1f,"Wasser", "Max Amount Mutation: Wasser"));
     
     return true;
   };

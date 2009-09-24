@@ -115,7 +115,7 @@ namespace EDen {
     return true;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, Bodypart* param_bodypart):
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, bool p_active, Bodypart* param_bodypart):
     GeneticAction(GAT_AddSpawnpoint), spawnpointAdded(false) {
     setBodypart(param_bodypart);
     sp = new SpawnpointInformation();
@@ -123,9 +123,10 @@ namespace EDen {
     sp->position = param_position;
     sp->occupied = false;
     sp->ang2d = param_ang2d;
+    active = p_active;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, Bodypart* param_bodypart):
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, bool p_active, Bodypart* param_bodypart):
     GeneticAction(GAT_AddSpawnpoint), spawnpointAdded(false) {
     setBodypart(param_bodypart);
     sp = new SpawnpointInformation();
@@ -133,6 +134,7 @@ namespace EDen {
     sp->position = param_position;
     sp->occupied = false;
     sp->ang2d = param_ang2d;
+    active = p_active;
   };
 
   GeneticAddSpawnpointAction::~GeneticAddSpawnpointAction() {
@@ -140,7 +142,7 @@ namespace EDen {
   };
 
   GeneticAction* GeneticAddSpawnpointAction::copy() {
-    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d);
+    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d,active);
   };
 
   bool GeneticAddSpawnpointAction::setBodypart(Bodypart* p_bp) {
@@ -149,9 +151,12 @@ namespace EDen {
   };
 
   bool GeneticAddSpawnpointAction::execute() {
-    bp->addSpawnpoint(sp->copy());
-    spawnpointAdded = true;
-    return true;
+    if(active) {
+      bp->addSpawnpoint(sp->copy());
+      spawnpointAdded = true;
+      return true;
+    };
+    return false;
   };
 
   GeneticGrowAction::GeneticGrowAction(float param_amount, Bodypart* param_bodypart):

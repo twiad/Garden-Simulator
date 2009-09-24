@@ -1,10 +1,6 @@
 #include "geneticProcessor.h"
 
-#define GRUNDVERBRAUCH 0.06f
-#define LIFETIME 2000
-#define SEED_DROP_ENERGIE_PERCENTAGE 96.1f
-#define BRANCHE_MUTATION 0.1f
-#define SEED_MUTATION 1.5f
+#define GRUNDVERBRAUCH 0.040f
 
 namespace EDen {
   bool GeneticCode::generateDummyGenecode(std::string code) {
@@ -139,12 +135,6 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 4, 125.0f));
       compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 5, -125.0f));
       compAct->add(new GeneticAddSpawnpointAction(BPT_Seed, 6, 0.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7, 45.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 8, -45.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 9, 25.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 10, -25.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 11, 10.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 12, -10.0f, false));
       //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser", 500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie", 35.0f));
@@ -177,8 +167,6 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
       compAct->add(new GeneticAddSpawnpointAction(bpts, 1, -13.0f));
       compAct->add(new GeneticAddSpawnpointAction(bpts, 2, 13.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 3, -26.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 4, 26.0f, false));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",150.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",3.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne", 0.0f));
@@ -252,9 +240,9 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(new GeneticBodypartTypeCondition(BPT_Seed,GBT_equal));
       gAndCond->add(new GeneticHasParentCondition());
-      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,SEED_DROP_ENERGIE_PERCENTAGE,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,96.0,"Energie"));
       
-      compAct->add(new GeneticSimpleMutateAction(0,SEED_MUTATION));
+      compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
       compAct->add(new GeneticDropSeedAction());
     
       addClause(new GeneticClause(gAndCond, compAct, "Drop Seed"));
@@ -414,7 +402,7 @@ namespace EDen {
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,20.00f,"Energie"));
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,350.00f,"Wasser"));
       
-      compAct->add(new GeneticSimpleMutateAction(0,BRANCHE_MUTATION));
+      compAct->add(new GeneticSimpleMutateAction());
       compAct->add(new GeneticSpawnBodypartAction(BPT_Branch));
       compAct->add(new GeneticChemicalConsumeAction("Energie",20.0f));
       compAct->add(new GeneticChemicalConsumeAction("Wasser",350.0f));
@@ -447,7 +435,7 @@ namespace EDen {
       ///////////////////////////////////////////////////////////////////////
       // Rule:
       // IF State = Alive
-      //  AND Healthpoints less_than 0.1 OR ParentOrganismLifetime > 2000
+      //  AND Healthpoints less_than 0.1 OR ParentOrganismLifetime > 1327
       // THEN
       //  EmptyChemicalStorage
       //  Die
@@ -457,7 +445,7 @@ namespace EDen {
       gOrCond = new GeneticORCondition();
       compAct = new GeneticCompoundAction();
       
-      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,LIFETIME));
+      gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,700));
       gOrCond->add(new GeneticHealthpointsCondition(GBT_less,0.1f));
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(gOrCond);
@@ -779,6 +767,7 @@ namespace EDen {
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,0.01f,"Energie"));
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,20.0f,"Wasser"));
       gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,15.0f,"Energie"));
+      
 
       compAct->add(new GeneticSpawnBodypartAction(BPT_Stick));
       compAct->add(new GeneticChemicalConsumeAction("Energie",0.01f));
@@ -911,6 +900,8 @@ namespace EDen {
       gAndCond = new GeneticANDCondition();
       compAct = new GeneticCompoundAction();
         
+
+
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(new GeneticParentHealthpointsCondition(GBT_less,100.0f));
       
@@ -921,12 +912,9 @@ namespace EDen {
 
     };
     
-    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.1f,"Anglular Mutation"));
-    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.05f,"Max Size Mutation"));
-    // possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.02f,"Energie", "Max Amount Mutation: Energie"));
-    // possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.1f,"Wasser", "Max Amount Mutation: Wasser"));
-    // possibleMutations.push_back(new GeneticSpawnpointActiveMutation(0.01f, "Spawnpoint Active Mutation"));
-
+    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.1f,"Silli Anglular Mutation"));
+    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.05f,"Silli MaxSize Mutation"));
+    
     return true;
   };
 };

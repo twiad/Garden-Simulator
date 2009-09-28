@@ -59,7 +59,7 @@ namespace EDen {
   };
 
   Organism* RuntimeManager::getNextSeed() {
-    int pos = (int)randomizer->value(0.0f,(float)seeds.size());
+    int pos = (int)randomizer->value(0.0f,(float)seeds.size() - 1);
     std::list<Organism*>::iterator it = seeds.begin();
     for(int i = 0; i < pos; i++) {
       it++;

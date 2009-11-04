@@ -154,10 +154,12 @@ namespace EDen {
     if(SDL_MUSTLOCK(screen))
 		  SDL_LockSurface(screen);
     
-    for(int x = 0; x < dimx; x++)
-      for(int y = 0; y < dimy; y++)
-        // putpixel(screen,x,y,SDL_MapRGB(screen->format,x%65,y%255,(x+y)%255));
-        putpixel(screen,x,y,SDL_MapRGB(screen->format,0,0,0));
+    //for(int x = 0; x < dimx; x++)
+    //  for(int y = 0; y < dimy; y++)
+    //    // putpixel(screen,x,y,SDL_MapRGB(screen->format,x%65,y%255,(x+y)%255));
+    //    putpixel(screen,x,y,SDL_MapRGB(screen->format,0,0,0));
+
+	Draw_FillRect(screen,0,0,dimx-1,dimy-1,SDL_MapRGB(screen->format,0,0,0));
 
     percentagePrinterCounter = 0;
 

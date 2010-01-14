@@ -16,6 +16,8 @@
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
+#define SDL_DIMX 1024
+#define SDL_DIMY 800
 
 using namespace EDen; 
 using namespace std;
@@ -109,10 +111,11 @@ bool wait_for_events()
 			     break;
 		     case SDL_MOUSEBUTTONUP:           //mouse button pressed
 			     printf("Mouse button %d pressed x:%d, y:%d\n", event.button.button, event.button.x, event.button.y );
-           if(event.button.button == 1) 
-             gp->getChemicalStorage()->add("Wasser",event.button.x*1000.0f);
+           if(event.button.button == 1) {
+             gp->getChemicalStorage()->add("Wasser",((float)event.button.x / (float)SDL_DIMX) * ((float)STARTING_WATER / 7.0f));
+           }
            else
-             gp->getChemicalStorage()->add("Wasser",-event.button.x*1000.0f);
+             gp->getChemicalStorage()->add("Wasser",-((float)event.button.x / (float)SDL_DIMX) * ((float)STARTING_WATER / 7.0f));
 			     break; 
 	       case SDL_QUIT:		
 	         exit ( 1 );

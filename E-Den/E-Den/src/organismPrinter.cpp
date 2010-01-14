@@ -13,8 +13,6 @@
 
 namespace EDen {
 
-
-
   bool OrganismPrinter::print() {
     std::cout << "\n--[" << org->getName() << "]-[" << org->getBodypartCount() << "]--" << std::endl;
     printLetter(org->getRootBodypart(),true,true,false);
@@ -154,11 +152,13 @@ namespace EDen {
     if(SDL_MUSTLOCK(screen))
 		  SDL_LockSurface(screen);
     
-    for(int x = 0; x < dimx; x++)
-      for(int y = 0; y < dimy; y++)
-        // putpixel(screen,x,y,SDL_MapRGB(screen->format,x%65,y%255,(x+y)%255));
-        putpixel(screen,x,y,SDL_MapRGB(screen->format,0,0,0));
+    //for(int x = 0; x < dimx; x++)
+    //  for(int y = 0; y < dimy; y++)
+    //    // putpixel(screen,x,y,SDL_MapRGB(screen->format,x%65,y%255,(x+y)%255));
+    //    putpixel(screen,x,y,SDL_MapRGB(screen->format,0,0,0));
 
+    Draw_FillRect(screen,0,0,dimx,dimy,SDL_MapRGB(screen->format,0,0,0));
+    
     percentagePrinterCounter = 0;
 
     return true;
@@ -225,7 +225,7 @@ namespace EDen {
     resetScreen();
     if(runtimeManager) organisms = runtimeManager->getOrganisms();
     else cleanupDeadOrganisms();
-    updateCaption();
+    
     needToScale = false;
     Organism* org;
 
@@ -243,6 +243,9 @@ namespace EDen {
     //redrawScreen();
 
     if(needToScale) scale = scale * SCALE_FACTOR;
+    
+    if(runtimeManager->getCycleCount() % 10 == 0)
+        updateCaption();
 
     return true;
   };

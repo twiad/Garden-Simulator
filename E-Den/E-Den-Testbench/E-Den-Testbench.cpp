@@ -139,7 +139,7 @@ void sdl_test() {
   
 
   sun = new SDL_SunlightProvider();
-  op1 = new SDLOrganismPrinter(1024,800,runtime);
+  op1 = new SDLOrganismPrinter(1024,600,runtime);
 
 //  bp = new Bodypart(BPT_Stick,"TESTPART4");
 //  organism = new Organism("TestOrganism", bp, runtime);

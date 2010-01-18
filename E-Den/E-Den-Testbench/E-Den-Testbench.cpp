@@ -104,6 +104,8 @@ bool wait_for_events()
 	          quit = true;
 		      else if ( key[0] == 'q'  )	//quit if 'q'  pressed
 	          quit = true;			//same as "if ( event.key.keysym.sym == SDLK_q )"
+          else if ( key[0] == 's'  )  //save if 's' pressed
+            runtime->saveDatabase();
 		    break;
 		     case SDL_MOUSEMOTION:             //mouse moved
 			     printf("Mouse motion x:%d, y:%d\n", event.motion.x, event.motion.y );

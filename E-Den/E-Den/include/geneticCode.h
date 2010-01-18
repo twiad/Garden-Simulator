@@ -16,17 +16,17 @@ namespace EDen {
     GeneticClauseList clauses;
     GeneticMutationList possibleMutations;
 
-    unsigned int speciesIdentifier;
-    unsigned int subSpeciesIdentifier;
+    int speciesIdentifier;
+    int subSpeciesIdentifier;
     
     bool addClause(GeneticClause* clause);
   public:
     GeneticCode(std::string dummyCodeIdentifier = "TESTPART3");
-    GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList possibleMutations, unsigned int param_speciesIdentifier = 0, unsigned int param_subSpeciesIdentifier = 0);
+    GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList possibleMutations, int param_speciesIdentifier = 0, int param_subSpeciesIdentifier = 0);
     ~GeneticCode();
 
-    unsigned int getSpeciesIdentifier();
-    unsigned int getSubSpeciesIdentifier();
+    int getSpeciesIdentifier();
+    int getSubSpeciesIdentifier();
     bool setBodypart(Bodypart* p_bp);
 
     bool mutate(float strength = 1.0f);

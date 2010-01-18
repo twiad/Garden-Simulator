@@ -6,6 +6,7 @@
 
 #include "globals.h"
 #include "geneticCode.h"
+#include "organism.h"
 #include "tinyxml.h"
 #include <map>
 
@@ -13,7 +14,7 @@ namespace EDen {
   
   class GeneticCodeDatabase {
   protected:
-    std::map<int,GeneticCode*> codes;
+    std::list<Organism*> orgs;
     TiXmlDocument* doc;
     std::string filename;
 
@@ -23,8 +24,8 @@ namespace EDen {
     int load(std::string pFilename);
     int save();
 
-    void push(GeneticCode* code);
-    GeneticCode* pull();
+    void push(Organism* org);
+    Organism* pull();
 
   };
 

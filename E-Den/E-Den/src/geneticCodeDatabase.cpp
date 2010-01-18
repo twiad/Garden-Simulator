@@ -17,22 +17,20 @@ namespace EDen {
     bool loadOkay = doc->LoadFile();
 	  if (loadOkay)
 	  {
-		  //printf("\n%s loaded ...\n", filename);
-      return 1;
+      return 2;
 	  }
 	  else
 	  {
-		  //printf("Failed to load file \"%s\"\nCreating File ...", filename);
-
       doc = new TiXmlDocument();
 
       TiXmlDeclaration * decl = new TiXmlDeclaration("1.0", "", "");
       TiXmlElement * element1 = new TiXmlElement("E-DEN-CodeDefinition");
       TiXmlElement * element2 = new TiXmlElement("Version");
+      TiXmlElement * element3 = new TiXmlElement("Database");
       TiXmlText * versionText = new TiXmlText("0.1.0");
       
       element1->LinkEndChild(element2);
-
+      element1->LinkEndChild(element3);
       element2->LinkEndChild(versionText);
       doc->LinkEndChild(decl);
       doc->LinkEndChild(element1);
@@ -41,15 +39,34 @@ namespace EDen {
   };
 
   int GeneticCodeDatabase::save() {
-    
+    TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
+    database->Clear();
+
+    TiXmlElement* it_element;
+
+    for( std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
+      it_element = new TiXmlElement("Organism");
+      it_element->SetAttribute("SpeciesID",(*it)->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier());
+      it_element->SetAttribute("SubSpeciesID",(*it)->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier());
+      database->LinkEndChild(it_element);
+    };
+
+    return (int)doc->SaveFile(filename);
   };
 
-  void GeneticCodeDatabase::push(GeneticCode* code) {
-    
+  void GeneticCodeDatabase::push(Organism* org) {
+    orgs.push_back(org);
   };
 
-  GeneticCode* GeneticCodeDatabase::pull() {
+  Organism* GeneticCodeDatabase::pull() {
+    Organism* org = 0;
     
+    if(orgs.size() > 0) {
+      org = orgs.front();
+      orgs.pop_front();
+    };
+
+    return org;
   };
 
 }; // namespace

@@ -2,12 +2,13 @@
 // by Franz Koehler 2009
 
 #include "runtimeManager.h"
-#define MAX_PLANT_COUNT 7
+#define MAX_PLANT_COUNT 3
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {
     randomizer = new Randomizer();
     database = new GeneticCodeDatabase();
+    database->load("database.xml");
     reset();
   };
 
@@ -35,6 +36,8 @@ namespace EDen {
       delete resourceProviders.back();
       resourceProviders.pop_back();
     };
+
+    database->save();
 
     return true;
   };
@@ -75,9 +78,9 @@ namespace EDen {
     clock_frac_chemlinks = 1;
     
     cycles = 0;
+
     deleteAll();
 
-    database->load("database.xml");
     return true;
   };
 
@@ -85,8 +88,10 @@ namespace EDen {
     if(param_org) {
       if((param_org->getState() != BSP_seed) || (organisms.size() < MAX_PLANT_COUNT))
         organisms.push_front(param_org);
-      else
+      else {
         seeds.push_front(param_org);
+        database->push(param_org);
+      };
 
       if(p_connectToGroundpart) {
         param_org->connectToGoundpart(groundparts.front());
@@ -233,6 +238,10 @@ namespace EDen {
   bool RuntimeManager::orgsAlive() {
     if(organisms.size() > 0) return true;
     return false;
+  };
+
+  int RuntimeManager::saveDatabase() {
+    return database->save();
   };
 
   std::list<Organism*> RuntimeManager::getOrganisms() {

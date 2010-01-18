@@ -9,7 +9,7 @@ namespace EDen {
     generateDummyGenecode(dummyCodeIdentifier); 
   };
 
-  GeneticCode::GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList p_mutations, unsigned int param_speciesIdentifier) {
+  GeneticCode::GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList p_mutations, unsigned int param_speciesIdentifier, unsigned int param_subSpeciesIdentifier) {
     speciesIdentifier = param_speciesIdentifier;
     clauses = param_clauseList;
     possibleMutations = p_mutations;
@@ -63,6 +63,10 @@ namespace EDen {
 
   unsigned int GeneticCode::getSpeciesIdentifier() {
     return speciesIdentifier; 
+  };
+
+  unsigned int GeneticCode::getSubSpeciesIdentifier() {
+    return subSpeciesIdentifier; 
   };
 
   bool GeneticCode::mutate(float strength) {

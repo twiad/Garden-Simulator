@@ -7,6 +7,7 @@
 namespace EDen {
   RuntimeManager::RuntimeManager() {
     randomizer = new Randomizer();
+    database = new GeneticCodeDatabase();
     reset();
   };
 
@@ -75,6 +76,8 @@ namespace EDen {
     
     cycles = 0;
     deleteAll();
+
+    database->load("database.xml");
     return true;
   };
 

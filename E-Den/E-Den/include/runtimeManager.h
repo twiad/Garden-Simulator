@@ -12,6 +12,7 @@
 #include "groundpart.h"
 #include "chemicalDistributionSystem.h"
 #include "geneticMutation.h"
+#include "geneticCodeDatabase.h"
 
 namespace EDen {
   class RuntimeManager {
@@ -20,6 +21,8 @@ namespace EDen {
     std::list<Organism*> organisms;
     std::list<Organism*> seeds;
     std::list<Groundpart*> groundparts;
+
+    GeneticCodeDatabase* database;
 
     Randomizer* randomizer;
 

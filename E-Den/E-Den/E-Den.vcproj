@@ -167,6 +167,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\geneticCodeDatabase.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\geneticDummyCode.cpp"
 				>
 			</File>
@@ -222,6 +226,10 @@
 			</File>
 			<File
 				RelativePath=".\include\geneticCode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\geneticCodeDatabase.h"
 				>
 			</File>
 			<File

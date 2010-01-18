@@ -7,6 +7,7 @@
 #include "globals.h"
 #include "geneticSystemCore.h"
 #include "geneticMutation.h"
+#include "tinyxml.h"
 
 namespace EDen {
   class GeneticCode {

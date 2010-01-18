@@ -287,4 +287,18 @@ namespace EDen {
     return runtimeManager; 
   };
 
+  TiXmlElement* Organism::getXmlElement() {
+    TiXmlElement* element;
+
+    element = new TiXmlElement("Organism");
+    element->SetAttribute("Name",getName());
+    element->SetAttribute("State",(int)getState());
+    element->SetAttribute("Lifetime",getLifetime());
+    element->SetAttribute("SpeciesID",getRootBodypart()->getGeneticCode()->getSpeciesIdentifier());
+    element->SetAttribute("SubSpeciesID",getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier());
+
+    // element->LinkEndChild(rootBodypart->getXmlElement());
+
+    return element;
+  };
 };

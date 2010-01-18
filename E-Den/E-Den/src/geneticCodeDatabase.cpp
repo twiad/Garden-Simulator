@@ -42,13 +42,8 @@ namespace EDen {
     TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
     database->Clear();
 
-    TiXmlElement* it_element;
-
     for( std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
-      it_element = new TiXmlElement("Organism");
-      it_element->SetAttribute("SpeciesID",(*it)->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier());
-      it_element->SetAttribute("SubSpeciesID",(*it)->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier());
-      database->LinkEndChild(it_element);
+      database->LinkEndChild((*it)->getXmlElement());
     };
 
     return (int)doc->SaveFile(filename);

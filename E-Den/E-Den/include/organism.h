@@ -8,6 +8,8 @@
 #include "groundpart.h"
 #include "runtimeManager.h"
 
+#include "tinyxml.h"
+
 namespace EDen {
   class Bodypart;
   class GeneticProcessor;
@@ -69,6 +71,8 @@ namespace EDen {
     bool connectedToGoundpart();
 
     Bodypart* getRootBodypart();
+
+    TiXmlElement* getXmlElement();
   };
 }
 

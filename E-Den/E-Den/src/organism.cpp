@@ -17,6 +17,21 @@ namespace EDen {
       runtimeManager->registerBodypart(rootBodypart);
     };
   };
+
+  Organism::Organism(TiXmlElement* description, RuntimeManager* param_runtimeManager) {
+    TiXmlElement* bodypartElement = description->FirstChildElement("Bodypart");
+    description->QueryIntAttribute("Lifetime",&lifetime);
+    name = description->Attribute("Name");
+    
+
+    runtimeManager = param_runtimeManager;
+    //rootBodypart = new Bodypart(bodypartElement);
+    registerBodypart(rootBodypart);
+
+    if(runtimeManager) {
+      runtimeManager->registerBodypart(rootBodypart);
+    };
+  };
   
   Organism::~Organism() {
     if(connectedToGoundpart()) {

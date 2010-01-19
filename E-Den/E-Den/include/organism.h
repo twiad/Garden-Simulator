@@ -48,6 +48,7 @@ namespace EDen {
 
   public:
     Organism(std::string param_name, Bodypart* param_rootBodypart, RuntimeManager* param_runtimeManager = 0);
+    Organism(TiXmlElement* description, RuntimeManager* param_runtimeManager = 0);
     ~Organism();
 
     std::string getName();

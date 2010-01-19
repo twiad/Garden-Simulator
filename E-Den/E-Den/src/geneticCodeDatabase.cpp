@@ -25,6 +25,8 @@ namespace EDen {
     bool loadOkay = doc->LoadFile();
 	  if (loadOkay)
 	  {
+      TiXmlElement* element = doc->GetDocument()->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database")->FirstChildElement("Organism");
+      Organism* org = new Organism(element);
       return 2;
 	  }
 	  else

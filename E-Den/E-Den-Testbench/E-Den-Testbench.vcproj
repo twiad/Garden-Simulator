@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SDL_DRAW_HOME)\include&quot;;&quot;$(SDL_HOME)\include&quot;;&quot;..\E-Den\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SDL_DRAW_HOME)\include&quot;;&quot;$(SDL_HOME)\include&quot;;&quot;..\E-Den\include&quot;;..\..\tinyxml"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

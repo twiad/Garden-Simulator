@@ -59,7 +59,7 @@ namespace EDen {
 
   TiXmlElement* GeneticCompoundAction::toXmlElement() {
     TiXmlElement* element;
-    element = new TiXmlElement("Condition AND");
+    element = new TiXmlElement("CompoundAction");
     for(GeneticActionsListIterator it = childActions.begin(); it != childActions.end(); it++) {
       element->LinkEndChild((*it)->toXmlElement());
     };
@@ -106,7 +106,7 @@ namespace EDen {
 
   TiXmlElement* GeneticANDCondition::toXmlElement() {
     TiXmlElement* element;
-    element = new TiXmlElement("Condition AND");
+    element = new TiXmlElement("ConditionAND");
     for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
       element->LinkEndChild((*it)->toXmlElement());
     };
@@ -151,7 +151,7 @@ namespace EDen {
 
   TiXmlElement* GeneticORCondition::toXmlElement() {
     TiXmlElement* element;
-    element = new TiXmlElement("Condition OR");
+    element = new TiXmlElement("ConditionOR");
     for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
       element->LinkEndChild((*it)->toXmlElement());
     };
@@ -225,6 +225,7 @@ namespace EDen {
 
     element->LinkEndChild(act->toXmlElement());
     element->LinkEndChild(cond->toXmlElement());
+    element->SetAttribute("Description",description);
     
     return element;
   };

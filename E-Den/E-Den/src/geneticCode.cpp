@@ -91,7 +91,7 @@ namespace EDen {
       element->LinkEndChild((*it)->toXmlElement());
     };
 
-    for(GeneticMutationListIterator it = possibleMutations.begin(); possibleMutations.end(); it++) {
+    for(GeneticMutationListIterator it = possibleMutations.begin(); it != possibleMutations.end(); it++) {
       element->LinkEndChild((*it)->toXmlElement());
     };
 

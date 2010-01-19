@@ -428,7 +428,7 @@ namespace EDen {
     element->LinkEndChild(spawnpointsElement);
 
     element->LinkEndChild(chemStorage->toXmlElement());
-    // element->LinkEndChild(getGeneticCode()->toXmlElement());
+    element->LinkEndChild(geneCode->toXmlElement());
 
     return element;
   };

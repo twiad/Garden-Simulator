@@ -106,7 +106,7 @@ namespace EDen {
     bool shrink(float amount);
 
     TiXmlElement* toXmlElement();
-    TiXmlElement* spawnpointToXmlElement(SpawnpointInformation* sp);
+    static TiXmlElement* spawnpointToXmlElement(SpawnpointInformation* sp);
   };
 } // namespace
 

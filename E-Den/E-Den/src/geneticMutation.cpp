@@ -108,6 +108,19 @@ namespace EDen {
     return new GeneticSpawnpoint2DAngleMutation(min,max,maxstep,prob);
   };
 
+  TiXmlElement* GeneticSpawnpoint2DAngleMutation::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("SpawnpointAngle1Mutation");
+
+    element->SetDoubleAttribute("Min",min);
+    element->SetDoubleAttribute("Max",max);
+    element->SetDoubleAttribute("Maxstep",maxstep);
+    element->SetDoubleAttribute("Probability",prob);
+    element->SetAttribute("Description",description);
+
+    return element;
+  };
+
   //
 
   GeneticMaxSizeMutation::GeneticMaxSizeMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption) : GeneticMutation(p_prob,p_desciption) {
@@ -132,6 +145,19 @@ namespace EDen {
     return new GeneticMaxSizeMutation(min,max,maxstep,prob);
   };
 
+  TiXmlElement* GeneticMaxSizeMutation::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("MaxSizeMutation");
+
+    element->SetDoubleAttribute("Min",min);
+    element->SetDoubleAttribute("Max",max);
+    element->SetDoubleAttribute("Maxstep",maxstep);
+    element->SetDoubleAttribute("Probability",prob);
+    element->SetAttribute("Description",description);
+
+    return element;
+  };
+
    
   GeneticMaxAmountMutation::GeneticMaxAmountMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_chemicalName, std::string p_desciption): GeneticMutation(p_prob,p_desciption) {
     min = p_min;
@@ -142,6 +168,20 @@ namespace EDen {
 
   GeneticMutation* GeneticMaxAmountMutation::copy() {
     return new GeneticMaxAmountMutation(min,max,maxstep,prob,chemName);
+  };
+
+  TiXmlElement* GeneticMaxAmountMutation::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("MaxAmountMutation");
+
+    element->SetDoubleAttribute("Min",min);
+    element->SetDoubleAttribute("Max",max);
+    element->SetDoubleAttribute("Maxstep",maxstep);
+    element->SetDoubleAttribute("Probability",prob);
+    element->SetAttribute("Description",description);
+    element->SetAttribute("ChemicalName",chemName);
+
+    return element;
   };
 
   bool GeneticMaxAmountMutation::execute(GeneticAction* p_act, float strength) {
@@ -164,6 +204,16 @@ namespace EDen {
 
   GeneticMutation* GeneticSpawnpointActiveMutation::copy() {
     return new GeneticSpawnpointActiveMutation(prob,description);
+  };
+
+  TiXmlElement* GeneticSpawnpointActiveMutation::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("SpawnpointActiveMutation");
+
+    element->SetDoubleAttribute("Probability",prob);
+    element->SetAttribute("Description",description);
+
+    return element;
   };
 
   bool GeneticSpawnpointActiveMutation::execute(GeneticAction* p_act,float strength) {

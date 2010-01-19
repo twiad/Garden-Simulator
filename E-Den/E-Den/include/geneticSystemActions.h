@@ -36,6 +36,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticChemicalConsumeAction: public GeneticAction {
@@ -53,6 +54,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticSpawnBodypartAction: public GeneticAction {
@@ -66,6 +68,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticChangeMaxChemicalAmountAction: public GeneticAction {
@@ -82,6 +85,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticAddSpawnpointAction: public GeneticAction {
@@ -101,6 +105,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticHurtAction: public GeneticAction {
@@ -114,6 +119,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticSimpleMutateAction: public GeneticAction {
@@ -127,6 +133,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticHealAction: public GeneticAction {
@@ -140,6 +147,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticHealParentAction: public GeneticAction {
@@ -153,6 +161,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticDieAction: public GeneticAction {
@@ -165,6 +174,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart = 0);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticGrowAction: public GeneticAction {
@@ -178,6 +188,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart = 0);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticShrinkAction: public GeneticAction {
@@ -191,6 +202,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticEmptyChemicalStorageAction: public GeneticAction {
@@ -203,6 +215,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticChangeMaxSizeAction: public GeneticAction {
@@ -217,6 +230,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticDropSeedAction: public GeneticAction {
@@ -229,6 +243,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
 } // namespace

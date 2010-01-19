@@ -24,6 +24,17 @@ namespace EDen {
     return new GeneticChemicalCondition(chemCondType,triggerValue,chemName); 
   };
 
+  TiXmlElement* GeneticChemicalCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("ChemicalCondition");
+
+    element->SetAttribute("ChemicalName",chemName);
+    element->SetDoubleAttribute("TriggerValue",triggerValue);
+    element->SetAttribute("Type",(int)chemCondType);
+
+    return element;
+  };
+
   bool GeneticChemicalCondition::setBodypart(Bodypart* param_bodypart) {
     if(param_bodypart) storage = param_bodypart->getChemicalStorage();
     return true;
@@ -91,6 +102,16 @@ namespace EDen {
     return new GeneticBodypartTypeCondition(bpType,condType);
   };
 
+  TiXmlElement* GeneticBodypartTypeCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("BodypartTypeCondition");
+
+    element->SetAttribute("BodypartType",(int)bpType);
+    element->SetAttribute("ConditionType",(int)condType);
+
+    return element;
+  };
+
   bool GeneticBodypartTypeCondition::setBodypart(Bodypart* p_bp) {
     bp = p_bp;
     return true;
@@ -119,6 +140,16 @@ namespace EDen {
 
   GeneticCondition* GeneticBodypartStateCondition::copy() {
     return new GeneticBodypartStateCondition(bpState,condType);
+  };
+
+  TiXmlElement* GeneticBodypartStateCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("BodypartStateCondition");
+
+    element->SetAttribute("State",(int)bpState);
+    element->SetAttribute("Type",(int)condType);
+
+    return element;
   };
 
   bool GeneticBodypartStateCondition::setBodypart(Bodypart* param_bodypart) {
@@ -156,6 +187,16 @@ namespace EDen {
 
   GeneticCondition* GeneticHealthpointsCondition::copy() {
     return new GeneticHealthpointsCondition(condType,amount);
+  };
+
+  TiXmlElement* GeneticHealthpointsCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("HealthpointsCondition");
+
+    element->SetDoubleAttribute("Amount",amount);
+    element->SetAttribute("Type",(int)condType);
+
+    return element;
   };
 
   bool GeneticHealthpointsCondition::setBodypart(Bodypart* param_bodypart) {
@@ -202,6 +243,16 @@ namespace EDen {
 
   GeneticCondition* GeneticParentHealthpointsCondition::copy() {
     return new GeneticParentHealthpointsCondition(condType,amount);
+  };
+
+  TiXmlElement* GeneticParentHealthpointsCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("ParentHealthpointsCondition");
+
+    element->SetDoubleAttribute("Amount",amount);
+    element->SetAttribute("Type",(int)condType);
+
+    return element;
   };
 
   bool GeneticParentHealthpointsCondition::setBodypart(Bodypart* param_bodypart) {
@@ -255,6 +306,16 @@ namespace EDen {
     return new GeneticParentOrganismLifetimeCondition(condType, amount);
   };
 
+  TiXmlElement* GeneticParentOrganismLifetimeCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("OrganismLifetimeCondition");
+
+    element->SetAttribute("Amount",amount);
+    element->SetAttribute("Type",(int)condType);
+
+    return element;
+  };
+
   bool GeneticParentOrganismLifetimeCondition::fullfilled() {
     if(bp->getParentOrganism()) {
       switch(condType) {
@@ -299,6 +360,16 @@ namespace EDen {
     return new GeneticBodypartSizeCondition(condType,amount);
   };
 
+  TiXmlElement* GeneticBodypartSizeCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("SizeCondition");
+
+    element->SetDoubleAttribute("Amount",amount);
+    element->SetAttribute("Type",(int)condType);
+
+    return element;
+  };
+
   bool GeneticBodypartSizeCondition::setBodypart(Bodypart* param_bodypart) {
     bp = param_bodypart; 
     return true;
@@ -338,6 +409,12 @@ namespace EDen {
     return new GeneticBodypartCreationCondition();
   };
 
+  TiXmlElement* GeneticBodypartCreationCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("CreationCondition");
+    return element;
+  };
+
   bool GeneticBodypartCreationCondition::fullfilled() {
     if(bp->getBodypartState() == BSP_creation) return true;
     else return false;
@@ -354,6 +431,15 @@ namespace EDen {
 
   GeneticCondition* GeneticSpawnpointPresentCondition::copy() {
     return new GeneticSpawnpointPresentCondition(bpType);
+  };
+
+  TiXmlElement* GeneticSpawnpointPresentCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("SpawnpointPresentCondition");
+
+    element->SetAttribute("Type",(int)bpType);
+
+    return element;
   };
 
   bool GeneticSpawnpointPresentCondition::setBodypart(Bodypart* param_bodypart) {
@@ -376,6 +462,13 @@ namespace EDen {
 
   GeneticCondition* GeneticCanGrowCondition::copy() {
     return new GeneticCanGrowCondition();
+  };
+
+  TiXmlElement* GeneticCanGrowCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("CanGrowCondition");
+
+    return element;
   };
 
   bool GeneticCanGrowCondition::setBodypart(Bodypart* param_bodypart) {
@@ -408,5 +501,12 @@ namespace EDen {
   
   GeneticCondition* GeneticHasParentCondition::copy() {
     return new GeneticHasParentCondition();  
+  };
+
+  TiXmlElement* GeneticHasParentCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("HasParentCondition");
+
+    return element;
   };
 } // namespace

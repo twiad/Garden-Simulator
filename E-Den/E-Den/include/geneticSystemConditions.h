@@ -5,6 +5,7 @@
 #include "chemicalSystem.h"
 #include "bodypart.h"
 #include "globals.h"
+#include "tinyxml.h"
 
 #ifndef _E_DEN_CHEMICAL_SYSTEM_CONDITIONS_HEADER_
 #define _E_DEN_CHEMICAL_SYSTEM_CONDITIONS_HEADER_
@@ -30,6 +31,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticBodypartCreationCondition: public GeneticCondition {
@@ -42,6 +44,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
   
   class GeneticBodypartTypeCondition: public GeneticCondition {
@@ -63,6 +66,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticBodypartStateCondition: public GeneticCondition {
@@ -84,6 +88,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticSpawnpointPresentCondition: public GeneticCondition {
@@ -98,6 +103,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticHealthpointsCondition: public GeneticCondition {
@@ -112,6 +118,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticParentHealthpointsCondition: public GeneticCondition {
@@ -126,6 +133,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticParentOrganismLifetimeCondition: public GeneticCondition {
@@ -140,6 +148,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticBodypartSizeCondition: public GeneticCondition { 
@@ -154,6 +163,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticCanGrowCondition: public GeneticCondition {
@@ -166,6 +176,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticHasParentCondition: public GeneticCondition {
@@ -178,6 +189,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 } // namespace
 

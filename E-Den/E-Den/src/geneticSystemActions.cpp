@@ -23,6 +23,18 @@ namespace EDen {
     return new GeneticSimpleChemicalConvertAction(fromChemName,toChemName,amount,ratio);
   };
 
+  TiXmlElement* GeneticSimpleChemicalConvertAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("ChemicalConvertAction");
+
+    element->SetAttribute("FromName",fromChemName);
+    element->SetAttribute("ToName",toChemName);
+    element->SetDoubleAttribute("Amount",amount);
+    element->SetDoubleAttribute("Ratio",ratio);
+
+    return element;
+  };
+
   bool GeneticSimpleChemicalConvertAction::setBodypart(Bodypart* param_bodypart) {
     if(param_bodypart) storage = param_bodypart->getChemicalStorage();
     return true;
@@ -51,6 +63,16 @@ namespace EDen {
     return new GeneticChemicalConsumeAction(chemName,amount);
   };
 
+  TiXmlElement* GeneticChemicalConsumeAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("ChemicalConsumeAction");
+
+    element->SetAttribute("Name",chemName);
+    element->SetDoubleAttribute("Amount",amount);
+
+    return element;
+  };
+
   bool GeneticChemicalConsumeAction::setBodypart(Bodypart* param_bodypart) {
     if(param_bodypart) storage = param_bodypart->getChemicalStorage();
     return true;
@@ -74,6 +96,15 @@ namespace EDen {
 
   GeneticAction* GeneticSpawnBodypartAction::copy() {
     return new GeneticSpawnBodypartAction(childBodypartType);
+  };
+
+  TiXmlElement* GeneticSpawnBodypartAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("SpawnBodypartAction");
+
+    element->SetAttribute("Type",(int)childBodypartType);
+
+    return element;
   };
 
   bool GeneticSpawnBodypartAction::setBodypart(Bodypart* p_bp) {
@@ -103,6 +134,16 @@ namespace EDen {
 
   GeneticAction* GeneticChangeMaxChemicalAmountAction::copy() {
     return new GeneticChangeMaxChemicalAmountAction(chemName,value);
+  };
+
+  TiXmlElement* GeneticChangeMaxChemicalAmountAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("ChangeMaxChemicalAmountAction");
+
+    element->SetAttribute("Name",chemName);
+    element->SetDoubleAttribute("Value",value);
+
+    return element;
   };
 
   bool GeneticChangeMaxChemicalAmountAction::setBodypart(Bodypart* param_bodypart) {
@@ -145,6 +186,16 @@ namespace EDen {
     return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d,active);
   };
 
+  TiXmlElement* GeneticAddSpawnpointAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("AddSpawnpointAction");
+    
+    element->SetAttribute("Active",(int)active);
+    element->LinkEndChild(Bodypart::spawnpointToXmlElement(sp));
+
+    return element;
+  };
+
   bool GeneticAddSpawnpointAction::setBodypart(Bodypart* p_bp) {
     bp = p_bp;
     return true;
@@ -172,6 +223,15 @@ namespace EDen {
     return new GeneticGrowAction(amount);
   };
 
+  TiXmlElement* GeneticGrowAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("GrowAction");
+    
+    element->SetDoubleAttribute("Amount",amount);
+
+    return element;
+  };
+
   bool GeneticGrowAction::setBodypart(Bodypart* param_bodypart) {
     bp = param_bodypart; 
     return true;
@@ -192,6 +252,15 @@ namespace EDen {
 
   GeneticAction* GeneticShrinkAction::copy() {
     return new GeneticShrinkAction(amount);
+  };
+
+  TiXmlElement* GeneticShrinkAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("ShrinkAction");
+    
+    element->SetDoubleAttribute("Amount",amount);
+
+    return element;
   };
 
   bool GeneticShrinkAction::setBodypart(Bodypart* p_bp) {
@@ -216,6 +285,15 @@ namespace EDen {
 
   GeneticAction* GeneticHurtAction::copy() {
     return new GeneticHurtAction(amount);
+  };
+
+  TiXmlElement* GeneticHurtAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("HurtAction");
+    
+    element->SetDoubleAttribute("Amount",amount);
+
+    return element;
   };
 
   bool GeneticHurtAction::setBodypart(Bodypart* p_bp) {
@@ -251,6 +329,15 @@ namespace EDen {
     return new GeneticSimpleMutateAction(0,strength); 
   };
 
+  TiXmlElement* GeneticSimpleMutateAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("MutateAction");
+    
+    element->SetDoubleAttribute("Strength",strength);
+
+    return element;
+  };
+
   GeneticHealParentAction::GeneticHealParentAction(float param_amount, Bodypart* p_bp):
     GeneticAction(GAT_Hurt) {
     setBodypart(p_bp);
@@ -263,6 +350,15 @@ namespace EDen {
 
   GeneticAction* GeneticHealParentAction::copy() {
     return new GeneticHealParentAction(amount);
+  };
+
+  TiXmlElement* GeneticHealParentAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("HealParentAction");
+    
+    element->SetDoubleAttribute("Amount",amount);
+
+    return element;
   };
 
   bool GeneticHealParentAction::setBodypart(Bodypart* p_bp) {
@@ -292,6 +388,15 @@ namespace EDen {
     return new GeneticHealAction(amount);
   };
 
+  TiXmlElement* GeneticHealAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("HealAction");
+    
+    element->SetDoubleAttribute("Amount",amount);
+
+    return element;
+  };
+
   bool GeneticHealAction::setBodypart(Bodypart* p_bp) {
     bp = p_bp;
     return true;
@@ -312,6 +417,13 @@ namespace EDen {
 
   GeneticAction* GeneticDieAction::copy() {
     return new GeneticDieAction();
+  };
+
+  TiXmlElement* GeneticDieAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("DieAction");
+
+    return element;
   };
 
   bool GeneticDieAction::setBodypart(Bodypart* p_bp) {
@@ -344,6 +456,13 @@ namespace EDen {
     return new GeneticEmptyChemicalStorageAction();
   };
 
+  TiXmlElement* GeneticEmptyChemicalStorageAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("EmptyChemicalStorageAction");
+
+    return element;
+  };
+
   bool GeneticEmptyChemicalStorageAction::setBodypart(Bodypart* p_bp) {
     bp = p_bp;
     return true;
@@ -369,6 +488,15 @@ namespace EDen {
 
   GeneticAction* GeneticChangeMaxSizeAction::copy() {
     return new GeneticChangeMaxSizeAction(amount);
+  };
+
+  TiXmlElement* GeneticChangeMaxSizeAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("ChangeMaxSizeAction");
+    
+    element->SetDoubleAttribute("Amount",amount);
+
+    return element;
   };
 
   bool GeneticChangeMaxSizeAction::setBodypart(Bodypart* p_bp) {
@@ -402,6 +530,13 @@ namespace EDen {
   
   GeneticAction* GeneticDropSeedAction::copy() {
     return new GeneticDropSeedAction();
+  };
+
+  TiXmlElement* GeneticDropSeedAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("DropSeedAction");
+
+    return element;
   };
 
 } // namespace

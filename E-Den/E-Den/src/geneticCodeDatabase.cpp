@@ -9,6 +9,10 @@ namespace EDen {
     
   };
 
+  bool GeneticCodeDatabase::empty() {
+	return orgs.empty();
+  };
+
   int GeneticCodeDatabase::load(std::string pFilename) {
     filename = pFilename;
     

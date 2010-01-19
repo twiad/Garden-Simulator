@@ -21,6 +21,8 @@ namespace EDen {
   public:
     GeneticCodeDatabase();
 
+	bool empty();
+
     int load(std::string pFilename);
     int save();
 

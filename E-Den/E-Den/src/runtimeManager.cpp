@@ -63,12 +63,14 @@ namespace EDen {
   };
 
   Organism* RuntimeManager::getNextSeed() {
-    int pos = (int)randomizer->value(0.0f,(float)seeds.size() - 1);
-    std::list<Organism*>::iterator it = seeds.begin();
-    for(int i = 0; i < pos; i++) {
-      it++;
-    };
-    return *it;
+    //int pos = (int)randomizer->value(0.0f,(float)seeds.size() - 1);
+    //std::list<Organism*>::iterator it = seeds.begin();
+    //for(int i = 0; i < pos; i++) {
+    //  it++;
+    //};
+    //return *it;
+
+	  return database->pull();
   };
 
   bool RuntimeManager::reset() {
@@ -211,10 +213,10 @@ namespace EDen {
           };
     };
 
-    while(!seeds.empty() && (new_orgs.size() < MAX_PLANT_COUNT)) {
+    while(!database->empty() && (new_orgs.size() < MAX_PLANT_COUNT)) {
       Organism* org = getNextSeed();
       new_orgs.push_back(org);
-      seeds.remove(org);
+      //seeds.remove(org);
     };
 
     organisms.clear();

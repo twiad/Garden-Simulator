@@ -411,8 +411,8 @@ namespace EDen {
     element = new TiXmlElement("Bodypart");
     element->SetAttribute("State",(int)getBodypartState());
     element->SetAttribute("Type",getBodypartType());
-    element->SetAttribute("Healthpoints",getHealthpoints());
-    element->SetAttribute("Size",getSize());
+    element->SetDoubleAttribute("Healthpoints",getHealthpoints());
+    element->SetDoubleAttribute("Size",getSize());
     element->SetAttribute("IID",(int)this);
     
     childpartsElement = new TiXmlElement("Childs");
@@ -427,7 +427,7 @@ namespace EDen {
     };
     element->LinkEndChild(spawnpointsElement);
 
-    // element->LinkEndChild(chemStorage->toXmlElement());
+    element->LinkEndChild(chemStorage->toXmlElement());
     // element->LinkEndChild(getGeneticCode()->toXmlElement());
 
     return element;
@@ -438,7 +438,7 @@ namespace EDen {
 
     element = new TiXmlElement("Spawnpoint");
     element->SetAttribute("Occupied",sp->occupied);
-    element->SetAttribute("Ang1",sp->ang2d);
+    element->SetDoubleAttribute("Ang1",sp->ang2d);
     element->SetAttribute("PositionId",sp->position);
     element->SetAttribute("ConnectedBodypartID",(int)(sp->connectedBodypart));
     

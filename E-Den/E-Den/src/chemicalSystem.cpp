@@ -200,6 +200,22 @@ namespace EDen {
     return true;
   };
 
+  TiXmlElement* ChemicalStorage::toXmlElement() {
+    TiXmlElement* element,*chemicalElement;
+
+    element = new TiXmlElement("Storage");
+    for(ChemicalStorageMapIterator it = storage.begin(); it != storage.end(); it++) {
+      chemicalElement = new TiXmlElement("Chemical");
+      chemicalElement->SetAttribute("Name",(*it).second.chemical.getName());
+      chemicalElement->SetDoubleAttribute("Current",(*it).second.current);
+      chemicalElement->SetDoubleAttribute("Max",(*it).second.max);
+      element->LinkEndChild(chemicalElement);
+    };
+
+    element->SetDoubleAttribute("Size",size);
+    return element;
+  };
+
   void ChemicalStorageLink::update() {
     // TODO: Validate that _s1,_s2 are ready, port to CoAJnR maybe ;)
     _s1->sync(_s2);

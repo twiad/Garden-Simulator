@@ -7,6 +7,7 @@
 #include <map>
 #include <iostream>
 #include <string>
+#include "tinyxml.h"
 
 #define STD_CHEM_STORAGE_MAX_AMOUNT 1.0f
 
@@ -75,6 +76,8 @@ namespace EDen {
 
     bool sync(ChemicalStorage* other);
     bool moveAllToStorage(ChemicalStorage* other);
+
+    TiXmlElement* toXmlElement();
 	};
 
   class ChemicalStorageLink {

@@ -18,6 +18,7 @@ namespace EDen {
 
 #include "chemicalSystem.h"
 #include "globals.h"
+#include "tinyxml.h"
 
 namespace EDen {
   
@@ -33,6 +34,7 @@ namespace EDen {
     virtual bool setBodypart(Bodypart* param_bodypart) = 0;
     virtual bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType);
     virtual GeneticCondition* copy() = 0;
+    virtual TiXmlElement* toXmlElement() = 0;
   };
 
   class GeneticCompoundCondition: public GeneticCondition {
@@ -49,6 +51,7 @@ namespace EDen {
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType) = 0;
     virtual GeneticCondition* copy() = 0;
+    virtual TiXmlElement* toXmlElement() = 0;
   };
 
   class GeneticANDCondition: public GeneticCompoundCondition {
@@ -59,6 +62,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticORCondition: public GeneticCompoundCondition {
@@ -69,6 +73,7 @@ namespace EDen {
     virtual bool fullfilled();
     virtual bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType);
     virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticAction {
@@ -86,6 +91,7 @@ namespace EDen {
     virtual bool execute() = 0;
     virtual bool setBodypart(Bodypart* param_bodypart) = 0;
     virtual GeneticAction* copy() = 0;
+    virtual TiXmlElement* toXmlElement() = 0;
   };
 
   class GeneticCompoundAction: public GeneticAction {
@@ -100,6 +106,7 @@ namespace EDen {
     virtual bool execute();
     virtual bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
   };
 
   class GeneticClause {
@@ -117,6 +124,7 @@ namespace EDen {
     bool run();
     bool setBodypart(Bodypart* param_bodypart);
     virtual GeneticClause* copy();
+    TiXmlElement* toXmlElement();
 
     bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType);
   };

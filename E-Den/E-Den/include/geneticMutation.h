@@ -16,6 +16,7 @@ namespace EDen {
 #include "globals.h"
 #include "geneticSystemCore.h"
 #include "geneticSystemActions.h"
+#include "tinyxml.h"
 
 namespace EDen {
   class Randomizer {
@@ -46,6 +47,7 @@ namespace EDen {
       bool setProbability(float param_prob);
       bool execute(GeneticClause* clause,float strength);
       virtual GeneticMutation* copy() = 0;
+      virtual TiXmlElement* toXmlElement() = 0;
     };
 
     class GeneticSpawnpoint2DAngleMutation : public GeneticMutation {

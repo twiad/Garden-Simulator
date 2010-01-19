@@ -57,6 +57,15 @@ namespace EDen {
     return act;
   };
 
+  TiXmlElement* GeneticCompoundAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("Condition AND");
+    for(GeneticActionsListIterator it = childActions.begin(); it != childActions.end(); it++) {
+      element->LinkEndChild((*it)->toXmlElement());
+    };
+    return element;
+  };
+
   bool GeneticCompoundAction::setBodypart(Bodypart* param_bodypart) {
     for(GeneticActionsListIterator it = childActions.begin(); it != childActions.end(); it++) {
       (*it)->setBodypart(param_bodypart);
@@ -95,6 +104,15 @@ namespace EDen {
     return cond;
   };
 
+  TiXmlElement* GeneticANDCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("Condition AND");
+    for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
+      element->LinkEndChild((*it)->toXmlElement());
+    };
+    return element;
+  };
+
   bool GeneticANDCondition::fullfilled() {
     bool result = true;
     bool notEmpty = false;
@@ -129,6 +147,15 @@ namespace EDen {
       cond->add((*it)->copy());
     };
     return cond;
+  };
+
+  TiXmlElement* GeneticORCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("Condition OR");
+    for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
+      element->LinkEndChild((*it)->toXmlElement());
+    };
+    return element;
   };
 
   bool GeneticORCondition::fullfilled() {
@@ -191,5 +218,14 @@ namespace EDen {
 
   bool GeneticClause::dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType) {
     return cond->dependsOnUnfullfilledConditionType(param_conditionType);
+  };
+
+  TiXmlElement* GeneticClause::toXmlElement() {
+    TiXmlElement* element = new TiXmlElement("Clause");
+
+    element->LinkEndChild(act->toXmlElement());
+    element->LinkEndChild(cond->toXmlElement());
+    
+    return element;
   };
 };

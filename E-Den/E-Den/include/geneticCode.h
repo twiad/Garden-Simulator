@@ -32,6 +32,7 @@ namespace EDen {
     bool mutate(float strength = 1.0f);
     GeneticClauseList getClauseList();
     GeneticCode* copy();
+    TiXmlElement* toXmlElement();
   };
 
 } // namespace

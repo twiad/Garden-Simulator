@@ -79,4 +79,23 @@ namespace EDen {
     
     return false;
   };
+
+  TiXmlElement* GeneticCode::toXmlElement() {
+    TiXmlElement* element;
+
+    element = new TiXmlElement("GeneticCode");
+    element->SetAttribute("SpeciesID",speciesIdentifier);
+    element->SetAttribute("SubSpeciesID",subSpeciesIdentifier);
+    
+    for(GeneticClauseListIterator it = clauses.begin(); it != clauses.end(); it++) {
+      element->LinkEndChild((*it)->toXmlElement());
+    };
+
+    for(GeneticMutationListIterator it = possibleMutations.begin(); possibleMutations.end(); it++) {
+      element->LinkEndChild((*it)->toXmlElement());
+    };
+
+    return element;
+  };
+
 };

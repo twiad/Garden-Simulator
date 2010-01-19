@@ -19,7 +19,6 @@ namespace EDen {
   protected:
     std::list<ResourceProvider*> resourceProviders;
     std::list<Organism*> organisms;
-    std::list<Organism*> seeds;
     std::list<Groundpart*> groundparts;
 
     GeneticCodeDatabase* database;

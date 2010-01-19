@@ -22,11 +22,6 @@ namespace EDen {
       organisms.pop_back();
     };
 
-    while(! seeds.empty()) {
-      delete seeds.back();
-      seeds.pop_back();
-    };
-
     while(! groundparts.empty()) {
       delete groundparts.back();
       groundparts.pop_back();
@@ -91,7 +86,6 @@ namespace EDen {
       if((param_org->getState() != BSP_seed) || (organisms.size() < MAX_PLANT_COUNT))
         organisms.push_front(param_org);
       else {
-        seeds.push_front(param_org);
         database->push(param_org);
       };
 
@@ -234,7 +228,7 @@ namespace EDen {
   }
 
   int RuntimeManager::getSeedCount() {
-    return seeds.size();
+    return database->size();
   };
 
   bool RuntimeManager::orgsAlive() {

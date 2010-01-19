@@ -10,7 +10,11 @@ namespace EDen {
   };
 
   bool GeneticCodeDatabase::empty() {
-	return orgs.empty();
+	  return orgs.empty();
+  };
+
+  int GeneticCodeDatabase::size() {
+    return orgs.size();
   };
 
   int GeneticCodeDatabase::load(std::string pFilename) {

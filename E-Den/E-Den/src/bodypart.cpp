@@ -404,4 +404,54 @@ namespace EDen {
     
     return true;    
   };
+
+  TiXmlElement* Bodypart::toXmlElement() {
+    TiXmlElement* element,*childpartsElement,*spawnpointsElement;
+
+    element = new TiXmlElement("Bodypart");
+    element->SetAttribute("State",(int)getBodypartState());
+    element->SetAttribute("Type",getBodypartType());
+    element->SetAttribute("Healthpoints",getHealthpoints());
+    element->SetAttribute("Size",getSize());
+    element->SetAttribute("IID",(int)this);
+    
+    childpartsElement = new TiXmlElement("Childs");
+    for(BodypartListIterator it = childBodyparts.begin(); it != childBodyparts.end(); it++) {
+      childpartsElement->LinkEndChild((*it)->toXmlElement());
+    };
+    element->LinkEndChild(childpartsElement);
+
+    spawnpointsElement = new TiXmlElement("Spawnpoints");
+    for(SpawnpointInformationListIterator it = spawnpoints.begin(); it != spawnpoints.end(); it++) {
+      spawnpointsElement->LinkEndChild(spawnpointToXmlElement((*it)));
+    };
+    element->LinkEndChild(spawnpointsElement);
+
+    // element->LinkEndChild(chemStorage->toXmlElement());
+    // element->LinkEndChild(getGeneticCode()->toXmlElement());
+
+    return element;
+  };
+
+  TiXmlElement* Bodypart::spawnpointToXmlElement(SpawnpointInformation* sp) {
+    TiXmlElement* element,*supportedTypesElement,*supportedTypeElement;
+
+    element = new TiXmlElement("Spawnpoint");
+    element->SetAttribute("Occupied",sp->occupied);
+    element->SetAttribute("Ang1",sp->ang2d);
+    element->SetAttribute("PositionId",sp->position);
+    element->SetAttribute("ConnectedBodypartID",(int)(sp->connectedBodypart));
+    
+    supportedTypesElement = new TiXmlElement("SupportedTypes");
+    BodypartTypeList supportedTypes = sp->supportedBpTypes;
+
+    for(BodypartTypeListIterator it = supportedTypes.begin(); it != supportedTypes.end(); it++) {
+      supportedTypeElement = new TiXmlElement("Type");
+      supportedTypeElement->SetAttribute("ID",(int)(*it));
+      supportedTypesElement->LinkEndChild(supportedTypeElement);
+    };
+    element->LinkEndChild(supportedTypesElement);
+
+    return element;
+  };
 } // namespace

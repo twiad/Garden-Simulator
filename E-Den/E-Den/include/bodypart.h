@@ -9,6 +9,7 @@
 #include "geneticProcessor.h"
 #include "organism.h"
 #include "globals.h"
+#include "tinyxml.h"
 
 namespace EDen {
   class GeneticCode;
@@ -103,6 +104,9 @@ namespace EDen {
     float getSize();
     bool grow(float amount);
     bool shrink(float amount);
+
+    TiXmlElement* toXmlElement();
+    TiXmlElement* spawnpointToXmlElement(SpawnpointInformation* sp);
   };
 } // namespace
 

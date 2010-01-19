@@ -294,10 +294,10 @@ namespace EDen {
     element->SetAttribute("Name",getName());
     element->SetAttribute("State",(int)getState());
     element->SetAttribute("Lifetime",getLifetime());
-    element->SetAttribute("SpeciesID",getRootBodypart()->getGeneticCode()->getSpeciesIdentifier());
-    element->SetAttribute("SubSpeciesID",getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier());
+    //element->SetAttribute("SpeciesID",getRootBodypart()->getGeneticCode()->getSpeciesIdentifier());
+    //element->SetAttribute("SubSpeciesID",getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier());
 
-    // element->LinkEndChild(rootBodypart->getXmlElement());
+    element->LinkEndChild(rootBodypart->toXmlElement());
 
     return element;
   };

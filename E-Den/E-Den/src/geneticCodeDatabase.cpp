@@ -5,10 +5,6 @@
 
 namespace EDen {
 
-  GeneticCodeDatabase::GeneticCodeDatabase() {
-    
-  };
-
   bool GeneticCodeDatabase::empty() {
 	  return orgs.empty();
   };
@@ -25,8 +21,13 @@ namespace EDen {
     bool loadOkay = doc->LoadFile();
 	  if (loadOkay)
 	  {
-      TiXmlElement* element = doc->GetDocument()->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database")->FirstChildElement("Organism");
-      Organism* org = new Organism(element);
+      TiXmlElement* element,*e2,*e3;
+      element = doc->FirstChildElement("E-DEN-CodeDefinition");
+      element = element->FirstChildElement("Database");
+      //e2 = element;
+      element = element->FirstChildElement("Organism");
+      //e3 = element;
+      //Organism* org = new Organism(element);
       return 2;
 	  }
 	  else
@@ -56,7 +57,7 @@ namespace EDen {
       database->LinkEndChild((*it)->getXmlElement());
     };
 
-    return (int)doc->SaveFile(filename);
+    return 1; //(int)doc->SaveFile(filename);
   };
 
   void GeneticCodeDatabase::push(Organism* org) {

@@ -200,6 +200,25 @@ namespace EDen {
     return true;
   };
 
+  ChemicalStorage::ChemicalStorage(TiXmlElement* description) {
+    TiXmlElement* it;
+    
+    description->QueryFloatAttribute("Size",&size);
+    it = description->FirstChildElement("Chemical");
+    std::string name;
+    float current,max;
+    
+    while(it != 0) {
+      name = it->Attribute("Name");
+      it->QueryFloatAttribute("Current",&current);
+      it->QueryFloatAttribute("Max",&max);
+
+      addNew(name,current,max);
+
+      it = it->NextSiblingElement();
+    };
+  };
+
   TiXmlElement* ChemicalStorage::toXmlElement() {
     TiXmlElement* element,*chemicalElement;
 

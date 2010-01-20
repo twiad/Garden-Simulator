@@ -22,10 +22,9 @@ namespace EDen {
     TiXmlElement* bodypartElement = description->FirstChildElement("Bodypart");
     description->QueryIntAttribute("Lifetime",&lifetime);
     name = description->Attribute("Name");
-    
 
     runtimeManager = param_runtimeManager;
-    //rootBodypart = new Bodypart(bodypartElement);
+    rootBodypart = new Bodypart(bodypartElement);
     registerBodypart(rootBodypart);
 
     if(runtimeManager) {

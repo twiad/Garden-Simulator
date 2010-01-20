@@ -50,6 +50,7 @@ namespace EDen {
 
 	public:
     ChemicalStorage():size(1.0f) {};
+    ChemicalStorage(TiXmlElement* description);
 		~ChemicalStorage();
 
 		bool isPresent(Chemical chem);

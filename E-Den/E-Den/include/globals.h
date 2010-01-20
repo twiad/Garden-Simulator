@@ -22,6 +22,7 @@ namespace EDen {
   class SpawnpointInformation;
   class GeneticCodeDatabase;
   class GeneticCode;
+  class RuntimeManager;
 
   typedef std::list<SpawnpointInformation*> SpawnpointInformationList;
   typedef std::list<SpawnpointInformation*>::iterator SpawnpointInformationListIterator;

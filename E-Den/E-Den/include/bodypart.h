@@ -57,6 +57,7 @@ namespace EDen {
   public:
     Bodypart(BodypartType bodypartType, std::string geneticCode, Organism* param_parentOrganism = 0, Bodypart* param_parentBodypart = 0);
     Bodypart(BodypartType bodypartType = BPT_UNKNOWN, GeneticCode* param_geneticCode = 0, Organism* param_parentOrganism = 0, Bodypart* param_parentBodypart = 0);
+    Bodypart(TiXmlElement* description, Organism* param_parentOrganism = 0, Bodypart* param_parentBodypart = 0);
     ~Bodypart();
 
     ChemicalStorage* getChemicalStorage();
@@ -107,6 +108,7 @@ namespace EDen {
 
     TiXmlElement* toXmlElement();
     static TiXmlElement* spawnpointToXmlElement(SpawnpointInformation* sp);
+    static SpawnpointInformation* xmlElementToSpawnpoint(TiXmlElement* description);
   };
 } // namespace
 

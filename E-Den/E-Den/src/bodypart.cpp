@@ -54,6 +54,42 @@ namespace EDen {
     
     init();      
   };
+
+  Bodypart::Bodypart(TiXmlElement* description, Organism* param_parentOrganism, Bodypart* param_parentBodypart) {
+    TiXmlElement *chemStorageDescription,*geneCodeDescription,*childBodypartDescription,*childsIterator;
+    TiXmlElement *spawnpointsDescription,*spawnpointIterator;
+
+    parentOrganism = param_parentOrganism;
+    parentBodypart = param_parentBodypart;
+
+    description->QueryIntAttribute("Type",(int*)&bpType);
+    description->QueryIntAttribute("State",(int*)&bpState);
+    description->QueryFloatAttribute("Healthpoints",&healthpoints);
+    description->QueryFloatAttribute("Size",&size);
+
+    //chemStorage = new ChemicalStorage();
+
+    chemStorageDescription = description->FirstChildElement("Storage");
+    chemStorage = new ChemicalStorage(chemStorageDescription);
+
+    spawnpointsDescription = description->FirstChildElement("Spawnpoints");
+    spawnpointIterator = spawnpointsDescription->FirstChildElement("Spawnpoint");
+    while(spawnpointIterator != 0) {
+      addSpawnpoint(xmlElementToSpawnpoint(spawnpointIterator));
+      spawnpointIterator = spawnpointIterator->NextSiblingElement();
+    };
+
+    childBodypartDescription = description->FirstChildElement("Childs");
+    childsIterator = childBodypartDescription->FirstChildElement("Bodypart");
+    while(childsIterator != 0) {
+      spawnBodypart(new Bodypart(childsIterator,parentOrganism,this));
+      childsIterator = childsIterator->NextSiblingElement();
+    };
+
+    genProcessor = new GeneticProcessor(this);
+
+    init();
+  };
   
   Bodypart::~Bodypart() {
     if(parentOrganism != 0) parentOrganism->unregisterBodypart(this);
@@ -431,6 +467,24 @@ namespace EDen {
     element->LinkEndChild(geneCode->toXmlElement());
 
     return element;
+  };
+
+  SpawnpointInformation* Bodypart::xmlElementToSpawnpoint(TiXmlElement* description) {
+    SpawnpointInformation* sp = new SpawnpointInformation();
+    description->QueryIntAttribute("Occupied",(int*)&(sp->occupied));
+    description->QueryFloatAttribute("Ang1",&(sp->ang2d));
+    description->QueryIntAttribute("PositionId",&(sp->position));
+    // TODO: connected bodypart via IID?!?
+    
+    TiXmlElement* it = description->FirstChildElement("SupportedTypes")->FirstChildElement("Type");
+    int type;
+    while(it != 0) {
+      it->QueryIntAttribute("ID",&type);
+      sp->addSupportedType((BodypartType)type);
+      it = it->NextSiblingElement();
+    };
+
+    return sp;
   };
 
   TiXmlElement* Bodypart::spawnpointToXmlElement(SpawnpointInformation* sp) {

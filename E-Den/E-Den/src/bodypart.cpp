@@ -77,7 +77,9 @@ namespace EDen {
     spawnpointsDescription = description->FirstChildElement("Spawnpoints");
     spawnpointIterator = spawnpointsDescription->FirstChildElement("Spawnpoint");
     while(spawnpointIterator != 0) {
-      addSpawnpoint(xmlElementToSpawnpoint(spawnpointIterator));
+      SpawnpointInformation* sp = new SpawnpointInformation();
+      xmlElementToSpawnpoint(spawnpointIterator,sp);
+      addSpawnpoint(sp);
       spawnpointIterator = spawnpointIterator->NextSiblingElement();
     };
 
@@ -461,7 +463,9 @@ namespace EDen {
 
     spawnpointsElement = new TiXmlElement("Spawnpoints");
     for(SpawnpointInformationListIterator it = spawnpoints.begin(); it != spawnpoints.end(); it++) {
-      spawnpointsElement->LinkEndChild(spawnpointToXmlElement((*it)));
+      TiXmlElement* element = new TiXmlElement("Spawnpoint");
+      spawnpointToXmlElement((*it),element);
+      spawnpointsElement->LinkEndChild(element);
     };
     element->LinkEndChild(spawnpointsElement);
 
@@ -471,11 +475,12 @@ namespace EDen {
     return element;
   };
 
-  SpawnpointInformation* Bodypart::xmlElementToSpawnpoint(TiXmlElement* description) {
-    SpawnpointInformation* sp = new SpawnpointInformation();
+  void Bodypart::xmlElementToSpawnpoint(TiXmlElement* description, SpawnpointInformation* sp) {
     description->QueryIntAttribute("Occupied",(int*)&(sp->occupied));
+    //sp->occupied = false;
     description->QueryFloatAttribute("Ang1",&(sp->ang2d));
     description->QueryIntAttribute("PositionId",&(sp->position));
+    sp->connectedBodypart = 0;
     // TODO: connected bodypart via IID?!?
     
     TiXmlElement* it = description->FirstChildElement("SupportedTypes")->FirstChildElement("Type");
@@ -485,14 +490,12 @@ namespace EDen {
       sp->addSupportedType((BodypartType)type);
       it = it->NextSiblingElement();
     };
-
-    return sp;
   };
 
-  TiXmlElement* Bodypart::spawnpointToXmlElement(SpawnpointInformation* sp) {
-    TiXmlElement* element,*supportedTypesElement,*supportedTypeElement;
+  void Bodypart::spawnpointToXmlElement(SpawnpointInformation* sp, TiXmlElement* element) {
+    TiXmlElement* supportedTypesElement,*supportedTypeElement;
 
-    element = new TiXmlElement("Spawnpoint");
+    
     element->SetAttribute("Occupied",sp->occupied);
     element->SetDoubleAttribute("Ang1",sp->ang2d);
     element->SetAttribute("PositionId",sp->position);
@@ -507,7 +510,5 @@ namespace EDen {
       supportedTypesElement->LinkEndChild(supportedTypeElement);
     };
     element->LinkEndChild(supportedTypesElement);
-
-    return element;
   };
 } // namespace

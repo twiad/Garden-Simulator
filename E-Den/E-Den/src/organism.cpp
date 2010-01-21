@@ -34,8 +34,8 @@ namespace EDen {
     geneticProcessors.clear();
 
     updateDelete();
-    rootBodypart->destroy();
-    delete rootBodypart;
+    //rootBodypart->destroy();
+    delete rootBodypart; // !!!!!?!?!?!?!!!! CRASHES WITH DATABASE LOADED 
     rootBodypart = 0;
 
     {

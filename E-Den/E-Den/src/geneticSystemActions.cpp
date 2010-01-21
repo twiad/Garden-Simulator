@@ -211,7 +211,8 @@ namespace EDen {
 
   GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_AddSpawnpoint) {
     description->QueryValueAttribute("Active",&active);
-    sp = Bodypart::xmlElementToSpawnpoint(description->FirstChildElement("Spawnpoint"));
+    sp = new SpawnpointInformation();
+    Bodypart::xmlElementToSpawnpoint(description->FirstChildElement("Spawnpoint"),sp);
     setBodypart(p_bp);
   };
 
@@ -228,7 +229,9 @@ namespace EDen {
     element = new TiXmlElement("AddSpawnpointAction");
     
     element->SetAttribute("Active",(int)active);
-    element->LinkEndChild(Bodypart::spawnpointToXmlElement(sp));
+    TiXmlElement* element2 = new TiXmlElement("Spawnpoint");
+    Bodypart::spawnpointToXmlElement(sp,element2);
+    element->LinkEndChild(element2);
 
     return element;
   };

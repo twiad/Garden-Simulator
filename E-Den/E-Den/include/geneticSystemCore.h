@@ -58,6 +58,7 @@ namespace EDen {
   class GeneticANDCondition: public GeneticCompoundCondition {
   public:
     GeneticANDCondition(): GeneticCompoundCondition() {};
+    GeneticANDCondition(TiXmlElement* description);
     virtual ~GeneticANDCondition();
 
     virtual bool fullfilled();
@@ -69,6 +70,7 @@ namespace EDen {
   class GeneticORCondition: public GeneticCompoundCondition {
   public:
     GeneticORCondition(): GeneticCompoundCondition() {};
+    GeneticORCondition(TiXmlElement* description);
     virtual ~GeneticORCondition();
 
     virtual bool fullfilled();
@@ -93,7 +95,7 @@ namespace EDen {
     virtual bool setBodypart(Bodypart* param_bodypart) = 0;
     virtual GeneticAction* copy() = 0;
     virtual TiXmlElement* toXmlElement() = 0;
-    GeneticAction* parseXmlElement(TiXmlElement* description);
+    static GeneticAction* parseXmlElement(TiXmlElement* description);
   };
 
   class GeneticCompoundAction: public GeneticAction {
@@ -101,6 +103,7 @@ namespace EDen {
     GeneticActionsList childActions;
   public:
     GeneticCompoundAction(): GeneticAction(GAT_Compound) {};
+    GeneticCompoundAction(TiXmlElement* description);
     virtual ~GeneticCompoundAction();
 
     bool add(GeneticAction* newAction);

@@ -39,6 +39,12 @@ namespace EDen {
     return true;
   };
 
+  GeneticCompoundAction::GeneticCompoundAction(TiXmlElement* desc): GeneticAction(GAT_Compound) {
+    for(TiXmlElement* it = desc->FirstChildElement(); it != 0; it = it->NextSiblingElement()) {
+      add(GeneticAction::parseXmlElement(it)); 
+    };
+  };
+
   GeneticCompoundAction::~GeneticCompoundAction() {
     GeneticAction* act;
     while(!childActions.empty()) {
@@ -92,6 +98,12 @@ namespace EDen {
     return result;
   };
 
+  GeneticANDCondition::GeneticANDCondition(TiXmlElement* desc): GeneticCompoundCondition() {
+    for(TiXmlElement* it = desc->FirstChildElement(); it != 0; it = it->NextSiblingElement()) {
+      add(GeneticCondition::parseXmlElement(it)); 
+    };
+  };
+
   GeneticANDCondition::~GeneticANDCondition() {
     // GeneticCompoundCondition::~GeneticCompoundCondition(); 
   };
@@ -135,6 +147,12 @@ namespace EDen {
     };
 
     return result;
+  };
+
+  GeneticORCondition::GeneticORCondition(TiXmlElement* desc): GeneticCompoundCondition() {
+    for(TiXmlElement* it = desc->FirstChildElement(); it != 0; it = it->NextSiblingElement()) {
+      add(GeneticCondition::parseXmlElement(it)); 
+    };
   };
 
   GeneticORCondition::~GeneticORCondition() {
@@ -244,36 +262,5 @@ namespace EDen {
     cond = GeneticCondition::parseXmlElement(it);
     it = desc->FirstChildElement("Actions")->FirstChildElement();
     act = GeneticAction::parseXmlElement(it);
-  };
-
-  GeneticCondition* GeneticCondition::parseXmlElement(TiXmlElement* description) {
-    geneticCondition* cond;
-    std::string type;
-    type = description->ValueStr();
-    if(type == "ConditionOR") return new GeneticORCondition(description);
-    else if(type == "ConditionAND") return new GeneticANDCondition(description);
-  };
-
-  GeneticAction* GeneticAction::parseXmlElement(TiXmlElement* description) {
-    GeneticAction* cond;
-    std::string type;
-    type = description->ValueStr();
-    if(type == "CompoundAction") return new GeneticCompoundAction(description);
-    else if(type == "ChemicalConvertAction") return new GeneticSimpleChemicalConvertAction(description);
-    else if(type == "ChemicalConsumeAction") return new GeneticChemicalConsumeAction(description);
-    else if(type == "SpawnBodypartAction") return new GeneticSpawnBodypartAction(description);
-    else if(type == "ChangeMaxChemicalAmountAction") return new GeneticChangeMaxChemicalAmountAction(description);
-    else if(type == "AddSpawnpointAction") return new GeneticAddSpawnpointAction(description);
-    else if(type == "GrowAction") return new GeneticGrowAction(description);
-    else if(type == "ShrinkAction") return new GeneticShrinkAction(description);
-    else if(type == "HurtAction") return new GeneticHurtAction(description);
-    else if(type == "MutateAction") return new GeneticSimpleMutateAction(description);
-    else if(type == "HealParentAction") return new GeneticHealParentAction(description);
-    else if(type == "HealAction") return new GeneticHealAction(description);
-    else if(type == "DieAction") return new GeneticDieAction(description);
-    else if(type == "EmptyChemicalStorageAction") return new GeneticEmptyChemicalStorageAction(description);
-    else if(type == "ChangeMaxSizeAction") return new GeneticChangeMaxSizeAction(description);
-    else if(type == "DropSeedAction") return new GeneticDropSeedAction(description);
-    else return 0;
   };
 };

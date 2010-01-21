@@ -48,6 +48,7 @@ namespace EDen {
     bool execute(GeneticClause* clause,float strength);
     virtual GeneticMutation* copy() = 0;
     virtual TiXmlElement* toXmlElement() = 0;
+    static GeneticMutation* parseXmlElement(TiXmlElement* description);
   };
 
   class GeneticSpawnpoint2DAngleMutation : public GeneticMutation {
@@ -69,6 +70,7 @@ namespace EDen {
     virtual bool execute(GeneticAction* p_act,float strength);
   public:
     GeneticMaxSizeMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption = "MaxSizeMutation");
+    GeneticMaxSizeMutation(TiXmlElement* descript);
     virtual GeneticMutation* copy();
     virtual TiXmlElement* toXmlElement();
   };
@@ -82,6 +84,7 @@ namespace EDen {
     virtual bool execute(GeneticAction* p_act,float strength);
   public:
     GeneticMaxAmountMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_chemicalName, std::string p_desciption = "MaxSizeMutation");
+    GeneticMaxAmountMutation(TiXmlElement* descript);
     virtual GeneticMutation* copy();
     virtual TiXmlElement* toXmlElement();
   };
@@ -92,6 +95,7 @@ namespace EDen {
     virtual bool execute(GeneticAction* p_act,float strength);
   public:
     GeneticSpawnpointActiveMutation(float p_prob, std::string p_desciption = "SpawnpointActiveMutation");
+    GeneticSpawnpointActiveMutation(TiXmlElement* descript);
     virtual GeneticMutation* copy();
     virtual TiXmlElement* toXmlElement();
   };

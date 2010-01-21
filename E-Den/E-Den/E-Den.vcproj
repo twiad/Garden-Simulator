@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\GeneticSystemCoreXMLParser.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\include\groundpart.cpp"
 				>
 			</File>

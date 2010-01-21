@@ -62,6 +62,14 @@ namespace EDen {
     return a && b;
   };
 
+  GeneticMutation* GeneticMutation::parseXmlElement(TiXmlElement* descript) {
+    std::string type = descript->Value();
+    if(type == "SpawnpointAngle1Mutation") return new GeneticSpawnpoint2DAngleMutation(descript);
+    else if(type == "MaxSizeMutation") return new GeneticMaxSizeMutation(descript);
+    else if(type == "MaxAmountMutation") return new GeneticMaxAmountMutation(descript);
+    else if(type == "SpawnpointActiveMutation") return new GeneticSpawnpointActiveMutation(descript);
+  };
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
   Randomizer::Randomizer() {
@@ -89,6 +97,14 @@ namespace EDen {
     maxstep = p_maxstep;
   };
   
+  GeneticSpawnpoint2DAngleMutation::GeneticSpawnpoint2DAngleMutation(TiXmlElement* descript) {
+    description = descript->Attribute("Description");
+    
+    descript->QueryFloatAttribute("Min",&min);
+    descript->QueryFloatAttribute("Max",&max);
+    descript->QueryFloatAttribute("Maxstep",maxstep);
+    descript->QueryFloatAttribute("Probability",prob);
+  };
 
   bool GeneticSpawnpoint2DAngleMutation::execute(GeneticAction* p_act,float strength) {
     if(randomizer->value() < prob*strength) {
@@ -129,6 +145,14 @@ namespace EDen {
     maxstep = p_maxstep;
   };
   
+  GeneticMaxSizeMutation::GeneticMaxSizeMutation(TiXmlElement* descript) {
+    description = descript->Attribute("Description");
+    
+    descript->QueryFloatAttribute("Min",&min);
+    descript->QueryFloatAttribute("Max",&max);
+    descript->QueryFloatAttribute("Maxstep",maxstep);
+    descript->QueryFloatAttribute("Probability",prob);
+  };
 
   bool GeneticMaxSizeMutation::execute(GeneticAction* p_act,float strength) {
     if(randomizer->value() < prob*strength) {
@@ -166,6 +190,16 @@ namespace EDen {
     chemName = p_chemicalName;
   };
 
+  GeneticMaxAmountMutation::GeneticMaxAmountMutation(TiXmlElement* descript) {
+    description = descript->Attribute("Description");
+    chemName = descript->Attribute("ChemicalName");
+    
+    descript->QueryFloatAttribute("Min",&min);
+    descript->QueryFloatAttribute("Max",&max);
+    descript->QueryFloatAttribute("Maxstep",maxstep);
+    descript->QueryFloatAttribute("Probability",prob);
+  };
+
   GeneticMutation* GeneticMaxAmountMutation::copy() {
     return new GeneticMaxAmountMutation(min,max,maxstep,prob,chemName);
   };
@@ -200,6 +234,11 @@ namespace EDen {
   
   GeneticSpawnpointActiveMutation::GeneticSpawnpointActiveMutation(float p_prob, std::string p_desciption): GeneticMutation(p_prob,p_desciption) {
     
+  };
+
+  GeneticMaxAmountMutation::GeneticMaxAmountMutation(TiXmlElement* descript) {
+    description = descript->Attribute("Description");
+    descript->QueryFloatAttribute("Probability",prob);
   };
 
   GeneticMutation* GeneticSpawnpointActiveMutation::copy() {

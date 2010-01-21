@@ -15,6 +15,23 @@ namespace EDen {
     possibleMutations = p_mutations;
   };
 
+  GeneticCode::GeneticCode(TiXmlElement* description) {
+    TiXmlElement* it;
+    
+    description->QueryIntAttribute("SpeciesID",speciesIdentifier);
+    description->QueryIntAttribute("SubSpeciesID",subSpeciesIdentifier);
+    
+    it = description->FirstChildElement("Clauses");
+    for(it = it->FirstChildElement("Clause"); it != 0; it = it->NextSiblingElement()) {
+      addClause(new GeneticClause(it));
+    };
+
+    it = description->FirstChildElement("Mutations");
+    for(it = it->FirstChildElement(); it != 0; it = it->NextSiblingElement()) {
+      addMutation(Mutation::parseXmlElement(it));
+    };
+  };
+
   GeneticCode::~GeneticCode() {
     GeneticClause* clause;
     while(!clauses.empty()) {
@@ -57,6 +74,11 @@ namespace EDen {
     return true;
   };
 
+  bool GeneticCode::addMutation(GeneticMutation* newMutation) {
+    mutate.push_back(newMutaion);
+    return true;
+  };
+
   GeneticClauseList GeneticCode::getClauseList() {
     return clauses; 
   };
@@ -81,19 +103,23 @@ namespace EDen {
   };
 
   TiXmlElement* GeneticCode::toXmlElement() {
-    TiXmlElement* element;
+    TiXmlElement* element,*clauses,*mutations;
 
     element = new TiXmlElement("GeneticCode");
     element->SetAttribute("SpeciesID",speciesIdentifier);
     element->SetAttribute("SubSpeciesID",subSpeciesIdentifier);
     
+    clauses = new TiXmlElement("Clauses");
     for(GeneticClauseListIterator it = clauses.begin(); it != clauses.end(); it++) {
-      element->LinkEndChild((*it)->toXmlElement());
+      clauses->LinkEndChild((*it)->toXmlElement());
     };
+    element->LinkEndChild(clauses);
 
+    mutations = new TiXmlElement("Mutations");
     for(GeneticMutationListIterator it = possibleMutations.begin(); it != possibleMutations.end(); it++) {
-      element->LinkEndChild((*it)->toXmlElement());
+      mutations->LinkEndChild((*it)->toXmlElement());
     };
+    element->LinkEndChild(mutations);
 
     return element;
   };

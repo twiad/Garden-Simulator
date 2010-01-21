@@ -15,11 +15,11 @@ namespace EDen {
                                                              amount(nAmount),
                                                              ratio(nRatio) { verify(); setBodypart(p_bp); };
   
-  GeneticSimpleChemicalConvertAction::GeneticSimpleChemicalConvertAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_SimpleConvert) {
+  GeneticSimpleChemicalConvertAction::GeneticSimpleChemicalConvertAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_SimpleConvert) {
     fromChemName = description->Attribute("FromName");
     toChemName = description->Attribute("ToName");
     description->QueryFloatAttribute("Amount",&amount);
-    description->QueryDoubleAttribute("Ratio",&ratio);
+    description->QueryFloatAttribute("Ratio",&ratio);
 
     verify();
     setBodypart(p_bp);
@@ -65,7 +65,7 @@ namespace EDen {
     setBodypart(p_bp);
   };
 
-  GeneticChemicalConsumeAction::GeneticChemicalConsumeAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_ChemicalConsume) {
+  GeneticChemicalConsumeAction::GeneticChemicalConsumeAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_ChemicalConsume) {
     chemName = description->Attribute("Name");
     description->QueryFloatAttribute("Amount",&amount);
 
@@ -108,7 +108,7 @@ namespace EDen {
   GeneticSpawnBodypartAction::GeneticSpawnBodypartAction(BodypartType param_childBodypartType, Bodypart* param_parentBodypart):
         GeneticAction(GAT_SpawnBP), childBodypartType(param_childBodypartType) { setBodypart(param_parentBodypart); };
 
-  GeneticSpawnBodypartAction::GeneticSpawnBodypartAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_SpawnBP) {
+  GeneticSpawnBodypartAction::GeneticSpawnBodypartAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_SpawnBP) {
     description->QueryIntAttribute("Type",(int*)&childBodypartType);
 
     setBodypart(p_bp);
@@ -152,7 +152,7 @@ namespace EDen {
   GeneticChangeMaxChemicalAmountAction::GeneticChangeMaxChemicalAmountAction(std::string param_chemicalName, float param_value, Bodypart* param_bodypart):
         GeneticAction(GAT_ChangeMaxChemAmount), chemName(param_chemicalName), value(param_value) { setBodypart(param_bodypart); };
 
-  GeneticChangeMaxChemicalAmountAction::GeneticChangeMaxChemicalAmountAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_ChangeMaxChemAmount) {
+  GeneticChangeMaxChemicalAmountAction::GeneticChangeMaxChemicalAmountAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_ChangeMaxChemAmount) {
     chemName = description->Attribute("Name");
     description->QueryFloatAttribute("Value",&value);
 
@@ -209,8 +209,8 @@ namespace EDen {
     active = p_active;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_AddSpawnpoint) {
-    description->QueryFloatAttribute("Active",(int*)&active);
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_AddSpawnpoint) {
+    description->QueryIntAttribute("Active",(int*)&active);
     sp = Bodypart::xmlElementToSpawnpoint(description->FirstChildElement("Spawnpoint"));
     setBodypart(p_bp);
   };
@@ -252,7 +252,7 @@ namespace EDen {
     amount = param_amount;
   };
 
-  GeneticGrowAction::GeneticGrowAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_Grow) {
+  GeneticGrowAction::GeneticGrowAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_Grow) {
     description->QueryFloatAttribute("Amount",&amount);
 
     setBodypart(p_bp);
@@ -291,7 +291,7 @@ namespace EDen {
     amount = param_amount;
   };
 
-  GeneticShrinkAction::GeneticShrinkAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_Shrink) {
+  GeneticShrinkAction::GeneticShrinkAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_Shrink) {
     description->QueryFloatAttribute("Amount",&amount);
 
     setBodypart(p_bp);
@@ -328,7 +328,7 @@ namespace EDen {
     amount = param_amount;
   };
 
-  GeneticHurtAction::GeneticHurtAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_Hurt) {
+  GeneticHurtAction::GeneticHurtAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_Hurt) {
     description->QueryFloatAttribute("Amount",&amount);
 
     setBodypart(p_bp);
@@ -366,7 +366,7 @@ namespace EDen {
     bp = p_bp;
   };
 
-  GeneticSimpleMutateAction::GeneticSimpleMutateAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_Mutate) {
+  GeneticSimpleMutateAction::GeneticSimpleMutateAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_Mutate) {
     description->QueryFloatAttribute("Strength",&strength);
 
     setBodypart(p_bp);
@@ -405,7 +405,7 @@ namespace EDen {
     amount = param_amount;
   };
 
-  GeneticHealParentAction::GeneticHealParentAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_Heal) {
+  GeneticHealParentAction::GeneticHealParentAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_Heal) {
     description->QueryFloatAttribute("Amount",&amount);
 
     setBodypart(p_bp);
@@ -447,7 +447,7 @@ namespace EDen {
     amount = param_amount;
   };
 
-  GeneticHealAction::GeneticHealAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_Heal) {
+  GeneticHealAction::GeneticHealAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_Heal) {
     description->QueryFloatAttribute("Amount",&amount);
 
     setBodypart(p_bp);
@@ -484,7 +484,7 @@ namespace EDen {
     setBodypart(param_bodypart);
   };
 
-  GeneticDieAction::GeneticDieAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_Die) {
+  GeneticDieAction::GeneticDieAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_Die) {
     setBodypart(p_bp);
   };
 
@@ -525,7 +525,7 @@ namespace EDen {
     setBodypart(param_bodypart);
   };
 
-  GeneticEmptyChemicalStorageAction::GeneticEmptyChemicalStorageAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_ChemicalConsume) {
+  GeneticEmptyChemicalStorageAction::GeneticEmptyChemicalStorageAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_ChemicalConsume) {
     setBodypart(p_bp);
   };
 
@@ -563,7 +563,7 @@ namespace EDen {
      amount = param_amount;
   };
 
-  GeneticChangeMaxSizeAction::GeneticChangeMaxSizeAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_ChangeMaxSize) {
+  GeneticChangeMaxSizeAction::GeneticChangeMaxSizeAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_ChangeMaxSize) {
     description->QueryFloatAttribute("Amount",&amount);
 
     setBodypart(p_bp);
@@ -600,7 +600,7 @@ namespace EDen {
     bp = p_bp;
   };
 
-  GeneticDropSeedAction::GeneticDropSeedAction(TiXmlElement* description, Bodypart* p_bp = 0): GeneticAction(GAT_DropSeed) {
+  GeneticDropSeedAction::GeneticDropSeedAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_DropSeed) {
     setBodypart(p_bp);
   };
 

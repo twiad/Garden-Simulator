@@ -25,6 +25,8 @@ namespace EDen {
                              float ntriggerValue, 
                              std::string nchemName,
                              Bodypart * param_bp = 0);
+
+    GeneticChemicalCondition(TiXmlElement* description, Bodypart * param_bp = 0);
     
     virtual ~GeneticChemicalCondition();
 
@@ -39,6 +41,7 @@ namespace EDen {
     Bodypart* bp;
   public:
     GeneticBodypartCreationCondition(Bodypart* param_bodypart = 0): GeneticCondition(GCT_BodypartCreation), bp(param_bodypart) {};
+    GeneticBodypartCreationCondition(TiXmlElement* description, Bodypart * param_bp = 0);
     virtual ~GeneticBodypartCreationCondition();
 
     virtual bool fullfilled();
@@ -59,6 +62,8 @@ namespace EDen {
           bp(param_bp),
           bpType(bodypartType),
           condType(conditionType) {};
+
+    GeneticBodypartTypeCondition(TiXmlElement* description, Bodypart * param_bp = 0);
     virtual ~GeneticBodypartTypeCondition();
 
     BodypartType getBodypartType();
@@ -81,6 +86,7 @@ namespace EDen {
           bp(bodypart),
           bpState(bodypartState),
           condType(conditionType) {};
+    GeneticBodypartStateCondition(TiXmlElement* description, Bodypart * param_bp = 0);
     virtual ~GeneticBodypartStateCondition();
 
     BodypartState getBodypartState();
@@ -98,6 +104,8 @@ namespace EDen {
   public:
     GeneticSpawnpointPresentCondition(BodypartType param_bpType, Bodypart* param_bodypart = 0): 
         GeneticCondition(GCT_SpawnpointPresent), bp(param_bodypart), bpType(param_bpType) {};
+    GeneticSpawnpointPresentCondition(TiXmlElement* description, Bodypart * param_bp = 0);
+
     virtual ~GeneticSpawnpointPresentCondition();
 
     virtual bool fullfilled();
@@ -113,6 +121,7 @@ namespace EDen {
     GeneticStdConditionType condType;
   public:
     GeneticHealthpointsCondition(GeneticStdConditionType param_condType, float param_amount, Bodypart* param_bodypart = 0);
+    GeneticHealthpointsCondition(TiXmlElement* description, Bodypart * param_bp = 0);
     virtual ~GeneticHealthpointsCondition();
 
     virtual bool fullfilled();
@@ -128,6 +137,7 @@ namespace EDen {
     GeneticStdConditionType condType;
   public:
     GeneticParentHealthpointsCondition(GeneticStdConditionType param_condType, float param_amount, Bodypart* param_bodypart = 0);
+    GeneticParentHealthpointsCondition(TiXmlElement* description, Bodypart * param_bp = 0);
     virtual ~GeneticParentHealthpointsCondition();
 
     virtual bool fullfilled();
@@ -143,6 +153,7 @@ namespace EDen {
     GeneticStdConditionType condType;
   public:
     GeneticParentOrganismLifetimeCondition(GeneticStdConditionType param_condType, int param_amount, Bodypart* param_bodypart = 0);
+    GeneticParentOrganismLifetimeCondition(TiXmlElement* description, Bodypart * param_bp = 0);
     virtual ~GeneticParentOrganismLifetimeCondition();
 
     virtual bool fullfilled();
@@ -158,6 +169,7 @@ namespace EDen {
     GeneticStdConditionType condType;
   public:
     GeneticBodypartSizeCondition(GeneticStdConditionType param_condType, float param_amount, Bodypart* param_bodypart = 0);
+    GeneticBodypartSizeCondition(TiXmlElement* description, Bodypart * param_bp = 0);
     virtual ~GeneticBodypartSizeCondition();
 
     virtual bool fullfilled();
@@ -171,6 +183,7 @@ namespace EDen {
     Bodypart* bp;
   public:
     GeneticCanGrowCondition(Bodypart* param_bodypart = 0);
+    GeneticCanGrowCondition(TiXmlElement* description, Bodypart * param_bp = 0);
     virtual ~GeneticCanGrowCondition();
 
     virtual bool fullfilled();
@@ -184,6 +197,7 @@ namespace EDen {
     Bodypart* bp;
   public:
     GeneticHasParentCondition(Bodypart* param_bodypart = 0);
+    GeneticHasParentCondition(TiXmlElement* description, Bodypart * param_bp = 0);
     virtual ~GeneticHasParentCondition();
 
     virtual bool fullfilled();

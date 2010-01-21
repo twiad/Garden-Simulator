@@ -20,9 +20,11 @@ namespace EDen {
     int subSpeciesIdentifier;
     
     bool addClause(GeneticClause* clause);
+    bool addMutation(GeneticMutation* newMutation);
   public:
     GeneticCode(std::string dummyCodeIdentifier = "TESTPART3");
     GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList possibleMutations, int param_speciesIdentifier = 0, int param_subSpeciesIdentifier = 0);
+    GeneticCode(TiXmlElement* description);
     ~GeneticCode();
 
     int getSpeciesIdentifier();

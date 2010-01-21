@@ -15,6 +15,14 @@ namespace EDen {
     if(param_bp) storage = param_bp->getChemicalStorage();
     else storage = 0;
   };
+
+  GeneticChemicalCondition::GeneticChemicalCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_Chemical) {
+    chemName = desc->Attribute("ChemicalName");
+    desc->QueryIntAttribute("Type",(int*)&chemCondType);
+    desc->QueryFloatAttribute("TriggerValue",&triggerValue);
+    
+    setBodypart(param_bp);
+  };
   
   GeneticChemicalCondition::~GeneticChemicalCondition() {
     // GeneticCondition::~GeneticCondition();
@@ -94,6 +102,13 @@ namespace EDen {
     };
   };
 
+  GeneticBodypartTypeCondition::GeneticBodypartTypeCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_BodypartType) {
+    desc->QueryIntAttribute("BodypartType",(int*)&bpType);
+    desc->QueryIntAttribute("ConditionType",(int*)&condType);
+    
+    setBodypart(param_bp);
+  };
+
   GeneticBodypartTypeCondition::~GeneticBodypartTypeCondition() {
     // GeneticCondition::~GeneticCondition();
   };
@@ -132,6 +147,13 @@ namespace EDen {
         break;
       default: return false;
     };
+  };
+
+  GeneticBodypartStateCondition::GeneticBodypartStateCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_BodypartState) {
+    desc->QueryIntAttribute("State",(int*)&bpState);
+    desc->QueryIntAttribute("Type",(int*)&condType);
+    
+    setBodypart(param_bp);
   };
 
   GeneticBodypartStateCondition::~GeneticBodypartStateCondition() {
@@ -179,6 +201,13 @@ namespace EDen {
     setBodypart(param_bodypart);
     condType = param_condType;
     amount = param_amount;
+  };
+
+  GeneticHealthpointsCondition::GeneticHealthpointsCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_BodypartHP) {
+    desc->QueryFloatAttribute("Amount",&amount);
+    desc->QueryIntAttribute("Type",(int*)&condType);
+    
+    setBodypart(param_bp);
   };
 
   GeneticHealthpointsCondition::~GeneticHealthpointsCondition() {
@@ -235,6 +264,13 @@ namespace EDen {
     setBodypart(param_bodypart);
     condType = param_condType;
     amount = param_amount;
+  };
+
+  GeneticParentHealthpointsCondition::GeneticParentHealthpointsCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_BodypartHP) {
+    desc->QueryFloatAttribute("Amount",&amount);
+    desc->QueryIntAttribute("Type",(int*)&condType);
+    
+    setBodypart(param_bp);
   };
 
   GeneticParentHealthpointsCondition::~GeneticParentHealthpointsCondition() {
@@ -295,6 +331,13 @@ namespace EDen {
     amount = param_amount;
   };
 
+  GeneticParentOrganismLifetimeCondition::GeneticParentOrganismLifetimeCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_OrganismLifetime) {
+    desc->QueryIntAttribute("Amount",&amount);
+    desc->QueryIntAttribute("Type",(int*)&condType);
+    
+    setBodypart(param_bp);
+  };
+
   GeneticParentOrganismLifetimeCondition::~GeneticParentOrganismLifetimeCondition() {};
 
   bool GeneticParentOrganismLifetimeCondition::setBodypart(Bodypart* param_bodypart) {
@@ -352,6 +395,13 @@ namespace EDen {
     amount = param_amount;
   };
 
+  GeneticBodypartSizeCondition::GeneticBodypartSizeCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_BodypartSize) {
+    desc->QueryFloatAttribute("Amount",&amount);
+    desc->QueryIntAttribute("Type",(int*)&condType);
+    
+    setBodypart(param_bp);
+  };
+
   GeneticBodypartSizeCondition::~GeneticBodypartSizeCondition() {
       
   };
@@ -405,6 +455,10 @@ namespace EDen {
     // GeneticCondition::~GeneticCondition(); 
   };
 
+  GeneticBodypartCreationCondition::GeneticBodypartCreationCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_BodypartCreation) {
+    setBodypart(param_bp);
+  };
+
   GeneticCondition* GeneticBodypartCreationCondition::copy() {
     return new GeneticBodypartCreationCondition();
   };
@@ -423,6 +477,12 @@ namespace EDen {
   bool GeneticBodypartCreationCondition::setBodypart(Bodypart* param_bodypart) {
     bp = param_bodypart; 
     return true;
+  };
+
+  GeneticSpawnpointPresentCondition::GeneticSpawnpointPresentCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_SpawnpointPresent) {
+    desc->QueryIntAttribute("Type",(int*)&bpType);
+    
+    setBodypart(param_bp);
   };
 
   GeneticSpawnpointPresentCondition::~GeneticSpawnpointPresentCondition() {
@@ -456,6 +516,10 @@ namespace EDen {
     setBodypart(param_bp);
   };
 
+  GeneticCanGrowCondition::GeneticCanGrowCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_BodypartSize) {
+    setBodypart(param_bp);
+  };
+
   GeneticCanGrowCondition::~GeneticCanGrowCondition() {
 
   };
@@ -483,6 +547,10 @@ namespace EDen {
 
   GeneticHasParentCondition::GeneticHasParentCondition(Bodypart* param_bodypart) : GeneticCondition(GCT_HasParent) {
     bp = param_bodypart;
+  };
+
+  GeneticHasParentCondition::GeneticHasParentCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_HasParent) {
+    setBodypart(param_bp);
   };
 
   GeneticHasParentCondition::~GeneticHasParentCondition() {

@@ -66,23 +66,24 @@ namespace EDen {
   };
 
   enum GeneticActionType {
-    GAT_Compound = 1,
-    GAT_SimpleConvert,
-    GAT_ChemicalConsume,
-    GAT_DualConvert,
-    GAT_SplitConvert,
-    GAT_Hurt,
-    GAT_Heal,
-    GAT_Grow,
-    GAT_Shrink,
-    GAT_EmptyStorage,
-    GAT_DropSeed,
+    GAT_Compound = 10,
+    GAT_SimpleConvert = 20,
+    GAT_ChemicalConsume = 30,
+    GAT_DualConvert = 40,
+    GAT_SplitConvert = 50,
+    GAT_Hurt = 60,
+    GAT_Heal = 70,
+    GAT_Grow = 80,
+    GAT_Shrink = 90,
+    GAT_EmptyStorage = 100,
+    GAT_DropSeed = 110,
+    GAT_Mutate = 120,
     
 // This actions should be used during creation (or maybe growth action combinations)   
-    GAT_ChangeMaxChemAmount,
-    GAT_ChangeMaxSize,
-    GAT_AddSpawnpoint,
-    GAT_SpawnBP,
+    GAT_ChangeMaxChemAmount = 500,
+    GAT_ChangeMaxSize = 510,
+    GAT_AddSpawnpoint = 520,
+    GAT_SpawnBP = 530,
 
 // and the last and least
     GAT_Die,

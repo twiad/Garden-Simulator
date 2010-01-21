@@ -222,11 +222,43 @@ namespace EDen {
 
   TiXmlElement* GeneticClause::toXmlElement() {
     TiXmlElement* element = new TiXmlElement("Clause");
+    TiXmlElement* actions = new TiXmlElement("Actions");
+    TiXmlElement* conditions = new TiXmlElement("Conditions");
 
-    element->LinkEndChild(act->toXmlElement());
-    element->LinkEndChild(cond->toXmlElement());
+    actions->LinkEndChild(act->toXmlElement());
+    conditions->LinkEndChild(cond->toXmlElement());
     element->SetAttribute("Description",description);
     
+    element->LinkEndChild(conditions);
+    element->LinkEndChild(actions);
+
     return element;
+  };
+
+  GeneticClause::GeneticClause(TiXmlElement* desc) {
+    TiXmlElement* it;
+    
+    description = desc->Attribute("Description");
+
+    it = desc->FirstChildElement("Conditions")->FirstChildElement();
+    cond = GeneticCondition::parseXmlElement(it);
+    it = desc->FirstChildElement("Actions")->FirstChildElement();
+    act = GeneticAction::parseXmlElement(it);
+  };
+
+  GeneticCondition* GeneticCondition::parseXmlElement(TiXmlElement* description) {
+    geneticCondition* cond;
+    std::string type;
+    type = description->ValueStr();
+    if(type == "ConditionOR") return new GeneticORCondition(description);
+    else if(type == "ConditionAND") return new GeneticANDCondition(description);
+  };
+
+  GeneticAction* GeneticAction::parseXmlElement(TiXmlElement* description) {
+    GeneticAction* cond;
+    std::string type;
+    type = description->ValueStr();
+    if(type == "CompoundAction") return new GeneticCompoundAction(description);
+    //else if(type == "ConditionAND") return new GeneticANDCondition(description);
   };
 };

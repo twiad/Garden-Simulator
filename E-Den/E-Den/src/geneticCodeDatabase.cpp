@@ -57,7 +57,7 @@ namespace EDen {
       database->LinkEndChild((*it)->getXmlElement());
     };
 
-    return 1; //(int)doc->SaveFile(filename);
+    return (int)doc->SaveFile(filename);
   };
 
   void GeneticCodeDatabase::push(Organism* org) {

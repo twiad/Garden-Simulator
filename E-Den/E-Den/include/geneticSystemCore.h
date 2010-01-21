@@ -35,6 +35,7 @@ namespace EDen {
     virtual bool dependsOnUnfullfilledConditionType(GeneticConditionType param_conditionType);
     virtual GeneticCondition* copy() = 0;
     virtual TiXmlElement* toXmlElement() = 0;
+    static GeneticCondition* parseXmlElement(TiXmlElement* description);
   };
 
   class GeneticCompoundCondition: public GeneticCondition {
@@ -92,6 +93,7 @@ namespace EDen {
     virtual bool setBodypart(Bodypart* param_bodypart) = 0;
     virtual GeneticAction* copy() = 0;
     virtual TiXmlElement* toXmlElement() = 0;
+    GeneticAction* parseXmlElement(TiXmlElement* description);
   };
 
   class GeneticCompoundAction: public GeneticAction {
@@ -118,6 +120,7 @@ namespace EDen {
 
     bool deleteMe;
 
+    GeneticClause(TiXmlElement* desc);
     GeneticClause(GeneticCondition* condition, GeneticAction* action, std::string param_description = ""): cond(condition), act(action), description(param_description), deleteMe(false) {};
     virtual ~GeneticClause();
 

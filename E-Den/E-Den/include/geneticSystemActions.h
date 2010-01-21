@@ -31,6 +31,10 @@ namespace EDen {
                                        float nRatio = 1.0f, 
                                        Bodypart* p_bp = 0);
 
+    GeneticSimpleChemicalConvertAction(TiXmlElement* description, 
+                                       Bodypart* p_bp = 0);
+
+
     virtual ~GeneticSimpleChemicalConvertAction();
 
     virtual bool execute();
@@ -48,6 +52,9 @@ namespace EDen {
     float amount;
   public:
     GeneticChemicalConsumeAction(std::string nChemName, float nAmount, Bodypart* p_bp = 0);
+
+    GeneticChemicalConsumeAction(TiXmlElement* description, 
+                                       Bodypart* p_bp = 0);
     
     virtual ~GeneticChemicalConsumeAction();
 
@@ -63,6 +70,7 @@ namespace EDen {
     BodypartType childBodypartType;
   public:
     GeneticSpawnBodypartAction(BodypartType param_childBodypartType, Bodypart* param_parentBodypart = 0);
+    GeneticSpawnBodypartAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticSpawnBodypartAction();
 
     virtual bool execute();
@@ -79,6 +87,7 @@ namespace EDen {
     std::string chemName;
   public:
     GeneticChangeMaxChemicalAmountAction(std::string param_chemicalName, float param_value, Bodypart* param_bodypart = 0);
+    GeneticChangeMaxChemicalAmountAction(TiXmlElement* description, Bodypart* p_bp = 0);
 
     virtual ~GeneticChangeMaxChemicalAmountAction();
 
@@ -99,7 +108,8 @@ namespace EDen {
   public:
     GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, bool p_active = true, Bodypart* param_bodypart = 0);
     GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, bool p_active = true, Bodypart* param_bodypart = 0);
-    
+    GeneticAddSpawnpointAction(TiXmlElement* description, Bodypart* p_bp = 0);
+
     virtual ~GeneticAddSpawnpointAction();
 
     virtual bool execute();
@@ -114,6 +124,7 @@ namespace EDen {
     float amount;
   public:
     GeneticHurtAction(float param_amount, Bodypart* p_bp = 0);
+    GeneticHurtAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticHurtAction();
 
     virtual bool execute();
@@ -128,6 +139,7 @@ namespace EDen {
     float strength;
   public:
     GeneticSimpleMutateAction(Bodypart* p_bp = 0, float p_strength = 1.0f);
+    GeneticSimpleMutateAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticSimpleMutateAction();
 
     virtual bool execute();
@@ -142,6 +154,7 @@ namespace EDen {
     float amount;
   public:
     GeneticHealAction(float param_amount, Bodypart* p_bp = 0);
+    GeneticHealAction(TiXmlElement* description, Bodypart* p_bp = 0);
     ~GeneticHealAction();
 
     virtual bool execute();
@@ -156,6 +169,7 @@ namespace EDen {
     float amount;
   public:
     GeneticHealParentAction(float param_amount, Bodypart* p_bp = 0);
+    GeneticHealParentAction(TiXmlElement* description, Bodypart* p_bp = 0);
     ~GeneticHealParentAction();
 
     virtual bool execute();
@@ -169,6 +183,7 @@ namespace EDen {
     Bodypart* bp;
   public:
     GeneticDieAction(Bodypart* param_bodypart = 0);
+    GeneticDieAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticDieAction();
 
     virtual bool execute();
@@ -183,6 +198,7 @@ namespace EDen {
     float amount;
   public:
     GeneticGrowAction(float param_amount, Bodypart* p_bp = 0);
+    GeneticGrowAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticGrowAction();
 
     virtual bool execute();
@@ -197,6 +213,7 @@ namespace EDen {
     float amount;
   public:
     GeneticShrinkAction(float param_amount, Bodypart* p_bp = 0);
+    GeneticShrinkAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticShrinkAction();
 
     virtual bool execute();
@@ -210,6 +227,7 @@ namespace EDen {
     Bodypart* bp;
   public:
     GeneticEmptyChemicalStorageAction(Bodypart* param_bodypart = 0);
+    GeneticEmptyChemicalStorageAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticEmptyChemicalStorageAction();
 
     virtual bool execute();
@@ -225,6 +243,7 @@ namespace EDen {
     float amount;
   public:
     GeneticChangeMaxSizeAction(float param_amount, Bodypart* p_bp = 0);
+    GeneticChangeMaxSizeAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticChangeMaxSizeAction();
 
     virtual bool execute();
@@ -238,6 +257,7 @@ namespace EDen {
     Bodypart* bp;
   public:
     GeneticDropSeedAction(Bodypart* p_bp = 0);
+    GeneticDropSeedAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticDropSeedAction();
 
     virtual bool execute();

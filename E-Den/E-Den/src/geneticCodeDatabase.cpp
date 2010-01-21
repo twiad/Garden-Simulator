@@ -75,11 +75,14 @@ namespace EDen {
   Organism* GeneticCodeDatabase::pull() {
     Organism* org = 0;
     
-    if(orgs.size() > 0) {
-      org = orgs.front();
-      orgs.pop_front();
+    int pos = (int)runtime->randomizer->value(0.0f,(float)orgs.size() - 1);
+    std::list<Organism*>::iterator it = orgs.begin();
+    for(int i = 0; i < pos; i++) {
+      it++;
     };
-
+    
+    org = *it;
+    orgs.erase(it);
     return org;
   };
 

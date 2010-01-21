@@ -23,8 +23,6 @@ namespace EDen {
 
     GeneticCodeDatabase* database;
 
-    Randomizer* randomizer;
-
     bool cleanupDeadOrganisms();
     bool deleteAll();
     bool deleteAllOfSpecies(int speciesID);
@@ -39,6 +37,8 @@ namespace EDen {
   public:
     RuntimeManager();
     ~RuntimeManager();
+
+    Randomizer* randomizer;
 
     bool reset();
 

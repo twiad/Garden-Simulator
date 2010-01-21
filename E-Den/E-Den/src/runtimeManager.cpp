@@ -208,6 +208,7 @@ namespace EDen {
     while(!database->empty() && (new_orgs.size() < MAX_PLANT_COUNT)) {
       Organism* org = getNextSeed();
       new_orgs.push_back(org);
+      org->connectToGoundpart(groundparts.front());
     };
 
     organisms.clear();

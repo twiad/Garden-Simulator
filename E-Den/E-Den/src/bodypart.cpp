@@ -67,10 +67,11 @@ namespace EDen {
     description->QueryFloatAttribute("Healthpoints",&healthpoints);
     description->QueryFloatAttribute("Size",&size);
 
-    //chemStorage = new ChemicalStorage();
-
     chemStorageDescription = description->FirstChildElement("Storage");
     chemStorage = new ChemicalStorage(chemStorageDescription);
+
+    geneCodeDescription = description->FirstChildElement("GeneticCode");
+    geneCode = new GeneticCode(geneCodeDescription);
 
     spawnpointsDescription = description->FirstChildElement("Spawnpoints");
     spawnpointIterator = spawnpointsDescription->FirstChildElement("Spawnpoint");

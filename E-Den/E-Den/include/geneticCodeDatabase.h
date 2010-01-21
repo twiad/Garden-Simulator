@@ -21,6 +21,7 @@ namespace EDen {
     RuntimeManager* runtime;
 
   public:
+    GeneticCodeDatabase(RuntimeManager* p_runtime);
     bool empty();
     int size();
 

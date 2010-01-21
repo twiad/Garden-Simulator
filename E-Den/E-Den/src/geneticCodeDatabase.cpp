@@ -5,6 +5,10 @@
 
 namespace EDen {
 
+  GeneticCodeDatabase::GeneticCodeDatabase(RuntimeManager* p_runtime) {
+    runtime = p_runtime;
+  };
+
   bool GeneticCodeDatabase::empty() {
 	  return orgs.empty();
   };
@@ -21,13 +25,17 @@ namespace EDen {
     bool loadOkay = doc->LoadFile();
 	  if (loadOkay)
 	  {
-      TiXmlElement* element,*e2,*e3;
+      TiXmlElement* element;
       element = doc->FirstChildElement("E-DEN-CodeDefinition");
       element = element->FirstChildElement("Database");
-      //e2 = element;
       element = element->FirstChildElement("Organism");
-      //e3 = element;
-      //Organism* org = new Organism(element);
+      //clear();
+      Organism* org;
+      while(element != 0) {
+        org = new Organism(element,runtime);
+        runtime->add(org,true);
+        element = element->NextSiblingElement("Organism");
+      };
       return 2;
 	  }
 	  else

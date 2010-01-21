@@ -40,7 +40,7 @@ namespace EDen {
     virtual bool execute(GeneticAction* p_act,float strength) {return false;};
     virtual bool execute(GeneticCondition* p_cond,float strength) {return false;};
   public:
-    GeneticMutation(float param_probability, std::string p_description = "No Description ...");
+    GeneticMutation(float param_probability = 0.1f, std::string p_description = "No Description ...");
     ~GeneticMutation();
 
     float getProbability();
@@ -58,6 +58,7 @@ namespace EDen {
     virtual bool execute(GeneticAction* p_act,float strength);
   public:
     GeneticSpawnpoint2DAngleMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption = "2DAngleMutation");
+    GeneticSpawnpoint2DAngleMutation(TiXmlElement* descript);
     virtual GeneticMutation* copy();
     virtual TiXmlElement* toXmlElement();
   };

@@ -2,6 +2,7 @@
 // by Franz Koehler 2009
 
 #include "geneticCode.h"
+#include "geneticMutation.h"
 
 namespace EDen {
 
@@ -18,8 +19,8 @@ namespace EDen {
   GeneticCode::GeneticCode(TiXmlElement* description) {
     TiXmlElement* it;
     
-    description->QueryIntAttribute("SpeciesID",speciesIdentifier);
-    description->QueryIntAttribute("SubSpeciesID",subSpeciesIdentifier);
+    description->QueryIntAttribute("SpeciesID",&speciesIdentifier);
+    description->QueryIntAttribute("SubSpeciesID",&subSpeciesIdentifier);
     
     it = description->FirstChildElement("Clauses");
     for(it = it->FirstChildElement("Clause"); it != 0; it = it->NextSiblingElement()) {
@@ -28,7 +29,7 @@ namespace EDen {
 
     it = description->FirstChildElement("Mutations");
     for(it = it->FirstChildElement(); it != 0; it = it->NextSiblingElement()) {
-      addMutation(Mutation::parseXmlElement(it));
+      addMutation(GeneticMutation::parseXmlElement(it));
     };
   };
 
@@ -75,7 +76,7 @@ namespace EDen {
   };
 
   bool GeneticCode::addMutation(GeneticMutation* newMutation) {
-    mutate.push_back(newMutaion);
+    possibleMutations.push_back(newMutation);
     return true;
   };
 
@@ -103,17 +104,17 @@ namespace EDen {
   };
 
   TiXmlElement* GeneticCode::toXmlElement() {
-    TiXmlElement* element,*clauses,*mutations;
+    TiXmlElement* element,*clausesEl,*mutations;
 
     element = new TiXmlElement("GeneticCode");
     element->SetAttribute("SpeciesID",speciesIdentifier);
     element->SetAttribute("SubSpeciesID",subSpeciesIdentifier);
     
-    clauses = new TiXmlElement("Clauses");
+    clausesEl = new TiXmlElement("Clauses");
     for(GeneticClauseListIterator it = clauses.begin(); it != clauses.end(); it++) {
-      clauses->LinkEndChild((*it)->toXmlElement());
+      clausesEl->LinkEndChild((*it)->toXmlElement());
     };
-    element->LinkEndChild(clauses);
+    element->LinkEndChild(clausesEl);
 
     mutations = new TiXmlElement("Mutations");
     for(GeneticMutationListIterator it = possibleMutations.begin(); it != possibleMutations.end(); it++) {

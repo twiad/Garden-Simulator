@@ -106,6 +106,8 @@ bool wait_for_events()
 	          quit = true;			//same as "if ( event.key.keysym.sym == SDLK_q )"
           else if ( key[0] == 's'  )  //save if 's' pressed
             runtime->saveDatabase();
+          else if ( key[0] == 'l'  )  //load if 'l' is pressed
+            runtime->loadDatabase();
 		    break;
 		     case SDL_MOUSEMOTION:             //mouse moved
 			     printf("Mouse motion x:%d, y:%d\n", event.motion.x, event.motion.y );
@@ -201,6 +203,7 @@ void sdl_test() {
   cout << endl;
 
   printOrgs();
+  runtime->loadDatabase();
   run(1);
   wait_for_events();
 };

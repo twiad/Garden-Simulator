@@ -7,8 +7,7 @@
 namespace EDen {
   RuntimeManager::RuntimeManager() {
     randomizer = new Randomizer();
-    database = new GeneticCodeDatabase();
-    database->load("database.xml");
+    database = new GeneticCodeDatabase(this);
     reset();
   };
 
@@ -31,8 +30,6 @@ namespace EDen {
       delete resourceProviders.back();
       resourceProviders.pop_back();
     };
-
-    database->save();
 
     return true;
   };
@@ -210,7 +207,6 @@ namespace EDen {
     while(!database->empty() && (new_orgs.size() < MAX_PLANT_COUNT)) {
       Organism* org = getNextSeed();
       new_orgs.push_back(org);
-      //seeds.remove(org);
     };
 
     organisms.clear();
@@ -238,6 +234,10 @@ namespace EDen {
 
   int RuntimeManager::saveDatabase() {
     return database->save();
+  };
+
+  int RuntimeManager::loadDatabase() {
+    return database->load("database.xml");
   };
 
   std::list<Organism*> RuntimeManager::getOrganisms() {

@@ -59,6 +59,7 @@ namespace EDen {
     int getSeedCount();
     bool orgsAlive();
     int saveDatabase();
+    int loadDatabase();
 
     std::list<Organism*> getOrganisms();
   };

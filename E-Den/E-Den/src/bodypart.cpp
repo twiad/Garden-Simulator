@@ -61,6 +61,7 @@ namespace EDen {
 
     parentOrganism = param_parentOrganism;
     parentBodypart = param_parentBodypart;
+    
 
     description->QueryIntAttribute("Type",(int*)&bpType);
     description->QueryIntAttribute("State",(int*)&bpState);

@@ -66,7 +66,7 @@ namespace EDen {
     if(orgs.size() >= ORGS_TO_SAVE) {
           std::list<Organism*> orgsToSave;
       for(int i = 0; i < ORGS_TO_SAVE; i++)
-        orgsToSave.push_back(pull());
+        orgsToSave.push_back(pull(false));
 
       for( std::list<Organism*>::iterator it = orgsToSave.begin(); it != orgsToSave.end(); it++) {
         database->LinkEndChild((*it)->getXmlElement());
@@ -88,7 +88,7 @@ namespace EDen {
     orgs.push_back(org);
   };
 
-  Organism* GeneticCodeDatabase::pull() {
+  Organism* GeneticCodeDatabase::pull(bool del) {
     Organism* org = 0;
     
     int pos = (int)runtime->randomizer->value(0.0f,(float)orgs.size() - 1);
@@ -98,7 +98,7 @@ namespace EDen {
     };
     
     org = *it;
-    orgs.erase(it);
+    if(del) orgs.erase(it);
     return org;
   };
 

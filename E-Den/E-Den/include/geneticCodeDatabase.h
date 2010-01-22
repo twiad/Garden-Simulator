@@ -29,7 +29,7 @@ namespace EDen {
     int save(std::string p_filename = "");
 
     void push(Organism* org);
-    Organism* pull();
+    Organism* pull(bool del = true);
 
   };
 

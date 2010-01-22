@@ -3,6 +3,7 @@
 #define GRUNDVERBRAUCH 0.0595f
 #define LIFETIME 1800
 #define SEED_DROP_ENERGIE_PERCENTAGE 96.2f
+#define SEED_DROP_ENERGIE_VALUE 200.0f
 #define BRANCHE_MUTATION 0.1f
 #define SEED_MUTATION 1.5f
 
@@ -145,6 +146,10 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 10, -25.0f, false));
       compAct->add(new GeneticAddSpawnpointAction(bpts, 11, 10.0f, false));
       compAct->add(new GeneticAddSpawnpointAction(bpts, 12, -10.0f, false));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 13, 105.0f, false));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 14, -105.0f, false));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 15, 135.0f, false));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 16, -135.0f, false));
       //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser", 500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie", 35.0f));
@@ -242,6 +247,7 @@ namespace EDen {
       //  AND Type = Seed
       //  AND HasParent
       //  AND "Energie" more than 97%
+      //  AND "Energie" more than 200
       // THEN
       //  DetatchSeed
       ///////////////////////////////////////////////////////////////////////
@@ -252,6 +258,7 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(new GeneticBodypartTypeCondition(BPT_Seed,GBT_equal));
       gAndCond->add(new GeneticHasParentCondition());
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,SEED_DROP_ENERGIE_VALUE,"Energie"));
       gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,SEED_DROP_ENERGIE_PERCENTAGE,"Energie"));
       
       compAct->add(new GeneticSimpleMutateAction(0,SEED_MUTATION));

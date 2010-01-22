@@ -68,6 +68,7 @@ namespace EDen {
     else if(type == "MaxSizeMutation") return new GeneticMaxSizeMutation(descript);
     else if(type == "MaxAmountMutation") return new GeneticMaxAmountMutation(descript);
     else if(type == "SpawnpointActiveMutation") return new GeneticSpawnpointActiveMutation(descript);
+    else if(type == "ColorMutation") return new GeneticColorMutation(descript);
     else return 0;
   };
 

@@ -63,12 +63,21 @@ namespace EDen {
     TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
     database->Clear();
 
-    std::list<Organism*> orgsToSave;
-    for(int i = 0; i < ORGS_TO_SAVE; i++)
-      orgsToSave.push_back(pull());
 
-    for( std::list<Organism*>::iterator it = orgsToSave.begin(); it != orgsToSave.end(); it++) {
-      database->LinkEndChild((*it)->getXmlElement());
+
+
+    if(orgs.size() >= ORGS_TO_SAVE) {
+          std::list<Organism*> orgsToSave;
+      for(int i = 0; i < ORGS_TO_SAVE; i++)
+        orgsToSave.push_back(pull());
+
+      for( std::list<Organism*>::iterator it = orgsToSave.begin(); it != orgsToSave.end(); it++) {
+        database->LinkEndChild((*it)->getXmlElement());
+      };
+    } else {
+      for( std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
+        database->LinkEndChild((*it)->getXmlElement());
+      };
     };
 
     return (int)doc->SaveFile(filename);

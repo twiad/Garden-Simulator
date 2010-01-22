@@ -84,7 +84,7 @@ namespace EDen {
     GAT_ChangeMaxSize = 510,
     GAT_AddSpawnpoint = 520,
     GAT_SpawnBP = 530,
-    GAT_SetColor = 530,
+    GAT_SetColor = 540,
 
 // and the last and least
     GAT_Die = 5000,
@@ -120,7 +120,7 @@ namespace EDen {
 
   class Color {
   public:
-    Color(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f): r(red), g(green), b(blue), a(alpha) {};
+    Color(float red = 0.5f, float green = 0.5f, float blue = 0.5f, float alpha = 1.0f): r(red), g(green), b(blue), a(alpha) {};
     float r,g,b,a;
   };
 };

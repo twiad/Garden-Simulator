@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\globals.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\include\groundpart.cpp"
 				>
 			</File>

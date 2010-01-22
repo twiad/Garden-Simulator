@@ -58,8 +58,8 @@ namespace EDen {
     int getOrganismCount();
     int getSeedCount();
     bool orgsAlive();
-    int saveDatabase();
-    int loadDatabase();
+    int saveDatabase(std::string filename = "database.xml");
+    int loadDatabase(std::string filename = "database.xml");
 
     std::list<Organism*> getOrganisms();
   };

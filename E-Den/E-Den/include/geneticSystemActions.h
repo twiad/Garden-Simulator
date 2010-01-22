@@ -118,6 +118,23 @@ namespace EDen {
     virtual TiXmlElement* toXmlElement();
   };
 
+  class GeneticSetColorAction: public GeneticAction {
+  friend class GeneticColorMutation;
+  private:
+    Bodypart* bp;
+    Color color;
+  public:
+    GeneticSetColorAction(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f, Bodypart* param_bodypart = 0);
+    GeneticSetColorAction(TiXmlElement* description, Bodypart* p_bp = 0);
+
+    virtual ~GeneticSetColorAction();
+
+    virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
+  };
+
   class GeneticHurtAction: public GeneticAction {
   protected:
     Bodypart* bp;

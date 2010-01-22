@@ -18,7 +18,7 @@ namespace EDen {
   
   class SpawnpointInformation {
   public:    
-    SpawnpointInformation(): occupied(false),position(0),connectedBodypart(0),ang2d(0.0f) {};
+    SpawnpointInformation(): occupied(false),position(0),connectedBodypart(0),ang2d(0.0f),ang2(0.0f),rot(0.0f) {};
     ~SpawnpointInformation();
     BodypartTypeList supportedBpTypes;
     bool occupied;
@@ -29,8 +29,10 @@ namespace EDen {
     bool isSupportedType(BodypartType param_bpType);
 
     SpawnpointInformation* copy();
-    // we will need more information like position and orientation here latere
+    // we will need more information like position and orientation here later
     float ang2d;
+    float ang2;
+    float rot;
   };
 
   class Bodypart {
@@ -64,6 +66,8 @@ namespace EDen {
     GeneticProcessor* getGeneticProcessor();
 
     bool init();
+
+    Color color;
 
     GeneticCode* getGeneticCode();
     BodypartType getBodypartType();

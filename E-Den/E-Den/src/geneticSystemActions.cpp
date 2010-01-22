@@ -249,6 +249,54 @@ namespace EDen {
     return true;
   };
 
+  GeneticSetColorAction::GeneticSetColorAction(float red, float green, float blue, float alpha, Bodypart* param_bodypart): GeneticAction(GAT_SetColor) {
+    color.r = red;
+    color.g = green;
+    color.b = blue;
+    color.a = alpha;
+    bp = param_bodypart;
+  };
+
+  GeneticSetColorAction::GeneticSetColorAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_SetColor) {
+    description->QueryFloatAttribute("Red",&(color.r));
+    description->QueryFloatAttribute("Green",&(color.g));
+    description->QueryFloatAttribute("Blue",&(color.b));
+    description->QueryFloatAttribute("Alpha",&(color.a));
+    bp = p_bp;
+  };
+
+  GeneticSetColorAction::~GeneticSetColorAction() {
+    
+  };
+
+  bool GeneticSetColorAction::execute() {
+    bp->color.r = color.r;  
+    bp->color.g = color.g;
+    bp->color.b = color.b;
+    bp->color.a = color.a;
+    return true;
+  };
+
+  bool GeneticSetColorAction::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart;
+    return true;
+  };
+
+  GeneticAction* GeneticSetColorAction::copy() {
+    return new GeneticSetColorAction(color.r,color.g,color.b,color.a);  
+  };
+
+  TiXmlElement* GeneticSetColorAction::toXmlElement() {
+    TiXmlElement* element = new TiXmlElement("SetColorAction");
+
+    element->SetDoubleAttribute("Red", color.r);
+    element->SetDoubleAttribute("Green", color.g);
+    element->SetDoubleAttribute("Blue", color.b);
+    element->SetDoubleAttribute("Alpha", color.a);
+
+    return element;
+  };
+
   GeneticGrowAction::GeneticGrowAction(float param_amount, Bodypart* param_bodypart):
     GeneticAction(GAT_Grow) {
     setBodypart(param_bodypart);

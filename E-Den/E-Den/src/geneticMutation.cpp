@@ -146,7 +146,7 @@ namespace EDen {
     maxstep = p_maxstep;
   };
   
-  GeneticMaxSizeMutation::GeneticMaxSizeMutation(TiXmlElement* descript) {
+  GeneticMaxSizeMutation::GeneticMaxSizeMutation(TiXmlElement* descript)  {
     description = descript->Attribute("Description");
     
     descript->QueryFloatAttribute("Min",&min);
@@ -232,6 +232,58 @@ namespace EDen {
     return false;
   };
 
+  GeneticColorMutation::GeneticColorMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption): GeneticMutation(p_prob,p_desciption) {
+    min = p_min;
+    max = p_max;
+    maxstep = p_maxstep;
+  };
+
+  GeneticColorMutation::GeneticColorMutation(TiXmlElement* descript) {
+    description = descript->Attribute("Description");
+    
+    descript->QueryFloatAttribute("Min",&min);
+    descript->QueryFloatAttribute("Max",&max);
+    descript->QueryFloatAttribute("Maxstep",&maxstep);
+    descript->QueryFloatAttribute("Probability",&prob);
+  };
+
+  GeneticColorMutation* GeneticColorMutation::copy() {
+    return new GeneticColorMutation(min,max,maxstep,prob,description);
+  };
+
+  TiXmlElement* GeneticColorMutation::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("ColorMutation");
+
+    element->SetDoubleAttribute("Min",min);
+    element->SetDoubleAttribute("Max",max);
+    element->SetDoubleAttribute("Maxstep",maxstep);
+    element->SetDoubleAttribute("Probability",prob);
+    element->SetAttribute("Description",description);
+
+    return element;
+  };
+
+  bool GeneticColorMutation::execute(GeneticAction* p_act,float strength) {
+    if(randomizer->value() < prob*strength) {
+      if(p_act->getActionType() == GAT_AddSpawnpoint) {
+        float* colorValue;
+        int colorSwitcher = (int)randomizer->value(1,4);
+        switch(colorSwitcher) {
+          case 1:  colorValue = &(((GeneticSetColorAction*)(p_act))->color.r); break;
+          case 2:  colorValue = &(((GeneticSetColorAction*)(p_act))->color.g); break;
+          case 3:  colorValue = &(((GeneticSetColorAction*)(p_act))->color.b); break;
+          case 4:  colorValue = &(((GeneticSetColorAction*)(p_act))->color.a); break;
+          default: colorValue = &(((GeneticSetColorAction*)(p_act))->color.r);
+        };
+
+          float oldvalue = *colorValue;
+          *colorValue = randomizer->value(maxi<float>(min,oldvalue - maxstep),mini<float>(max,oldvalue + maxstep));
+          return true; 
+      };
+    }
+    return false;
+  };
   
   GeneticSpawnpointActiveMutation::GeneticSpawnpointActiveMutation(float p_prob, std::string p_desciption): GeneticMutation(p_prob,p_desciption) {
     

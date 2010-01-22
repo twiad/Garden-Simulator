@@ -238,12 +238,12 @@ namespace EDen {
     return false;
   };
 
-  int RuntimeManager::saveDatabase() {
-    return database->save();
+  int RuntimeManager::saveDatabase(std::string filename) {
+    return database->save(filename);
   };
 
-  int RuntimeManager::loadDatabase() {
-    return database->load("database.xml");
+  int RuntimeManager::loadDatabase(std::string filename) {
+    return database->load(filename);
   };
 
   std::list<Organism*> RuntimeManager::getOrganisms() {

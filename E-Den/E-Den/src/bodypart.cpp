@@ -476,9 +476,11 @@ namespace EDen {
   };
 
   void Bodypart::xmlElementToSpawnpoint(TiXmlElement* description, SpawnpointInformation* sp) {
-    description->QueryIntAttribute("Occupied",(int*)&(sp->occupied));
-    //sp->occupied = false;
+    //description->QueryValueAttribute("Occupied",&(sp->occupied));
+    sp->occupied = false;
     description->QueryFloatAttribute("Ang1",&(sp->ang2d));
+    description->QueryFloatAttribute("Ang2",&(sp->ang2));
+    description->QueryFloatAttribute("Rot",&(sp->rot));
     description->QueryIntAttribute("PositionId",&(sp->position));
     sp->connectedBodypart = 0;
     // TODO: connected bodypart via IID?!?
@@ -495,9 +497,10 @@ namespace EDen {
   void Bodypart::spawnpointToXmlElement(SpawnpointInformation* sp, TiXmlElement* element) {
     TiXmlElement* supportedTypesElement,*supportedTypeElement;
 
-    
     element->SetAttribute("Occupied",sp->occupied);
     element->SetDoubleAttribute("Ang1",sp->ang2d);
+    element->SetDoubleAttribute("Ang2",sp->ang2);
+    element->SetDoubleAttribute("Rot",sp->rot);
     element->SetAttribute("PositionId",sp->position);
     element->SetAttribute("ConnectedBodypartID",(int)(sp->connectedBodypart));
     

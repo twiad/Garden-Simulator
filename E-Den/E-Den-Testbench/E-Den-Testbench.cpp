@@ -204,7 +204,7 @@ void sdl_test() {
   cout << endl;
 
   printOrgs();
-  runtime->loadDatabase();
+  runtime->loadDatabase("autosave.xml");
   run(1);
   wait_for_events();
 };

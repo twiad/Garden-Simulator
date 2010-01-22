@@ -90,6 +90,19 @@ namespace EDen {
     virtual TiXmlElement* toXmlElement();
   };
 
+  class GeneticColorMutation : public GeneticMutation {
+    friend class GeneticSetColorAction;
+
+    float min,max,maxstep;
+  protected:
+    virtual bool execute(GeneticAction* p_act,float strength);
+  public:
+    GeneticColorMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption = "ColorMutation");
+    GeneticColorMutation(TiXmlElement* descript);
+    virtual GeneticColorMutation* copy();
+    virtual TiXmlElement* toXmlElement();
+  };
+
   class GeneticSpawnpointActiveMutation : public GeneticMutation {
     friend class GeneticAddSpawnpointAction;
   protected:

@@ -84,10 +84,11 @@ namespace EDen {
     GAT_ChangeMaxSize = 510,
     GAT_AddSpawnpoint = 520,
     GAT_SpawnBP = 530,
+    GAT_SetColor = 530,
 
 // and the last and least
-    GAT_Die,
-    GAT_UNKNOWN
+    GAT_Die = 5000,
+    GAT_UNKNOWN = 0
   };
 
   enum BodypartType {
@@ -116,6 +117,12 @@ namespace EDen {
 
   typedef std::map<BodypartType,BodypartType> BodypartTypeInheritageMap;
   typedef std::map<BodypartType,BodypartType>::iterator BodypartTypeInheritageMapIterator;
+
+  class Color {
+  public:
+    Color(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f): r(red), g(green), b(blue), a(alpha) {};
+    float r,g,b,a;
+  };
 };
 
 #endif

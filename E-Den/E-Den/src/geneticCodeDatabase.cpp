@@ -59,12 +59,9 @@ namespace EDen {
 	  }
   };
 
-  int GeneticCodeDatabase::save() {
+  int GeneticCodeDatabase::save(std::string p_filename) {
     TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
     database->Clear();
-
-
-
 
     if(orgs.size() >= ORGS_TO_SAVE) {
           std::list<Organism*> orgsToSave;
@@ -80,7 +77,11 @@ namespace EDen {
       };
     };
 
-    return (int)doc->SaveFile(filename);
+    if(p_filename == "") {
+      return (int)doc->SaveFile(filename);
+    } else {
+      return (int)doc->SaveFile(p_filename);
+    };
   };
 
   void GeneticCodeDatabase::push(Organism* org) {

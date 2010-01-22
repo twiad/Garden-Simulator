@@ -26,7 +26,7 @@ namespace EDen {
     int size();
 
     int load(std::string pFilename);
-    int save();
+    int save(std::string p_filename = "");
 
     void push(Organism* org);
     Organism* pull();

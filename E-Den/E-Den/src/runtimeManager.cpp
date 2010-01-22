@@ -185,6 +185,10 @@ namespace EDen {
 
     cleanupDeadOrganisms();
 
+    if((cycles % 100000) == 0) {
+      database->save("autosave.xml");
+    };
+
     cycles++;
 
     return true;

@@ -932,11 +932,11 @@ namespace EDen {
 
     };
     
-    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.1f,"Anglular Mutation"));
-    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.05f,"Max Size Mutation"));
+    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.2f,"Anglular Mutation"));
+    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.2f,"Max Size Mutation"));
     possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.02f,"Energie", "Max Amount Mutation: Energie"));
     possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.1f,"Wasser", "Max Amount Mutation: Wasser"));
-    possibleMutations.push_back(new GeneticSpawnpointActiveMutation(0.01f, "Spawnpoint Active Mutation"));
+    possibleMutations.push_back(new GeneticSpawnpointActiveMutation(0.2f, "Spawnpoint Active Mutation"));
     possibleMutations.push_back(new GeneticColorMutation(0.1f,1.0f,0.05f,0.5f,"ColorMutation"));
 
     return true;

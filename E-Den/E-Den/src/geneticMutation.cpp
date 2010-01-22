@@ -267,18 +267,27 @@ namespace EDen {
   bool GeneticColorMutation::execute(GeneticAction* p_act,float strength) {
     if(randomizer->value() < prob*strength) {
       if(p_act->getActionType() == GAT_SetColor) {
-        float* colorValue;
+        float colorValue;
         int colorSwitcher = (int)randomizer->value(1,4);
         switch(colorSwitcher) {
-          case 1:  colorValue = &(((GeneticSetColorAction*)(p_act))->color.r); break;
-          case 2:  colorValue = &(((GeneticSetColorAction*)(p_act))->color.g); break;
-          case 3:  colorValue = &(((GeneticSetColorAction*)(p_act))->color.b); break;
-          case 4:  colorValue = &(((GeneticSetColorAction*)(p_act))->color.a); break;
-          default: colorValue = &(((GeneticSetColorAction*)(p_act))->color.r);
+          case 1:  colorValue = ((GeneticSetColorAction*)(p_act))->color.r; break;
+          case 2:  colorValue = ((GeneticSetColorAction*)(p_act))->color.g; break;
+          case 3:  colorValue = ((GeneticSetColorAction*)(p_act))->color.b; break;
+          case 4:  colorValue = ((GeneticSetColorAction*)(p_act))->color.a; break;
+          default: colorValue = ((GeneticSetColorAction*)(p_act))->color.r;
         };
 
-        float oldvalue = *colorValue;
-        *colorValue = randomizer->value(maxi<float>(min,oldvalue - maxstep),mini<float>(max,oldvalue + maxstep));
+        float oldvalue = colorValue;
+        colorValue = randomizer->value(maxi<float>(min,oldvalue - maxstep),mini<float>(max,oldvalue + maxstep));
+
+        switch(colorSwitcher) {
+          case 1:  ((GeneticSetColorAction*)(p_act))->color.r = colorValue; break;
+          case 2:  ((GeneticSetColorAction*)(p_act))->color.g = colorValue; break;
+          case 3:  ((GeneticSetColorAction*)(p_act))->color.b = colorValue; break;
+          case 4:  ((GeneticSetColorAction*)(p_act))->color.a = colorValue; break;
+          default: ((GeneticSetColorAction*)(p_act))->color.r = colorValue;
+        };
+
         return true; 
       };
     }

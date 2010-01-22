@@ -283,15 +283,7 @@ namespace EDen {
 
       if((x1-offsetx >= 0) && (x1-offsetx < dimx) && (x2-offsetx >= 0) && (x2-offsetx < dimx) && 
         (y1-offsety >= 0) && (y1-offsety< dimy) && (y2-offsety >= 0) && (y2-offsety < dimy)) {
-        Uint32 col;
-        
-        if(param_bp->getBodypartType() == BPT_Leaf) 
-          if(param_bp->getGeneticCode()->getSpeciesIdentifier() == 502) col = SDL_MapRGB(screen->format,0,200,0);
-          else col = SDL_MapRGB(screen->format,0,000,200);
-        else if(param_bp->getBodypartType() == BPT_Stick) col = SDL_MapRGB(screen->format,200,100,0);
-        else if(param_bp->getBodypartType() == BPT_Branch) col = SDL_MapRGB(screen->format,255,0,0);
-        else if(param_bp->getBodypartType() == BPT_Seed) col = SDL_MapRGB(screen->format,100,100,100);
-        else col = SDL_MapRGB(screen->format,255,255,255);
+        Uint32 col = SDL_MapRGBA(screen->format,(int)(param_bp->color.r * 255),(int)(param_bp->color.g),(int)(param_bp->color.b),(int)(param_bp->color.a));
         Draw_Line(screen,x1-offsetx,dimy-(y1-offsety+1),x2-offsetx,dimy-(y2-offsety+1),col);
 //        SDL_UpdateRect(screen,std::min(x1-offsetx,x2-offsetx) - 1,std::min(dimy-(y1-offsety+1) - 1,dimy-(y2-offsety+1)), fabs((float)(x1-x2)) + 3,fabs((float)(y1-y2)) + 3);
       }

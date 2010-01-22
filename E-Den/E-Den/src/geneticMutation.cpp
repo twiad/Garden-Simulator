@@ -266,7 +266,7 @@ namespace EDen {
 
   bool GeneticColorMutation::execute(GeneticAction* p_act,float strength) {
     if(randomizer->value() < prob*strength) {
-      if(p_act->getActionType() == GAT_AddSpawnpoint) {
+      if(p_act->getActionType() == GAT_SetColor) {
         float* colorValue;
         int colorSwitcher = (int)randomizer->value(1,4);
         switch(colorSwitcher) {
@@ -277,9 +277,9 @@ namespace EDen {
           default: colorValue = &(((GeneticSetColorAction*)(p_act))->color.r);
         };
 
-          float oldvalue = *colorValue;
-          *colorValue = randomizer->value(maxi<float>(min,oldvalue - maxstep),mini<float>(max,oldvalue + maxstep));
-          return true; 
+        float oldvalue = *colorValue;
+        *colorValue = randomizer->value(maxi<float>(min,oldvalue - maxstep),mini<float>(max,oldvalue + maxstep));
+        return true; 
       };
     }
     return false;

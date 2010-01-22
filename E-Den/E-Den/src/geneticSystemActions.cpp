@@ -109,7 +109,9 @@ namespace EDen {
         GeneticAction(GAT_SpawnBP), childBodypartType(param_childBodypartType) { setBodypart(param_parentBodypart); };
 
   GeneticSpawnBodypartAction::GeneticSpawnBodypartAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_SpawnBP) {
-    description->QueryIntAttribute("Type",(int*)&childBodypartType);
+    int type;
+    description->QueryIntAttribute("Type",&type);
+    childBodypartType = (BodypartType)type;
 
     setBodypart(p_bp);
   };
@@ -187,7 +189,7 @@ namespace EDen {
     return true;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, bool p_active, Bodypart* param_bodypart):
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, float p_ang2, float p_rot, bool p_active, Bodypart* param_bodypart):
     GeneticAction(GAT_AddSpawnpoint), spawnpointAdded(false) {
     setBodypart(param_bodypart);
     sp = new SpawnpointInformation();
@@ -195,10 +197,12 @@ namespace EDen {
     sp->position = param_position;
     sp->occupied = false;
     sp->ang2d = param_ang2d;
+    sp->ang2 = p_ang2;
+    sp->rot = p_rot;
     active = p_active;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, bool p_active, Bodypart* param_bodypart):
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, float p_ang2, float p_rot, bool p_active, Bodypart* param_bodypart):
     GeneticAction(GAT_AddSpawnpoint), spawnpointAdded(false) {
     setBodypart(param_bodypart);
     sp = new SpawnpointInformation();
@@ -206,6 +210,8 @@ namespace EDen {
     sp->position = param_position;
     sp->occupied = false;
     sp->ang2d = param_ang2d;
+    sp->ang2 = p_ang2;
+    sp->rot = p_rot;
     active = p_active;
   };
 
@@ -221,7 +227,15 @@ namespace EDen {
   };
 
   GeneticAction* GeneticAddSpawnpointAction::copy() {
-    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d,active);
+    SpawnpointInformation deb;
+
+    deb.position = sp->position;
+    deb.ang2d = sp->ang2d;
+    deb.ang2 = sp->ang2;
+    deb.rot =sp->rot;
+    deb.supportedBpTypes = sp->supportedBpTypes;
+
+    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d,sp->ang2,sp->rot,active);
   };
 
   TiXmlElement* GeneticAddSpawnpointAction::toXmlElement() {

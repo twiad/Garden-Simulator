@@ -42,6 +42,7 @@ namespace EDen {
     else if(type == "EmptyChemicalStorageAction") return new GeneticEmptyChemicalStorageAction(description);
     else if(type == "ChangeMaxSizeAction") return new GeneticChangeMaxSizeAction(description);
     else if(type == "DropSeedAction") return new GeneticDropSeedAction(description);
+    else if(type == "SetColorAction") return new GeneticSetColorAction(description);
     else return 0;
   };
 };

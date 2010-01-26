@@ -1,0 +1,490 @@
+<?xml version="1.0" ?>
+<E-DEN-CodeDefinition>
+    <Version>0.1.0</Version>
+    <Database>
+      <Organism Name="GooEater" State="4" Lifetime="0">
+            <Bodypart State="4" Type="4" Healthpoints="100.000000" Size="2.000000" IID="20463648">
+                <Childs />
+                <Spawnpoints>
+                    <Spawnpoint Occupied="0" Ang1="0.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0">
+                        <SupportedTypes>
+                            <Type ID="1" />
+                        </SupportedTypes>
+                    </Spawnpoint>
+                </Spawnpoints>
+                <Storage Size="2.000000">
+                    <Chemical Name="Energie" Current="962.821167" Max="500.000000" />
+                    <Chemical Name="Sonne" Current="3.155942" Max="100.000000" />
+                    <Chemical Name="Goo" Current="800.912537" Max="491.212128" />
+                </Storage>
+                <GeneticCode SpeciesID="480" SubSpeciesID="256">
+                    <Clauses>
+                        <Clause Description="Seed Creation">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartTypeCondition BodypartType="4" ConditionType="1" />
+                                    <CreationCondition />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="0.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <ChangeMaxChemicalAmountAction Name="Goo" Value="491.212128" />
+                                    <ChangeMaxChemicalAmountAction Name="Energie" Value="500.000000" />
+                                    <ChangeMaxChemicalAmountAction Name="Sonne" Value="100.000000" />
+                                    <ChangeMaxSizeAction Amount="3.000000" />
+                                    <SetColorAction Red="0.710000" Green="0.210000" Blue="0.100000" Alpha="1.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Leaf Creation">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartTypeCondition BodypartType="2" ConditionType="1" />
+                                    <CreationCondition />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="180.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="3" />
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <ChangeMaxChemicalAmountAction Name="Goo" Value="15.000000" />
+                                    <ChangeMaxChemicalAmountAction Name="Energie" Value="150.000000" />
+                                    <ChangeMaxChemicalAmountAction Name="Sonne" Value="120.000000" />
+                                    <ChangeMaxSizeAction Amount="2.606061" />
+                                    <SetColorAction Red="0.210000" Green="0.110000" Blue="0.50000" Alpha="1.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Stick Creation">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartTypeCondition BodypartType="1" ConditionType="1" />
+                                    <CreationCondition />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="180.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="3" />
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="-12.525251" Ang2="0.000000" Rot="0.000000" PositionId="1" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="3" />
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="145.000000" Ang2="0.000000" Rot="0.000000" PositionId="2" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="-153.686874" Ang2="0.000000" Rot="0.000000" PositionId="3" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="125.000000" Ang2="0.000000" Rot="0.000000" PositionId="4" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="-151.666672" Ang2="0.000000" Rot="0.000000" PositionId="5" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="-14.747475" Ang2="0.000000" Rot="0.000000" PositionId="6" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="4" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="45.000000" Ang2="0.000000" Rot="0.000000" PositionId="7" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="-41.161617" Ang2="0.000000" Rot="0.000000" PositionId="8" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="43.787880" Ang2="0.000000" Rot="0.000000" PositionId="9" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="-39.949497" Ang2="0.000000" Rot="0.000000" PositionId="10" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="2.525252" Ang2="0.000000" Rot="0.000000" PositionId="11" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="3" />
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="-10.000000" Ang2="0.000000" Rot="0.000000" PositionId="12" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="3" />
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="105.000000" Ang2="0.000000" Rot="0.000000" PositionId="13" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="-97.525253" Ang2="0.000000" Rot="0.000000" PositionId="14" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="154.191925" Ang2="0.000000" Rot="0.000000" PositionId="15" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="-143.686874" Ang2="0.000000" Rot="0.000000" PositionId="16" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="2" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <ChangeMaxChemicalAmountAction Name="Goo" Value="495.454559" />
+                                    <ChangeMaxChemicalAmountAction Name="Energie" Value="32.676769" />
+                                    <ChangeMaxChemicalAmountAction Name="Sonne" Value="0.010000" />
+                                    <ChangeMaxChemicalAmountAction Name="Wasser" Value="19.000000" />
+                                    <ChangeMaxSizeAction Amount="5.000000" />
+                                    <SetColorAction Red="0.420000" Green="0.230000" Blue="0.090000" Alpha="1.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Branch Creation">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartTypeCondition BodypartType="3" ConditionType="1" />
+                                    <CreationCondition />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="180.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="3" />
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="-5.525253" Ang2="0.000000" Rot="0.000000" PositionId="1" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="3" />
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="1">
+                                        <Spawnpoint Occupied="0" Ang1="22.898989" Ang2="0.000000" Rot="0.000000" PositionId="2" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="3" />
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="-34.484848" Ang2="0.000000" Rot="0.000000" PositionId="3" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="3" />
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <AddSpawnpointAction Active="0">
+                                        <Spawnpoint Occupied="0" Ang1="30.848486" Ang2="0.000000" Rot="0.000000" PositionId="4" ConnectedBodypartID="0">
+                                            <SupportedTypes>
+                                                <Type ID="3" />
+                                                <Type ID="1" />
+                                            </SupportedTypes>
+                                        </Spawnpoint>
+                                    </AddSpawnpointAction>
+                                    <ChangeMaxChemicalAmountAction Name="Goo" Value="150.000000" />
+                                    <ChangeMaxChemicalAmountAction Name="Energie" Value="3.000000" />
+                                    <ChangeMaxChemicalAmountAction Name="Wasser" Value="15.000000" />
+                                    <ChangeMaxChemicalAmountAction Name="Sonne" Value="0.000000" />
+                                    <ChangeMaxSizeAction Amount="10.000000" />
+                                    <SetColorAction Red="0.180000" Green="0.180000" Blue="0.090000" Alpha="1.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Leaf Energie Production">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                    <BodypartTypeCondition BodypartType="2" ConditionType="1" />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="10.000000" Type="4" />
+                                    <ChemicalCondition ChemicalName="Goo" TriggerValue="15.000000" Type="1" />
+                                    <ChemicalCondition ChemicalName="Sonne" TriggerValue="1.000000" Type="1" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <ChemicalConsumeAction Name="Sonne" Amount="1.000000" />
+                                    <ChemicalConvertAction FromName="Goo" ToName="Energie" Amount="10.000000" Ratio="2.000000" />
+                                    <ChemicalConvertAction FromName="Goo" ToName="Wasser" Amount="0.100000" Ratio="50.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Energie consumption">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <ChemicalConsumeAction Name="Energie" Amount="0.059500" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Drop Seed">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                    <BodypartTypeCondition BodypartType="4" ConditionType="1" />
+                                    <HasParentCondition />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="200.000000" Type="1" />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="96.199997" Type="7" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <MutateAction Strength="1.500000" />
+                                    <DropSeedAction />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Energie consumption and grow">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                    <CanGrowCondition />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="25.000000" Type="7" />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="1.375000" Type="1" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <ChemicalConsumeAction Name="Energie" Amount="0.500000" />
+                                    <GrowAction Amount="0.100000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Spawn Leaf">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                    <BodypartTypeCondition BodypartType="1" ConditionType="1" />
+                                    <ChemicalCondition ChemicalName="Goo" TriggerValue="10.000000" Type="1" />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="2.000000" Type="1" />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="4.000000" Type="4" />
+                                    <SpawnpointPresentCondition Type="4" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <SpawnBodypartAction Type="4" />
+                                    <ChemicalConsumeAction Name="Energie" Amount="2.000000" />
+                                    <ChemicalConsumeAction Name="Goo" Amount="10.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Spawn Leaf">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                    <BodypartTypeCondition BodypartType="1" ConditionType="1" />
+                                    <ChemicalCondition ChemicalName="Goo" TriggerValue="10.000000" Type="1" />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="2.000000" Type="1" />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="4.000000" Type="4" />
+                                    <SpawnpointPresentCondition Type="2" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <SpawnBodypartAction Type="2" />
+                                    <ChemicalConsumeAction Name="Energie" Amount="2.000000" />
+                                    <ChemicalConsumeAction Name="Goo" Amount="10.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Spawn Stick">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                    <ConditionOR>
+                                        <BodypartTypeCondition BodypartType="1" ConditionType="1" />
+                                        <BodypartTypeCondition BodypartType="3" ConditionType="1" />
+                                    </ConditionOR>
+                                    <SpawnpointPresentCondition Type="1" />
+                                    <SizeCondition Amount="4.500000" Type="3" />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="0.010000" Type="1" />
+                                    <ChemicalCondition ChemicalName="Goo" TriggerValue="450.000000" Type="1" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <SpawnBodypartAction Type="1" />
+                                    <ChemicalConsumeAction Name="Energie" Amount="0.010000" />
+                                    <ChemicalConsumeAction Name="Goo" Amount="450.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Spawn Branche">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                    <ConditionOR>
+                                        <BodypartTypeCondition BodypartType="1" ConditionType="1" />
+                                        <BodypartTypeCondition BodypartType="3" ConditionType="1" />
+                                    </ConditionOR>
+                                    <SpawnpointPresentCondition Type="3" />
+                                    <SizeCondition Amount="4.500000" Type="3" />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="20.000000" Type="1" />
+                                    <ChemicalCondition ChemicalName="Goo" TriggerValue="350.000000" Type="1" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <MutateAction Strength="0.100000" />
+                                    <SpawnBodypartAction Type="3" />
+                                    <ChemicalConsumeAction Name="Energie" Amount="20.000000" />
+                                    <ChemicalConsumeAction Name="Goo" Amount="350.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="lose HP on low Energie">
+                            <Conditions>
+                                <ConditionAND>
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="0.000100" Type="8" />
+                                    <BodypartStateCondition State="2" Type="1" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <HurtAction Amount="1.000000" />
+                                    <ShrinkAction Amount="0.970000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Die if not enough HP or to old">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                    <ConditionOR>
+                                        <OrganismLifetimeCondition Amount="1000" Type="3" />
+                                        <HealthpointsCondition Amount="0.100000" Type="4" />
+                                    </ConditionOR>
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <EmptyChemicalStorageAction />
+                                    <DieAction />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Convert Energie to HP">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                    <HealthpointsCondition Amount="100.000000" Type="4" />
+                                    <ChemicalCondition ChemicalName="Energie" TriggerValue="1.500000" Type="1" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <HealAction Amount="1.000000" />
+                                    <GrowAction Amount="1.000000" />
+                                    <ChemicalConsumeAction Name="Energie" Amount="1.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                        <Clause Description="Heal Parent">
+                            <Conditions>
+                                <ConditionAND>
+                                    <BodypartStateCondition State="2" Type="1" />
+                                    <ParentHealthpointsCondition Amount="100.000000" Type="4" />
+                                </ConditionAND>
+                            </Conditions>
+                            <Actions>
+                                <CompoundAction>
+                                    <HealParentAction Amount="1.000000" />
+                                    <HurtAction Amount="1.000000" />
+                                </CompoundAction>
+                            </Actions>
+                        </Clause>
+                    </Clauses>
+                    <Mutations>
+                        <SpawnpointAngle1Mutation Min="-179.000000" Max="179.000000" Maxstep="20.000000" Probability="0.0200000" Description="2DAngleMutation" />
+                        <MaxSizeMutation Min="1.000000" Max="1000.000000" Maxstep="2.000000" Probability="0.130000" Description="MaxSizeMutation" />
+                        <MaxAmountMutation Min="0.100000" Max="10000.000000" Maxstep="10.000000" Probability="0.120000" Description="MaxSizeMutation" ChemicalName="Energie" />
+                        <MaxAmountMutation Min="0.100000" Max="10000.000000" Maxstep="10.000000" Probability="0.200000" Description="MaxSizeMutation" ChemicalName="Goo" />
+                        <SpawnpointActiveMutation Probability="0.010000" Description="Spawnpoint Active Mutation" />
+                        <ColorMutation Min="0.100000" Max="1.000000" Maxstep="0.100000" Probability="0.050000" Description="ColorMutation" />
+                    </Mutations>
+                </GeneticCode>
+            </Bodypart>
+        </Organism>
+      </Database>
+</E-DEN-CodeDefinition>

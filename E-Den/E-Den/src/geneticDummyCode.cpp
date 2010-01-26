@@ -108,10 +108,10 @@ namespace EDen {
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition());
       compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",15.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",35.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",150.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne",120.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 10.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 150.0f));
       
       compAct->add(new GeneticChangeMaxSizeAction(1.5f));
       compAct->add(new GeneticSetColorAction(0.43f,0.62f,0.18f,1.0f));
@@ -153,13 +153,13 @@ namespace EDen {
       compAct->add(new GeneticAddSpawnpointAction(bpts, 12, -10.0f, 0.0f, 0.0f, false));
       compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 13, 105.0f, 0.0f, 0.0f, false));
       compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 14, -105.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 15, 135.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 16, -135.0f, 0.0f, 0.0f, false));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 15, 135.0f, 0.0f, 0.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 16, -135.0f, 0.0f, 0.0f));
       //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser", 500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie", 35.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne", 0.01f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 10.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 120.0f));
       
       compAct->add(new GeneticChangeMaxSizeAction(5.0f));
       compAct->add(new GeneticSetColorAction(0.62f,0.43f,0.18f,1.0f));
@@ -193,7 +193,7 @@ namespace EDen {
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",150.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",3.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne", 0.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 3.0f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo", 80.0f));
       
       compAct->add(new GeneticChangeMaxSizeAction(10.0f));
       compAct->add(new GeneticSetColorAction(0.37f,0.37f,0.18f,1.0f));
@@ -228,7 +228,7 @@ namespace EDen {
 
       compAct->add(new GeneticChemicalConsumeAction("Sonne",1.0f));
       compAct->add(new GeneticSimpleChemicalConvertAction("Wasser","Energie",10.0f,2.0f));
-      compAct->add(new GeneticSimpleChemicalConvertAction("Wasser","Goo",0.1f,50.0f));
+      compAct->add(new GeneticSimpleChemicalConvertAction("Wasser","Goo",1.0f,100.0f));
 
       addClause(new GeneticClause(gAndCond, compAct, "Leaf Energie Production"));
       

@@ -18,17 +18,20 @@ namespace EDen {
 
     int speciesIdentifier;
     int subSpeciesIdentifier;
+    int generation;
     
     bool addClause(GeneticClause* clause);
     bool addMutation(GeneticMutation* newMutation);
   public:
     GeneticCode(std::string dummyCodeIdentifier = "TESTPART3");
-    GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList possibleMutations, int param_speciesIdentifier = 0, int param_subSpeciesIdentifier = 0);
+    GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList possibleMutations, int init_generation = 0, int param_speciesIdentifier = 0, int param_subSpeciesIdentifier = 0);
     GeneticCode(TiXmlElement* description);
     ~GeneticCode();
 
     int getSpeciesIdentifier();
     int getSubSpeciesIdentifier();
+    int getGeneration();
+    int incGeneration();
     bool setBodypart(Bodypart* p_bp);
 
     bool mutate(float strength = 1.0f);

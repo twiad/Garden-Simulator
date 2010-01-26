@@ -17,7 +17,7 @@
                     <Chemical Name="Sonne" Current="3.155942" Max="100.000000" />
                     <Chemical Name="Goo" Current="800.912537" Max="491.212128" />
                 </Storage>
-                <GeneticCode SpeciesID="480" SubSpeciesID="256">
+                <GeneticCode SpeciesID="480" SubSpeciesID="256" Generation="0">
                     <Clauses>
                         <Clause Description="Seed Creation">
                             <Conditions>

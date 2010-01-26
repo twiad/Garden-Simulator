@@ -675,6 +675,7 @@ namespace EDen {
 
   bool GeneticDropSeedAction::execute() {
     bp->setBodypartState(BSP_seed);
+    bp->getGeneticCode()->incGeneration();
     bp->detachToNewOrganism();
   return true;
   };

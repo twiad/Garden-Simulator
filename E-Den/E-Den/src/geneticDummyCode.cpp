@@ -9,6 +9,9 @@
 
 namespace EDen {
   bool GeneticCode::generateDummyGenecode(std::string code) {
+    generation = 0;
+    subSpeciesIdentifier = 0;
+    
     if(code == "TESTPART1") {
       speciesIdentifier = 500;
       GeneticANDCondition* andCond = new GeneticANDCondition();

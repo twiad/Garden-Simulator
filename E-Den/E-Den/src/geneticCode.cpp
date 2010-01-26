@@ -10,8 +10,10 @@ namespace EDen {
     generateDummyGenecode(dummyCodeIdentifier); 
   };
 
-  GeneticCode::GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList p_mutations, int param_speciesIdentifier, int param_subSpeciesIdentifier) {
+  GeneticCode::GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList p_mutations, int param_generation, int param_speciesIdentifier, int param_subSpeciesIdentifier) {
     speciesIdentifier = param_speciesIdentifier;
+    subSpeciesIdentifier = param_subSpeciesIdentifier;
+    generation = param_generation;
     clauses = param_clauseList;
     possibleMutations = p_mutations;
   };
@@ -21,6 +23,7 @@ namespace EDen {
     
     description->QueryIntAttribute("SpeciesID",&speciesIdentifier);
     description->QueryIntAttribute("SubSpeciesID",&subSpeciesIdentifier);
+    description->QueryIntAttribute("Generation",&generation);
     
     it = description->FirstChildElement("Clauses");
     for(it = it->FirstChildElement("Clause"); it != 0; it = it->NextSiblingElement()) {
@@ -49,6 +52,15 @@ namespace EDen {
     };
   };
 
+  int GeneticCode::getGeneration() {
+    return generation; 
+  };
+
+  int GeneticCode::incGeneration() {
+    generation += 1;
+    return generation;
+  };
+
   GeneticCode* GeneticCode::copy() {
     GeneticClauseList newClauses;
     for(GeneticClauseListIterator it = clauses.begin(); it != clauses.end(); it++) {
@@ -60,7 +72,7 @@ namespace EDen {
       newMutations.push_back((*it)->copy());
     };
 
-    return new GeneticCode(newClauses,newMutations,speciesIdentifier);
+    return new GeneticCode(newClauses,newMutations,generation,speciesIdentifier);
   };
 
   bool GeneticCode::setBodypart(Bodypart* p_bp) {
@@ -109,6 +121,7 @@ namespace EDen {
     element = new TiXmlElement("GeneticCode");
     element->SetAttribute("SpeciesID",speciesIdentifier);
     element->SetAttribute("SubSpeciesID",subSpeciesIdentifier);
+    element->SetAttribute("Generation",generation);
     
     clausesEl = new TiXmlElement("Clauses");
     for(GeneticClauseListIterator it = clauses.begin(); it != clauses.end(); it++) {

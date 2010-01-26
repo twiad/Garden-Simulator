@@ -15,8 +15,10 @@
 #define PRINT_OUT_ALL_N_CYCLES 3000
 #define SND_RUN_MULTIPLYER 2
 // STARTING_WATER_max: 2.0e9
+#define MAX_WATER 2.0e8
 #define STARTING_WATER 1.7e8
-#define STARTING_GOO 1.7e8
+#define MAX_GOO 2.0e7
+#define STARTING_GOO 1.7e7
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
@@ -218,7 +220,7 @@ void sdl_test() {
 
 void growthTest() {
   printall = false;
-  Groundpart* gp = new Groundpart();
+  Groundpart* gp = new Groundpart(MAX_WATER,MAX_GOO);
   Bodypart* bp = new Bodypart(BPT_Stick,"TESTPART3");
 
   organism = new Organism("TestOrganism", bp);

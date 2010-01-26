@@ -18,7 +18,7 @@ namespace EDen {
   protected:
     ChemicalStorage* chemStorage;
   public:
-    Groundpart();
+    Groundpart(float maxWater = 2.0e8, float maxGoo = 2.0e8);
     ~Groundpart();
 
     ChemicalStorage* getChemicalStorage();

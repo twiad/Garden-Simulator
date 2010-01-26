@@ -145,7 +145,7 @@ bool wait_for_events()
 
 void sdl_test() {
   runtime = new RuntimeManager();
-  gp = new Groundpart();
+  gp = new Groundpart(MAX_WATER,MAX_GOO);
   runtime->add(gp);
 
   Bodypart* bp,* bp2;

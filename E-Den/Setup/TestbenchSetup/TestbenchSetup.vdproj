@@ -27,13 +27,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4EBF85FDFCE949258B45EAE48BE6CAF8"
-        "OwnerKey" = "8:_68237CB33EC448A2B33A4820E845B224"
+        "MsmKey" = "8:_66F29B81943A44839656EF8657198541"
+        "OwnerKey" = "8:_B9BA3506AB744BA797680D04F03C8177"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_68237CB33EC448A2B33A4820E845B224"
+        "MsmKey" = "8:_7F398D3D0C7142B0B943A92FBA0E0BB9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B9BA3506AB744BA797680D04F03C8177"
         "OwnerKey" = "8:_2A9BC8B7361249E1B9437FB82C5CFC2B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -61,6 +67,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -71,12 +85,23 @@
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
-        "Compression" = "3:2"
+        "Compression" = "3:3"
         "SignOutput" = "11:FALSE"
         "CertificateFile" = "8:"
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
         }
     }
     "Deployable"
@@ -111,6 +136,26 @@
             "Hidden" = "11:FALSE"
             "System" = "11:FALSE"
             "Permanent" = "11:TRUE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7F398D3D0C7142B0B943A92FBA0E0BB9"
+            {
+            "SourcePath" = "8:..\\..\\E-Den-Testbench\\E-Den-Testbench.ico"
+            "TargetName" = "8:E-Den-Testbench.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_415E721F4F3440B6AF756A867F9A938C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
@@ -156,17 +201,6 @@
                 {
                 }
             }
-            "{1525181F-901A-416C-8A58-119130FE478E}:_812F0735F7A54EC1B682E179E405E7A3"
-            {
-            "Name" = "8:#1916"
-            "AlwaysCreate" = "11:FALSE"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Property" = "8:DesktopFolder"
-                "Folders"
-                {
-                }
-            }
             "{1525181F-901A-416C-8A58-119130FE478E}:_9B56FD7D91BF41A980FA3423997C45A4"
             {
             "Name" = "8:#1919"
@@ -176,6 +210,17 @@
             "Property" = "8:ProgramMenuFolder"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_46E67C6D9775403193885451C5BC6A29"
+                    {
+                    "Name" = "8:E-Den-Test-Bench"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_1500630CDD5749B099D422C12B0C79FD"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -195,7 +240,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TestbenchSetup"
         "ProductCode" = "8:{F8CF99A2-CD16-44DB-8EB0-CD5D8AFD73BB}"
-        "PackageCode" = "8:{71DAE7A3-F780-4AEC-BB7D-ECBC88926787}"
+        "PackageCode" = "8:{70CBE3E5-D66B-490A-BD1E-F0600C8A5AB8}"
         "UpgradeCode" = "8:{7F932295-EF78-44BA-8EC8-D4ECF6C60FE2}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -314,6 +359,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_719C17B8029D4B8B915575D289464C40"
+            {
+            "Name" = "8:E-Den-Test-Bench"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_2A9BC8B7361249E1B9437FB82C5CFC2B"
+            "Folder" = "8:_46E67C6D9775403193885451C5BC6A29"
+            "WorkingFolder" = "8:_415E721F4F3440B6AF756A867F9A938C"
+            "Icon" = "8:_7F398D3D0C7142B0B943A92FBA0E0BB9"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -710,7 +769,7 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_4EBF85FDFCE949258B45EAE48BE6CAF8"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_66F29B81943A44839656EF8657198541"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -724,7 +783,7 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_68237CB33EC448A2B33A4820E845B224"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_B9BA3506AB744BA797680D04F03C8177"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"

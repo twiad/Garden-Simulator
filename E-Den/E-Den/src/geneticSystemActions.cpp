@@ -56,7 +56,9 @@ namespace EDen {
   };
 
   bool GeneticSimpleChemicalConvertAction::execute() {
-    return(storage->add(fromChemName, -amount*storage->getSize()) && storage->add(toChemName, amount*ratio*storage->getSize()));
+    storage->add(fromChemName, -amount*storage->getSize());
+    storage->add(toChemName, amount*ratio*storage->getSize());
+    return true;
   };
 
   GeneticChemicalConsumeAction::GeneticChemicalConsumeAction(std::string nChemName, float nAmount, Bodypart* p_bp):
@@ -157,14 +159,18 @@ namespace EDen {
     if(org != 0) {
       int lifetime = bp->getParentOrganism()->getLifetime();
       float delta = (float)(maxLifeTime - lifetime);
-      if(delta > 0)
-        localamount = ((float)(maxLifeTime)/(2*delta)) * amount * storage->getSize();
+      if(delta > 0) {
+        localamount = ((float)(maxLifeTime - delta)*0.9f)/((float)maxLifeTime);
+        if(localamount > 1.0f)
+          localamount = localamount * localamount;
+        localamount = localamount * amount * storage->getSize();
+      }
       else if(delta == 0)
         localamount = storage->getCurrentAmount(chemName);
       else
         localamount = storage->getCurrentAmount(chemName);
     };
-    return storage->add(chemName,-localamount*storage->getSize());
+    return storage->add(chemName,-localamount);
   };
 
   GeneticSpawnBodypartAction::GeneticSpawnBodypartAction(BodypartType param_childBodypartType, Bodypart* param_parentBodypart):

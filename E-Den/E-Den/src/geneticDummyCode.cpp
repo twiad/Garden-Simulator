@@ -1,7 +1,7 @@
 #include "geneticProcessor.h"
 
-#define GRUNDVERBRAUCH 0.075f
-#define LIFETIME 1500
+#define GRUNDVERBRAUCH 1.8f
+#define LIFETIME 2000
 #define SEED_DROP_ENERGIE_PERCENTAGE 96.2f
 #define SEED_DROP_ENERGIE_VALUE 200.0f
 #define BRANCHE_MUTATION 0.1f
@@ -453,8 +453,8 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       //gAndCond->add(gOrCond);
       
-      compAct->add(new GeneticHurtAction(5.0f));
-      compAct->add(new GeneticShrinkAction(0.97f));
+      compAct->add(new GeneticHurtAction(1.0f));
+      compAct->add(new GeneticShrinkAction(0.98f));
       
       addClause(new GeneticClause(gAndCond, compAct, "lose HP on low Energie"));
 
@@ -501,7 +501,7 @@ namespace EDen {
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.5f,"Energie"));
       
       compAct->add(new GeneticHealAction(1.0f));
-      compAct->add(new GeneticGrowAction(1.0f));
+      compAct->add(new GeneticGrowAction(0.1f));
       compAct->add(new GeneticChemicalConsumeAction("Energie",1.0f));
 
       addClause(new GeneticClause(gAndCond, compAct, "Convert Energie to HP"));
@@ -940,7 +940,7 @@ namespace EDen {
     possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.02f,"Energie", "Max Amount Mutation: Energie"));
     possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.1f,"Wasser", "Max Amount Mutation: Wasser"));
     possibleMutations.push_back(new GeneticSpawnpointActiveMutation(0.03f, "Spawnpoint Active Mutation"));
-    possibleMutations.push_back(new GeneticColorMutation(0.1f,1.0f,0.1f,0.05f,"ColorMutation"));
+    possibleMutations.push_back(new GeneticColorMutation(0.1f,1.0f,0.1f,0.15f,"ColorMutation"));
 
     return true;
   };

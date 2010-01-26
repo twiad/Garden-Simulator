@@ -105,6 +105,68 @@ namespace EDen {
     return storage->add(chemName,-amount*storage->getSize());
   };
 
+  //
+
+  GeneticRegularChemicalConsumeAction::GeneticRegularChemicalConsumeAction(std::string nChemName, float nAmount, int p_maxLifeTime, Bodypart* p_bp):
+    GeneticAction(GAT_ChemicalConsume), chemName(nChemName), amount(nAmount), maxLifeTime(p_maxLifeTime) {
+    verify();
+    setBodypart(p_bp);
+  };
+
+  GeneticRegularChemicalConsumeAction::GeneticRegularChemicalConsumeAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_ChemicalConsume) {
+    chemName = description->Attribute("Name");
+    description->QueryFloatAttribute("Amount",&amount);
+    description->QueryIntAttribute("Lifetime",&maxLifeTime);
+
+    verify();
+    setBodypart(p_bp);
+  };
+
+  GeneticRegularChemicalConsumeAction::~GeneticRegularChemicalConsumeAction() {
+    //GeneticAction::~GeneticAction();
+  };
+
+  GeneticAction* GeneticRegularChemicalConsumeAction::copy() {
+    return new GeneticRegularChemicalConsumeAction(chemName,amount,maxLifeTime);
+  };
+
+  TiXmlElement* GeneticRegularChemicalConsumeAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("RegularChemicalConsumeAction");
+
+    element->SetAttribute("Name",chemName);
+    element->SetDoubleAttribute("Amount",amount);
+    element->SetAttribute("Lifetime",maxLifeTime);
+
+    return element;
+  };
+
+  bool GeneticRegularChemicalConsumeAction::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart;
+    if(bp) storage = bp->getChemicalStorage();
+    return true;
+  };
+
+  void GeneticRegularChemicalConsumeAction::verify() {
+    if(amount < 0.0) amount = 0.0;
+  };
+
+  bool GeneticRegularChemicalConsumeAction::execute() {
+    float localamount = amount;
+    Organism* org = bp->getParentOrganism();
+    if(org != 0) {
+      int lifetime = bp->getParentOrganism()->getLifetime();
+      float delta = (float)(maxLifeTime - lifetime);
+      if(delta > 0)
+        localamount = ((float)(maxLifeTime)/(2*delta)) * amount * storage->getSize();
+      else if(delta == 0)
+        localamount = storage->getCurrentAmount(chemName);
+      else
+        localamount = storage->getCurrentAmount(chemName);
+    };
+    return storage->add(chemName,-localamount*storage->getSize());
+  };
+
   GeneticSpawnBodypartAction::GeneticSpawnBodypartAction(BodypartType param_childBodypartType, Bodypart* param_parentBodypart):
         GeneticAction(GAT_SpawnBP), childBodypartType(param_childBodypartType) { setBodypart(param_parentBodypart); };
 

@@ -64,6 +64,29 @@ namespace EDen {
     virtual TiXmlElement* toXmlElement();
   };
 
+  class GeneticRegularChemicalConsumeAction: public GeneticAction {
+  private:
+    virtual void verify();
+  protected:
+    Bodypart* bp;
+    ChemicalStorage* storage;
+    std::string chemName;
+    int maxLifeTime;
+    float amount;
+  public:
+    GeneticRegularChemicalConsumeAction(std::string nChemName, float nAmount, int p_maxLifeTime, Bodypart* p_bp = 0);
+
+    GeneticRegularChemicalConsumeAction(TiXmlElement* description, 
+                                       Bodypart* p_bp = 0);
+    
+    virtual ~GeneticRegularChemicalConsumeAction();
+
+    virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
+  };
+
   class GeneticSpawnBodypartAction: public GeneticAction {
   private:
     Bodypart* parentBodypart;

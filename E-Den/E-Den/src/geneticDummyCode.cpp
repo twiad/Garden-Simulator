@@ -1,6 +1,6 @@
 #include "geneticProcessor.h"
 
-#define GRUNDVERBRAUCH 0.0595f
+#define GRUNDVERBRAUCH 0.075f
 #define LIFETIME 1500
 #define SEED_DROP_ENERGIE_PERCENTAGE 96.2f
 #define SEED_DROP_ENERGIE_VALUE 200.0f
@@ -244,7 +244,7 @@ namespace EDen {
    
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       
-      compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
+      compAct->add(new GeneticRegularChemicalConsumeAction("Energie",GRUNDVERBRAUCH,LIFETIME));
     
       addClause(new GeneticClause(gAndCond, compAct, "Energie consumption"));
 
@@ -449,11 +449,11 @@ namespace EDen {
       compAct = new GeneticCompoundAction();
 
       //gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,140));
-      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,0.0001f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,0.0005f,"Energie"));
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       //gAndCond->add(gOrCond);
       
-      compAct->add(new GeneticHurtAction(1.0f));
+      compAct->add(new GeneticHurtAction(5.0f));
       compAct->add(new GeneticShrinkAction(0.97f));
       
       addClause(new GeneticClause(gAndCond, compAct, "lose HP on low Energie"));

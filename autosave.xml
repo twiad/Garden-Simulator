@@ -38,7 +38,7 @@
                                     <ChangeMaxChemicalAmountAction Name="Goo" Value="491.212128" />
                                     <ChangeMaxChemicalAmountAction Name="Energie" Value="500.000000" />
                                     <ChangeMaxChemicalAmountAction Name="Sonne" Value="100.000000" />
-                                    <ChangeMaxSizeAction Amount="3.000000" />
+                                    <ChangeMaxSizeAction Amount="2.700000" />
                                     <SetColorAction Red="0.710000" Green="0.210000" Blue="0.100000" Alpha="1.000000" />
                                 </CompoundAction>
                             </Actions>
@@ -63,7 +63,7 @@
                                     <ChangeMaxChemicalAmountAction Name="Goo" Value="15.000000" />
                                     <ChangeMaxChemicalAmountAction Name="Energie" Value="150.000000" />
                                     <ChangeMaxChemicalAmountAction Name="Sonne" Value="120.000000" />
-                                    <ChangeMaxSizeAction Amount="2.606061" />
+                                    <ChangeMaxSizeAction Amount="3.606061" />
                                     <SetColorAction Red="0.210000" Green="0.110000" Blue="0.50000" Alpha="1.000000" />
                                 </CompoundAction>
                             </Actions>
@@ -293,7 +293,7 @@
                             </Conditions>
                             <Actions>
                                 <CompoundAction>
-                                    <ChemicalConsumeAction Name="Energie" Amount="0.059500" />
+                                    <RegularChemicalConsumeAction Name="Energie" Amount="0.059500" Lifetime="1500" />
                                 </CompoundAction>
                             </Actions>
                         </Clause>

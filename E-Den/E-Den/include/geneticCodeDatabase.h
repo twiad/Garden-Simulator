@@ -17,7 +17,7 @@ namespace EDen {
   protected:
     std::list<Organism*> orgs;
     TiXmlDocument* doc;
-    std::string filename;
+    std::string path;
     RuntimeManager* runtime;
 
   public:
@@ -27,6 +27,7 @@ namespace EDen {
 
     int load(std::string pFilename);
     int save(std::string p_filename = "");
+    void setApplicationSettingsPath(std::string appSettingsPath);
 
     void push(Organism* org);
     Organism* pull(bool del = true);

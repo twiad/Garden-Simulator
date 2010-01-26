@@ -246,6 +246,11 @@ namespace EDen {
     return database->load(filename);
   };
 
+  int RuntimeManager::initDatabase(std::string appSettingsPath) {
+    database->setApplicationSettingsPath(appSettingsPath);
+    return true; 
+  };
+
   std::list<Organism*> RuntimeManager::getOrganisms() {
     return organisms; 
   };

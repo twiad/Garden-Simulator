@@ -2,6 +2,8 @@
 // by Franz Koehler 2010
 
 #include "geneticCodeDatabase.h"
+#include <iostream>
+#include <stdio.h>
 
 #define ORGS_TO_SAVE 100
 
@@ -20,7 +22,8 @@ namespace EDen {
   };
 
   int GeneticCodeDatabase::load(std::string pFilename) {
-    filename = pFilename;
+    std::string filename = path;
+    filename.append("\\").append(pFilename);
     
     doc = new TiXmlDocument(filename);
 	  
@@ -59,7 +62,10 @@ namespace EDen {
 	  }
   };
 
-  int GeneticCodeDatabase::save(std::string p_filename) {
+  int GeneticCodeDatabase::save(std::string pFilename) {
+    std::string filename = path;
+    filename.append("\\").append(pFilename);
+    
     TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
     database->Clear();
 
@@ -77,11 +83,7 @@ namespace EDen {
       };
     };
 
-    if(p_filename == "") {
-      return (int)doc->SaveFile(filename);
-    } else {
-      return (int)doc->SaveFile(p_filename);
-    };
+    return (int)doc->SaveFile(filename);
   };
 
   void GeneticCodeDatabase::push(Organism* org) {
@@ -102,4 +104,7 @@ namespace EDen {
     return org;
   };
 
+  void GeneticCodeDatabase::setApplicationSettingsPath(std::string appSettingsPath) {
+    path = appSettingsPath;
+  };
 }; // namespace

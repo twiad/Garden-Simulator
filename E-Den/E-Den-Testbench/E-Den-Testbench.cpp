@@ -36,6 +36,7 @@ RuntimeManager* runtime;
 int cyclecount = 0;
 
 TCHAR appSettingsPath[MAX_PATH];
+char appSettingsPathP[MAX_PATH];
 
 bool printall;
 
@@ -209,6 +210,7 @@ void sdl_test() {
   cout << endl;
 
   printOrgs();
+  runtime->initDatabase(appSettingsPathP);
   runtime->loadDatabase("autosave.xml");
   run(1);
   wait_for_events();
@@ -353,8 +355,9 @@ int _tmain(int argc, _TCHAR* argv[])
 {
   SHGetSpecialFolderPath(0,appSettingsPath,CSIDL_APPDATA,1);
   PathAppend(appSettingsPath,TEXT("EDen"));
+  wcstombs(appSettingsPathP,appSettingsPath,MAX_PATH);
   cout << "\n\t\tThis is the E-Den-Testbench\n" << endl;
-  cout << "loading autosave from " << appSettingsPath << endl;
+  cout << "loading autosave from " << appSettingsPathP << endl;
 
   sdl_test();
   //growthTest();

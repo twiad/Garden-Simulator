@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="E-Den.lib SDL.lib SDL_draw.lib"
+				AdditionalDependencies="E-Den.lib SDL.lib SDL_draw.lib shlwapi.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(SDL_DRAW_HOME)\lib&quot;;&quot;$(SDL_HOME)\lib&quot;;../Debug"
 				GenerateDebugInformation="true"
@@ -137,7 +137,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:MSVCRTD"
-				AdditionalDependencies="E-Den.lib SDLmain.lib SDL.lib SDL_draw.lib"
+				AdditionalDependencies="E-Den.lib SDLmain.lib SDL.lib SDL_draw.lib shlwapi.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../Release;&quot;$(SDL_HOME)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;"
 				GenerateDebugInformation="true"

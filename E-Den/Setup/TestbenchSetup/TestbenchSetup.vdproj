@@ -201,6 +201,17 @@
                 {
                 }
             }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_89B5F9F2D4E64FE0ADE5EBEC216CED89"
+            {
+            "Name" = "8:#1915"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:AppDataFolder"
+                "Folders"
+                {
+                }
+            }
             "{1525181F-901A-416C-8A58-119130FE478E}:_9B56FD7D91BF41A980FA3423997C45A4"
             {
             "Name" = "8:#1919"
@@ -240,7 +251,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TestbenchSetup"
         "ProductCode" = "8:{F8CF99A2-CD16-44DB-8EB0-CD5D8AFD73BB}"
-        "PackageCode" = "8:{70CBE3E5-D66B-490A-BD1E-F0600C8A5AB8}"
+        "PackageCode" = "8:{53805CAD-7AEB-4F55-B947-0ADD49DBCD52}"
         "UpgradeCode" = "8:{7F932295-EF78-44BA-8EC8-D4ECF6C60FE2}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"

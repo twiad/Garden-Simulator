@@ -2,10 +2,14 @@
 // by Franz Koehler 2009
 
 #include "stdafx.h"
+
 #include "bodypart.h"
 #include "organismPrinter.h"
 #include "runtimeManager.h"
 #include "SDL.h"
+
+#include "shlobj.h"
+#include "Shlwapi.h"
 
 #define CYCLES_TO_RUN 3000
 #define PRINT_OUT_ALL_N_CYCLES 3000
@@ -30,6 +34,8 @@ SDLOrganismPrinter* op1 = 0;
 OrganismPrinter* op2 = 0;
 RuntimeManager* runtime;
 int cyclecount = 0;
+
+TCHAR appSettingsPath[MAX_PATH];
 
 bool printall;
 
@@ -345,13 +351,18 @@ void destructTest() {
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+  SHGetSpecialFolderPath(0,appSettingsPath,CSIDL_APPDATA,1);
+  PathAppend(appSettingsPath,TEXT("EDen"));
   cout << "\n\t\tThis is the E-Den-Testbench\n" << endl;
+  cout << "loading autosave from " << appSettingsPath << endl;
 
   sdl_test();
   //growthTest();
   //destructTest();
     
   cout << "~-[" << "Finished" << "]-~" << endl;
+
+  
 
 	return 0;
 }

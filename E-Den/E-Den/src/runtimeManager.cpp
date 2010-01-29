@@ -8,6 +8,7 @@ namespace EDen {
   RuntimeManager::RuntimeManager() {
     randomizer = new Randomizer();
     database = new GeneticCodeDatabase(this);
+    candidates = new GeneticCodeDatabase(this);
     reset();
   };
 
@@ -55,13 +56,7 @@ namespace EDen {
   };
 
   Organism* RuntimeManager::getNextSeed() {
-    //int pos = (int)randomizer->value(0.0f,(float)seeds.size() - 1);
-    //std::list<Organism*>::iterator it = seeds.begin();
-    //for(int i = 0; i < pos; i++) {
-    //  it++;
-    //};
-    //return *it;
-
+    if (candidates->size() > 0) return candidates->pull();
 	  return database->pull();
   };
 
@@ -87,7 +82,9 @@ namespace EDen {
         };
       }
       else {
-        database->push(param_org);
+        if((param_org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() > 0) && (candidates->size() < 10))
+          candidates->push(param_org);
+        else database->push(param_org);
       };
 
       
@@ -231,6 +228,10 @@ namespace EDen {
 
   int RuntimeManager::getSeedCount() {
     return database->size();
+  };
+
+  int RuntimeManager::getCandidatesCount() {
+    return candidates->size();
   };
 
   bool RuntimeManager::orgsAlive() {

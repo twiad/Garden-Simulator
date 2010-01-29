@@ -747,10 +747,7 @@ namespace EDen {
     bp->setBodypartState(BSP_seed);
     if(parentOrganism != 0) {
       int bpcount = parentOrganism->getBodypartCount();
-      
-      if(bpcount < 15) code->setSubSpeciesIdentifier(0);
-      else if(bpcount < 50) code->setSubSpeciesIdentifier(1);
-      else code->setSubSpeciesIdentifier(2);
+      code->setSubSpeciesIdentifier((int)(bpcount / 25));
     };
     code->incGeneration();
     bp->detachToNewOrganism();

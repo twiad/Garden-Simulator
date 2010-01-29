@@ -82,7 +82,7 @@ namespace EDen {
         };
       }
       else {
-        if((param_org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() > 0) && (candidates->size() < 10))
+        if((param_org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() > 2) && (candidates->size() < MAX_PLANT_COUNT - 1))
           candidates->push(param_org);
         else database->push(param_org);
       };
@@ -182,7 +182,7 @@ namespace EDen {
 
     cleanupDeadOrganisms();
 
-    if((cycles % 100000) == 99999) {
+    if((cycles % 10000) == 9999) {
       database->save("autosave.xml");
     };
 

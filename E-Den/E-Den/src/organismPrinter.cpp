@@ -8,12 +8,13 @@
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
 #define SDL_SCALE 10
-#define SCALE_FACTOR 0.9f
+#define SCALE_FACTOR 0.99f
+#define DOWN_SCALE_FACTOR 1.0001f
 #endif
 
 namespace EDen {
 
-  bool OrganismPrinter::print() {
+  bool OrganismPrinter::print() { 
     std::cout << "\n--[" << org->getName() << "]-[" << org->getBodypartCount() << "]--" << std::endl;
     printLetter(org->getRootBodypart(),true,true,false);
     int i = 0;
@@ -243,6 +244,7 @@ namespace EDen {
     //redrawScreen();
 
     if(needToScale) scale = scale * SCALE_FACTOR;
+    else scale = scale * DOWN_SCALE_FACTOR;
     
     if(runtimeManager->getCycleCount() % 10 == 0)
         updateCaption();

@@ -742,8 +742,17 @@ namespace EDen {
   };
 
   bool GeneticDropSeedAction::execute() {
+    Organism* parentOrganism = bp->getParentOrganism();
+    GeneticCode* code = bp->getGeneticCode();
     bp->setBodypartState(BSP_seed);
-    bp->getGeneticCode()->incGeneration();
+    if(parentOrganism != 0) {
+      int bpcount = parentOrganism->getBodypartCount();
+      
+      if(bpcount < 15) code->setSubSpeciesIdentifier(0);
+      else if(bpcount < 50) code->setSubSpeciesIdentifier(1);
+      else code->setSubSpeciesIdentifier(2);
+    };
+    code->incGeneration();
     bp->detachToNewOrganism();
   return true;
   };

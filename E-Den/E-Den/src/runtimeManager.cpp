@@ -4,7 +4,7 @@
 #include "runtimeManager.h"
 #define MAX_PLANT_COUNT 3
 #define CANDIDATES_COUNT 100
-#define CANDIDATES_LEVEL (50 / 25)
+#define CANDIDATES_LEVEL (25 / 25)
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {
@@ -255,6 +255,7 @@ namespace EDen {
 
   int RuntimeManager::initDatabase(std::string appSettingsPath) {
     database->setApplicationSettingsPath(appSettingsPath);
+    candidates->setApplicationSettingsPath(appSettingsPath);
     return true; 
   };
 

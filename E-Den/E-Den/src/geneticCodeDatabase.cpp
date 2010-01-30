@@ -73,7 +73,8 @@ namespace EDen {
     
     doc = new TiXmlDocument(filename);
     bool loadOkay = doc->LoadFile();
-	  if (!loadOkay) initEmptyFile(filename);
+	  if (!loadOkay) 
+      initEmptyFile(filename);
 
     
     TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
@@ -81,16 +82,20 @@ namespace EDen {
 
     if(orgs.size() >= ORGS_TO_SAVE) {
           std::list<Organism*> orgsToSave;
+
       for(int i = 0; i < ORGS_TO_SAVE; i++)
         orgsToSave.push_back(pull(false));
 
       for( std::list<Organism*>::iterator it = orgsToSave.begin(); it != orgsToSave.end(); it++) {
         database->LinkEndChild((*it)->getXmlElement());
       };
+      database->SetAttribute("OrganismCount",orgsToSave.size());
     } else {
       for( std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
         database->LinkEndChild((*it)->getXmlElement());
       };
+
+      database->SetAttribute("OrganismCount",orgs.size());
     };
 
     return (int)doc->SaveFile(filename);

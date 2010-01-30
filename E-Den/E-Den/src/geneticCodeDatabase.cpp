@@ -94,7 +94,6 @@ namespace EDen {
       for( std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
         database->LinkEndChild((*it)->getXmlElement());
       };
-
       database->SetAttribute("OrganismCount",orgs.size());
     };
 

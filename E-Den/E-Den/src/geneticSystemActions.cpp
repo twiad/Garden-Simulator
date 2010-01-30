@@ -257,7 +257,7 @@ namespace EDen {
     return true;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, float p_ang2, float p_rot, bool p_active, Bodypart* param_bodypart):
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, float p_ang2, float p_rot, bool p_symetric, bool p_active, Bodypart* param_bodypart):
     GeneticAction(GAT_AddSpawnpoint), spawnpointAdded(false) {
     setBodypart(param_bodypart);
     sp = new SpawnpointInformation();
@@ -267,10 +267,11 @@ namespace EDen {
     sp->ang2d = param_ang2d;
     sp->ang2 = p_ang2;
     sp->rot = p_rot;
+    symetric = p_symetric;
     active = p_active;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, float p_ang2, float p_rot, bool p_active, Bodypart* param_bodypart):
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, float p_ang2, float p_rot, bool p_symetric, bool p_active, Bodypart* param_bodypart):
     GeneticAction(GAT_AddSpawnpoint), spawnpointAdded(false) {
     setBodypart(param_bodypart);
     sp = new SpawnpointInformation();
@@ -280,11 +281,13 @@ namespace EDen {
     sp->ang2d = param_ang2d;
     sp->ang2 = p_ang2;
     sp->rot = p_rot;
+    symetric = p_symetric;
     active = p_active;
   };
 
   GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_AddSpawnpoint) {
     description->QueryValueAttribute("Active",&active);
+    description->QueryValueAttribute("Symetric",&symetric);
     sp = new SpawnpointInformation();
     Bodypart::xmlElementToSpawnpoint(description->FirstChildElement("Spawnpoint"),sp);
     setBodypart(p_bp);
@@ -303,7 +306,7 @@ namespace EDen {
     deb.rot =sp->rot;
     deb.supportedBpTypes = sp->supportedBpTypes;
 
-    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d,sp->ang2,sp->rot,active);
+    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d,sp->ang2,sp->rot,symetric,active);
   };
 
   TiXmlElement* GeneticAddSpawnpointAction::toXmlElement() {
@@ -311,6 +314,7 @@ namespace EDen {
     element = new TiXmlElement("AddSpawnpointAction");
     
     element->SetAttribute("Active",(int)active);
+    element->SetAttribute("Symetric",(int)symetric);
     TiXmlElement* element2 = new TiXmlElement("Spawnpoint");
     Bodypart::spawnpointToXmlElement(sp,element2);
     element->LinkEndChild(element2);
@@ -326,6 +330,11 @@ namespace EDen {
   bool GeneticAddSpawnpointAction::execute() {
     if(active) {
       bp->addSpawnpoint(sp->copy());
+      if(symetric) {
+        sp->ang2d = -1 * sp->ang2d;
+        bp->addSpawnpoint(sp->copy());
+        sp->ang2d = -1 * sp->ang2d;
+      };
       spawnpointAdded = true;
     };
     return true;

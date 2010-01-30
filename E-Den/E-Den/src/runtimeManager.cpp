@@ -4,7 +4,7 @@
 #include "runtimeManager.h"
 #define MAX_PLANT_COUNT 3
 #define CANDIDATES_COUNT 100
-#define CANDIDATES_LEVEL (25 / 25)
+#define CANDIDATES_LEVEL (75 / 25)
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {
@@ -185,7 +185,7 @@ namespace EDen {
     cleanupDeadOrganisms();
 
     if((cycles % 10000) == 9999) {
-      database->save("autosave.xml");
+      saveDatabase("autosave.xml");
     };
 
     cycles++;
@@ -208,7 +208,7 @@ namespace EDen {
           };
     };
 
-    while(!database->empty() && (new_orgs.size() < MAX_PLANT_COUNT)) {
+    while(orgsAlive() && (new_orgs.size() < MAX_PLANT_COUNT)) {
       Organism* org = getNextSeed();
       new_orgs.push_back(org);
       org->connectToGoundpart(groundparts.front());
@@ -229,7 +229,7 @@ namespace EDen {
   }
 
   int RuntimeManager::getSeedCount() {
-    return database->size();
+    return database->size() + candidates->size();
   };
 
   int RuntimeManager::getCandidatesCount() {
@@ -237,7 +237,7 @@ namespace EDen {
   };
 
   bool RuntimeManager::orgsAlive() {
-    if(organisms.size() > 0) return true;
+    if((organisms.size() > 0) || (candidates->size() > 0) || (database->size() > 0)) return true;
     return false;
   };
 

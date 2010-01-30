@@ -128,9 +128,10 @@ namespace EDen {
     SpawnpointInformation* sp;
     bool spawnpointAdded;
     bool active;
+    bool symetric;
   public:
-    GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, float p_ang2 = 0.0f, float p_rot = 0.0f, bool p_active = true, Bodypart* param_bodypart = 0);
-    GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, float p_ang2 = 0.0f, float p_rot = 0.0f, bool p_active = true, Bodypart* param_bodypart = 0);
+    GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, float p_ang2 = 0.0f, float p_rot = 0.0f, bool symetric = false, bool p_active = true, Bodypart* param_bodypart = 0);
+    GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, float p_ang2 = 0.0f, float p_rot = 0.0f, bool symetric = false, bool p_active = true, Bodypart* param_bodypart = 0);
     GeneticAddSpawnpointAction(TiXmlElement* description, Bodypart* p_bp = 0);
 
     virtual ~GeneticAddSpawnpointAction();

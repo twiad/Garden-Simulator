@@ -20,6 +20,9 @@ namespace EDen {
     std::string path;
     RuntimeManager* runtime;
 
+    bool inited;
+    void initEmptyFile(std::string filename);
+
   public:
     GeneticCodeDatabase(RuntimeManager* p_runtime);
     bool empty();
@@ -31,7 +34,6 @@ namespace EDen {
 
     void push(Organism* org);
     Organism* pull(bool del = true);
-
   };
 
 } // namespace

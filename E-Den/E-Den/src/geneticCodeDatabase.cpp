@@ -9,7 +9,7 @@
 
 namespace EDen {
 
-  GeneticCodeDatabase::GeneticCodeDatabase(RuntimeManager* p_runtime) {
+  GeneticCodeDatabase::GeneticCodeDatabase(RuntimeManager* p_runtime): inited(false) {
     runtime = p_runtime;
   };
 
@@ -21,6 +21,23 @@ namespace EDen {
     return orgs.size();
   };
 
+  void GeneticCodeDatabase::initEmptyFile(std::string filename)
+  {
+    doc = new TiXmlDocument();
+
+    TiXmlDeclaration * decl = new TiXmlDeclaration("1.0", "", "");
+    TiXmlElement * element1 = new TiXmlElement("E-DEN-CodeDefinition");
+    TiXmlElement * element2 = new TiXmlElement("Version");
+    TiXmlElement * element3 = new TiXmlElement("Database");
+    TiXmlText * versionText = new TiXmlText("0.1.0.1");
+
+    element1->LinkEndChild(element2);
+    element1->LinkEndChild(element3);
+    element2->LinkEndChild(versionText);
+    doc->LinkEndChild(decl);
+    doc->LinkEndChild(element1);
+    doc->SaveFile(filename);
+  }
   int GeneticCodeDatabase::load(std::string pFilename) {
     std::string filename = path;
     filename.append("\\").append(pFilename);
@@ -45,26 +62,19 @@ namespace EDen {
 	  }
 	  else
 	  {
-      doc = new TiXmlDocument();
-
-      TiXmlDeclaration * decl = new TiXmlDeclaration("1.0", "", "");
-      TiXmlElement * element1 = new TiXmlElement("E-DEN-CodeDefinition");
-      TiXmlElement * element2 = new TiXmlElement("Version");
-      TiXmlElement * element3 = new TiXmlElement("Database");
-      TiXmlText * versionText = new TiXmlText("0.1.0");
-      
-      element1->LinkEndChild(element2);
-      element1->LinkEndChild(element3);
-      element2->LinkEndChild(versionText);
-      doc->LinkEndChild(decl);
-      doc->LinkEndChild(element1);
-      return (int)doc->SaveFile(filename);
+      initEmptyFile(filename);
+      return true;
 	  }
   };
 
   int GeneticCodeDatabase::save(std::string pFilename) {
     std::string filename = path;
     filename.append("\\").append(pFilename);
+    
+    doc = new TiXmlDocument(filename);
+    bool loadOkay = doc->LoadFile();
+	  if (!loadOkay) initEmptyFile(filename);
+
     
     TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
     database->Clear();

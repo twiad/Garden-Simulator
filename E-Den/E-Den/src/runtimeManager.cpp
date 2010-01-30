@@ -3,6 +3,8 @@
 
 #include "runtimeManager.h"
 #define MAX_PLANT_COUNT 3
+#define CANDIDATES_COUNT 100
+#define CANDIDATES_LEVEL (50 / 25)
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {
@@ -82,7 +84,7 @@ namespace EDen {
         };
       }
       else {
-        if((param_org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() > 2) && (candidates->size() < MAX_PLANT_COUNT - 1))
+        if((param_org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= CANDIDATES_LEVEL) && (candidates->size() < CANDIDATES_COUNT))
           candidates->push(param_org);
         else database->push(param_org);
       };
@@ -240,11 +242,15 @@ namespace EDen {
   };
 
   int RuntimeManager::saveDatabase(std::string filename) {
-    return database->save(filename);
+    database->save(filename);
+    candidates->save(filename.insert(0,"candidates."));
+    return true;
   };
 
   int RuntimeManager::loadDatabase(std::string filename) {
-    return database->load(filename);
+    database->load(filename);
+    database->load(filename.insert(0,"candidates."));
+    return true;
   };
 
   int RuntimeManager::initDatabase(std::string appSettingsPath) {

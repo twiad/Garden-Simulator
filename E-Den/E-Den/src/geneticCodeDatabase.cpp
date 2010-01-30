@@ -21,6 +21,15 @@ namespace EDen {
     return orgs.size();
   };
 
+  void GeneticCodeDatabase::clear() {
+    Organism* org;
+    
+    while(!orgs.empty()) {
+      org = pull();
+      delete org;
+    };
+  };
+
   void GeneticCodeDatabase::initEmptyFile(std::string filename)
   {
     doc = new TiXmlDocument();

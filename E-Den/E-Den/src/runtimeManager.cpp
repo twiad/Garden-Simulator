@@ -4,7 +4,7 @@
 #include "runtimeManager.h"
 #define MAX_PLANT_COUNT 3
 #define CANDIDATES_COUNT 100
-#define CANDIDATES_LEVEL (75 / 25)
+#define CANDIDATES_LEVEL (150 / 25)
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {
@@ -33,6 +33,9 @@ namespace EDen {
       delete resourceProviders.back();
       resourceProviders.pop_back();
     };
+
+    database->clear();
+    candidates->clear();
 
     return true;
   };

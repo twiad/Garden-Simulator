@@ -18,7 +18,7 @@ namespace EDen {
   
   class SpawnpointInformation {
   public:    
-    SpawnpointInformation(): occupied(false),position(0),connectedBodypart(0),ang2d(0.0f),ang2(0.0f),rot(0.0f) {};
+    SpawnpointInformation(): occupied(false),position(0),connectedBodypart(0),ang2d(0.0f),ang2(0.0f),rot(0.0f),scaleModifier(1.0f) {};
     ~SpawnpointInformation();
     BodypartTypeList supportedBpTypes;
     bool occupied;
@@ -33,6 +33,7 @@ namespace EDen {
     float ang2d;
     float ang2;
     float rot;
+    float scaleModifier;
   };
 
   class Bodypart {
@@ -54,7 +55,7 @@ namespace EDen {
     bool attachToOrganism(Organism* org);
     
     float healthpoints;
-    float size, maxSize;
+    float size, maxSize, scaleModifier;
     
   public:
     Bodypart(BodypartType bodypartType, std::string geneticCode, Organism* param_parentOrganism = 0, Bodypart* param_parentBodypart = 0);
@@ -92,7 +93,7 @@ namespace EDen {
     Bodypart* getParentBodypart();
     BodypartList getChildBodyparts();
     SpawnpointInformationList getSpawnpoints();
-    SpawnpointInformation getSpawnpointInformationForBodypart(Bodypart* param_bp);
+    SpawnpointInformation* getSpawnpointInformationForBodypart(Bodypart* param_bp);
 
     bool occupieSpawnpoint(Bodypart* param_odypart);
 
@@ -106,6 +107,8 @@ namespace EDen {
 
     float getMaxSize();
     bool setMaxSize(float param_maxSize);
+    float getScaleModifier();
+    bool setScaleModifier(float param_scaleModifier);
     float getSize();
     bool grow(float amount);
     bool shrink(float amount);

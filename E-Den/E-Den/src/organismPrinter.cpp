@@ -294,7 +294,7 @@ namespace EDen {
       for(SpawnpointInformationListIterator it = bpSpawnpoints.begin(); it != bpSpawnpoints.end(); it++) {
         // position 0 is reserved for the backwards spawnpoint
         if(((*it)->occupied) && ((*it)->position != 0)) { 
-          float partner_ang = (*it)->connectedBodypart->getSpawnpointInformationForBodypart(param_bp).ang2d;
+          float partner_ang = (*it)->connectedBodypart->getSpawnpointInformationForBodypart(param_bp)->ang2d;
           returnvalue += req_print((*it)->connectedBodypart,x2,y2,ang + 180.0f + partner_ang + (*it)->ang2d);
         };
       };

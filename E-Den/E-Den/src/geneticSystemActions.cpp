@@ -257,7 +257,7 @@ namespace EDen {
     return true;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, float p_ang2, float p_rot, bool p_symetric, bool p_active, Bodypart* param_bodypart):
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float p_scaleModifier, float param_ang2d, float p_ang2, float p_rot, bool p_symetric, bool p_active, Bodypart* param_bodypart):
     GeneticAction(GAT_AddSpawnpoint), spawnpointAdded(false) {
     setBodypart(param_bodypart);
     sp = new SpawnpointInformation();
@@ -267,11 +267,12 @@ namespace EDen {
     sp->ang2d = param_ang2d;
     sp->ang2 = p_ang2;
     sp->rot = p_rot;
+    sp->scaleModifier= p_scaleModifier;
     symetric = p_symetric;
     active = p_active;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, float p_ang2, float p_rot, bool p_symetric, bool p_active, Bodypart* param_bodypart):
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float p_scaleModifier, float param_ang2d, float p_ang2, float p_rot, bool p_symetric, bool p_active, Bodypart* param_bodypart):
     GeneticAction(GAT_AddSpawnpoint), spawnpointAdded(false) {
     setBodypart(param_bodypart);
     sp = new SpawnpointInformation();
@@ -281,6 +282,7 @@ namespace EDen {
     sp->ang2d = param_ang2d;
     sp->ang2 = p_ang2;
     sp->rot = p_rot;
+    sp->scaleModifier= p_scaleModifier;
     symetric = p_symetric;
     active = p_active;
   };
@@ -304,6 +306,7 @@ namespace EDen {
     deb.ang2d = sp->ang2d;
     deb.ang2 = sp->ang2;
     deb.rot =sp->rot;
+    deb.scaleModifier = sp->scaleModifier;
     deb.supportedBpTypes = sp->supportedBpTypes;
 
     return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d,sp->ang2,sp->rot,symetric,active);

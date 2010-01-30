@@ -41,6 +41,8 @@ TCHAR appSettingsPath[MAX_PATH];
 char appSettingsPathP[MAX_PATH];
 
 bool printall;
+bool pause = false;
+bool slowMode = false;
 
 SDL_SunlightProvider* sun;
 
@@ -91,7 +93,6 @@ void sdl_run(int cycles) {
   op1->redrawScreen();
 
   run(cycles);
-
 //  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
 //  printOrgs();
 }
@@ -117,10 +118,17 @@ bool wait_for_events()
             runtime->saveDatabase();
           else if ( key[0] == 'l'  )  //load if 'l' is pressed
             runtime->loadDatabase();
+          else if ( key[0] == 'y'  )  //load if 'z' is pressed
+            slowMode = !slowMode;
+          else if ( key[0] == 'p'  )  //load if 'p' is pressed
+            pause = !pause;
 		    break;
 		     case SDL_MOUSEMOTION:             //mouse moved
 			     printf("Mouse motion x:%d, y:%d\n", event.motion.x, event.motion.y );
-           sdl_run(1);
+           if(! pause) 
+             sdl_run(SDL_IDEL_CYCLES);
+           else
+             SleepEx(500,true);
 			     break;
 		     case SDL_MOUSEBUTTONUP:           //mouse button pressed
 			     printf("Mouse button %d pressed x:%d, y:%d\n", event.button.button, event.button.x, event.button.y );
@@ -136,8 +144,16 @@ bool wait_for_events()
 	    }
     }
     else {
-      sdl_run(SDL_IDEL_CYCLES);
-      if(! op1->orgsAlive()) exit(1);
+      if(! pause) 
+        sdl_run(SDL_IDEL_CYCLES);
+      else
+        SleepEx(500,true);
+
+      if(! runtime->orgsAlive()) 
+        exit(1);
+
+      if(slowMode) 
+        SleepEx(250,true);
     }
   } //while
   return true;

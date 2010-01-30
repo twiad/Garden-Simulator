@@ -72,7 +72,7 @@ namespace EDen {
     description->QueryIntAttribute("State",(int*)&bpState);
     description->QueryFloatAttribute("Healthpoints",&healthpoints);
     description->QueryFloatAttribute("Size",&size);
-    description->QueryFloatAttribute("scaleModifier",&scaleModifier);
+    description->QueryFloatAttribute("ScaleModifier",&scaleModifier);
 
     chemStorageDescription = description->FirstChildElement("Storage");
     chemStorage = new ChemicalStorage(chemStorageDescription);
@@ -405,7 +405,9 @@ namespace EDen {
   };
 
   bool Bodypart::setScaleModifier(float param_scaleModifier) {
+    maxSize = maxSize / scaleModifier;
     scaleModifier = param_scaleModifier;
+    maxSize = maxSize * scaleModifier;
     return true;
   };
 
@@ -468,6 +470,7 @@ namespace EDen {
     element->SetAttribute("Type",getBodypartType());
     element->SetDoubleAttribute("Healthpoints",getHealthpoints());
     element->SetDoubleAttribute("Size",getSize());
+    element->SetDoubleAttribute("ScaleModifier",getScaleModifier());
     element->SetAttribute("IID",(int)this);
     
     childpartsElement = new TiXmlElement("Childs");

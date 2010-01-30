@@ -28,8 +28,8 @@
                             </Conditions>
                             <Actions>
                                 <CompoundAction>
-                                    <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="0.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="1" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="0.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="1" />
                                             </SupportedTypes>
@@ -52,8 +52,8 @@
                             </Conditions>
                             <Actions>
                                 <CompoundAction>
-                                    <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="180.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="1" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="180.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0"  Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="3" />
                                                 <Type ID="1" />
@@ -77,124 +77,124 @@
                             </Conditions>
                             <Actions>
                                 <CompoundAction>
-                                    <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="180.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="1" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="180.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0"  Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="3" />
                                                 <Type ID="1" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="-12.525251" Ang2="0.000000" Rot="0.000000" PositionId="1" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="1" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="-12.525251" Ang2="0.000000" Rot="0.000000" PositionId="1" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="3" />
                                                 <Type ID="1" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="145.000000" Ang2="0.000000" Rot="0.000000" PositionId="2" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="1" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="145.000000" Ang2="0.000000" Rot="0.000000" PositionId="2" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="-153.686874" Ang2="0.000000" Rot="0.000000" PositionId="3" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="1" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="-153.686874" Ang2="0.000000" Rot="0.000000" PositionId="3" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="125.000000" Ang2="0.000000" Rot="0.000000" PositionId="4" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="1" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="125.000000" Ang2="0.000000" Rot="0.000000" PositionId="4" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="-151.666672" Ang2="0.000000" Rot="0.000000" PositionId="5" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="1" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="-151.666672" Ang2="0.000000" Rot="0.000000" PositionId="5" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="-14.747475" Ang2="0.000000" Rot="0.000000" PositionId="6" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="1" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="-14.747475" Ang2="0.000000" Rot="0.000000" PositionId="6" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="4" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="45.000000" Ang2="0.000000" Rot="0.000000" PositionId="7" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="0" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="45.000000" Ang2="0.000000" Rot="0.000000" PositionId="7" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="-41.161617" Ang2="0.000000" Rot="0.000000" PositionId="8" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="0" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="-41.161617" Ang2="0.000000" Rot="0.000000" PositionId="8" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="43.787880" Ang2="0.000000" Rot="0.000000" PositionId="9" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="0" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="43.787880" Ang2="0.000000" Rot="0.000000" PositionId="9" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="-39.949497" Ang2="0.000000" Rot="0.000000" PositionId="10" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="0" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="-39.949497" Ang2="0.000000" Rot="0.000000" PositionId="10" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="2.525252" Ang2="0.000000" Rot="0.000000" PositionId="11" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="0" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="2.525252" Ang2="0.000000" Rot="0.000000" PositionId="11" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="3" />
                                                 <Type ID="1" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="-10.000000" Ang2="0.000000" Rot="0.000000" PositionId="12" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="0" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="-10.000000" Ang2="0.000000" Rot="0.000000" PositionId="12" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="3" />
                                                 <Type ID="1" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="105.000000" Ang2="0.000000" Rot="0.000000" PositionId="13" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="0" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="105.000000" Ang2="0.000000" Rot="0.000000" PositionId="13" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="-97.525253" Ang2="0.000000" Rot="0.000000" PositionId="14" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="0" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="-97.525253" Ang2="0.000000" Rot="0.000000" PositionId="14" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="154.191925" Ang2="0.000000" Rot="0.000000" PositionId="15" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="0" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="154.191925" Ang2="0.000000" Rot="0.000000" PositionId="15" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
-                                    <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="-143.686874" Ang2="0.000000" Rot="0.000000" PositionId="16" ConnectedBodypartID="0">
+                                    <AddSpawnpointAction Active="0" Symetric="0">
+                                        <Spawnpoint Occupied="0" Ang1="-143.686874" Ang2="0.000000" Rot="0.000000" PositionId="16" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="2" />
                                             </SupportedTypes>
@@ -219,7 +219,7 @@
                             <Actions>
                                 <CompoundAction>
                                     <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="180.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0">
+                                        <Spawnpoint Occupied="0" Ang1="180.000000" Ang2="0.000000" Rot="0.000000" PositionId="0" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="3" />
                                                 <Type ID="1" />
@@ -227,7 +227,7 @@
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
                                     <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="-5.525253" Ang2="0.000000" Rot="0.000000" PositionId="1" ConnectedBodypartID="0">
+                                        <Spawnpoint Occupied="0" Ang1="-5.525253" Ang2="0.000000" Rot="0.000000" PositionId="1" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="3" />
                                                 <Type ID="1" />
@@ -235,7 +235,7 @@
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
                                     <AddSpawnpointAction Active="1">
-                                        <Spawnpoint Occupied="0" Ang1="22.898989" Ang2="0.000000" Rot="0.000000" PositionId="2" ConnectedBodypartID="0">
+                                        <Spawnpoint Occupied="0" Ang1="22.898989" Ang2="0.000000" Rot="0.000000" PositionId="2" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="3" />
                                                 <Type ID="1" />
@@ -243,7 +243,7 @@
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
                                     <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="-34.484848" Ang2="0.000000" Rot="0.000000" PositionId="3" ConnectedBodypartID="0">
+                                        <Spawnpoint Occupied="0" Ang1="-34.484848" Ang2="0.000000" Rot="0.000000" PositionId="3" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="3" />
                                                 <Type ID="1" />
@@ -251,7 +251,7 @@
                                         </Spawnpoint>
                                     </AddSpawnpointAction>
                                     <AddSpawnpointAction Active="0">
-                                        <Spawnpoint Occupied="0" Ang1="30.848486" Ang2="0.000000" Rot="0.000000" PositionId="4" ConnectedBodypartID="0">
+                                        <Spawnpoint Occupied="0" Ang1="30.848486" Ang2="0.000000" Rot="0.000000" PositionId="4" ConnectedBodypartID="0" Symetric="0">
                                             <SupportedTypes>
                                                 <Type ID="3" />
                                                 <Type ID="1" />

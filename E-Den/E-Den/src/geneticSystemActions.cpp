@@ -309,7 +309,7 @@ namespace EDen {
     deb.scaleModifier = sp->scaleModifier;
     deb.supportedBpTypes = sp->supportedBpTypes;
 
-    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d,sp->ang2,sp->rot,symetric,active);
+    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->scaleModifier,sp->ang2d,sp->ang2,sp->rot,symetric,active);
   };
 
   TiXmlElement* GeneticAddSpawnpointAction::toXmlElement() {

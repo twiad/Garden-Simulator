@@ -934,6 +934,7 @@ namespace EDen {
     possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.02f,"Energie", "Max Amount Mutation: Energie"));
     possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.1f,"Wasser", "Max Amount Mutation: Wasser"));
     possibleMutations.push_back(new GeneticSpawnpointActiveMutation(0.03f, "Spawnpoint Active Mutation"));
+    possibleMutations.push_back(new GeneticSpawnpointScaleModifierMutation(0.7f,2.0f,0.1f,0.03f,"Scale Modifier Mutation"));
     possibleMutations.push_back(new GeneticColorMutation(0.1f,1.0f,0.08f,0.25f,"ColorMutation"));
 
     return true;

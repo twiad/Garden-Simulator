@@ -7,7 +7,7 @@
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
-#define SDL_SCALE 10
+#define SDL_SCALE 40
 #define SCALE_FACTOR 0.99f
 #define DOWN_SCALE_FACTOR 1.0001f
 #endif

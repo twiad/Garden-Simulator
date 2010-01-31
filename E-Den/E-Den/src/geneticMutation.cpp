@@ -68,6 +68,7 @@ namespace EDen {
     else if(type == "MaxSizeMutation") return new GeneticMaxSizeMutation(descript);
     else if(type == "MaxAmountMutation") return new GeneticMaxAmountMutation(descript);
     else if(type == "SpawnpointActiveMutation") return new GeneticSpawnpointActiveMutation(descript);
+    else if(type == "SpawnpointScaleModifierMutation") return new GeneticSpawnpointScaleModifierMutation(descript);
     else if(type == "ColorMutation") return new GeneticColorMutation(descript);
     else return 0;
   };
@@ -129,6 +130,54 @@ namespace EDen {
   TiXmlElement* GeneticSpawnpoint2DAngleMutation::toXmlElement() {
     TiXmlElement* element;
     element = new TiXmlElement("SpawnpointAngle1Mutation");
+
+    element->SetDoubleAttribute("Min",min);
+    element->SetDoubleAttribute("Max",max);
+    element->SetDoubleAttribute("Maxstep",maxstep);
+    element->SetDoubleAttribute("Probability",prob);
+    element->SetAttribute("Description",description);
+
+    return element;
+  };
+
+  //
+
+  GeneticSpawnpointScaleModifierMutation::GeneticSpawnpointScaleModifierMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption) : GeneticMutation(p_prob,p_desciption) {
+    min = p_min;
+    max = p_max;
+    maxstep = p_maxstep;
+  };
+  
+  GeneticSpawnpointScaleModifierMutation::GeneticSpawnpointScaleModifierMutation(TiXmlElement* descript) {
+    description = descript->Attribute("Description");
+    
+    descript->QueryFloatAttribute("Min",&min);
+    descript->QueryFloatAttribute("Max",&max);
+    descript->QueryFloatAttribute("Maxstep",&maxstep);
+    descript->QueryFloatAttribute("Probability",&prob);
+  };
+
+  bool GeneticSpawnpointScaleModifierMutation::execute(GeneticAction* p_act,float strength) {
+    if(randomizer->value() < prob*strength) {
+      if(p_act->getActionType() == GAT_AddSpawnpoint) {
+        SpawnpointInformation* sp = ((GeneticAddSpawnpointAction*)(p_act))->sp;
+        if(sp->position != 0) {
+          float oldscale = sp->scaleModifier;
+          sp->scaleModifier = randomizer->value(maxi<float>(min,oldscale - maxstep),mini<float>(max,oldscale + maxstep));
+        };
+      };
+      return true; 
+    }
+    return false;
+  };
+
+  GeneticMutation* GeneticSpawnpointScaleModifierMutation::copy() {
+    return new GeneticSpawnpointScaleModifierMutation(min,max,maxstep,prob);
+  };
+
+  TiXmlElement* GeneticSpawnpointScaleModifierMutation::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("SpawnpointScaleModifierMutation");
 
     element->SetDoubleAttribute("Min",min);
     element->SetDoubleAttribute("Max",max);

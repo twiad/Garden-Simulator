@@ -400,7 +400,10 @@ namespace EDen {
   };
   
   bool Bodypart::setMaxSize(float param_maxSize) {
-    maxSize = param_maxSize * getScaleModifier();
+    if(param_maxSize != 0.0f)
+      maxSize = param_maxSize * getScaleModifier();
+    else
+      maxSize = 0.0f;
     return true;
   };
 

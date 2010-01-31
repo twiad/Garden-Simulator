@@ -4,7 +4,7 @@
 #include "runtimeManager.h"
 #define MAX_PLANT_COUNT 3
 #define CANDIDATES_COUNT 100
-#define CANDIDATES_LEVEL (150 / 25)
+#define CANDIDATES_LEVEL (100 / 25)
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {
@@ -70,6 +70,8 @@ namespace EDen {
     clock_frac_genproc = 1;
     clock_frac_delete = 200;
     clock_frac_chemlinks = 1;
+
+    candidatesTreshold = CANDIDATES_LEVEL ;
     
     cycles = 0;
 
@@ -87,7 +89,7 @@ namespace EDen {
         };
       }
       else {
-        if((param_org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= CANDIDATES_LEVEL) && (candidates->size() < CANDIDATES_COUNT))
+        if((param_org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= candidatesTreshold) && (candidates->size() < CANDIDATES_COUNT))
           candidates->push(param_org);
         else database->push(param_org);
       };
@@ -189,6 +191,7 @@ namespace EDen {
 
     if((cycles % 10000) == 9999) {
       saveDatabase("autosave.xml");
+      adjustCandidatesTreshold();
     };
 
     cycles++;
@@ -264,5 +267,18 @@ namespace EDen {
 
   std::list<Organism*> RuntimeManager::getOrganisms() {
     return organisms; 
+  };
+
+  void RuntimeManager::adjustCandidatesTreshold() {
+    if(candidates->size() > ((4.0f/5.0f) * CANDIDATES_COUNT))
+      candidatesTreshold++;
+    else if(candidates->size() == 0) {
+      candidatesTreshold--;
+      if(candidatesTreshold < 0) candidatesTreshold = 0;
+    };
+  };
+
+  int RuntimeManager::getCandidatesTreshold() {
+    return candidatesTreshold;
   };
 };

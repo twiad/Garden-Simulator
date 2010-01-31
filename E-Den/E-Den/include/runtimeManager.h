@@ -28,6 +28,8 @@ namespace EDen {
     bool deleteAll();
     bool deleteAllOfSpecies(int speciesID);
     unsigned long cycles;
+    int candidatesTreshold;
+    void adjustCandidatesTreshold();
 
     Organism* getNextSeed();
 
@@ -66,6 +68,8 @@ namespace EDen {
     int loadDatabase(std::string filename = "database.xml");
 
     std::list<Organism*> getOrganisms();
+
+    int getCandidatesTreshold();
   };
 };
 

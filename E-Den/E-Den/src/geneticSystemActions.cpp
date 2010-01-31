@@ -207,7 +207,7 @@ namespace EDen {
   };
 
   bool GeneticSpawnBodypartAction::execute() {
-    Bodypart* bp = new Bodypart(childBodypartType,parentBodypart->getGeneticCode()->copy(),parentBodypart->getParentOrganism());
+    Bodypart* bp = new Bodypart(childBodypartType,parentBodypart->getGeneticCode()->copy(),parentBodypart->getParentOrganism(),parentBodypart);
     
     if(parentBodypart->spawnBodypart(bp)) {
       return true;

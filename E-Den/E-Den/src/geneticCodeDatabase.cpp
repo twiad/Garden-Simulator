@@ -77,36 +77,38 @@ namespace EDen {
   };
 
   int GeneticCodeDatabase::save(std::string pFilename) {
-    std::string filename = path;
-    filename.append("\\").append(pFilename);
-    
-    doc = new TiXmlDocument(filename);
-    bool loadOkay = doc->LoadFile();
-	  if (!loadOkay) 
-      initEmptyFile(filename);
+    if(orgs.size() > 0) {
+      std::string filename = path;
+      filename.append("\\").append(pFilename);
+      
+      doc = new TiXmlDocument(filename);
+      bool loadOkay = doc->LoadFile();
+	    if (!loadOkay) 
+        initEmptyFile(filename);
 
-    
-    TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
-    database->Clear();
+      
+      TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
+      database->Clear();
 
-    if(orgs.size() >= ORGS_TO_SAVE) {
-          std::list<Organism*> orgsToSave;
+      if(orgs.size() >= ORGS_TO_SAVE) {
+            std::list<Organism*> orgsToSave;
 
-      for(int i = 0; i < ORGS_TO_SAVE; i++)
-        orgsToSave.push_back(pull(false));
+        for(int i = 0; i < ORGS_TO_SAVE; i++)
+          orgsToSave.push_back(pull(false));
 
-      for( std::list<Organism*>::iterator it = orgsToSave.begin(); it != orgsToSave.end(); it++) {
-        database->LinkEndChild((*it)->getXmlElement());
+        for( std::list<Organism*>::iterator it = orgsToSave.begin(); it != orgsToSave.end(); it++) {
+          database->LinkEndChild((*it)->getXmlElement());
+        };
+        database->SetAttribute("OrganismCount",orgsToSave.size());
+      } else {
+        for( std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
+          database->LinkEndChild((*it)->getXmlElement());
+        };
+        database->SetAttribute("OrganismCount",orgs.size());
       };
-      database->SetAttribute("OrganismCount",orgsToSave.size());
-    } else {
-      for( std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
-        database->LinkEndChild((*it)->getXmlElement());
-      };
-      database->SetAttribute("OrganismCount",orgs.size());
-    };
 
-    return (int)doc->SaveFile(filename);
+      return (int)doc->SaveFile(filename);
+    } else return false;
   };
 
   void GeneticCodeDatabase::push(Organism* org) {

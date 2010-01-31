@@ -27,8 +27,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_66F29B81943A44839656EF8657198541"
-        "OwnerKey" = "8:_B9BA3506AB744BA797680D04F03C8177"
+        "MsmKey" = "8:_5D675ECE106649798535E4941F1F4EF9"
+        "OwnerKey" = "8:_2A9BC8B7361249E1B9437FB82C5CFC2B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -39,8 +39,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B9BA3506AB744BA797680D04F03C8177"
-        "OwnerKey" = "8:_2A9BC8B7361249E1B9437FB82C5CFC2B"
+        "MsmKey" = "8:_AEAEDB6BDA2641EB963DB799EA8D0933"
+        "OwnerKey" = "8:_5D675ECE106649798535E4941F1F4EF9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -74,6 +74,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5"
+                    {
+                    "Name" = "8:.NET Framework 3.5"
+                    "ProductCode" = "8:Microsoft.Net.Framework.3.5"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
         "Release"
@@ -131,7 +144,7 @@
             "Folder" = "8:_B3E9F995C51D4FF4AFB2FFDBB5EED1EA"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
+            "Vital" = "11:FALSE"
             "ReadOnly" = "11:FALSE"
             "Hidden" = "11:FALSE"
             "System" = "11:FALSE"
@@ -260,23 +273,23 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:TestbenchSetup"
+        "ProductName" = "8:E-Den-Test-Bench"
         "ProductCode" = "8:{F8CF99A2-CD16-44DB-8EB0-CD5D8AFD73BB}"
-        "PackageCode" = "8:{91E292A9-736B-4870-B19B-E018F0CC7676}"
+        "PackageCode" = "8:{1D9A5B6E-BB66-40A3-9468-7688805027BA}"
         "UpgradeCode" = "8:{7F932295-EF78-44BA-8EC8-D4ECF6C60FE2}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:BIE Inc."
+        "Manufacturer" = "8:TiXx815"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:TestbenchSetup"
+        "Title" = "8:E-Den-Test-Bench"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:BIE Inc."
-        "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
+        "ARPCONTACT" = "8:Twiad"
+        "Keywords" = "8:artificial life, simulation, twiad"
+        "ARPCOMMENTS" = "8:Plant Simulation"
         "ARPURLINFOABOUT" = "8:"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
@@ -422,7 +435,7 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:0"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "InstallAllUsersVisible"
@@ -440,7 +453,7 @@
                             }
                         }
                     }
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_DE274A26A3444865BE541D503428AE14"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_D226ABF5638144FBB78F4FB8D74985DD"
                     {
                     "Sequence" = "3:300"
                     "DisplayName" = "8:Installation bestätigen"
@@ -457,7 +470,7 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:0"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -479,7 +492,7 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:0"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"
@@ -542,7 +555,7 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:0"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "ShowProgress"
@@ -667,7 +680,7 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:0"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "UpdateText"
@@ -678,8 +691,8 @@
                             "Type" = "3:15"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1258"
+                            "Setting" = "3:2"
+                            "Value" = "8:Für Uninstall Setup erneut ausführen ... viel spaß!"
                             "DefaultValue" = "8:#1258"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -791,11 +804,11 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_66F29B81943A44839656EF8657198541"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_5D675ECE106649798535E4941F1F4EF9"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:microsoft_vc90_crt_x86.msm"
+            "SourcePath" = "8:policy_9_0_Microsoft_VC90_CRT_x86.msm"
                 "Properties"
                 {
                 }
@@ -805,11 +818,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_B9BA3506AB744BA797680D04F03C8177"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_AEAEDB6BDA2641EB963DB799EA8D0933"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:policy_9_0_Microsoft_VC90_CRT_x86.msm"
+            "SourcePath" = "8:microsoft_vc90_crt_x86.msm"
                 "Properties"
                 {
                 }

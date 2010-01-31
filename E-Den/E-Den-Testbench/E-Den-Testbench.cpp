@@ -22,7 +22,7 @@
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
-#define SDL_DIMX 1024
+#define SDL_DIMX 1240
 #define SDL_DIMY 800
 
 using namespace EDen; 
@@ -168,7 +168,7 @@ void sdl_test() {
   
 
   sun = new SDL_SunlightProvider();
-  op1 = new SDLOrganismPrinter(1024,600,runtime);
+  op1 = new SDLOrganismPrinter(SDL_DIMX,SDL_DIMY,runtime);
 
 //  bp = new Bodypart(BPT_Stick,"TESTPART4");
 //  organism = new Organism("TestOrganism", bp, runtime);
@@ -192,6 +192,7 @@ void sdl_test() {
   organism->connectToGoundpart(gp);
   //op1->add(organism); 
   runtime->add(organism);
+  bp->setScaleModifier(1.1f);
   bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
   bp->occupieSpawnpoint(bp2);
   bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);

@@ -104,6 +104,10 @@ namespace EDen {
     return subSpeciesIdentifier; 
   };
 
+  void GeneticCode::setSubSpeciesIdentifier(int newIdentifier) {
+    subSpeciesIdentifier = newIdentifier; 
+  };
+
   bool GeneticCode::mutate(float strength) {
     // for all clauses, for all possible mutations do mutation.execute(clause)
     for(GeneticClauseListIterator clause = clauses.begin(); clause != clauses.end(); clause++) {

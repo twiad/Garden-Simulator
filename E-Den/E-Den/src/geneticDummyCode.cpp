@@ -1,8 +1,8 @@
 #include "geneticProcessor.h"
 
-#define GRUNDVERBRAUCH 0.0595f
-#define LIFETIME 1500
-#define SEED_DROP_ENERGIE_PERCENTAGE 96.2f
+#define GRUNDVERBRAUCH 2.0f
+#define LIFETIME 2000
+#define SEED_DROP_ENERGIE_PERCENTAGE 96.0f
 #define SEED_DROP_ENERGIE_VALUE 200.0f
 #define BRANCHE_MUTATION 0.1f
 #define SEED_MUTATION 1.5f
@@ -80,7 +80,7 @@ namespace EDen {
       cond = new GeneticBodypartTypeCondition(BPT_Seed, GBT_equal);
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition());
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, 0, 0.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, 0, 1.00f, 0.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne",100.0f));
@@ -107,7 +107,7 @@ namespace EDen {
       cond = new GeneticBodypartTypeCondition(BPT_Leaf, GBT_equal);
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition());
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.00f, 180.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",35.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",150.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne",120.0f));
@@ -138,23 +138,17 @@ namespace EDen {
       cond = new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal);
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition());
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, 0.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 2, 145.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 3, -145.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 4, 125.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 5, -125.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Seed, 6, 0.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7, 45.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 8, -45.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 9, 25.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 10, -25.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 11, 10.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 12, -10.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 13, 105.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 14, -105.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 15, 135.0f, 0.0f, 0.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 16, -135.0f, 0.0f, 0.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.00f, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, 0.90f, 0.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 2, 1.0f, 145.0f, 0.0f, 0.0f, true));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 4, 1.0f, 125.0f, 0.0f, 0.0f, true));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Seed, 6, 1.0f, 0.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7, 0.5, 45.0f, 0.0f, 0.0f, true, false));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 9, 0.9f, 0.0f, 0.0f, true, false));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 11, 0.5f, 10.0f, 0.0f, 0.0f, true, false));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 11, 0.5f, 20.0f, 15.0f, 0.0f, true, false));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 13, 0.6f, 105.0f, 0.0f, 0.0f, true, false));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 15, 1.0f, 135.0f, 0.0f, 0.0f, true));
       //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser", 500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie", 35.0f));
@@ -185,11 +179,11 @@ namespace EDen {
       cond = new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal);
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition());
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, -13.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 2, 13.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 3, -26.0f, 0.0f, 0.0f, false));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 4, 26.0f, 0.0f, 0.0f, false));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, 0.9f, -13.0f, 10.0f,3.0f,true));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 2, 1.2f, 0.0f, 0.0f,15.0f,false,false));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 3, 0.5f, -26.0f, 5.0f, 1.0f, true, false));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 4, 0.3f, -45.0f, 5.0f, -5.0f, true, false));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",150.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",3.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne", 0.0f));
@@ -244,7 +238,7 @@ namespace EDen {
    
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       
-      compAct->add(new GeneticChemicalConsumeAction("Energie",GRUNDVERBRAUCH));
+      compAct->add(new GeneticRegularChemicalConsumeAction("Energie",GRUNDVERBRAUCH,LIFETIME));
     
       addClause(new GeneticClause(gAndCond, compAct, "Energie consumption"));
 
@@ -449,12 +443,12 @@ namespace EDen {
       compAct = new GeneticCompoundAction();
 
       //gOrCond->add(new GeneticParentOrganismLifetimeCondition(GBT_more,140));
-      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,0.0001f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_percentage_less,0.0005f,"Energie"));
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       //gAndCond->add(gOrCond);
       
       compAct->add(new GeneticHurtAction(1.0f));
-      compAct->add(new GeneticShrinkAction(0.97f));
+      compAct->add(new GeneticShrinkAction(0.98f));
       
       addClause(new GeneticClause(gAndCond, compAct, "lose HP on low Energie"));
 
@@ -501,7 +495,7 @@ namespace EDen {
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.5f,"Energie"));
       
       compAct->add(new GeneticHealAction(1.0f));
-      compAct->add(new GeneticGrowAction(1.0f));
+      compAct->add(new GeneticGrowAction(0.1f));
       compAct->add(new GeneticChemicalConsumeAction("Energie",1.0f));
 
       addClause(new GeneticClause(gAndCond, compAct, "Convert Energie to HP"));
@@ -559,7 +553,7 @@ namespace EDen {
 
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition());
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",15.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",150.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo",3.0f));
@@ -591,13 +585,13 @@ namespace EDen {
       cond = new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal);
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition());
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, 3.25f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 2, 165.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 3, -165.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 4, 175.0f));
-      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 5, -175.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 6, -3.25f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, 1.0f, 3.25f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 2, 1.0f, 165.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 3, 1.0f, -165.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 4, 1.0f, 175.0f));
+      compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 5, 1.0f, -175.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 6, 1.0f, -3.25f));
       //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 6));
       //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser", 100.0f));
@@ -630,11 +624,11 @@ namespace EDen {
       cond = new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal);
       gAndCond->add(cond);
       gAndCond->add(new GeneticBodypartCreationCondition());
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 180.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, -9.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 2, 9.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 3, -18.0f));
-      compAct->add(new GeneticAddSpawnpointAction(bpts, 4, 18.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 1, 1.0f, -9.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 2, 1.0f, 9.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 3, 1.0f, -18.0f));
+      compAct->add(new GeneticAddSpawnpointAction(bpts, 4, 1.0f, 18.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Wasser",75.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie",5.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Goo",10.0f));
@@ -935,12 +929,13 @@ namespace EDen {
 
     };
     
-    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.04f,"Anglular Mutation"));
-    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.03f,"Max Size Mutation"));
+    possibleMutations.push_back(new GeneticSpawnpoint2DAngleMutation(-179.0f,179.0f,20.0f,0.03f,"Anglular Mutation"));
+    possibleMutations.push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,0.04f,"Max Size Mutation"));
     possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.02f,"Energie", "Max Amount Mutation: Energie"));
     possibleMutations.push_back(new GeneticMaxAmountMutation(0.1f,10000.0f,10.0f,0.1f,"Wasser", "Max Amount Mutation: Wasser"));
     possibleMutations.push_back(new GeneticSpawnpointActiveMutation(0.03f, "Spawnpoint Active Mutation"));
-    possibleMutations.push_back(new GeneticColorMutation(0.1f,1.0f,0.1f,0.05f,"ColorMutation"));
+    possibleMutations.push_back(new GeneticSpawnpointScaleModifierMutation(0.7f,2.0f,0.1f,0.5f,"Scale Modifier Mutation"));
+    possibleMutations.push_back(new GeneticColorMutation(0.1f,1.0f,0.08f,0.25f,"ColorMutation"));
 
     return true;
   };

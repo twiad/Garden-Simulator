@@ -30,6 +30,7 @@ namespace EDen {
 
     int getSpeciesIdentifier();
     int getSubSpeciesIdentifier();
+    void setSubSpeciesIdentifier(int newIdentifier);
     int getGeneration();
     int incGeneration();
     bool setBodypart(Bodypart* p_bp);

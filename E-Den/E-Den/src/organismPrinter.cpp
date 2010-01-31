@@ -7,13 +7,14 @@
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
-#define SDL_SCALE 10
-#define SCALE_FACTOR 0.9f
+#define SDL_SCALE 40
+#define SCALE_FACTOR 0.99f
+#define DOWN_SCALE_FACTOR 1.0001f
 #endif
 
 namespace EDen {
 
-  bool OrganismPrinter::print() {
+  bool OrganismPrinter::print() { 
     std::cout << "\n--[" << org->getName() << "]-[" << org->getBodypartCount() << "]--" << std::endl;
     printLetter(org->getRootBodypart(),true,true,false);
     int i = 0;
@@ -206,7 +207,7 @@ namespace EDen {
     std::string newCaption = "";
     char str[64];
     if(runtimeManager) {
-      sprintf(str,"[%lu]- [%d",runtimeManager->getCycleCount(),runtimeManager->getSeedCount());
+      sprintf(str,"[%lu]- [%d|%d<%d>",runtimeManager->getCycleCount(),runtimeManager->getSeedCount(),runtimeManager->getCandidatesCount(),runtimeManager->getCandidatesTreshold()*25);
       newCaption += str;
     }
 
@@ -243,6 +244,7 @@ namespace EDen {
     //redrawScreen();
 
     if(needToScale) scale = scale * SCALE_FACTOR;
+    else scale = scale * DOWN_SCALE_FACTOR;
     
     if(runtimeManager->getCycleCount() % 10 == 0)
         updateCaption();
@@ -292,7 +294,7 @@ namespace EDen {
       for(SpawnpointInformationListIterator it = bpSpawnpoints.begin(); it != bpSpawnpoints.end(); it++) {
         // position 0 is reserved for the backwards spawnpoint
         if(((*it)->occupied) && ((*it)->position != 0)) { 
-          float partner_ang = (*it)->connectedBodypart->getSpawnpointInformationForBodypart(param_bp).ang2d;
+          float partner_ang = (*it)->connectedBodypart->getSpawnpointInformationForBodypart(param_bp)->ang2d;
           returnvalue += req_print((*it)->connectedBodypart,x2,y2,ang + 180.0f + partner_ang + (*it)->ang2d);
         };
       };

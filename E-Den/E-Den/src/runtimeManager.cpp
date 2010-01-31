@@ -3,11 +3,14 @@
 
 #include "runtimeManager.h"
 #define MAX_PLANT_COUNT 3
+#define CANDIDATES_COUNT 20
+#define CANDIDATES_LEVEL (150 / 25)
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {
     randomizer = new Randomizer();
     database = new GeneticCodeDatabase(this);
+    candidates = new GeneticCodeDatabase(this);
     reset();
   };
 
@@ -30,6 +33,9 @@ namespace EDen {
       delete resourceProviders.back();
       resourceProviders.pop_back();
     };
+
+    database->clear();
+    candidates->clear();
 
     return true;
   };
@@ -55,13 +61,7 @@ namespace EDen {
   };
 
   Organism* RuntimeManager::getNextSeed() {
-    //int pos = (int)randomizer->value(0.0f,(float)seeds.size() - 1);
-    //std::list<Organism*>::iterator it = seeds.begin();
-    //for(int i = 0; i < pos; i++) {
-    //  it++;
-    //};
-    //return *it;
-
+    if (candidates->size() > 0) return candidates->pull();
 	  return database->pull();
   };
 
@@ -70,6 +70,8 @@ namespace EDen {
     clock_frac_genproc = 1;
     clock_frac_delete = 200;
     clock_frac_chemlinks = 1;
+
+    candidatesTreshold = CANDIDATES_LEVEL ;
     
     cycles = 0;
 
@@ -87,7 +89,9 @@ namespace EDen {
         };
       }
       else {
-        database->push(param_org);
+        if((param_org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= candidatesTreshold) && (candidates->size() < CANDIDATES_COUNT))
+          candidates->push(param_org);
+        else database->push(param_org);
       };
 
       
@@ -185,8 +189,12 @@ namespace EDen {
 
     cleanupDeadOrganisms();
 
-    if((cycles % 100000) == 99999) {
-      database->save("autosave.xml");
+    if((cycles % 10000) == 9999) {
+      saveDatabase("autosave.xml");
+    };
+
+    if((cycles % 3000) == 0) {
+      adjustCandidatesTreshold();
     };
 
     cycles++;
@@ -209,7 +217,7 @@ namespace EDen {
           };
     };
 
-    while(!database->empty() && (new_orgs.size() < MAX_PLANT_COUNT)) {
+    while(orgsAlive() && (new_orgs.size() < MAX_PLANT_COUNT)) {
       Organism* org = getNextSeed();
       new_orgs.push_back(org);
       org->connectToGoundpart(groundparts.front());
@@ -230,28 +238,50 @@ namespace EDen {
   }
 
   int RuntimeManager::getSeedCount() {
-    return database->size();
+    return database->size() + candidates->size();
+  };
+
+  int RuntimeManager::getCandidatesCount() {
+    return candidates->size();
   };
 
   bool RuntimeManager::orgsAlive() {
-    if(organisms.size() > 0) return true;
+    if((organisms.size() > 0) || (candidates->size() > 0) || (database->size() > 0)) return true;
     return false;
   };
 
   int RuntimeManager::saveDatabase(std::string filename) {
-    return database->save(filename);
+    database->save(filename);
+    candidates->save(filename.insert(0,"candidates."));
+    return true;
   };
 
   int RuntimeManager::loadDatabase(std::string filename) {
-    return database->load(filename);
+    database->load(filename);
+    database->load(filename.insert(0,"candidates."));
+    return true;
   };
 
   int RuntimeManager::initDatabase(std::string appSettingsPath) {
     database->setApplicationSettingsPath(appSettingsPath);
+    candidates->setApplicationSettingsPath(appSettingsPath);
     return true; 
   };
 
   std::list<Organism*> RuntimeManager::getOrganisms() {
     return organisms; 
+  };
+
+  void RuntimeManager::adjustCandidatesTreshold() {
+    if(candidates->size() > (0.9f * CANDIDATES_COUNT))
+      candidatesTreshold++;
+    else if(candidates->size() == 0) {
+      candidatesTreshold--;
+      if(candidatesTreshold < 0) candidatesTreshold = 0;
+    };
+  };
+
+  int RuntimeManager::getCandidatesTreshold() {
+    return candidatesTreshold;
   };
 };

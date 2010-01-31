@@ -15,14 +15,14 @@
 #define PRINT_OUT_ALL_N_CYCLES 3000
 #define SND_RUN_MULTIPLYER 2
 // STARTING_WATER_max: 2.0e9
-#define MAX_WATER 2.0e8
-#define STARTING_WATER 1.7e8
-#define MAX_GOO 2.0e6
-#define STARTING_GOO 1.7e6
+#define MAX_WATER 2.0e9
+#define STARTING_WATER 1.7e9
+#define MAX_GOO 2.0e9
+#define STARTING_GOO 1.7e9
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
-#define SDL_DIMX 1024
+#define SDL_DIMX 1240
 #define SDL_DIMY 800
 
 using namespace EDen; 
@@ -41,6 +41,8 @@ TCHAR appSettingsPath[MAX_PATH];
 char appSettingsPathP[MAX_PATH];
 
 bool printall;
+bool pause = false;
+bool slowMode = false;
 
 SDL_SunlightProvider* sun;
 
@@ -91,7 +93,6 @@ void sdl_run(int cycles) {
   op1->redrawScreen();
 
   run(cycles);
-
 //  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
 //  printOrgs();
 }
@@ -117,10 +118,17 @@ bool wait_for_events()
             runtime->saveDatabase();
           else if ( key[0] == 'l'  )  //load if 'l' is pressed
             runtime->loadDatabase();
+          else if ( key[0] == 'y'  )  //load if 'z' is pressed
+            slowMode = !slowMode;
+          else if ( key[0] == 'p'  )  //load if 'p' is pressed
+            pause = !pause;
 		    break;
 		     case SDL_MOUSEMOTION:             //mouse moved
 			     printf("Mouse motion x:%d, y:%d\n", event.motion.x, event.motion.y );
-           sdl_run(1);
+           if(! pause) 
+             sdl_run(SDL_IDEL_CYCLES);
+           else
+             SleepEx(500,true);
 			     break;
 		     case SDL_MOUSEBUTTONUP:           //mouse button pressed
 			     printf("Mouse button %d pressed x:%d, y:%d\n", event.button.button, event.button.x, event.button.y );
@@ -136,8 +144,16 @@ bool wait_for_events()
 	    }
     }
     else {
-      sdl_run(SDL_IDEL_CYCLES);
-      if(! op1->orgsAlive()) exit(1);
+      if(! pause) 
+        sdl_run(SDL_IDEL_CYCLES);
+      else
+        SleepEx(500,true);
+
+      if(! runtime->orgsAlive()) 
+        exit(1);
+
+      if(slowMode) 
+        SleepEx(250,true);
     }
   } //while
   return true;
@@ -152,7 +168,7 @@ void sdl_test() {
   
 
   sun = new SDL_SunlightProvider();
-  op1 = new SDLOrganismPrinter(1024,600,runtime);
+  op1 = new SDLOrganismPrinter(SDL_DIMX,SDL_DIMY,runtime);
 
 //  bp = new Bodypart(BPT_Stick,"TESTPART4");
 //  organism = new Organism("TestOrganism", bp, runtime);
@@ -176,6 +192,7 @@ void sdl_test() {
   organism->connectToGoundpart(gp);
   //op1->add(organism); 
   runtime->add(organism);
+  bp->setScaleModifier(1.1f);
   bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
   bp->occupieSpawnpoint(bp2);
   bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);

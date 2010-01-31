@@ -28,7 +28,9 @@ namespace EDen {
     std::string type = description->ValueStr();
     if(type == "CompoundAction") return new GeneticCompoundAction(description);
     else if(type == "ChemicalConvertAction") return new GeneticSimpleChemicalConvertAction(description);
+    else if(type == "RegularChemicalConsumeAction") return new GeneticRegularChemicalConsumeAction(description);
     else if(type == "ChemicalConsumeAction") return new GeneticChemicalConsumeAction(description);
+    else if(type == "SetColorAction") return new GeneticSetColorAction(description);
     else if(type == "SpawnBodypartAction") return new GeneticSpawnBodypartAction(description);
     else if(type == "ChangeMaxChemicalAmountAction") return new GeneticChangeMaxChemicalAmountAction(description);
     else if(type == "AddSpawnpointAction") return new GeneticAddSpawnpointAction(description);

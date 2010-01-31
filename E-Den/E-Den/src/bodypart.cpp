@@ -11,6 +11,9 @@ namespace EDen {
   SpawnpointInformation* SpawnpointInformation::copy() {
     SpawnpointInformation* spnew = new SpawnpointInformation();
     spnew->ang2d = ang2d;
+    spnew->ang2 = ang2;
+    spnew->rot = rot;
+    spnew->scaleModifier = scaleModifier;
     spnew->position = position;
     spnew->supportedBpTypes = supportedBpTypes;
 
@@ -21,6 +24,7 @@ namespace EDen {
     healthpoints = 100.0f;
     size = 1.0f;
     maxSize = 50.0f;
+    scaleModifier = 1.0f;
     
     bpType = bodypartType;
     geneCode = new GeneticCode(dummyGenecodeIdentifier);
@@ -39,6 +43,7 @@ namespace EDen {
     healthpoints = 100.0f;
     size = 1.0f;
     maxSize = 50.0f;
+    scaleModifier = 1.0f;
     
     bpType = bodypartType;
     if(param_geneticCode) geneCode = param_geneticCode;
@@ -67,6 +72,7 @@ namespace EDen {
     description->QueryIntAttribute("State",(int*)&bpState);
     description->QueryFloatAttribute("Healthpoints",&healthpoints);
     description->QueryFloatAttribute("Size",&size);
+    description->QueryFloatAttribute("ScaleModifier",&scaleModifier);
 
     chemStorageDescription = description->FirstChildElement("Storage");
     chemStorage = new ChemicalStorage(chemStorageDescription);
@@ -256,6 +262,7 @@ namespace EDen {
         };
         childBodyparts.push_back(bp);
         bp->parentBodypart = this;
+        bp->setScaleModifier(getSpawnpointInformationForBodypart(bp)->scaleModifier);
         bp->init();
         return true;
       }
@@ -308,11 +315,11 @@ namespace EDen {
     return spawnpoints;
   };
 
-  SpawnpointInformation Bodypart::getSpawnpointInformationForBodypart(Bodypart* param_bp) {
-    SpawnpointInformation returnvalue;
+  SpawnpointInformation* Bodypart::getSpawnpointInformationForBodypart(Bodypart* param_bp) {
+    SpawnpointInformation* returnvalue;
     for(SpawnpointInformationListIterator it = spawnpoints.begin(); it != spawnpoints.end(); it++) {
       if((*it)->connectedBodypart == param_bp) {
-        returnvalue = *(*it);
+        returnvalue = (*it);
         break;
       }
     };
@@ -362,7 +369,6 @@ namespace EDen {
     
     if(parentOrganism != 0) {
       name = parentOrganism->getName();
-      name = "." + name;
       runtime = parentOrganism->getRuntimeManager();
       detachFromOrganism();
     };
@@ -394,8 +400,24 @@ namespace EDen {
   };
   
   bool Bodypart::setMaxSize(float param_maxSize) {
-    maxSize = param_maxSize;
+    if(param_maxSize != 0.0f)
+      maxSize = param_maxSize * getScaleModifier();
+    else
+      maxSize = 0.0f;
     return true;
+  };
+
+  bool Bodypart::setScaleModifier(float param_scaleModifier) {
+    maxSize = maxSize / getScaleModifier();
+    scaleModifier = param_scaleModifier;
+    maxSize = maxSize * getScaleModifier();
+    return true;
+  };
+
+  float Bodypart::getScaleModifier() {
+    if (parentBodypart == 0)
+      return scaleModifier;
+    else return scaleModifier * parentBodypart->getScaleModifier();
   };
 
   float Bodypart::getSize() {
@@ -453,6 +475,7 @@ namespace EDen {
     element->SetAttribute("Type",getBodypartType());
     element->SetDoubleAttribute("Healthpoints",getHealthpoints());
     element->SetDoubleAttribute("Size",getSize());
+    element->SetDoubleAttribute("ScaleModifier",getScaleModifier());
     element->SetAttribute("IID",(int)this);
     
     childpartsElement = new TiXmlElement("Childs");
@@ -481,6 +504,11 @@ namespace EDen {
     description->QueryFloatAttribute("Ang1",&(sp->ang2d));
     description->QueryFloatAttribute("Ang2",&(sp->ang2));
     description->QueryFloatAttribute("Rot",&(sp->rot));
+    description->QueryFloatAttribute("ScaleModifier",&(sp->scaleModifier));
+
+    //if(sp->scaleModifier == 0.0f)
+    //  sp->scaleModifier = 1.0f;
+
     description->QueryIntAttribute("PositionId",&(sp->position));
     sp->connectedBodypart = 0;
     // TODO: connected bodypart via IID?!?
@@ -501,6 +529,7 @@ namespace EDen {
     element->SetDoubleAttribute("Ang1",sp->ang2d);
     element->SetDoubleAttribute("Ang2",sp->ang2);
     element->SetDoubleAttribute("Rot",sp->rot);
+    element->SetDoubleAttribute("ScaleModifier",sp->scaleModifier);
     element->SetAttribute("PositionId",sp->position);
     element->SetAttribute("ConnectedBodypartID",(int)(sp->connectedBodypart));
     

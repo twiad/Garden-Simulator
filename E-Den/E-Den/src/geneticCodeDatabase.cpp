@@ -9,7 +9,7 @@
 
 namespace EDen {
 
-  GeneticCodeDatabase::GeneticCodeDatabase(RuntimeManager* p_runtime) {
+  GeneticCodeDatabase::GeneticCodeDatabase(RuntimeManager* p_runtime): inited(false) {
     runtime = p_runtime;
   };
 
@@ -21,6 +21,32 @@ namespace EDen {
     return orgs.size();
   };
 
+  void GeneticCodeDatabase::clear() {
+    Organism* org;
+    
+    while(!orgs.empty()) {
+      org = pull();
+      delete org;
+    };
+  };
+
+  void GeneticCodeDatabase::initEmptyFile(std::string filename)
+  {
+    doc = new TiXmlDocument();
+
+    TiXmlDeclaration * decl = new TiXmlDeclaration("1.0", "", "");
+    TiXmlElement * element1 = new TiXmlElement("E-DEN-CodeDefinition");
+    TiXmlElement * element2 = new TiXmlElement("Version");
+    TiXmlElement * element3 = new TiXmlElement("Database");
+    TiXmlText * versionText = new TiXmlText("0.1.0.1");
+
+    element1->LinkEndChild(element2);
+    element1->LinkEndChild(element3);
+    element2->LinkEndChild(versionText);
+    doc->LinkEndChild(decl);
+    doc->LinkEndChild(element1);
+    doc->SaveFile(filename);
+  }
   int GeneticCodeDatabase::load(std::string pFilename) {
     std::string filename = path;
     filename.append("\\").append(pFilename);
@@ -45,45 +71,44 @@ namespace EDen {
 	  }
 	  else
 	  {
-      doc = new TiXmlDocument();
-
-      TiXmlDeclaration * decl = new TiXmlDeclaration("1.0", "", "");
-      TiXmlElement * element1 = new TiXmlElement("E-DEN-CodeDefinition");
-      TiXmlElement * element2 = new TiXmlElement("Version");
-      TiXmlElement * element3 = new TiXmlElement("Database");
-      TiXmlText * versionText = new TiXmlText("0.1.0");
-      
-      element1->LinkEndChild(element2);
-      element1->LinkEndChild(element3);
-      element2->LinkEndChild(versionText);
-      doc->LinkEndChild(decl);
-      doc->LinkEndChild(element1);
-      return (int)doc->SaveFile(filename);
+      initEmptyFile(filename);
+      return true;
 	  }
   };
 
   int GeneticCodeDatabase::save(std::string pFilename) {
-    std::string filename = path;
-    filename.append("\\").append(pFilename);
-    
-    TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
-    database->Clear();
+    if(orgs.size() > 0) {
+      std::string filename = path;
+      filename.append("\\").append(pFilename);
+      
+      doc = new TiXmlDocument(filename);
+      bool loadOkay = doc->LoadFile();
+	    if (!loadOkay) 
+        initEmptyFile(filename);
 
-    if(orgs.size() >= ORGS_TO_SAVE) {
-          std::list<Organism*> orgsToSave;
-      for(int i = 0; i < ORGS_TO_SAVE; i++)
-        orgsToSave.push_back(pull(false));
+      
+      TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
+      database->Clear();
 
-      for( std::list<Organism*>::iterator it = orgsToSave.begin(); it != orgsToSave.end(); it++) {
-        database->LinkEndChild((*it)->getXmlElement());
+      if(orgs.size() >= ORGS_TO_SAVE) {
+            std::list<Organism*> orgsToSave;
+
+        for(int i = 0; i < ORGS_TO_SAVE; i++)
+          orgsToSave.push_back(pull(false));
+
+        for( std::list<Organism*>::iterator it = orgsToSave.begin(); it != orgsToSave.end(); it++) {
+          database->LinkEndChild((*it)->getXmlElement());
+        };
+        database->SetAttribute("OrganismCount",orgsToSave.size());
+      } else {
+        for( std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
+          database->LinkEndChild((*it)->getXmlElement());
+        };
+        database->SetAttribute("OrganismCount",orgs.size());
       };
-    } else {
-      for( std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
-        database->LinkEndChild((*it)->getXmlElement());
-      };
-    };
 
-    return (int)doc->SaveFile(filename);
+      return (int)doc->SaveFile(filename);
+    } else return false;
   };
 
   void GeneticCodeDatabase::push(Organism* org) {

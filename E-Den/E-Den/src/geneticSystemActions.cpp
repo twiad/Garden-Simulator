@@ -56,7 +56,9 @@ namespace EDen {
   };
 
   bool GeneticSimpleChemicalConvertAction::execute() {
-    return(storage->add(fromChemName, -amount*storage->getSize()) && storage->add(toChemName, amount*ratio*storage->getSize()));
+    storage->add(fromChemName, -amount*storage->getSize());
+    storage->add(toChemName, amount*ratio*storage->getSize());
+    return true;
   };
 
   GeneticChemicalConsumeAction::GeneticChemicalConsumeAction(std::string nChemName, float nAmount, Bodypart* p_bp):
@@ -105,6 +107,72 @@ namespace EDen {
     return storage->add(chemName,-amount*storage->getSize());
   };
 
+  //
+
+  GeneticRegularChemicalConsumeAction::GeneticRegularChemicalConsumeAction(std::string nChemName, float nAmount, int p_maxLifeTime, Bodypart* p_bp):
+    GeneticAction(GAT_ChemicalConsume), chemName(nChemName), amount(nAmount), maxLifeTime(p_maxLifeTime) {
+    verify();
+    setBodypart(p_bp);
+  };
+
+  GeneticRegularChemicalConsumeAction::GeneticRegularChemicalConsumeAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_ChemicalConsume) {
+    chemName = description->Attribute("Name");
+    description->QueryFloatAttribute("Amount",&amount);
+    description->QueryIntAttribute("Lifetime",&maxLifeTime);
+
+    verify();
+    setBodypart(p_bp);
+  };
+
+  GeneticRegularChemicalConsumeAction::~GeneticRegularChemicalConsumeAction() {
+    //GeneticAction::~GeneticAction();
+  };
+
+  GeneticAction* GeneticRegularChemicalConsumeAction::copy() {
+    return new GeneticRegularChemicalConsumeAction(chemName,amount,maxLifeTime);
+  };
+
+  TiXmlElement* GeneticRegularChemicalConsumeAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("RegularChemicalConsumeAction");
+
+    element->SetAttribute("Name",chemName);
+    element->SetDoubleAttribute("Amount",amount);
+    element->SetAttribute("Lifetime",maxLifeTime);
+
+    return element;
+  };
+
+  bool GeneticRegularChemicalConsumeAction::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart;
+    if(bp) storage = bp->getChemicalStorage();
+    return true;
+  };
+
+  void GeneticRegularChemicalConsumeAction::verify() {
+    if(amount < 0.0) amount = 0.0;
+  };
+
+  bool GeneticRegularChemicalConsumeAction::execute() {
+    float localamount = amount;
+    Organism* org = bp->getParentOrganism();
+    if(org != 0) {
+      int lifetime = bp->getParentOrganism()->getLifetime();
+      float delta = (float)(maxLifeTime - lifetime);
+      if(delta > 0) {
+        localamount = ((float)(maxLifeTime - delta)*0.9f)/((float)maxLifeTime);
+        if(localamount > 1.0f)
+          localamount = localamount * localamount;
+        localamount = localamount * amount * storage->getSize();
+      }
+      else if(delta == 0)
+        localamount = storage->getCurrentAmount(chemName);
+      else
+        localamount = storage->getCurrentAmount(chemName);
+    };
+    return storage->add(chemName,-localamount);
+  };
+
   GeneticSpawnBodypartAction::GeneticSpawnBodypartAction(BodypartType param_childBodypartType, Bodypart* param_parentBodypart):
         GeneticAction(GAT_SpawnBP), childBodypartType(param_childBodypartType) { setBodypart(param_parentBodypart); };
 
@@ -139,7 +207,7 @@ namespace EDen {
   };
 
   bool GeneticSpawnBodypartAction::execute() {
-    Bodypart* bp = new Bodypart(childBodypartType,parentBodypart->getGeneticCode()->copy(),parentBodypart->getParentOrganism());
+    Bodypart* bp = new Bodypart(childBodypartType,parentBodypart->getGeneticCode()->copy(),parentBodypart->getParentOrganism(),parentBodypart);
     
     if(parentBodypart->spawnBodypart(bp)) {
       return true;
@@ -189,7 +257,7 @@ namespace EDen {
     return true;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float param_ang2d, float p_ang2, float p_rot, bool p_active, Bodypart* param_bodypart):
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(BodypartType param_bodypartType, int param_position, float p_scaleModifier, float param_ang2d, float p_ang2, float p_rot, bool p_symetric, bool p_active, Bodypart* param_bodypart):
     GeneticAction(GAT_AddSpawnpoint), spawnpointAdded(false) {
     setBodypart(param_bodypart);
     sp = new SpawnpointInformation();
@@ -199,10 +267,12 @@ namespace EDen {
     sp->ang2d = param_ang2d;
     sp->ang2 = p_ang2;
     sp->rot = p_rot;
+    sp->scaleModifier= p_scaleModifier;
+    symetric = p_symetric;
     active = p_active;
   };
 
-  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float param_ang2d, float p_ang2, float p_rot, bool p_active, Bodypart* param_bodypart):
+  GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(std::list<BodypartType> param_bodypartTypes, int param_position, float p_scaleModifier, float param_ang2d, float p_ang2, float p_rot, bool p_symetric, bool p_active, Bodypart* param_bodypart):
     GeneticAction(GAT_AddSpawnpoint), spawnpointAdded(false) {
     setBodypart(param_bodypart);
     sp = new SpawnpointInformation();
@@ -212,11 +282,14 @@ namespace EDen {
     sp->ang2d = param_ang2d;
     sp->ang2 = p_ang2;
     sp->rot = p_rot;
+    sp->scaleModifier= p_scaleModifier;
+    symetric = p_symetric;
     active = p_active;
   };
 
   GeneticAddSpawnpointAction::GeneticAddSpawnpointAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_AddSpawnpoint) {
     description->QueryValueAttribute("Active",&active);
+    description->QueryValueAttribute("Symetric",&symetric);
     sp = new SpawnpointInformation();
     Bodypart::xmlElementToSpawnpoint(description->FirstChildElement("Spawnpoint"),sp);
     setBodypart(p_bp);
@@ -233,9 +306,10 @@ namespace EDen {
     deb.ang2d = sp->ang2d;
     deb.ang2 = sp->ang2;
     deb.rot =sp->rot;
+    deb.scaleModifier = sp->scaleModifier;
     deb.supportedBpTypes = sp->supportedBpTypes;
 
-    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->ang2d,sp->ang2,sp->rot,active);
+    return new GeneticAddSpawnpointAction(sp->supportedBpTypes,sp->position,sp->scaleModifier,sp->ang2d,sp->ang2,sp->rot,symetric,active);
   };
 
   TiXmlElement* GeneticAddSpawnpointAction::toXmlElement() {
@@ -243,6 +317,7 @@ namespace EDen {
     element = new TiXmlElement("AddSpawnpointAction");
     
     element->SetAttribute("Active",(int)active);
+    element->SetAttribute("Symetric",(int)symetric);
     TiXmlElement* element2 = new TiXmlElement("Spawnpoint");
     Bodypart::spawnpointToXmlElement(sp,element2);
     element->LinkEndChild(element2);
@@ -258,6 +333,11 @@ namespace EDen {
   bool GeneticAddSpawnpointAction::execute() {
     if(active) {
       bp->addSpawnpoint(sp->copy());
+      if(symetric) {
+        sp->ang2d = -1 * sp->ang2d;
+        bp->addSpawnpoint(sp->copy());
+        sp->ang2d = -1 * sp->ang2d;
+      };
       spawnpointAdded = true;
     };
     return true;
@@ -674,8 +754,14 @@ namespace EDen {
   };
 
   bool GeneticDropSeedAction::execute() {
+    Organism* parentOrganism = bp->getParentOrganism();
+    GeneticCode* code = bp->getGeneticCode();
     bp->setBodypartState(BSP_seed);
-    bp->getGeneticCode()->incGeneration();
+    if(parentOrganism != 0) {
+      int bpcount = parentOrganism->getBodypartCount();
+      code->setSubSpeciesIdentifier((int)(bpcount / 25));
+    };
+    code->incGeneration();
     bp->detachToNewOrganism();
   return true;
   };

@@ -63,6 +63,18 @@ namespace EDen {
     virtual TiXmlElement* toXmlElement();
   };
 
+  class GeneticSpawnpointScaleModifierMutation : public GeneticMutation {
+    friend class GeneticAddSpawnpointAction;
+    float min,max,maxstep;
+  protected:
+    virtual bool execute(GeneticAction* p_act,float strength);
+  public:
+    GeneticSpawnpointScaleModifierMutation(float p_min, float p_max, float p_maxstep, float p_prob, std::string p_desciption = "ScaleModifierMutation");
+    GeneticSpawnpointScaleModifierMutation(TiXmlElement* descript);
+    virtual GeneticMutation* copy();
+    virtual TiXmlElement* toXmlElement();
+  };
+
   class GeneticMaxSizeMutation : public GeneticMutation {
     friend class GeneticChangeMaxSizeAction;
 

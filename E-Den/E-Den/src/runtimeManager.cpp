@@ -3,8 +3,8 @@
 
 #include "runtimeManager.h"
 #define MAX_PLANT_COUNT 3
-#define CANDIDATES_COUNT 100
-#define CANDIDATES_LEVEL (100 / 25)
+#define CANDIDATES_COUNT 20
+#define CANDIDATES_LEVEL (150 / 25)
 
 namespace EDen {
   RuntimeManager::RuntimeManager() {
@@ -191,6 +191,9 @@ namespace EDen {
 
     if((cycles % 10000) == 9999) {
       saveDatabase("autosave.xml");
+    };
+
+    if((cycles % 3000) == 0) {
       adjustCandidatesTreshold();
     };
 
@@ -270,7 +273,7 @@ namespace EDen {
   };
 
   void RuntimeManager::adjustCandidatesTreshold() {
-    if(candidates->size() > ((4.0f/5.0f) * CANDIDATES_COUNT))
+    if(candidates->size() > (0.9f * CANDIDATES_COUNT))
       candidatesTreshold++;
     else if(candidates->size() == 0) {
       candidatesTreshold--;

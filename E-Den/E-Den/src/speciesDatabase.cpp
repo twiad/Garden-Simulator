@@ -422,7 +422,7 @@ namespace EDen {
   };
 
   int SpeciesDatabase::getSpeciesIdWithHighestCount() {
-    int highest = 1000000, highestCountId = 0;
+    int highest = 0, highestCountId = 0;
 
     for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
       if((*it).second->size() > highest) {

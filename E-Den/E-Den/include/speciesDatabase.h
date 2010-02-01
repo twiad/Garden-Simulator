@@ -29,6 +29,8 @@ namespace EDen {
     int maxCandidates;
     void setTreshold(int p_trehold);
 
+    bool changedSinceLastUpdate;
+
   public:
     OneSpeciesDatabase(RuntimeManager* p_runtime);
     bool empty();
@@ -62,6 +64,10 @@ namespace EDen {
 
     bool inited;
     void initEmptyFile(std::string filename);
+    
+    int getSpeciesIdWithLowestCount();
+    int getSpeciesIdWithHighestCount();
+    bool alternater;
 
   public:
     SpeciesDatabase(RuntimeManager* p_runtime);

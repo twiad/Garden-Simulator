@@ -10,7 +10,7 @@
 
 namespace EDen {
 
-  OneSpeciesDatabase::OneSpeciesDatabase(RuntimeManager* p_runtime): inited(false), name("NONAME"), maxCandidates(20) {
+  OneSpeciesDatabase::OneSpeciesDatabase(RuntimeManager* p_runtime): inited(false), name("NONAME"), maxCandidates(20),changedSinceLastUpdate(true) {
     treshold = 2;
     runtime = p_runtime;
   };
@@ -51,6 +51,8 @@ namespace EDen {
   };
 
   int OneSpeciesDatabase::load(std::string pFilename) {
+    changedSinceLastUpdate = true;
+    
     std::string filename = path;
     filename.append("\\").append(name).append(".").append(pFilename);
     
@@ -129,6 +131,7 @@ namespace EDen {
   };
 
   void OneSpeciesDatabase::push(Organism* org) {
+    changedSinceLastUpdate = true;
     if((candidates.size() < (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier() >= treshold))
       candidates.push_back(org);
     else
@@ -152,7 +155,10 @@ namespace EDen {
     };
 
     org = *it;
-    if(del) orgsp->erase(it);
+    if(del) {
+      orgsp->erase(it);
+      changedSinceLastUpdate = true;
+    };
     return org;
   };
 
@@ -177,8 +183,11 @@ namespace EDen {
   };
 
   void OneSpeciesDatabase::updateTreshold() {
-    if(candidates.size() >= 0.9f * getMaxCandidates()) setTreshold(treshold + 1);
-    else if(candidates.size() == 0) setTreshold(treshold - 1);
+    if(changedSinceLastUpdate) {
+      if(candidates.size() >= 0.9f * getMaxCandidates()) setTreshold(treshold + 1);
+      else if(candidates.size() == 0) setTreshold(treshold - 1);
+    };
+    changedSinceLastUpdate = false;
   };
 
   void OneSpeciesDatabase::setTreshold(int p_treshold) {
@@ -371,6 +380,15 @@ namespace EDen {
     
     if(empty()) return 0;
 
+    if(speciesId == 0) {
+      if(alternater)
+          speciesId = getSpeciesIdWithLowestCount();
+      else
+          speciesId = getSpeciesIdWithHighestCount();
+
+      alternater = !alternater;
+    };
+
     while(species.count(speciesId) == 0) {
       // TODO: pick random species
       speciesId = (*species.begin()).first;
@@ -388,6 +406,32 @@ namespace EDen {
     };
 
     return org;
+  };
+
+  int SpeciesDatabase::getSpeciesIdWithLowestCount() {
+    int lowestCount = 1000000, lowestCountId = 0;
+
+    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+      if((*it).second->size() < lowestCount) {
+        lowestCountId = (*it).first;
+        lowestCount = (*it).second->size();
+      };
+    };
+
+    return lowestCountId;
+  };
+
+  int SpeciesDatabase::getSpeciesIdWithHighestCount() {
+    int highest = 1000000, highestCountId = 0;
+
+    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+      if((*it).second->size() > highest) {
+        highestCountId = (*it).first;
+        highest = (*it).second->size();
+      };
+    };
+
+    return highestCountId;
   };
 
   int SpeciesDatabase::getSpeciesCount() {

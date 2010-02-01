@@ -50,7 +50,7 @@ namespace EDen {
         ));
     }
     else if(code == "TESTPART3") {
-      speciesIdentifier = 502;
+      speciesIdentifier = 402;
       bool unfullfilledBPTConditionFound = false;
       GeneticANDCondition* gAndCond = 0;
       GeneticORCondition* gOrCond = 0;

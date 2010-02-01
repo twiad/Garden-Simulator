@@ -105,11 +105,13 @@ namespace EDen {
             std::list<Organism*> orgsToSave;
 
         for(int i = 0; i < ORGS_TO_SAVE; i++)
-          orgsToSave.push_back(pull(true,false));
+          orgsToSave.push_back(pull());
 
         for( std::list<Organism*>::iterator it = orgsToSave.begin(); it != orgsToSave.end(); it++) {
           database->LinkEndChild((*it)->getXmlElement());
+          push((*it));
         };
+
         database->SetAttribute("OrganismCount",orgsToSave.size());
       } else {
         for( std::list<Organism*>::iterator it = candidates.begin(); it != candidates.end(); it++) {
@@ -132,7 +134,7 @@ namespace EDen {
 
   void OneSpeciesDatabase::push(Organism* org) {
     changedSinceLastUpdate = true;
-    if((candidates.size() < (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier() >= treshold))
+    if((candidates.size() < (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= treshold))
       candidates.push_back(org);
     else
       orgs.push_back(org);

@@ -60,10 +60,12 @@ namespace EDen {
 	  if (loadOkay)
 	  {
       TiXmlElement* element;
+      int tmpTreshold = 2;
       element = doc->FirstChildElement("E-DEN-CodeDefinition");
       
       element = element->FirstChildElement("Database");
-      element->QueryIntAttribute("Treshold",&treshold);
+      element->QueryIntAttribute("Treshold",&tmpTreshold);
+      setTreshold(tmpTreshold);
       element->QueryIntAttribute("MaxCandidates",&maxCandidates);
 
       element = element->FirstChildElement("Organism");
@@ -127,7 +129,7 @@ namespace EDen {
   };
 
   void OneSpeciesDatabase::push(Organism* org) {
-    if((candidates.size() > (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier() >= treshold))
+    if((candidates.size() < (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier() >= treshold))
       candidates.push_back(org);
     else
       orgs.push_back(org);
@@ -218,7 +220,7 @@ namespace EDen {
     std::string out = "";
     char str[64];
 
-    sprintf(str,"[:%d|%d|%d]-",size(),candidates.size(),treshold * 25);
+    sprintf(str,"[%d|%d|%d]-",size(),candidates.size(),treshold * 25);
 
     out += str;
     out.insert(0,name);

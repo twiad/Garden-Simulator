@@ -1,8 +1,8 @@
 // geneticCodeDatabase.h
 // by Franz Koehler 2010
 
-#ifndef _E_DEN_GENETIC_CODE_DATABASE_HEADER_
-#define _E_DEN_GENETIC_CODE_DATABASE_HEADER_
+#ifndef _E_DEN_SPECIES_DATABASE_HEADER_
+#define _E_DEN_SPECIES_DATABASE_HEADER_
 
 #include "globals.h"
 #include "geneticCode.h"
@@ -13,7 +13,7 @@
 
 namespace EDen {
 
-  class GeneticCodeDatabase {
+  class SpeciesDatabase {
   protected:
     std::list<Organism*> orgs;
     TiXmlDocument* doc;
@@ -24,7 +24,7 @@ namespace EDen {
     void initEmptyFile(std::string filename);
 
   public:
-    GeneticCodeDatabase(RuntimeManager* p_runtime);
+    SpeciesDatabase(RuntimeManager* p_runtime);
     bool empty();
     int size();
     void clear();

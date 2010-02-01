@@ -1,7 +1,7 @@
 // geneticCodeDatabase.cpp 
 // by Franz Koehler 2010
 
-#include "geneticCodeDatabase.h"
+#include "speciesDatabase.h"
 #include <iostream>
 #include <stdio.h>
 
@@ -9,19 +9,19 @@
 
 namespace EDen {
 
-  GeneticCodeDatabase::GeneticCodeDatabase(RuntimeManager* p_runtime): inited(false) {
+  SpeciesDatabase::SpeciesDatabase(RuntimeManager* p_runtime): inited(false) {
     runtime = p_runtime;
   };
 
-  bool GeneticCodeDatabase::empty() {
+  bool SpeciesDatabase::empty() {
 	  return orgs.empty();
   };
 
-  int GeneticCodeDatabase::size() {
+  int SpeciesDatabase::size() {
     return orgs.size();
   };
 
-  void GeneticCodeDatabase::clear() {
+  void SpeciesDatabase::clear() {
     Organism* org;
     
     while(!orgs.empty()) {
@@ -30,7 +30,7 @@ namespace EDen {
     };
   };
 
-  void GeneticCodeDatabase::initEmptyFile(std::string filename)
+  void SpeciesDatabase::initEmptyFile(std::string filename)
   {
     doc = new TiXmlDocument();
 
@@ -47,7 +47,7 @@ namespace EDen {
     doc->LinkEndChild(element1);
     doc->SaveFile(filename);
   }
-  int GeneticCodeDatabase::load(std::string pFilename) {
+  int SpeciesDatabase::load(std::string pFilename) {
     std::string filename = path;
     filename.append("\\").append(pFilename);
     
@@ -76,7 +76,7 @@ namespace EDen {
 	  }
   };
 
-  int GeneticCodeDatabase::save(std::string pFilename) {
+  int SpeciesDatabase::save(std::string pFilename) {
     if(orgs.size() > 0) {
       std::string filename = path;
       filename.append("\\").append(pFilename);
@@ -111,11 +111,11 @@ namespace EDen {
     } else return false;
   };
 
-  void GeneticCodeDatabase::push(Organism* org) {
+  void SpeciesDatabase::push(Organism* org) {
     orgs.push_back(org);
   };
 
-  Organism* GeneticCodeDatabase::pull(bool del) {
+  Organism* SpeciesDatabase::pull(bool del) {
     Organism* org = 0;
     
     int pos = (int)runtime->randomizer->value(0.0f,(float)orgs.size() - 1);
@@ -129,7 +129,7 @@ namespace EDen {
     return org;
   };
 
-  void GeneticCodeDatabase::setApplicationSettingsPath(std::string appSettingsPath) {
+  void SpeciesDatabase::setApplicationSettingsPath(std::string appSettingsPath) {
     path = appSettingsPath;
   };
 }; // namespace

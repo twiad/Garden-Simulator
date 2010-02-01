@@ -12,7 +12,7 @@
 #include "groundpart.h"
 #include "chemicalDistributionSystem.h"
 #include "geneticMutation.h"
-#include "geneticCodeDatabase.h"
+#include "speciesDatabase.h"
 
 namespace EDen {
   class RuntimeManager {
@@ -21,8 +21,8 @@ namespace EDen {
     std::list<Organism*> organisms;
     std::list<Groundpart*> groundparts;
 
-    GeneticCodeDatabase* database;
-    GeneticCodeDatabase* candidates;
+    SpeciesDatabase* database;
+    SpeciesDatabase* candidates;
 
     bool cleanupDeadOrganisms();
     bool deleteAll();

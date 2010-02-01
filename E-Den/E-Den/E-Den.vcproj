@@ -167,10 +167,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\geneticCodeDatabase.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\geneticDummyCode.cpp"
 				>
 			</File>
@@ -214,6 +210,10 @@
 				RelativePath=".\src\runtimeManager.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\speciesDatabase.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -234,10 +234,6 @@
 			</File>
 			<File
 				RelativePath=".\include\geneticCode.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\geneticCodeDatabase.h"
 				>
 			</File>
 			<File
@@ -278,6 +274,10 @@
 			</File>
 			<File
 				RelativePath=".\include\runtimeManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\speciesDatabase.h"
 				>
 			</File>
 		</Filter>

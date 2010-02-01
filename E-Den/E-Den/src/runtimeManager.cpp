@@ -9,8 +9,8 @@
 namespace EDen {
   RuntimeManager::RuntimeManager() {
     randomizer = new Randomizer();
-    database = new GeneticCodeDatabase(this);
-    candidates = new GeneticCodeDatabase(this);
+    database = new SpeciesDatabase(this);
+    candidates = new SpeciesDatabase(this);
     reset();
   };
 

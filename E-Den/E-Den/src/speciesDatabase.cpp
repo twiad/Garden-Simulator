@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #define ORGS_TO_SAVE 100
+#define XML_VERSION_STRING "0.1.0.2"
 
 namespace EDen {
 
@@ -38,7 +39,7 @@ namespace EDen {
     TiXmlElement * element1 = new TiXmlElement("E-DEN-CodeDefinition");
     TiXmlElement * element2 = new TiXmlElement("Version");
     TiXmlElement * element3 = new TiXmlElement("Database");
-    TiXmlText * versionText = new TiXmlText("0.1.0.1");
+    TiXmlText * versionText = new TiXmlText(XML_VERSION_STRING);
 
     element1->LinkEndChild(element2);
     element1->LinkEndChild(element3);
@@ -46,7 +47,7 @@ namespace EDen {
     doc->LinkEndChild(decl);
     doc->LinkEndChild(element1);
     doc->SaveFile(filename);
-  }
+  };
 
   int OneSpeciesDatabase::load(std::string pFilename) {
     std::string filename = path;
@@ -78,7 +79,7 @@ namespace EDen {
   };
 
   int OneSpeciesDatabase::save(std::string pFilename) {
-    if(orgs.size() > 0) {
+    if(size() > 0) {
       std::string filename = path;
       filename.append("\\").append(name).append(".").append(pFilename);
       
@@ -182,6 +183,41 @@ namespace EDen {
   };
 
   int SpeciesDatabase::load(std::string pFilename) {
+    std::string filename = path;
+    filename.append("\\").append("species").append(".").append(pFilename);
+    
+    doc = new TiXmlDocument(filename);
+	  
+    bool loadOkay = doc->LoadFile();
+	  if (loadOkay)
+	  {
+      TiXmlElement* element;
+      int speciesId;
+      element = doc->FirstChildElement("E-DEN-CodeDefinition");
+      element = element->FirstChildElement("Database");
+      element = element->FirstChildElement("Species");
+      while(element != 0) {
+        element->QueryIntAttribute("ID",&speciesId);
+        if(species.count(speciesId) == 0) {
+          OneSpeciesDatabase* db = new OneSpeciesDatabase(runtime);
+          std::string name = "";
+          char str[64];
+
+          sprintf(str,"species%d",speciesId);
+          name += str;
+          db->setName(name);
+          db->setApplicationSettingsPath(path);
+
+          species[speciesId] = db;
+        };
+        element = element->NextSiblingElement("Species");
+      };
+	  }
+	  else
+	  {
+      initEmptyFile(filename);
+	  }
+    
     for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
       (*it).second->load(pFilename);
     };
@@ -189,10 +225,35 @@ namespace EDen {
   };
 
   int SpeciesDatabase::save(std::string p_filename) {
-    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
-      (*it).second->save(p_filename);
-    };
-    return true;
+    if(size() > 0) {
+      std::string filename = path;
+      filename.append("\\").append("species").append(".").append(p_filename);
+      
+      doc = new TiXmlDocument(filename);
+      bool loadOkay = doc->LoadFile();
+	    if (!loadOkay) 
+        initEmptyFile(filename);
+
+      
+      TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
+      database->Clear();
+
+      TiXmlElement* spec;
+      for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+        spec = new TiXmlElement("Species");
+        spec->SetAttribute("ID",(*it).first);
+        database->LinkEndChild(spec);
+      };
+      database->SetAttribute("speciesCount",getSpeciesCount());
+
+      doc->SaveFile(filename);
+
+      for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+        (*it).second->save(p_filename);
+      };
+
+      return true;
+    } else return false;
   };
  
   void SpeciesDatabase::setApplicationSettingsPath(std::string appSettingsPath) {
@@ -251,6 +312,24 @@ namespace EDen {
 
   int SpeciesDatabase::getSpeciesCount() {
     return species.size();
+  };
+
+  void SpeciesDatabase::initEmptyFile(std::string filename)
+  {
+    doc = new TiXmlDocument();
+
+    TiXmlDeclaration * decl = new TiXmlDeclaration("1.0", "", "");
+    TiXmlElement * element1 = new TiXmlElement("E-DEN-CodeDefinition");
+    TiXmlElement * element2 = new TiXmlElement("Version");
+    TiXmlElement * element3 = new TiXmlElement("Database");
+    TiXmlText * versionText = new TiXmlText(XML_VERSION_STRING);
+
+    element1->LinkEndChild(element2);
+    element1->LinkEndChild(element3);
+    element2->LinkEndChild(versionText);
+    doc->LinkEndChild(decl);
+    doc->LinkEndChild(element1);
+    doc->SaveFile(filename);
   };
 
 }; // namespace

@@ -48,6 +48,7 @@ namespace EDen {
     RuntimeManager* runtime;
 
     bool inited;
+    void initEmptyFile(std::string filename);
 
   public:
     SpeciesDatabase(RuntimeManager* p_runtime);

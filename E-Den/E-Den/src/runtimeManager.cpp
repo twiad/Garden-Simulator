@@ -10,7 +10,6 @@ namespace EDen {
   RuntimeManager::RuntimeManager() {
     randomizer = new Randomizer();
     database = new SpeciesDatabase(this);
-    candidates = new SpeciesDatabase(this);
     reset();
   };
 
@@ -35,7 +34,6 @@ namespace EDen {
     };
 
     database->clear();
-    candidates->clear();
 
     return true;
   };
@@ -61,7 +59,6 @@ namespace EDen {
   };
 
   Organism* RuntimeManager::getNextSeed() {
-    if (candidates->size() > 0) return candidates->pull();
 	  return database->pull();
   };
 
@@ -89,9 +86,7 @@ namespace EDen {
         };
       }
       else {
-        if((param_org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= candidatesTreshold) && (candidates->size() < CANDIDATES_COUNT))
-          candidates->push(param_org);
-        else database->push(param_org);
+        database->push(param_org);
       };
 
       
@@ -194,7 +189,7 @@ namespace EDen {
     };
 
     if((cycles % 3000) == 0) {
-      adjustCandidatesTreshold();
+      database->update();
     };
 
     cycles++;
@@ -238,33 +233,26 @@ namespace EDen {
   }
 
   int RuntimeManager::getSeedCount() {
-    return database->size() + candidates->size();
-  };
-
-  int RuntimeManager::getCandidatesCount() {
-    return candidates->size();
+    return database->size();
   };
 
   bool RuntimeManager::orgsAlive() {
-    if((organisms.size() > 0) || (candidates->size() > 0) || (database->size() > 0)) return true;
+    if((organisms.size() > 0) || (database->size() > 0)) return true;
     return false;
   };
 
   int RuntimeManager::saveDatabase(std::string filename) {
     database->save(filename);
-    candidates->save(filename.insert(0,"candidates."));
     return true;
   };
 
   int RuntimeManager::loadDatabase(std::string filename) {
     database->load(filename);
-    database->load(filename.insert(0,"candidates."));
     return true;
   };
 
   int RuntimeManager::initDatabase(std::string appSettingsPath) {
     database->setApplicationSettingsPath(appSettingsPath);
-    candidates->setApplicationSettingsPath(appSettingsPath);
     return true; 
   };
 
@@ -272,16 +260,7 @@ namespace EDen {
     return organisms; 
   };
 
-  void RuntimeManager::adjustCandidatesTreshold() {
-    if(candidates->size() > (0.9f * CANDIDATES_COUNT))
-      candidatesTreshold++;
-    else if(candidates->size() == 0) {
-      candidatesTreshold--;
-      if(candidatesTreshold < 0) candidatesTreshold = 0;
-    };
-  };
-
-  int RuntimeManager::getCandidatesTreshold() {
-    return candidatesTreshold;
+  std::string RuntimeManager::getDebugOut() {
+    return database->getDebugOut();
   };
 };

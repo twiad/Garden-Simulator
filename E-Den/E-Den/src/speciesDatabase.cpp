@@ -10,23 +10,24 @@
 
 namespace EDen {
 
-  OneSpeciesDatabase::OneSpeciesDatabase(RuntimeManager* p_runtime): inited(false), name("") {
+  OneSpeciesDatabase::OneSpeciesDatabase(RuntimeManager* p_runtime): inited(false), name("NONAME"), maxCandidates(20) {
+    treshold = 2;
     runtime = p_runtime;
   };
 
   bool OneSpeciesDatabase::empty() {
-	  return orgs.empty();
+	  return orgs.empty() && candidates.empty();
   };
 
   int OneSpeciesDatabase::size() {
-    return orgs.size();
+    return orgs.size() + candidates.size();
   };
 
   void OneSpeciesDatabase::clear() {
     Organism* org;
     
-    while(!orgs.empty()) {
-      org = pull();
+    while(!empty()) {
+      org = pull(false);
       delete org;
     };
   };
@@ -60,7 +61,11 @@ namespace EDen {
 	  {
       TiXmlElement* element;
       element = doc->FirstChildElement("E-DEN-CodeDefinition");
+      
       element = element->FirstChildElement("Database");
+      element->QueryIntAttribute("Treshold",&treshold);
+      element->QueryIntAttribute("MaxCandidates",&maxCandidates);
+
       element = element->FirstChildElement("Organism");
       //clear();
       Organism* org;
@@ -92,7 +97,7 @@ namespace EDen {
       TiXmlElement* database = doc->FirstChildElement("E-DEN-CodeDefinition")->FirstChildElement("Database");
       database->Clear();
 
-      if(orgs.size() >= ORGS_TO_SAVE) {
+      if(size() >= ORGS_TO_SAVE) {
             std::list<Organism*> orgsToSave;
 
         for(int i = 0; i < ORGS_TO_SAVE; i++)
@@ -103,34 +108,49 @@ namespace EDen {
         };
         database->SetAttribute("OrganismCount",orgsToSave.size());
       } else {
+        for( std::list<Organism*>::iterator it = candidates.begin(); it != candidates.end(); it++) {
+          database->LinkEndChild((*it)->getXmlElement());
+        };
+
         for( std::list<Organism*>::iterator it = orgs.begin(); it != orgs.end(); it++) {
           database->LinkEndChild((*it)->getXmlElement());
         };
-        database->SetAttribute("OrganismCount",orgs.size());
+
+        database->SetAttribute("OrganismCount",size());
       };
+
+      database->SetAttribute("Treshold",treshold);
+      database->SetAttribute("MaxCandidates",maxCandidates);
 
       return (int)doc->SaveFile(filename);
     } else return false;
   };
 
   void OneSpeciesDatabase::push(Organism* org) {
-    orgs.push_back(org);
+    if((candidates.size() > (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier() >= treshold))
+      candidates.push_back(org);
+    else
+      orgs.push_back(org);
   };
 
   Organism* OneSpeciesDatabase::pull(bool random, bool del) {
     Organism* org = 0;
     
-    std::list<Organism*>::iterator it = orgs.begin();
+    std::list<Organism*>* orgsp;
+    if(candidates.size() > 0) orgsp = &candidates;
+    else orgsp = &orgs;
+
+    std::list<Organism*>::iterator it = orgsp->begin();
       
     if(random) {
-      int pos = (int)runtime->randomizer->value(0.0f,(float)orgs.size() - 1);
+      int pos = (int)runtime->randomizer->value(0.0f,(float)orgsp->size() - 1);
       for(int i = 0; i < pos; i++) {
         it++;
       };
     };
 
     org = *it;
-    if(del) orgs.erase(it);
+    if(del) orgsp->erase(it);
     return org;
   };
 
@@ -146,6 +166,64 @@ namespace EDen {
     return name; 
   };
 
+  int OneSpeciesDatabase::getMaxCandidates() {
+    return maxCandidates;
+  };
+
+  void OneSpeciesDatabase::setMaxCandidates(int p_maxCandidates) {
+    maxCandidates = p_maxCandidates;
+  };
+
+  void OneSpeciesDatabase::updateTreshold() {
+    if(candidates.size() >= 0.9f * getMaxCandidates()) setTreshold(treshold + 1);
+    else if(candidates.size() == 0) setTreshold(treshold - 1);
+  };
+
+  void OneSpeciesDatabase::setTreshold(int p_treshold) {
+    if(p_treshold == treshold) return;
+    else {
+      Organism* org;
+      if(p_treshold > treshold) {
+        std::list<Organism*> newCandidates;
+        while(!candidates.empty()) {
+          org = candidates.front();
+          if(org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= p_treshold)
+              newCandidates.push_back(org);
+          else orgs.push_back(org);
+          candidates.pop_front();
+        };
+        candidates.swap(newCandidates);
+      }
+      else {
+        std::list<Organism*> newOrgs;
+        while(!orgs.empty()) {
+          org = orgs.front();
+          if(org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= p_treshold)
+              candidates.push_back(org);
+          else newOrgs.push_back(org);
+          orgs.pop_front();
+        };
+        orgs.swap(newOrgs);
+      };
+    };
+
+    treshold = p_treshold;
+  };
+
+  int OneSpeciesDatabase::getTreshold() {
+    return treshold;
+  };
+
+  std::string OneSpeciesDatabase::getDebugOut() {
+    std::string out = "";
+    char str[64];
+
+    sprintf(str,"[:%d|%d|%d]-",size(),candidates.size(),treshold * 25);
+
+    out += str;
+    out.insert(0,name);
+    return out;
+  };
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
   SpeciesDatabase::SpeciesDatabase(RuntimeManager* p_runtime): inited(false) {
@@ -330,6 +408,22 @@ namespace EDen {
     doc->LinkEndChild(decl);
     doc->LinkEndChild(element1);
     doc->SaveFile(filename);
+  };
+
+  void SpeciesDatabase::update() {
+    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+      (*it).second->updateTreshold();
+    };
+  };
+
+  std::string SpeciesDatabase::getDebugOut() {
+    std::string out = "-";
+
+    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+      out.append((*it).second->getDebugOut());
+    };
+
+    return out;
   };
 
 }; // namespace

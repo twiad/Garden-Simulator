@@ -22,14 +22,12 @@ namespace EDen {
     std::list<Groundpart*> groundparts;
 
     SpeciesDatabase* database;
-    SpeciesDatabase* candidates;
 
     bool cleanupDeadOrganisms();
     bool deleteAll();
     bool deleteAllOfSpecies(int speciesID);
     unsigned long cycles;
     int candidatesTreshold;
-    void adjustCandidatesTreshold();
 
     Organism* getNextSeed();
 
@@ -60,7 +58,6 @@ namespace EDen {
     unsigned long getCycleCount();
     int getOrganismCount();
     int getSeedCount();
-    int getCandidatesCount();
     bool orgsAlive();
 
     int initDatabase(std::string appSettingsPath);
@@ -69,7 +66,7 @@ namespace EDen {
 
     std::list<Organism*> getOrganisms();
 
-    int getCandidatesTreshold();
+    std::string getDebugOut();
   };
 };
 

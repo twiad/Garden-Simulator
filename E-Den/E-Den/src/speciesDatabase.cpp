@@ -200,7 +200,7 @@ namespace EDen {
         std::list<Organism*> newCandidates;
         while(!candidates.empty()) {
           org = candidates.front();
-          if(org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= p_treshold)
+          if((candidates.size() < (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= p_treshold))
               newCandidates.push_back(org);
           else orgs.push_back(org);
           candidates.pop_front();
@@ -211,7 +211,7 @@ namespace EDen {
         std::list<Organism*> newOrgs;
         while(!orgs.empty()) {
           org = orgs.front();
-          if(org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= p_treshold)
+          if((candidates.size() < (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= p_treshold))
               candidates.push_back(org);
           else newOrgs.push_back(org);
           orgs.pop_front();

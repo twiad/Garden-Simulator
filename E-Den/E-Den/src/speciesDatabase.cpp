@@ -186,8 +186,8 @@ namespace EDen {
 
   void OneSpeciesDatabase::updateTreshold() {
     if(changedSinceLastUpdate) {
-      if(candidates.size() >= 0.9f * getMaxCandidates()) setTreshold(treshold + 1);
-      else if(candidates.size() == 0) setTreshold(treshold - 1);
+      while(candidates.size() >= 0.9f * getMaxCandidates()) setTreshold(treshold + 1);
+      while(candidates.size() == 0) setTreshold(treshold - 1);
     };
     changedSinceLastUpdate = false;
   };

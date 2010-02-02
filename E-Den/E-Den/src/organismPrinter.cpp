@@ -205,9 +205,9 @@ namespace EDen {
 
   bool SDLOrganismPrinter::updateCaption() {
     std::string newCaption = "";
-    char str[64];
+    char str[255];
     if(runtimeManager) {
-      sprintf(str,"[%lu]- [%d|%d<%d>",runtimeManager->getCycleCount(),runtimeManager->getSeedCount(),runtimeManager->getCandidatesCount(),runtimeManager->getCandidatesTreshold()*25);
+      sprintf(str,"[%lu]-",runtimeManager->getCycleCount());
       newCaption += str;
     }
 
@@ -215,8 +215,9 @@ namespace EDen {
     //  newCaption += " " + (*it)->getName(); 
     //};
     
-    sprintf(str,"|%d]",organisms.size());
+    sprintf(str,"[%d]",organisms.size());
     newCaption += str;
+    newCaption.append(runtimeManager->getDebugOut());
 
     SDL_WM_SetCaption(newCaption.c_str(),newCaption.c_str());
     return true;

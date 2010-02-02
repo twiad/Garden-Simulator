@@ -20,7 +20,7 @@ namespace EDen {
   class Organism;
   class Bodypart;
   class SpawnpointInformation;
-  class GeneticCodeDatabase;
+  class SpeciesDatabase;
   class GeneticCode;
   class RuntimeManager;
 

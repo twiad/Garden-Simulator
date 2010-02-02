@@ -234,6 +234,22 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="XMLs"
+			>
+			<File
+				RelativePath="..\..\species.autosave.xml"
+				>
+			</File>
+			<File
+				RelativePath="..\..\species300.autosave.xml"
+				>
+			</File>
+			<File
+				RelativePath="..\..\species502.autosave.xml"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

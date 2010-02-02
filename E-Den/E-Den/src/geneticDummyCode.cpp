@@ -1,7 +1,7 @@
 #include "geneticProcessor.h"
 
 #define GRUNDVERBRAUCH 2.0f
-#define LIFETIME 2000
+#define LIFETIME 2500
 #define SEED_DROP_ENERGIE_PERCENTAGE 96.0f
 #define SEED_DROP_ENERGIE_VALUE 200.0f
 #define BRANCHE_MUTATION 0.1f
@@ -50,7 +50,7 @@ namespace EDen {
         ));
     }
     else if(code == "TESTPART3") {
-      speciesIdentifier = 502;
+      speciesIdentifier = 402;
       bool unfullfilledBPTConditionFound = false;
       GeneticANDCondition* gAndCond = 0;
       GeneticORCondition* gOrCond = 0;

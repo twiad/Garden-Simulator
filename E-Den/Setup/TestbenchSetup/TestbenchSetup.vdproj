@@ -21,14 +21,20 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_2E997B30C4504359B63D75CC606251EB"
+        "MsmKey" = "8:_409CAB11EFDA4268AAB8C760ED414CE0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_5D675ECE106649798535E4941F1F4EF9"
-        "OwnerKey" = "8:_2A9BC8B7361249E1B9437FB82C5CFC2B"
+        "MsmKey" = "8:_426E4672D5F646CF8B633B862B86F84A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_52515940E00745B4B1B76DB6F7D9BBC4"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -39,8 +45,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_AEAEDB6BDA2641EB963DB799EA8D0933"
-        "OwnerKey" = "8:_5D675ECE106649798535E4941F1F4EF9"
+        "MsmKey" = "8:_7FA7C11178F148B7B7C6F9B57DA68B30"
+        "OwnerKey" = "8:_85107202F5D14F7C9ADFE33CC210CCF8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_85107202F5D14F7C9ADFE33CC210CCF8"
+        "OwnerKey" = "8:_2A9BC8B7361249E1B9437FB82C5CFC2B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -136,10 +148,50 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2E997B30C4504359B63D75CC606251EB"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_409CAB11EFDA4268AAB8C760ED414CE0"
             {
-            "SourcePath" = "8:..\\..\\..\\autosave.xml"
-            "TargetName" = "8:autosave.xml"
+            "SourcePath" = "8:..\\..\\..\\species300.autosave.xml"
+            "TargetName" = "8:species300.autosave.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B3E9F995C51D4FF4AFB2FFDBB5EED1EA"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:FALSE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:TRUE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_426E4672D5F646CF8B633B862B86F84A"
+            {
+            "SourcePath" = "8:..\\..\\..\\species502.autosave.xml"
+            "TargetName" = "8:species502.autosave.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_B3E9F995C51D4FF4AFB2FFDBB5EED1EA"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:FALSE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:TRUE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_52515940E00745B4B1B76DB6F7D9BBC4"
+            {
+            "SourcePath" = "8:..\\..\\..\\species.autosave.xml"
+            "TargetName" = "8:species.autosave.xml"
             "Tag" = "8:"
             "Folder" = "8:_B3E9F995C51D4FF4AFB2FFDBB5EED1EA"
             "Condition" = "8:"
@@ -275,7 +327,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:E-Den-Test-Bench"
         "ProductCode" = "8:{F8CF99A2-CD16-44DB-8EB0-CD5D8AFD73BB}"
-        "PackageCode" = "8:{1D9A5B6E-BB66-40A3-9468-7688805027BA}"
+        "PackageCode" = "8:{27DCF7A0-1985-4F7F-AA20-166CAF75740A}"
         "UpgradeCode" = "8:{7F932295-EF78-44BA-8EC8-D4ECF6C60FE2}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -804,11 +856,11 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_5D675ECE106649798535E4941F1F4EF9"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_7FA7C11178F148B7B7C6F9B57DA68B30"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:policy_9_0_Microsoft_VC90_CRT_x86.msm"
+            "SourcePath" = "8:microsoft_vc90_crt_x86.msm"
                 "Properties"
                 {
                 }
@@ -818,11 +870,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_AEAEDB6BDA2641EB963DB799EA8D0933"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_85107202F5D14F7C9ADFE33CC210CCF8"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:microsoft_vc90_crt_x86.msm"
+            "SourcePath" = "8:policy_9_0_Microsoft_VC90_CRT_x86.msm"
                 "Properties"
                 {
                 }

@@ -12,7 +12,7 @@
 #include "groundpart.h"
 #include "chemicalDistributionSystem.h"
 #include "geneticMutation.h"
-#include "geneticCodeDatabase.h"
+#include "speciesDatabase.h"
 
 namespace EDen {
   class RuntimeManager {
@@ -21,15 +21,13 @@ namespace EDen {
     std::list<Organism*> organisms;
     std::list<Groundpart*> groundparts;
 
-    GeneticCodeDatabase* database;
-    GeneticCodeDatabase* candidates;
+    SpeciesDatabase* database;
 
     bool cleanupDeadOrganisms();
     bool deleteAll();
     bool deleteAllOfSpecies(int speciesID);
     unsigned long cycles;
     int candidatesTreshold;
-    void adjustCandidatesTreshold();
 
     Organism* getNextSeed();
 
@@ -60,7 +58,6 @@ namespace EDen {
     unsigned long getCycleCount();
     int getOrganismCount();
     int getSeedCount();
-    int getCandidatesCount();
     bool orgsAlive();
 
     int initDatabase(std::string appSettingsPath);
@@ -69,7 +66,7 @@ namespace EDen {
 
     std::list<Organism*> getOrganisms();
 
-    int getCandidatesTreshold();
+    std::string getDebugOut();
   };
 };
 

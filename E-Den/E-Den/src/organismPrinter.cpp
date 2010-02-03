@@ -211,12 +211,16 @@ namespace EDen {
       newCaption += str;
     }
 
-    //for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
-    //  newCaption += " " + (*it)->getName(); 
-    //};
+
     
-    sprintf(str,"[%d]",organisms.size());
-    newCaption += str;
+    //sprintf(str,"[%d]",organisms.size());
+    //newCaption += str;
+    
+    for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+      sprintf(str,"(%d|%d|%d)",(*it)->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier(),(*it)->getBodypartCount(),(*it)->getLifetime());
+      newCaption += str;
+    };
+
     newCaption.append(runtimeManager->getDebugOut());
 
     SDL_WM_SetCaption(newCaption.c_str(),newCaption.c_str());

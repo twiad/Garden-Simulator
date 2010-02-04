@@ -241,6 +241,8 @@ namespace EDen {
 
   SpeciesDatabase::SpeciesDatabase(RuntimeManager* p_runtime): inited(false) {
     runtime = p_runtime;
+    speciesSelectionAlternater = true;
+    speciesSelectionAlternater2 = true;
   };
 
   bool SpeciesDatabase::empty() {
@@ -383,12 +385,7 @@ namespace EDen {
     if(empty()) return 0;
 
     if(speciesId == 0) {
-      if(alternater)
-          speciesId = getSpeciesIdWithLowestCount();
-      else
-          speciesId = getSpeciesIdWithHighestCount();
-
-      alternater = !alternater;
+      speciesId = getNextSpeciesId();
     };
 
     while(species.count(speciesId) == 0) {
@@ -408,6 +405,47 @@ namespace EDen {
     };
 
     return org;
+  };
+
+  int SpeciesDatabase::getNextSpeciesId() {
+    int speciesId;
+
+    if(!speciesSelectionAlternater2) {
+      if(speciesSelectionAlternater)
+        speciesId = getSpeciesIdWithLowestCount();
+      else {
+        speciesId = getSpeciesIdWithHighestCount();
+        speciesSelectionAlternater2 = !speciesSelectionAlternater2;
+      };
+      speciesSelectionAlternater = !speciesSelectionAlternater;
+    }
+    else {
+      std::map<int,OneSpeciesDatabase*>::iterator it;
+      for(it = species.begin(); it != species.end(); it++) {
+        if((*it).first == lastSpeciesId) {
+          it++;
+          if(it != species.end()) {
+            speciesId = (*it).first;
+            lastSpeciesId = speciesId;
+            break;
+          }
+          else {
+            it = species.begin();
+            speciesId = (*it).first;
+            lastSpeciesId = speciesId;
+            speciesSelectionAlternater2 = !speciesSelectionAlternater2;
+            break;
+          };
+        };
+      };
+      if(it == species.end()) {
+        it = species.begin();
+        speciesId = (*it).first;
+        lastSpeciesId = speciesId;
+        speciesSelectionAlternater2 = !speciesSelectionAlternater2;
+      };
+    };
+    return speciesId;
   };
 
   int SpeciesDatabase::getSpeciesIdWithLowestCount() {

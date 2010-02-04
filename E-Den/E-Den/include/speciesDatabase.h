@@ -67,7 +67,12 @@ namespace EDen {
     
     int getSpeciesIdWithLowestCount();
     int getSpeciesIdWithHighestCount();
-    bool alternater;
+    
+    bool speciesSelectionAlternater;
+    bool speciesSelectionAlternater2;
+
+    int getNextSpeciesId();
+    int lastSpeciesId;
 
   public:
     SpeciesDatabase(RuntimeManager* p_runtime);

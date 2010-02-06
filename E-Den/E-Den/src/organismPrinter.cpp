@@ -241,7 +241,7 @@ namespace EDen {
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
       org = *it;
       if( org->getState() != BSP_dead) {
-        req_print(org->getRootBodypart(),(dimx/max)*counter,0,0.0f);
+        req_print(org->getRootBodypart(),(dimx/max)*counter,0,0.0f,0.0f,0.0f);
       };
       counter++;
     };
@@ -257,7 +257,7 @@ namespace EDen {
     return true;
   };
 
-  int SDLOrganismPrinter::req_print(Bodypart *param_bp, int param_x, int param_y, float param_angle) {
+  int SDLOrganismPrinter::req_print(Bodypart *param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3) {
     int offsetx = 0;
     //int offsety = -dimy/2;
     int offsety = 0;
@@ -265,14 +265,16 @@ namespace EDen {
     if(param_bp) {
       int returnvalue = 1;
       int x1,y1,x2,y2;
-      float ang,dx,dy,px;
+      float ang1,ang2,ang3,dx,dy,px;
       
       x1 = param_x;
       y1 = param_y;
-      ang = param_angle;
+      ang1 = p_ang1;
+      ang2 = p_ang2;
+      ang3 = p_ang3;
 
-      dx = sin(2.0f * M_PI * (param_angle/360.0f));
-      dy = cos(2.0f * M_PI * (param_angle/360.0f));
+      dx = sin(2.0f * M_PI * (p_ang1/360.0f));
+      dy = cos(2.0f * M_PI * (p_ang1/360.0f));
 
       x2 = (int)(param_x + (dx * param_bp->getSize() * scale));
       y2 = (int)(param_y + (dy * param_bp->getSize() * scale));
@@ -298,9 +300,13 @@ namespace EDen {
       SpawnpointInformationList bpSpawnpoints = param_bp->getSpawnpoints();
       for(SpawnpointInformationListIterator it = bpSpawnpoints.begin(); it != bpSpawnpoints.end(); it++) {
         // position 0 is reserved for the backwards spawnpoint
+        SpawnpointInformation* sp;
         if(((*it)->occupied) && ((*it)->position != 0)) { 
-          float partner_ang = (*it)->connectedBodypart->getSpawnpointInformationForBodypart(param_bp)->ang2d;
-          returnvalue += req_print((*it)->connectedBodypart,x2,y2,ang + 180.0f + partner_ang + (*it)->ang2d);
+          sp = (*it)->connectedBodypart->getSpawnpointInformationForBodypart(param_bp);
+          float partner_ang1 = sp->ang2d;
+          float partner_ang2 = sp->ang2;
+          float partner_ang3 = sp->rot;
+          returnvalue += req_print((*it)->connectedBodypart,x2,y2,ang1 + 180.0f + partner_ang1 + (*it)->ang2d,ang2 + 180.0f + partner_ang2 + (*it)->ang2,ang3 + partner_ang3 + (*it)->rot);
         };
       };
       //std::cout << returnvalue << std::endl;

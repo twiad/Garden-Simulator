@@ -276,6 +276,7 @@ namespace EDen {
       rad2 = 2.0f * M_PI * (p_ang2/360.0f);
       rad3 = 2.0f * M_PI * (p_ang3/360.0f);
 
+      //an absolut rotation?
       dx = sin(rad1)*cos(rad3);
       dy = cos(rad1)*cos(rad2);
 

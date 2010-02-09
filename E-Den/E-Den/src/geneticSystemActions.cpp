@@ -2,6 +2,7 @@
 // by Franz Koehler 2009
 
 #include "geneticSystemActions.h"
+#include <cmath>
 
 namespace EDen {
   GeneticSimpleChemicalConvertAction::GeneticSimpleChemicalConvertAction(
@@ -759,7 +760,7 @@ namespace EDen {
     bp->setBodypartState(BSP_seed);
     if(parentOrganism != 0) {
       int bpcount = parentOrganism->getBodypartCount();
-      code->setSubSpeciesIdentifier((int)(bpcount / 25));
+      code->setSubSpeciesIdentifier((int)(sqrt((double)bpcount)));
     };
     code->incGeneration();
     bp->detachToNewOrganism();

@@ -231,7 +231,7 @@ namespace EDen {
     std::string out = "";
     char str[64];
 
-    sprintf(str,"[%d|%d|%d]-",size(),candidates.size(),treshold * 25);
+    sprintf(str,"[%d|%d|%d]-",size(),candidates.size(),treshold * treshold);
 
     out += str;
     out.insert(0,name);

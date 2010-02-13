@@ -3,7 +3,7 @@
 
 #include "runtimeManager.h"
 #define MAX_PLANT_COUNT 2
-#define CANDIDATES_COUNT 20
+#define CANDIDATES_COUNT 40
 #define CANDIDATES_LEVEL (150 / 25)
 
 namespace EDen {

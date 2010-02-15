@@ -48,7 +48,7 @@ namespace EDen {
   bool ResourceProvider::updateBodypartInformation(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info) {
     if((param_bodypart) && (param_info)) {
       if(param_bodypart->getBodypartType() == reactiveBodypartType) {
-        boost::mutex::scoped_lock lock(bodypartsMutex);
+        // boost::mutex::scoped_lock lock(bodypartsMutex);
 
         ExtendedBodypartInformation* info = bodyparts[param_bodypart];
         if(info) delete info;

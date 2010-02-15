@@ -25,6 +25,8 @@ namespace EDen {
     std::list<Organism*> organisms;
     std::list<Groundpart*> groundparts;
 
+    boost::mutex bodypartsMutex;
+
     SpeciesDatabase* database;
 
     bool cleanupDeadOrganisms();

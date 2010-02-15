@@ -115,6 +115,7 @@ namespace EDen {
   };
 
   bool RuntimeManager::registerBodypart(Bodypart* param_bodypart) {
+    boost::mutex::scoped_lock lock(bodypartsMutex);
     for(std::list<ResourceProvider*>::iterator it = resourceProviders.begin(); it != resourceProviders.end(); it++) {
       if(*it) (*it)->addBodypart(param_bodypart);
     };
@@ -123,6 +124,7 @@ namespace EDen {
   };
 
   bool RuntimeManager::unregisterBodypart(Bodypart* param_bodypart) {
+    boost::mutex::scoped_lock lock(bodypartsMutex);
     for(std::list<ResourceProvider*>::iterator it = resourceProviders.begin(); it != resourceProviders.end(); it++) {
       if(*it) (*it)->removeBodypart(param_bodypart);
     };

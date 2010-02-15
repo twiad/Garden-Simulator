@@ -432,7 +432,7 @@
                                 <ConditionAND>
                                     <BodypartStateCondition State="2" Type="1" />
                                     <ConditionOR>
-                                        <OrganismLifetimeCondition Amount="1800" Type="3" />
+                                        <OrganismLifetimeCondition Amount="1000" Type="3" />
                                         <HealthpointsCondition Amount="0.100000" Type="4" />
                                     </ConditionOR>
                                 </ConditionAND>

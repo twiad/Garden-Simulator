@@ -2,9 +2,11 @@
 // by Franz Koehler 2009
 
 #include "runtimeManager.h"
-#define MAX_PLANT_COUNT 2
-#define CANDIDATES_COUNT 40
+#define MAX_PLANT_COUNT 3
+#define CANDIDATES_COUNT 20
 #define CANDIDATES_LEVEL (150 / 25)
+
+#define NUM_THREADS 2
 
 namespace EDen {
 
@@ -162,27 +164,27 @@ namespace EDen {
 
   void processOrgs() {
     Organism* org = 0;
-        
-    {
+
+    do {
       boost::mutex::scoped_lock lock(eden_runtimeManager_orgsToProcessMutex);
       if(!eden_runtimeManager_orgsToProcess.empty()) {
         org = eden_runtimeManager_orgsToProcess.front();
         eden_runtimeManager_orgsToProcess.pop_front();
-      }
-    };
+      } else org = 0;
 
-    if((org) && (org->getState() != BSP_dead)) {
-      org->updateGeneticProcessors();
-      org->updateDelete();
-      org->updateChemicalStorageLinks();
-      org->incLifetime();
-    };
+      lock.unlock();
+
+      if((org) && (org->getState() != BSP_dead)) {
+        org->updateGeneticProcessors();
+        org->updateDelete();
+        org->updateChemicalStorageLinks();
+        org->incLifetime();
+      };
+    } while (org);
   };
 
   bool RuntimeManager::update() {
 
-// some Modulo for every provider?
-    //if(cycles % clock_frac_resources_provider == 0) {
     {
       for(std::list<ResourceProvider*>::iterator it = resourceProviders.begin(); it != resourceProviders.end(); it++) {
         if(*it) {
@@ -191,16 +193,8 @@ namespace EDen {
       };
     };
 
-    //Organism* org;
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
       eden_runtimeManager_orgsToProcess.push_back(*it);
-      //org = *it;
-      //if((org) && (org->getState() != BSP_dead)) {
-      //  org->updateGeneticProcessors();
-      //  org->updateDelete();
-      //  org->updateChemicalStorageLinks();
-      //  org->incLifetime();
-      //};
     };
 
     boost::thread_group threadpool;

@@ -7,8 +7,6 @@
 #ifndef _E_DEN_RUNTIMEMANAGER_HEADER_
 #define _E_DEN_RUNTIMEMANAGER_HEADER_
 
-#define NUM_THREADS 3
-
 #include "globals.h"
 #include "organism.h"
 #include "groundpart.h"

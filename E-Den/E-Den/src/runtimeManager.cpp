@@ -3,7 +3,6 @@
 
 #include "runtimeManager.h"
 #define MAX_PLANT_COUNT 3
-#define CANDIDATES_COUNT 20
 #define CANDIDATES_LEVEL (150 / 25)
 
 #define NUM_THREADS 2

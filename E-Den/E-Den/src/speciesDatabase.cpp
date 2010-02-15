@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #define ORGS_TO_SAVE 100
+#define CANDIDATES_COUNT 20
 #define XML_VERSION_STRING "0.1.0.2"
 
 namespace EDen {
@@ -367,6 +368,7 @@ namespace EDen {
       name += str;
 
       OneSpeciesDatabase* db = new OneSpeciesDatabase(runtime);
+      db->setMaxCandidates(CANDIDATES_COUNT);
       db->setName(name);
       db->setApplicationSettingsPath(path);
       db->push(org);

@@ -18,10 +18,9 @@ namespace EDen {
 
   bool ResourceProvider::addBodypart(Bodypart* param_bodypart) {
     if(param_bodypart) {
-      boost::mutex::scoped_lock lock(bodypartsMutex);
-
-      if(!bodyparts[param_bodypart]) {
-        if(param_bodypart->getBodypartType() == reactiveBodypartType) {
+      if(param_bodypart->getBodypartType() == reactiveBodypartType) {
+        boost::mutex::scoped_lock lock(bodypartsMutex);
+        if(!bodyparts[param_bodypart]) {
           updateBodypartInformation(param_bodypart,new ExtendedBodypartInformation());  
         };
       };
@@ -30,18 +29,20 @@ namespace EDen {
   };
 
   ExtendedBodypartInformation* ResourceProvider::getInformation(Bodypart* param_bodypart) {
-    boost::mutex::scoped_lock lock(bodypartsMutex);
+    if(param_bodypart && (param_bodypart->getBodypartType() == reactiveBodypartType)) {
+      boost::mutex::scoped_lock lock(bodypartsMutex);
 
-    return bodyparts[param_bodypart];
+      return bodyparts[param_bodypart];
+    } else return 0;
   };
 
   bool ResourceProvider::removeBodypart(Bodypart* param_bodypart) {
-    boost::mutex::scoped_lock lock(bodypartsMutex);
-
-    ExtendedBodypartInformation* info = bodyparts[param_bodypart];
-    if(info) delete info;
-    bodyparts.erase(param_bodypart);
-
+    if(param_bodypart && (param_bodypart->getBodypartType() == reactiveBodypartType)) {
+      boost::mutex::scoped_lock lock(bodypartsMutex);
+      ExtendedBodypartInformation* info = bodyparts[param_bodypart];
+      if(info) delete info;
+      bodyparts.erase(param_bodypart);
+    };
     return true;
   };
 

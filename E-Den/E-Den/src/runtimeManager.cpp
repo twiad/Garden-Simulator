@@ -7,6 +7,10 @@
 #define CANDIDATES_LEVEL (150 / 25)
 
 namespace EDen {
+
+  boost::mutex eden_runtimeManager_orgsToProcessMutex;
+  std::list<Organism*> eden_runtimeManager_orgsToProcess;
+
   RuntimeManager::RuntimeManager() {
     randomizer = new Randomizer();
     database = new SpeciesDatabase(this);
@@ -156,6 +160,25 @@ namespace EDen {
     return true;
   };  
 
+  void processOrgs() {
+    Organism* org = 0;
+        
+    {
+      boost::mutex::scoped_lock lock(eden_runtimeManager_orgsToProcessMutex);
+      if(!eden_runtimeManager_orgsToProcess.empty()) {
+        org = eden_runtimeManager_orgsToProcess.front();
+        eden_runtimeManager_orgsToProcess.pop_front();
+      }
+    };
+
+    if((org) && (org->getState() != BSP_dead)) {
+      org->updateGeneticProcessors();
+      org->updateDelete();
+      org->updateChemicalStorageLinks();
+      org->incLifetime();
+    };
+  };
+
   bool RuntimeManager::update() {
 
 // some Modulo for every provider?
@@ -168,19 +191,25 @@ namespace EDen {
       };
     };
 
-    Organism* org;
+    //Organism* org;
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
-      org = *it;
-      if((org) && (org->getState() != BSP_dead)) {
-        //if((cycles % clock_frac_genproc) == 0) org->updateGeneticProcessors();
-        //if((cycles % clock_frac_delete) == 0) org->updateDelete();
-        //if((cycles % clock_frac_chemlinks) == 0) org->updateChemicalStorageLinks();
-        org->updateGeneticProcessors();
-        org->updateDelete();
-        org->updateChemicalStorageLinks();
-        org->incLifetime();
-      };
+      eden_runtimeManager_orgsToProcess.push_back(*it);
+      //org = *it;
+      //if((org) && (org->getState() != BSP_dead)) {
+      //  org->updateGeneticProcessors();
+      //  org->updateDelete();
+      //  org->updateChemicalStorageLinks();
+      //  org->incLifetime();
+      //};
     };
+
+    boost::thread_group threadpool;
+
+    for(int i = 0; i < NUM_THREADS; i++) {
+      threadpool.create_thread(&processOrgs);
+    };
+
+    threadpool.join_all();
 
     cleanupDeadOrganisms();
 

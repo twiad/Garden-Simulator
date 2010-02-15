@@ -7,14 +7,20 @@
 #ifndef _E_DEN_RUNTIMEMANAGER_HEADER_
 #define _E_DEN_RUNTIMEMANAGER_HEADER_
 
+#define NUM_THREADS 3
+
 #include "globals.h"
 #include "organism.h"
 #include "groundpart.h"
 #include "chemicalDistributionSystem.h"
 #include "geneticMutation.h"
 #include "speciesDatabase.h"
+#include <boost/thread/thread.hpp>
+
+
 
 namespace EDen {
+
   class RuntimeManager {
   protected:
     std::list<ResourceProvider*> resourceProviders;

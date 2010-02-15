@@ -18,6 +18,8 @@ namespace EDen {
 
   bool ResourceProvider::addBodypart(Bodypart* param_bodypart) {
     if(param_bodypart) {
+      boost::mutex::scoped_lock lock(bodypartsMutex);
+
       if(!bodyparts[param_bodypart]) {
         if(param_bodypart->getBodypartType() == reactiveBodypartType) {
           updateBodypartInformation(param_bodypart,new ExtendedBodypartInformation());  
@@ -28,10 +30,14 @@ namespace EDen {
   };
 
   ExtendedBodypartInformation* ResourceProvider::getInformation(Bodypart* param_bodypart) {
+    boost::mutex::scoped_lock lock(bodypartsMutex);
+
     return bodyparts[param_bodypart];
   };
 
   bool ResourceProvider::removeBodypart(Bodypart* param_bodypart) {
+    boost::mutex::scoped_lock lock(bodypartsMutex);
+
     ExtendedBodypartInformation* info = bodyparts[param_bodypart];
     if(info) delete info;
     bodyparts.erase(param_bodypart);
@@ -42,6 +48,8 @@ namespace EDen {
   bool ResourceProvider::updateBodypartInformation(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info) {
     if((param_bodypart) && (param_info)) {
       if(param_bodypart->getBodypartType() == reactiveBodypartType) {
+        boost::mutex::scoped_lock lock(bodypartsMutex);
+
         ExtendedBodypartInformation* info = bodyparts[param_bodypart];
         if(info) delete info;
         bodyparts[param_bodypart] = param_info;
@@ -61,6 +69,8 @@ namespace EDen {
   };
 
   bool ResourceProvider::distibute() {
+    boost::mutex::scoped_lock lock(bodypartsMutex);
+
     for(std::map<Bodypart*,ExtendedBodypartInformation*>::iterator it = bodyparts.begin(); it != bodyparts.end(); it++) {
       singleDistributionStep((*it).first,(*it).second);
     };

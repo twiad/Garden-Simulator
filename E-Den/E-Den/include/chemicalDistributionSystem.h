@@ -12,6 +12,7 @@ namespace EDen {
 #include "globals.h"
 #include "chemicalSystem.h"
 #include "organism.h"
+#include <boost/thread/mutex.hpp>
 
 class ExtendedBodypartInformation {
 public:
@@ -28,7 +29,9 @@ namespace EDen {
     float amount;
 
     std::map<Bodypart*, ExtendedBodypartInformation*> bodyparts;
+    boost::mutex bodypartsMutex;
     BodypartType reactiveBodypartType;
+
 
     ExtendedBodypartInformation* getInformation(Bodypart* param_bodypart);
     bool updateBodypartInformation(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info);

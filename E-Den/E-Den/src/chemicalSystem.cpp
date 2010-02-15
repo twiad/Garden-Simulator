@@ -202,18 +202,18 @@ namespace EDen {
 
   ChemicalStorage::ChemicalStorage(TiXmlElement* description) {
     TiXmlElement* it;
+    double tmpCurrent, tmpMax;
     
     description->QueryFloatAttribute("Size",&size);
     it = description->FirstChildElement("Chemical");
     std::string name;
-    float current,max;
-    
+        
     while(it != 0) {
       name = it->Attribute("Name");
-      it->QueryFloatAttribute("Current",&current);
-      it->QueryFloatAttribute("Max",&max);
+      it->QueryDoubleAttribute("Current",&tmpCurrent);
+      it->QueryDoubleAttribute("Max",&tmpMax);
 
-      addNew(name,current,max);
+      addNew(name,(float)tmpCurrent,(float)tmpMax);
 
       it = it->NextSiblingElement();
     };
@@ -226,8 +226,8 @@ namespace EDen {
     for(ChemicalStorageMapIterator it = storage.begin(); it != storage.end(); it++) {
       chemicalElement = new TiXmlElement("Chemical");
       chemicalElement->SetAttribute("Name",(*it).second.chemical.getName());
-      chemicalElement->SetDoubleAttribute("Current",(*it).second.current);
-      chemicalElement->SetDoubleAttribute("Max",(*it).second.max);
+      chemicalElement->SetDoubleAttribute("Current",(double)(*it).second.current);
+      chemicalElement->SetDoubleAttribute("Max",(double)(*it).second.max);
       element->LinkEndChild(chemicalElement);
     };
 

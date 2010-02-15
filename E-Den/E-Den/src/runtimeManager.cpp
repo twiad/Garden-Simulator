@@ -202,7 +202,6 @@ namespace EDen {
     for(int i = 0; i < NUM_THREADS; i++) {
       threadpool.create_thread(&processOrgs);
     };
-
     threadpool.join_all();
 
     cleanupDeadOrganisms();

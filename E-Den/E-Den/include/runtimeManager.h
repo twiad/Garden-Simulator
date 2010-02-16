@@ -25,6 +25,9 @@ namespace EDen {
     std::list<Organism*> organisms;
     std::list<Groundpart*> groundparts;
 
+    static boost::mutex orgsToProcessMutex;
+    static std::list<Organism*> orgsToProcess;
+
     boost::mutex bodypartsMutex;
 
     SpeciesDatabase* database;
@@ -32,7 +35,8 @@ namespace EDen {
     bool cleanupDeadOrganisms();
     bool deleteAll();
     bool deleteAllOfSpecies(int speciesID);
-    unsigned long cycles;
+    static unsigned long cycles;
+    static int cps;
     int candidatesTreshold;
 
     Organism* getNextSeed();
@@ -41,6 +45,10 @@ namespace EDen {
     int clock_frac_genproc;
     int clock_frac_delete;
     int clock_frac_chemlinks;
+
+    boost::thread* cpsWaiter;
+    static void oneSecondTimer();
+    static void processOrgs();
   public:
     RuntimeManager();
     ~RuntimeManager();
@@ -64,6 +72,7 @@ namespace EDen {
     unsigned long getCycleCount();
     int getOrganismCount();
     int getSeedCount();
+    int getCps();
     bool orgsAlive();
 
     int initDatabase(std::string appSettingsPath);

@@ -6,7 +6,7 @@
 
 #include <list>
 #include <map>
-
+#include <boost/thread.hpp> 
 
 template <class T> const T& maxi ( const T& a, const T& b ) {
   return (b<a)?a:b;     // or: return comp(b,a)?a:b; for the comp version
@@ -123,6 +123,8 @@ namespace EDen {
     Color(float red = 0.5f, float green = 0.5f, float blue = 0.5f, float alpha = 1.0f): r(red), g(green), b(blue), a(alpha) {};
     float r,g,b,a;
   };
+
+  void wait(int seconds);
 };
 
 #endif

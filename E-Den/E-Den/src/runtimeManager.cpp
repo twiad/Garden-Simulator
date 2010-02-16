@@ -9,13 +9,50 @@
 
 namespace EDen {
 
-  boost::mutex eden_runtimeManager_orgsToProcessMutex;
-  std::list<Organism*> eden_runtimeManager_orgsToProcess;
+  boost::mutex RuntimeManager::orgsToProcessMutex;
+  std::list<Organism*> RuntimeManager::orgsToProcess;
+
+  unsigned long RuntimeManager::cycles = 0;
+  int RuntimeManager::cps = 0;
+
+  void RuntimeManager::processOrgs() {
+    Organism* org = 0;
+
+    do {
+      boost::mutex::scoped_lock lock(orgsToProcessMutex);
+      if(!orgsToProcess.empty()) {
+        org = orgsToProcess.front();
+        orgsToProcess.pop_front();
+      } else org = 0;
+
+      lock.unlock();
+
+      if((org) && (org->getState() != BSP_dead)) {
+        org->updateGeneticProcessors();
+        org->updateDelete();
+        org->updateChemicalStorageLinks();
+        org->incLifetime();
+      };
+    } while (org);
+  };
+
+  void RuntimeManager::oneSecondTimer() {
+    static long lastCycleCount = 0;
+    while(true) {
+      int currentCycle = cycles;
+      cps = currentCycle - lastCycleCount;
+      lastCycleCount = currentCycle;
+
+      wait(1);
+    };
+  };
 
   RuntimeManager::RuntimeManager() {
     randomizer = new Randomizer();
     database = new SpeciesDatabase(this);
     reset();
+    
+    cpsWaiter = new boost::thread(&oneSecondTimer);
   };
 
   RuntimeManager::~RuntimeManager() {
@@ -163,27 +200,6 @@ namespace EDen {
     return true;
   };  
 
-  void processOrgs() {
-    Organism* org = 0;
-
-    do {
-      boost::mutex::scoped_lock lock(eden_runtimeManager_orgsToProcessMutex);
-      if(!eden_runtimeManager_orgsToProcess.empty()) {
-        org = eden_runtimeManager_orgsToProcess.front();
-        eden_runtimeManager_orgsToProcess.pop_front();
-      } else org = 0;
-
-      lock.unlock();
-
-      if((org) && (org->getState() != BSP_dead)) {
-        org->updateGeneticProcessors();
-        org->updateDelete();
-        org->updateChemicalStorageLinks();
-        org->incLifetime();
-      };
-    } while (org);
-  };
-
   bool RuntimeManager::update() {
 
     {
@@ -195,7 +211,7 @@ namespace EDen {
     };
 
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
-      eden_runtimeManager_orgsToProcess.push_back(*it);
+      orgsToProcess.push_back(*it);
     };
 
     boost::thread_group threadpool;
@@ -257,6 +273,10 @@ namespace EDen {
 
   int RuntimeManager::getSeedCount() {
     return database->size();
+  };
+
+  int RuntimeManager::getCps() {
+    return cps;
   };
 
   bool RuntimeManager::orgsAlive() {

@@ -207,7 +207,7 @@ namespace EDen {
     std::string newCaption = "";
     char str[255];
     if(runtimeManager) {
-      sprintf(str,"[%lu]-",runtimeManager->getCycleCount());
+      sprintf(str,"[%lu]-",runtimeManager->getCps());
       newCaption += str;
     }
 

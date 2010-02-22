@@ -9,6 +9,7 @@
 #include "organism.h"
 #include "tinyxml.h"
 #include "runtimeManager.h"
+#include <boost/thread.hpp>
 #include <map>
 
 namespace EDen {
@@ -21,6 +22,7 @@ namespace EDen {
     std::string path;
     std::string name;
     RuntimeManager* runtime;
+    boost::mutex mutex;
 
     bool inited;
     void initEmptyFile(std::string filename);
@@ -61,6 +63,7 @@ namespace EDen {
     TiXmlDocument* doc;
     std::string path;
     RuntimeManager* runtime;
+    boost::mutex mutex;
 
     bool inited;
     void initEmptyFile(std::string filename);

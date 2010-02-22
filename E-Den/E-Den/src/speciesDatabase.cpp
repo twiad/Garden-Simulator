@@ -134,6 +134,8 @@ namespace EDen {
   };
 
   void OneSpeciesDatabase::push(Organism* org) {
+    boost::mutex::scoped_lock lock(mutex);
+    
     changedSinceLastUpdate = true;
     if((candidates.size() < (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= treshold))
       candidates.push_back(org);
@@ -142,6 +144,7 @@ namespace EDen {
   };
 
   Organism* OneSpeciesDatabase::pull(bool random, bool del) {
+    boost::mutex::scoped_lock lock(mutex);
     Organism* org = 0;
     
     std::list<Organism*>* orgsp;
@@ -360,6 +363,7 @@ namespace EDen {
   void SpeciesDatabase::push(Organism* org) {
     int speciesId = org->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier();
    
+    boost::mutex::scoped_lock lock(mutex);
     if(species.count(speciesId) == 0) {
       std::string name = "";
       char str[64];
@@ -383,7 +387,8 @@ namespace EDen {
   Organism* SpeciesDatabase::pull(int speciesId, bool random, bool del) {
     OneSpeciesDatabase* db;
     Organism* org = 0;
-    
+
+    boost::mutex::scoped_lock lock(mutex);
     if(empty()) return 0;
 
     if(speciesId == 0) {

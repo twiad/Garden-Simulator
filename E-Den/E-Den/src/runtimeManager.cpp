@@ -305,5 +305,12 @@ namespace EDen {
 
   std::string RuntimeManager::getDebugOut() {
     return database->getDebugOut();
+    //std::string out = database->getDebugOut();
+    //char str[64];
+
+    //sprintf(str,"[%d|%d]",getCps(),getCycleCount());
+
+    //out += str;
+    //return out;
   };
 };

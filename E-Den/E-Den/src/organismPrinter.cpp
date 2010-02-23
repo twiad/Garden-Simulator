@@ -132,13 +132,32 @@ namespace EDen {
     };
   };
 
-  SDLOrganismPrinter::SDLOrganismPrinter(int param_dimx, int param_dimy, RuntimeManager* param_runtimeManager): 
-    dimx(param_dimx), 
-    dimy(param_dimy) {
+  SDLOrganismPrinter::SDLOrganismPrinter(int param_dimx, int param_dimy, RuntimeManager* param_runtimeManager) {
+    static bool firstInit = true;
+
     runtimeManager = param_runtimeManager;
     sun = new SDL_SunlightProvider();
     if(runtimeManager) runtimeManager->add(sun);
-    screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);	
+
+    dimx = param_dimx;
+    dimy = param_dimy;
+
+    if(firstInit) {
+      firstInit = false;
+      screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);
+      bool newscreen = (dimy == 0) || (dimx == 0);
+
+      if(dimx == 0) dimx = SDL_GetVideoInfo()->current_w - 10;
+      if(dimy == 0) dimy = SDL_GetVideoInfo()->current_h - 50;
+        
+      if(newscreen)
+        screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);
+
+    } else {
+      SDL_Surface* cs = SDL_GetVideoSurface();
+	    screen = SDL_CreateRGBSurface(SDL_HWSURFACE, cs->w, cs->h, cs->format->BitsPerPixel, cs->format->Rmask, cs->format->Gmask, cs->format->Bmask, cs->format->Amask);
+    };
+
     updateCaption();
     scale = SDL_SCALE;
     needToScale = false;

@@ -145,12 +145,13 @@ namespace EDen {
     if(firstInit) {
       firstInit = false;
       screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);
-      
-      if(dimx == 0) dimx = SDL_GetVideoInfo()->current_w;
-      if(dimy == 0) {
-        dimy = SDL_GetVideoInfo()->current_h - 50;
+      bool newscreen = (dimy == 0) || (dimx == 0);
+
+      if(dimx == 0) dimx = SDL_GetVideoInfo()->current_w - 10;
+      if(dimy == 0) dimy = SDL_GetVideoInfo()->current_h - 50;
+        
+      if(newscreen)
         screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);
-      }
 
     } else {
       SDL_Surface* cs = SDL_GetVideoSurface();

@@ -60,6 +60,9 @@ namespace EDen {
     bool orgsAlive();
     bool redrawScreen();
     bool printOutPercentage(float value);
+
+    int getDimX();
+    int getDimY();
   };
 
   class SDL_SunlightProvider : public ResourceProvider {

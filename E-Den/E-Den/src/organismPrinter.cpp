@@ -148,7 +148,7 @@ namespace EDen {
       bool newscreen = (dimy == 0) || (dimx == 0);
 
       if(dimx == 0) dimx = SDL_GetVideoInfo()->current_w - 10;
-      if(dimy == 0) dimy = SDL_GetVideoInfo()->current_h - 50;
+      if(dimy == 0) dimy = SDL_GetVideoInfo()->current_h - 75;
         
       if(newscreen)
         screen = SDL_SetVideoMode(dimx,dimy,16,SDL_HWSURFACE|SDL_ANYFORMAT);
@@ -336,6 +336,14 @@ namespace EDen {
       return returnvalue;
     }
     else return 0;
+  };
+
+  int SDLOrganismPrinter::getDimX() {
+    return dimx;  
+  };
+
+  int SDLOrganismPrinter::getDimY() {
+    return dimy; 
   };
 
   bool SDL_SunlightProvider::setFactor(Bodypart* param_bodypart ,float param_factor) {

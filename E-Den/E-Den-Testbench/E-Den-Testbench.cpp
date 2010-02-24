@@ -22,8 +22,8 @@
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
-#define SDL_DIMX 1240
-#define SDL_DIMY 800
+#define SDL_DIMX 0
+#define SDL_DIMY 0
 
 using namespace EDen; 
 using namespace std;
@@ -113,7 +113,7 @@ bool wait_for_events()
           if ( event.key.keysym.sym == SDLK_ESCAPE )	//quit if 'ESC' pressed
 	          quit = true;
 		      else if ( key[0] == 'q'  )	//quit if 'q'  pressed
-	          quit = true;			//same as "if ( event.key.keysym.sym == SDLK_q )"
+	          quit = true;			
           else if ( key[0] == 's'  )  //save if 's' pressed
             runtime->saveDatabase();
           else if ( key[0] == 'l'  )  //load if 'l' is pressed
@@ -133,10 +133,10 @@ bool wait_for_events()
 		     case SDL_MOUSEBUTTONUP:           //mouse button pressed
 			     printf("Mouse button %d pressed x:%d, y:%d\n", event.button.button, event.button.x, event.button.y );
            if(event.button.button == 1) {
-             gp->getChemicalStorage()->add("Wasser",((float)event.button.x / (float)SDL_DIMX) * ((float)STARTING_WATER / 7.0f));
+             gp->getChemicalStorage()->add("Wasser",((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_WATER / 7.0f));
            }
            else
-             gp->getChemicalStorage()->add("Wasser",-((float)event.button.x / (float)SDL_DIMX) * ((float)STARTING_WATER / 7.0f));
+             gp->getChemicalStorage()->add("Wasser",-((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_WATER / 7.0f));
 			     break; 
 	       case SDL_QUIT:		
 	         exit ( 1 );

@@ -83,7 +83,7 @@ namespace EDen {
 
     std::list<Organism*> getOrganisms();
 
-    std::string getDebugOut();
+    std::string getDebugOut(bool shortInfo = false);
   };
 };
 

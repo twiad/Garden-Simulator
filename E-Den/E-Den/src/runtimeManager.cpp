@@ -301,15 +301,19 @@ namespace EDen {
     return organisms; 
   };
 
-  std::string RuntimeManager::getDebugOut() {
-    return database->getDebugOut();
-    //std::string out = database->getDebugOut();
-    //char str[64];
+  std::string RuntimeManager::getDebugOut(bool shortInfo) {
+    //return database->getDebugOut();
+    std::string out = "";
+    char str[64];
 
-    //sprintf(str,"[%d|%d]",getCps(),getCycleCount());
+    if(shortInfo) {
+      sprintf(str,"[%d/%d@%d|%d]",getOrganismCount(),getPreferedOrganismCount(),getCps(),getCycleCount());
+      out += str;
+    } 
+    else 
+      out = out + database->getDebugOut();
 
-    //out += str;
-    //return out;
+    return out;
   };
 
   unsigned RuntimeManager::getPreferedOrganismCount() {

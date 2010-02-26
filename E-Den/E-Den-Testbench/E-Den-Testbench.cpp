@@ -22,8 +22,8 @@
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
-#define SDL_DIMX 1240
-#define SDL_DIMY 800
+#define SDL_DIMX 0
+#define SDL_DIMY 0
 
 using namespace EDen; 
 using namespace std;
@@ -33,8 +33,12 @@ Organism* organism2 = 0;
 Bodypart* bp3 = 0;
 Groundpart* gp = 0;
 SDLOrganismPrinter* op1 = 0;
+SDLOrganismPrinter* op3 = 0;
+SDLOrganismPrinter* activePrinter = 0;
+
 OrganismPrinter* op2 = 0;
 RuntimeManager* runtime;
+RuntimeManager* runtime2;
 int cyclecount = 0;
 
 TCHAR appSettingsPath[MAX_PATH];
@@ -77,8 +81,8 @@ void run(int cycles = 1, Organism* org = organism) {
 };
 
 void printOrgs() {
-  if(op1 != 0) {
-    op1->print();
+  if(activePrinter != 0) {
+    activePrinter->print();
   };
 };
 
@@ -88,19 +92,33 @@ void sdl_run(int cycles) {
   //outputWaterAndGold(organism->getRootBodypart()->getChemicalStorage());
   //printf("-[%d]-----------------------------------------------",cyclecount);
   //printf("\t\t\t[running %d cycles]\n",cycles);
-  op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Wasser"));
-  op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Goo"));
-  op1->redrawScreen();
+  activePrinter->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Wasser"));
+  activePrinter->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Goo"));
+  activePrinter->redrawScreen();
 
   run(cycles);
 //  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
 //  printOrgs();
 }
 
+void switchActivePrinter() {
+  if(activePrinter == 0)  {
+    if(op1 != 0) activePrinter = op1;
+    else activePrinter = op3;
+  } 
+  else if(activePrinter == op1) {
+    if(op3 != 0) activePrinter = op3;
+  }
+  else if(activePrinter == op3) {
+    if(op1 != 0) activePrinter = op1;
+  };
+};
+
 bool wait_for_events()
 {
   SDL_Event event;
   char *key;
+  SDLMod modifier;
   bool quit = false;
 
   printf("waiting for events, press 'q' or 'ESC' to quit\n");
@@ -109,6 +127,7 @@ bool wait_for_events()
 	    switch (event.type) {		//check the event type
 		    case SDL_KEYDOWN:			//if a key has been pressed
           key = SDL_GetKeyName(event.key.keysym.sym);
+          modifier = SDL_GetModState();
 		      printf("The %s key was pressed!\n", key );
           if ( event.key.keysym.sym == SDLK_ESCAPE )	//quit if 'ESC' pressed
 	          quit = true;
@@ -118,10 +137,21 @@ bool wait_for_events()
             runtime->saveDatabase();
           else if ( key[0] == 'l'  )  //load if 'l' is pressed
             runtime->loadDatabase();
-          else if ( key[0] == 'y'  )  //load if 'z' is pressed
+          else if ( key[0] == 'y'  )  //slow if 'z' is pressed
             slowMode = !slowMode;
-          else if ( key[0] == 'p'  )  //load if 'p' is pressed
+          else if ( key[0] == 'p'  )  //pause if 'p' is pressed
             pause = !pause;
+          else if ( key[0] == '['  )
+            runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1); 
+          else if ( key[0] == ']'  )
+            if(modifier == KMOD_RCTRL)
+              runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1,true);
+            else
+              runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
+          else if ( key[0] == 'j'  ) { //testmode if 'p' is pressed
+          //  switchActivePrinter();
+          //  printOrgs();
+          }
 		    break;
 		     case SDL_MOUSEMOTION:             //mouse moved
 			     printf("Mouse motion x:%d, y:%d\n", event.motion.x, event.motion.y );
@@ -169,6 +199,8 @@ void sdl_test() {
 
   sun = new SDL_SunlightProvider();
   op1 = new SDLOrganismPrinter(SDL_DIMX,SDL_DIMY,runtime);
+  activePrinter = op1;
+  op3 = new SDLOrganismPrinter(SDL_DIMX,SDL_DIMY,runtime);
 
 //  bp = new Bodypart(BPT_Stick,"TESTPART4");
 //  organism = new Organism("TestOrganism", bp, runtime);

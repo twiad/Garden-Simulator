@@ -225,22 +225,20 @@ namespace EDen {
   bool SDLOrganismPrinter::updateCaption() {
     std::string newCaption = "";
     char str[255];
-    if(runtimeManager) {
-      sprintf(str,"[%d|%lu]-",runtimeManager->getCps(), runtimeManager->getCycleCount());
-      newCaption += str;
-    }
-
-
     
-    //sprintf(str,"[%d]",organisms.size());
-    //newCaption += str;
-    
+    //if(runtimeManager) {
+    //  sprintf(str,"[%d|%lu]-",runtimeManager->getCps(), runtimeManager->getCycleCount());
+    //  newCaption += str;
+    //}
+
+    if(runtimeManager) newCaption.append(runtimeManager->getDebugOut(true)).append("-");
+
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
       sprintf(str,"(%d|%d|%d)",(*it)->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier(),(*it)->getBodypartCount(),(*it)->getLifetime());
       newCaption += str;
     };
 
-    newCaption.append(runtimeManager->getDebugOut());
+    if(runtimeManager) newCaption.append(runtimeManager->getDebugOut());
 
     SDL_WM_SetCaption(newCaption.c_str(),newCaption.c_str());
     return true;

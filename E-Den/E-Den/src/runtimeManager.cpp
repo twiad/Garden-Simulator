@@ -105,11 +105,7 @@ namespace EDen {
   };
 
   bool RuntimeManager::reset() {
-    clock_frac_resources_provider = 1;
-    clock_frac_genproc = 1;
-    clock_frac_delete = 200;
-    clock_frac_chemlinks = 1;
-
+    preferedOrganismCount = MAX_PLANT_COUNT ;
     candidatesTreshold = CANDIDATES_LEVEL ;
     
     cycles = 0;
@@ -121,7 +117,7 @@ namespace EDen {
 
   bool RuntimeManager::add(Organism* param_org, bool p_connectToGroundpart) {
     if(param_org) {
-      if(organisms.size() < MAX_PLANT_COUNT) {
+      if(organisms.size() < preferedOrganismCount) {
         organisms.push_front(param_org);
         if(p_connectToGroundpart) {
           param_org->connectToGoundpart(groundparts.front());
@@ -244,14 +240,15 @@ namespace EDen {
       org = organisms.back();
       organisms.pop_back();
       if(org)
-          if(org->getState() != BSP_dead)
-              new_orgs.push_front(org);
-          else {
+          if((enforcePreferedOrganismCount) && (new_orgs.size() >= preferedOrganismCount))
             delete org;
-          };
+          else if(org->getState() != BSP_dead)
+              new_orgs.push_front(org);
+          else
+            delete org;
     };
 
-    while(orgsAlive() && (new_orgs.size() < MAX_PLANT_COUNT)) {
+    while(orgsAlive() && (new_orgs.size() < preferedOrganismCount)) {
       Organism* org = getNextSeed();
       new_orgs.push_back(org);
       org->connectToGoundpart(groundparts.front());
@@ -259,7 +256,8 @@ namespace EDen {
 
     organisms.clear();
     organisms.swap(new_orgs);
-
+    
+    enforcePreferedOrganismCount = false;
     return true;
   };
 
@@ -313,4 +311,17 @@ namespace EDen {
     //out += str;
     //return out;
   };
+
+  unsigned RuntimeManager::getPreferedOrganismCount() {
+    return preferedOrganismCount;
+  };
+
+  void RuntimeManager::setPreferedOrganismCount(unsigned pPreferedOrganismCount, bool killIfToMany) {
+    if(pPreferedOrganismCount < 1)
+      pPreferedOrganismCount = 1;
+
+    preferedOrganismCount = pPreferedOrganismCount;
+    enforcePreferedOrganismCount = killIfToMany;
+  };
+  
 };

@@ -22,11 +22,17 @@ namespace EDen {
   class RuntimeManager {
   protected:
     std::list<ResourceProvider*> resourceProviders;
-    std::list<Organism*> organisms;
     std::list<Groundpart*> groundparts;
 
     static boost::mutex orgsToProcessMutex;
     static std::list<Organism*> orgsToProcess;
+
+    static unsigned long cycles;
+    static int cps;
+    
+    std::list<Organism*> organisms;
+    unsigned int preferedOrganismCount;
+    bool enforcePreferedOrganismCount;
 
     boost::mutex bodypartsMutex;
 
@@ -35,16 +41,9 @@ namespace EDen {
     bool cleanupDeadOrganisms();
     bool deleteAll();
     bool deleteAllOfSpecies(int speciesID);
-    static unsigned long cycles;
-    static int cps;
     int candidatesTreshold;
 
     Organism* getNextSeed();
-
-    int clock_frac_resources_provider;
-    int clock_frac_genproc;
-    int clock_frac_delete;
-    int clock_frac_chemlinks;
 
     boost::thread* cpsWaiter;
     static void oneSecondTimer();
@@ -73,6 +72,9 @@ namespace EDen {
     int getOrganismCount();
     int getSeedCount();
     int getCps();
+    unsigned getPreferedOrganismCount();
+    void setPreferedOrganismCount(unsigned pPreferedOrganismCount, bool killIfToMany = false);
+
     bool orgsAlive();
 
     int initDatabase(std::string appSettingsPath);

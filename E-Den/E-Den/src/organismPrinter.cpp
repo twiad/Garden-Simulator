@@ -308,8 +308,9 @@ namespace EDen {
 
       //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
 
-      if((x1-offsetx <= 0) || (x1-offsetx > dimx) || (x2-offsetx <= 0) || (x2-offsetx > dimx) || 
-        (y1-offsety> dimy) || (y2-offsety > dimy)) {
+      //if((x1-offsetx <= 0) || (x1-offsetx > dimx) || (x2-offsetx <= 0) || (x2-offsetx > dimx) || 
+        if(
+          (y1-offsety> dimy) || (y2-offsety > dimy)) {
         needToScale = true;
       };
 

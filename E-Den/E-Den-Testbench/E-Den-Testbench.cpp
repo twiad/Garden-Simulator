@@ -23,7 +23,7 @@
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
 #define SDL_DIMX 0
-#define SDL_DIMY 0
+#define SDL_DIMY 425
 
 using namespace EDen; 
 using namespace std;

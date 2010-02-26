@@ -107,6 +107,7 @@ namespace EDen {
   bool RuntimeManager::reset() {
     preferedOrganismCount = MAX_PLANT_COUNT ;
     candidatesTreshold = CANDIDATES_LEVEL ;
+    state = RMS_Normal;
     
     cycles = 0;
 
@@ -307,6 +308,18 @@ namespace EDen {
     char str[64];
 
     if(shortInfo) {
+      switch (state) {		
+		    case RMS_Normal:
+          out += "N";
+		      break;
+		    case RMS_Slow:         
+          out += "S";
+			    break;
+		    case RMS_Pause:      
+          out += "P";
+			    break; 
+	    }
+
       sprintf(str,"[%d/%d@%d|%d]",getOrganismCount(),getPreferedOrganismCount(),getCps(),getCycleCount());
       out += str;
     } 
@@ -326,6 +339,14 @@ namespace EDen {
 
     preferedOrganismCount = pPreferedOrganismCount;
     enforcePreferedOrganismCount = killIfToMany;
+  };
+
+  RuntimeManagerState RuntimeManager::getState() {
+    return state;
+  };
+
+  void RuntimeManager::setState(RuntimeManagerState newState) {
+    state = newState; 
   };
   
 };

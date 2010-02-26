@@ -101,6 +101,12 @@ void sdl_run(int cycles) {
 //  printOrgs();
 }
 
+void updateRuntimeState() {
+  if(slowMode && !pause) runtime->setState(RMS_Slow);
+  else if(pause) runtime->setState(RMS_Pause);
+  else runtime->setState(RMS_Normal);
+};
+
 void switchActivePrinter() {
   if(activePrinter == 0)  {
     if(op1 != 0) activePrinter = op1;
@@ -137,10 +143,14 @@ bool wait_for_events()
             runtime->saveDatabase();
           else if ( key[0] == 'l'  )  //load if 'l' is pressed
             runtime->loadDatabase();
-          else if ( key[0] == 'y'  )  //slow if 'z' is pressed
+          else if ( key[0] == 'y'  ) {  //slow if 'z' is pressed
             slowMode = !slowMode;
-          else if ( key[0] == 'p'  )  //pause if 'p' is pressed
+            updateRuntimeState();
+          }
+          else if ( key[0] == 'p'  ) { //pause if 'p' is pressed
             pause = !pause;
+            updateRuntimeState();
+          }
           else if ( key[0] == '['  )
             runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1); 
           else if ( key[0] == ']'  )

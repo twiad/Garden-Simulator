@@ -268,7 +268,9 @@ namespace EDen {
     if(needToScale) scale = scale * SCALE_FACTOR;
     else scale = scale * DOWN_SCALE_FACTOR;
     
-    if(runtimeManager->getCycleCount() % 10 == 0)
+    if(runtimeManager->getState() == RMS_Slow)
+        updateCaption();
+    else if(runtimeManager->getCycleCount() % 10 == 0)
         updateCaption();
 
     return true;

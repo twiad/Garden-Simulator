@@ -118,15 +118,15 @@ namespace EDen {
 
   bool RuntimeManager::add(Organism* param_org, bool p_connectToGroundpart) {
     if(param_org) {
-      if(organisms.size() < preferedOrganismCount) {
-        organisms.push_front(param_org);
-        if(p_connectToGroundpart) {
-          param_org->connectToGoundpart(groundparts.front());
-        };
-      }
-      else {
+      //if(organisms.size() < preferedOrganismCount) {
+      //  organisms.push_front(param_org);
+      //  if(p_connectToGroundpart) {
+      //    param_org->connectToGoundpart(groundparts.front());
+      //  };
+      //}
+      //else {
         database->push(param_org);
-      };
+      //};
 
       
       return true; 

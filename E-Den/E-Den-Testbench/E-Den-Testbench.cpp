@@ -224,7 +224,7 @@ void sdl_test() {
   organism->connectToGoundpart(gp);
   //op1->add(organism); 
   runtime->add(organism);
-  bp->setScaleModifier(1.1f);
+  bp->setScaleModifier(1.0f);
   bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
   bp->occupieSpawnpoint(bp2);
   bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);

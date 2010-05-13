@@ -1,11 +1,11 @@
 #include "geneticProcessor.h"
 
-#define GRUNDVERBRAUCH 4.5f
+#define GRUNDVERBRAUCH 6.0f
 #define LIFETIME 1500
 #define SEED_DROP_ENERGIE_PERCENTAGE 95.0f
 #define SEED_DROP_ENERGIE_VALUE 200.0f
 #define BRANCHE_MUTATION 0.5f
-#define SEED_MUTATION 1.8f
+#define SEED_MUTATION 2.8f
 
 namespace EDen {
   bool GeneticCode::generateDummyGenecode(std::string code) {

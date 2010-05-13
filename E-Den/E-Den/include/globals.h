@@ -107,6 +107,13 @@ namespace EDen {
     BSP_UNKNOWN
   };
 
+  enum RuntimeManagerState {
+    RMS_Normal = 1,
+    RMS_Slow,
+    RMS_Pause,
+    RMS_Unknown
+  };
+
   typedef BodypartState OrganismState;
   typedef std::list<BodypartType> BodypartTypeList;
   typedef std::list<BodypartType>::iterator BodypartTypeListIterator;

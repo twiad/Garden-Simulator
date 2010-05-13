@@ -2,7 +2,7 @@
 // by Franz Koehler 2009
 
 #include "runtimeManager.h"
-#define MAX_PLANT_COUNT 3
+#define MAX_PLANT_COUNT 5
 #define CANDIDATES_LEVEL (150 / 25)
 
 #define NUM_THREADS 2
@@ -107,6 +107,7 @@ namespace EDen {
   bool RuntimeManager::reset() {
     preferedOrganismCount = MAX_PLANT_COUNT ;
     candidatesTreshold = CANDIDATES_LEVEL ;
+    state = RMS_Normal;
     
     cycles = 0;
 
@@ -117,15 +118,15 @@ namespace EDen {
 
   bool RuntimeManager::add(Organism* param_org, bool p_connectToGroundpart) {
     if(param_org) {
-      if(organisms.size() < preferedOrganismCount) {
-        organisms.push_front(param_org);
-        if(p_connectToGroundpart) {
-          param_org->connectToGoundpart(groundparts.front());
-        };
-      }
-      else {
+      //if(organisms.size() < preferedOrganismCount) {
+      //  organisms.push_front(param_org);
+      //  if(p_connectToGroundpart) {
+      //    param_org->connectToGoundpart(groundparts.front());
+      //  };
+      //}
+      //else {
         database->push(param_org);
-      };
+      //};
 
       
       return true; 
@@ -307,6 +308,18 @@ namespace EDen {
     char str[64];
 
     if(shortInfo) {
+      switch (state) {		
+		    case RMS_Normal:
+          out += "N";
+		      break;
+		    case RMS_Slow:         
+          out += "S";
+			    break;
+		    case RMS_Pause:      
+          out += "P";
+			    break; 
+	    }
+
       sprintf(str,"[%d/%d@%d|%d]",getOrganismCount(),getPreferedOrganismCount(),getCps(),getCycleCount());
       out += str;
     } 
@@ -326,6 +339,14 @@ namespace EDen {
 
     preferedOrganismCount = pPreferedOrganismCount;
     enforcePreferedOrganismCount = killIfToMany;
+  };
+
+  RuntimeManagerState RuntimeManager::getState() {
+    return state;
+  };
+
+  void RuntimeManager::setState(RuntimeManagerState newState) {
+    state = newState; 
   };
   
 };

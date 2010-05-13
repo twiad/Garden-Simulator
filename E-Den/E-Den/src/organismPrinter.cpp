@@ -268,7 +268,9 @@ namespace EDen {
     if(needToScale) scale = scale * SCALE_FACTOR;
     else scale = scale * DOWN_SCALE_FACTOR;
     
-    if(runtimeManager->getCycleCount() % 10 == 0)
+    if(runtimeManager->getState() == RMS_Slow)
+        updateCaption();
+    else if(runtimeManager->getCycleCount() % 10 == 0)
         updateCaption();
 
     return true;
@@ -308,7 +310,7 @@ namespace EDen {
 
       if(
         //(x1-offsetx <= 0) || (x1-offsetx > dimx) || (x2-offsetx <= 0) || (x2-offsetx > dimx) || 
-        (y1-offsety> dimy) || (y2-offsety > dimy)) {
+          (y1-offsety> dimy) || (y2-offsety > dimy)) {
         needToScale = true;
       };
 

@@ -30,6 +30,8 @@ namespace EDen {
     static unsigned long cycles;
     static int cps;
     
+    RuntimeManagerState state;
+
     std::list<Organism*> organisms;
     unsigned int preferedOrganismCount;
     bool enforcePreferedOrganismCount;
@@ -74,6 +76,8 @@ namespace EDen {
     int getCps();
     unsigned getPreferedOrganismCount();
     void setPreferedOrganismCount(unsigned pPreferedOrganismCount, bool killIfToMany = false);
+    RuntimeManagerState getState();
+    void setState(RuntimeManagerState newState);
 
     bool orgsAlive();
 

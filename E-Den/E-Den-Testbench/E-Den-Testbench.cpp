@@ -262,6 +262,7 @@ void sdl_test() {
   //bp3 = new Bodypart(BPT_Leaf,"TESTPART4",organism);
   //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
   //bp3->getChemicalStorage()->add("Energie",10.0f);
+  //bp3->getChemicalStorage()->add("Sonne",200.0f);
 
 //////////////////////////////////////////////////////////////////////////////
 

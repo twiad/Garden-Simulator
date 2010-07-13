@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\stage\lib&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -125,7 +125,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\stage\lib&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"

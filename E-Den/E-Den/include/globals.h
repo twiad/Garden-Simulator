@@ -30,6 +30,14 @@ namespace EDen {
   typedef std::list<Bodypart*> BodypartList;
   typedef std::list<Bodypart*>::iterator BodypartListIterator;
   
+  class Randomizer {
+  public:
+    Randomizer();
+
+    float value(); // returns a value betwien 0 and 1 (possibly including both of them)
+    float value(float min, float max); 
+  };
+
   enum GeneticChemicalConditionType {
     GCC_current_value_more = 1,
     GCC_current_value_less,

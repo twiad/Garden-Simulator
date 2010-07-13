@@ -19,14 +19,6 @@ namespace EDen {
 #include "tinyxml.h"
 
 namespace EDen {
-  class Randomizer {
-  public:
-    Randomizer();
-
-    float value(); // returns a value betwien 0 and 1 (possibly including both of them)
-    float value(float min, float max); 
-  };
-
   //  namespace Mutations {
   class GeneticMutation {
   protected:

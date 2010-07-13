@@ -68,13 +68,19 @@ namespace EDen {
         bodypart->setBodypartState(BSP_alive);
       };
 
+      static int bla = 0; //debug
       while(!relevantClauses.empty()) {
-        relevantClauses.back()->run();
+        GeneticClause* clause = relevantClauses.back();
+        //if(clause->description == "Spawn Seed")
+        //  bla += 1;
+        clause->run();
         //deleteMe is not used at the moment
         //if(!relevantClauses.back()->deleteMe)
-          nextRelevantClauses.push_front(relevantClauses.back());
 
-        relevantClauses.pop_back();
+        //if(clause == relevantClauses.back()) {
+          nextRelevantClauses.push_front(clause);
+          relevantClauses.pop_back();
+        //}
       }
 
       relevantClauses.clear();

@@ -296,8 +296,8 @@ namespace EDen {
       rad3 = 2.0f * M_PI * (p_ang3/360.0f);
 
       //an absolut rotation?
-      dx = sin(rad1)*cos(rad3);
-      dy = cos(rad1)*cos(rad2);
+      dx = sin(rad1);//*(cos(rad3));
+      dy = cos(rad1);//*cos(rad2);
 
       x2 = (int)(param_x + (dx * param_bp->getSize() * scale));
       y2 = (int)(param_y + (dy * param_bp->getSize() * scale));
@@ -308,8 +308,8 @@ namespace EDen {
 
       //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
 
-      //if((x1-offsetx <= 0) || (x1-offsetx > dimx) || (x2-offsetx <= 0) || (x2-offsetx > dimx) || 
-        if(
+      if(
+        //(x1-offsetx <= 0) || (x1-offsetx > dimx) || (x2-offsetx <= 0) || (x2-offsetx > dimx) || 
           (y1-offsety> dimy) || (y2-offsety > dimy)) {
         needToScale = true;
       };

@@ -7,6 +7,7 @@
 
 #define ORGS_TO_SAVE 100
 #define CANDIDATES_COUNT 20
+#define LOWEST_SPECIES_SELECTION_COUNT 3
 #define XML_VERSION_STRING "0.1.0.2"
 
 namespace EDen {
@@ -416,15 +417,22 @@ namespace EDen {
 
   int SpeciesDatabase::getNextSpeciesId() {
     int speciesId;
+    static int lowest_species_count = 10;
 
     if(!speciesSelectionAlternater2) {
-      if(speciesSelectionAlternater)
+      if(speciesSelectionAlternater) {
         speciesId = getSpeciesIdWithLowestCount();
+        if(lowest_species_count++ > LOWEST_SPECIES_SELECTION_COUNT) {
+          speciesSelectionAlternater = !speciesSelectionAlternater;
+          lowest_species_count = 0;
+        };
+      }
       else {
         speciesId = getSpeciesIdWithHighestCount();
         speciesSelectionAlternater2 = !speciesSelectionAlternater2;
+        speciesSelectionAlternater = !speciesSelectionAlternater;
       };
-      speciesSelectionAlternater = !speciesSelectionAlternater;
+      
     }
     else {
       std::map<int,OneSpeciesDatabase*>::iterator it;

@@ -66,7 +66,6 @@ namespace EDen {
     entity.setPos(offset_x,offset_y,offset_z);
     entity.setRotEuler(rot1/360.0f*(NLMISC::Pi*2),rot2/360.0f*(NLMISC::Pi*2),rot3/360.0f*(NLMISC::Pi*2));
     entity.setScale(0.5f,0.5f,bp->getSize());
-    entity.setColor(0.5f,0.5f,0.5f);
 
     CMatrix mat = entity.getMatrix();
 

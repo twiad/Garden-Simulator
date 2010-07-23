@@ -41,7 +41,7 @@ namespace EDen {
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
       org = *it;
       if( org->getState() != BSP_dead) {
-        req_print(org->getRootBodypart(),(0.5f/max)*counter,0.0f,0.0f,0.0f,0.0f,0.0f);
+        req_print(org->getRootBodypart(),(25.0f/max)*counter,0.0f,0.0f,0.0f,0.0f,0.0f);
       };
       counter++;
     };
@@ -51,11 +51,13 @@ namespace EDen {
 
   bool NELOrganismPrinter::req_print(Bodypart* bp, float offset_x, float offset_y, float offset_z, float rot1, float rot2, float rot3) {
     NELBodypartInformation* info = dynamic_cast<NELBodypartInformation*>(getInformation(bp));
+    if(!info) return false;
     UInstance entity = info->entity;
     
     if(!entity.empty()) {
       entity.setPos(offset_x,offset_y,offset_z);
       entity.setRotEuler(rot1,rot2,rot3);
+      entity.setScale(0.2f * bp->getSize(),0.2f * bp->getSize(),bp->getSize());
     };
 
     CVector myVector;
@@ -98,7 +100,7 @@ namespace EDen {
 
   BodypartInformation* NELOrganismPrinter::updateInformation(Bodypart* bodypart, BodypartInformation* information) {
     if(information) {
-      return information; // could chec for valid entity here
+      return information; // could check for valid entity here
     }
     else {
       NELBodypartInformation* info = new NELBodypartInformation();
@@ -117,9 +119,11 @@ namespace EDen {
   };
 
   bool NELOrganismPrinter::bodypartRemoved(Bodypart* bodypart, BodypartInformation* information) {
-    UInstance entity = dynamic_cast<NELBodypartInformation*>(information)->entity;
-    scene->deleteInstance(entity);
-    dynamic_cast<NELBodypartInformation*>(information)->entity = 0;
+    if(information) {
+      UInstance entity = dynamic_cast<NELBodypartInformation*>(information)->entity;
+      scene->deleteInstance(entity);
+      dynamic_cast<NELBodypartInformation*>(information)->entity = 0;
+    }
     return true;
   };
 

@@ -11,6 +11,9 @@ EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TestbenchSetup", "Setup\TestbenchSetup\TestbenchSetup.vdproj", "{A2EE0391-A850-4BB1-9C03-E39A1819301A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "E-Den-Testbench-Nel", "E-Den-Testbench-Nel\E-Den-Testbench-Nel.vcproj", "{53F6306C-401D-45A2-BDCE-7B5B4C50EE5C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{905A8A96-9253-4E72-ACA1-5AA9599A8018} = {905A8A96-9253-4E72-ACA1-5AA9599A8018}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

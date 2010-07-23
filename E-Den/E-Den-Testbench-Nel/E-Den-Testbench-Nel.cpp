@@ -113,8 +113,9 @@ int _tmain(int argc, _TCHAR* argv[])
 		while (Driver->isActive() && runtime->orgsAlive())
 		{
 			Driver->EventServer.pump();
-			Driver->clearBuffers(CRGBA(0, 0, 0));
       
+      runtime->update();
+      Driver->clearBuffers(CRGBA(0, 0, 0));
       printer->print();
 
       // animate the scene

@@ -82,14 +82,16 @@ int _tmain(int argc, _TCHAR* argv[])
     Organism* organism = new Organism("TestOrganism2", bp, runtime);
     organism->connectToGoundpart(gp);
     runtime->add(organism);
+    runtime->registerBodypart(bp);
     bp->setScaleModifier(1.0f);
     bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
     bp->occupieSpawnpoint(bp2);
-    bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
+    runtime->registerBodypart(bp2);
+    //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
     bp->getChemicalStorage()->add("Energie",100.0f);
     bp2->getChemicalStorage()->add("Energie",100.0f);
-    bp3->getChemicalStorage()->add("Energie",10.0f);
-    bp3->getChemicalStorage()->add("Sonne",200.0f);
+    //bp3->getChemicalStorage()->add("Energie",10.0f);
+    //bp3->getChemicalStorage()->add("Sonne",200.0f);
 
     gp->getChemicalStorage()->add("Wasser",STARTING_WATER);
     gp->getChemicalStorage()->add("Goo",STARTING_GOO);

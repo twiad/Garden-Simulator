@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="E-Den.lib SDLmain.lib SDL.lib SDL_draw.lib shlwapi.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\stage\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;;&quot;$(SDL_HOME)\lib&quot;;../Debug"
+				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;;&quot;$(SDL_HOME)\lib&quot;;../Debug"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"

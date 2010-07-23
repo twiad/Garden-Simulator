@@ -157,10 +157,11 @@ namespace EDen {
 
   bool RuntimeManager::registerBodypart(Bodypart* param_bodypart) {
     //boost::mutex::scoped_lock lock(bodypartsMutex);
-    for(std::list<BodypartObserver*>::iterator it = observers.begin(); it != observers.end(); it++) {
-      if(*it) (*it)->addBodypart(param_bodypart);
-    };
-
+    if(param_bodypart) {
+      for(std::list<BodypartObserver*>::iterator it = observers.begin(); it != observers.end(); it++) {
+        if(*it) (*it)->addBodypart(param_bodypart);
+      };
+    }
     return true;
   };
 

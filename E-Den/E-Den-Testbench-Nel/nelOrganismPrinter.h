@@ -19,6 +19,10 @@ namespace EDen {
   class NELBodypartInformation : public BodypartInformation {
   public:
     NL3D::UInstance entity; 
+    
+    NELBodypartInformation() {
+      entity = 0;
+    };
   };
 
   class NELOrganismPrinter : public BodypartObserver {

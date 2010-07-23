@@ -60,8 +60,7 @@ namespace EDen {
     UInstance entity = info->entity;
     
     if(sun)
-          sun->setFactor(bp,10.0f);
-
+      sun->setFactor(bp,offset_z * 10.0f);
 
     entity.setPos(offset_x,offset_y,offset_z);
     entity.setRotEuler(rot1/360.0f*(NLMISC::Pi*2),rot2/360.0f*(NLMISC::Pi*2),rot3/360.0f*(NLMISC::Pi*2));
@@ -96,9 +95,18 @@ namespace EDen {
   UInstance NELOrganismPrinter::createEntity(Bodypart* bp) {
     UInstance Entity = scene->createInstance(pathToCylinderShape);
 
+    static float debuggy = 0.01f;
+    static float debuggz = 0.01f;
+
     if (!Entity.empty()) {
 		  Entity.setTransformMode(UTransformable::RotEuler);
-      Entity.setScale(1.0f,1.0f,0.1f * bp->getSize());
+      Entity.setScale(0.1f,0.1f,0.3f);
+      Entity.setPos(-5.0f,-50.0f + debuggy,80.0f - debuggz);
+      debuggy += 0.2f; 
+      if(debuggy > 100.0f) { 
+        debuggy = 0.01f; debuggz += 0.4f;
+        if(debuggz > 80.0f) debuggz = 0.01f;
+      };
     }
     else {
       scene->deleteInstance(Entity);
@@ -123,7 +131,7 @@ namespace EDen {
       return true;
     }
     else {
-      return false;
+      return true;//return false;
     };
   };
 

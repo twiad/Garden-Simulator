@@ -76,6 +76,7 @@ int _tmain(int argc, _TCHAR* argv[])
     runtime->add(gp);
 
     NELOrganismPrinter* printer = new NELOrganismPrinter(Scene,runtime);
+    runtime->add(printer);
 
     Bodypart* bp,* bp2,* bp3;
     bp = new Bodypart(BPT_Stick,"TESTPART3");
@@ -96,8 +97,8 @@ int _tmain(int argc, _TCHAR* argv[])
     gp->getChemicalStorage()->add("Wasser",STARTING_WATER);
     gp->getChemicalStorage()->add("Goo",STARTING_GOO);
 
-    runtime->initDatabase(appSettingsPathP);
-    runtime->loadDatabase("autosave.xml");
+    //runtime->initDatabase(appSettingsPathP);
+    //runtime->loadDatabase("autosave.xml");
     ////////////////////
 
     std::vector<UInstance> Entities;

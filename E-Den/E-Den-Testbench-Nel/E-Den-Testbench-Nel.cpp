@@ -68,7 +68,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		Camera.setTransformMode (UTransformable::DirectMatrix);
 		Camera.setPerspective ((float)Pi/2.f, 1.33f, 0.1f, 1000);
 
-		Camera.lookAt (CVector(-10.f, 10.f, 0.f), CVector(0.f, 0.f, 0.f));
+		Camera.lookAt (CVector(50.f, 0.f, 10.f), CVector(0.f, 0.f, 35.f));
 
     /////////////////////
     RuntimeManager* runtime = new RuntimeManager();
@@ -78,32 +78,30 @@ int _tmain(int argc, _TCHAR* argv[])
     NELOrganismPrinter* printer = new NELOrganismPrinter(Scene,runtime);
     runtime->add(printer);
 
-    Bodypart* bp,* bp2,* bp3;
-    bp = new Bodypart(BPT_Stick,"TESTPART3");
-    Organism* organism = new Organism("TestOrganism2", bp, runtime);
-    organism->connectToGoundpart(gp);
-    runtime->add(organism);
-    runtime->registerBodypart(bp);
-    bp->setScaleModifier(1.0f);
-    bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
-    bp->occupieSpawnpoint(bp2);
-    runtime->registerBodypart(bp2);
-    //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
-    bp->getChemicalStorage()->add("Energie",100.0f);
-    bp2->getChemicalStorage()->add("Energie",100.0f);
-    //bp3->getChemicalStorage()->add("Energie",10.0f);
-    //bp3->getChemicalStorage()->add("Sonne",200.0f);
+    //Bodypart* bp,* bp2,* bp3;
+    //bp = new Bodypart(BPT_Stick,"TESTPART3");
+    //Organism* organism = new Organism("TestOrganism2", bp, runtime);
+    //organism->connectToGoundpart(gp);
+    //runtime->add(organism);
+    //runtime->registerBodypart(bp);
+    //bp->setScaleModifier(1.0f);
+    //bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
+    //bp->occupieSpawnpoint(bp2);
+    //runtime->registerBodypart(bp2);
+    ////bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
+    //bp->getChemicalStorage()->add("Energie",100.0f);
+    //bp2->getChemicalStorage()->add("Energie",100.0f);
+    ////bp3->getChemicalStorage()->add("Energie",10.0f);
+    ////bp3->getChemicalStorage()->add("Sonne",200.0f);
 
     gp->getChemicalStorage()->add("Wasser",STARTING_WATER);
     gp->getChemicalStorage()->add("Goo",STARTING_GOO);
 
-    //runtime->initDatabase(appSettingsPathP);
-    //runtime->loadDatabase("autosave.xml");
+    runtime->initDatabase(appSettingsPathP);
+    runtime->loadDatabase("autosave.xml");
     ////////////////////
 
-    std::vector<UInstance> Entities;
-
-		// initial angle
+    // initial angle
 		float angle = 0.f;
 
     runtime->update();
@@ -146,13 +144,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 		}
 
-		// we are leaving the program
-
-		// delete all entities
-		for(size_t i = 0; i < Entities.size(); ++i)
-		{
-			Scene->deleteInstance(Entities[i]);
-		}
+  	// we are leaving the program
 
 		// delete the scene
 		Driver->deleteScene(Scene);

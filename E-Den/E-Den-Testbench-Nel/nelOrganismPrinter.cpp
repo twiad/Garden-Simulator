@@ -19,7 +19,6 @@ namespace EDen {
     sun = new NEL_SunlightProvider();
     if(runtime) runtime->add(sun);
 
-
     CPath::addSearchPath(CFile::getPath(pathToCylinderShape), true, false);
   };
 
@@ -32,7 +31,6 @@ namespace EDen {
     if(runtime) organisms = runtime->getOrganisms();
     else cleanupDeadOrganisms();
     
-
     Organism* org;
 
     int counter = 1;
@@ -41,7 +39,7 @@ namespace EDen {
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
       org = *it;
       if( org->getState() != BSP_dead) {
-        req_print(org->getRootBodypart(),(25.0f/max)*counter,0.0f,0.0f,0.0f,0.0f,0.0f);
+        req_print(org->getRootBodypart(),0.0f,((50.0f/max)*counter) - 25.0f,0.0f,0.0f,0.0f,0.0f);
       };
       counter++;
     };
@@ -50,20 +48,29 @@ namespace EDen {
   };
 
   bool NELOrganismPrinter::req_print(Bodypart* bp, float offset_x, float offset_y, float offset_z, float rot1, float rot2, float rot3) {
+    if(bp == 0) 
+      return false;
+    if(bp->getBodypartState() == BSP_dead) 
+      return false;
+
     NELBodypartInformation* info = dynamic_cast<NELBodypartInformation*>(getInformation(bp));
-    if(!info) return false;
+    if(info == 0) 
+      return false;
+
     UInstance entity = info->entity;
     
-    if(!entity.empty()) {
-      entity.setPos(offset_x,offset_y,offset_z);
-      entity.setRotEuler(rot1,rot2,rot3);
-      entity.setScale(0.2f * bp->getSize(),0.2f * bp->getSize(),bp->getSize());
-    };
+    if(sun)
+          sun->setFactor(bp,10.0f);
 
-    CVector myVector;
-    myVector.sphericToCartesian(rot1,rot2,rot3);
-    myVector.normalize();
-    myVector *= bp->getSize();
+
+    entity.setPos(offset_x,offset_y,offset_z);
+    entity.setRotEuler(rot1/360.0f*(NLMISC::Pi*2),rot2/360.0f*(NLMISC::Pi*2),rot3/360.0f*(NLMISC::Pi*2));
+    entity.setScale(0.5f,0.5f,bp->getSize());
+    entity.setColor(0.5f,0.5f,0.5f);
+
+    CMatrix mat = entity.getMatrix();
+
+    CVector myVector = mat.mulVector(CVector(0.0f,0.0f,1.0f));
 
     offset_x += myVector.x;
     offset_y += myVector.y;
@@ -78,7 +85,10 @@ namespace EDen {
         float partner_ang1 = sp->ang2d;
         float partner_ang2 = sp->ang2;
         float partner_ang3 = sp->rot;
-        req_print((*it)->connectedBodypart,offset_x,offset_y,offset_z,rot1 + 180.0f + partner_ang1 + (*it)->ang2d,rot2 + partner_ang2 + (*it)->ang2,rot3 + partner_ang3 + (*it)->rot);
+        float resRot1 = rot1 + 180.0f + partner_ang1 + (*it)->ang2d;
+        float resRot2 = rot2 + partner_ang2 + (*it)->ang2;
+        float resRot3 = rot3 + partner_ang3 + (*it)->rot;
+        req_print((*it)->connectedBodypart,offset_x,offset_y,offset_z,resRot1,resRot2,resRot3);
       };
     };
     return true;
@@ -89,7 +99,7 @@ namespace EDen {
 
     if (!Entity.empty()) {
 		  Entity.setTransformMode(UTransformable::RotEuler);
-      Entity.setScale(0.2f * bp->getSize(),0.2f * bp->getSize(),1.f * bp->getSize());
+      Entity.setScale(1.0f,1.0f,0.1f * bp->getSize());
     }
     else {
       scene->deleteInstance(Entity);
@@ -144,6 +154,21 @@ namespace EDen {
 
     return true;
   };
+
+  bool NEL_SunlightProvider::setFactor(Bodypart* param_bodypart ,float param_factor) {
+    ExtendedBodypartInformation* info = dynamic_cast<ExtendedBodypartInformation*>(getInformation(param_bodypart));
+    if(info)
+      info->factor = param_factor;
+
+    else {
+      info = new ExtendedBodypartInformation();
+      info->factor = param_factor;
+      updateBodypartInformation(param_bodypart,info);
+    };
+
+    return true;
+  };
+
 };
 
 

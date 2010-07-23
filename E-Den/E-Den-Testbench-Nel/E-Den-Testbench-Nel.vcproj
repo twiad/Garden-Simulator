@@ -138,7 +138,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:MSVCRTD /NODEFAULTLIB:LIBCMT"
-				AdditionalDependencies="nl3d_r.lib nlmisc_r.lib E-Den.lib"
+				AdditionalDependencies="nl3d_r.lib nlmisc_r.lib E-Den.lib shlwapi.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;;../Release;&quot;$(SDL_HOME)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;"
 				IgnoreAllDefaultLibraries="false"

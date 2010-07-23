@@ -2,6 +2,12 @@
 // test the 3d-binding of e-den
 // Partly copied from nel shapeviewer example which is under "GNU Affero General Public License"
 
+#define MAX_WATER 2.0e9
+#define STARTING_WATER 1.7e9
+#define MAX_GOO 2.0e9
+#define STARTING_GOO 1.7e9
+
+
 #include "stdafx.h"
 
 #include <nel/misc/path.h>
@@ -15,13 +21,23 @@
 
 #include "nelOrganismPrinter.h"
 
+#include "shlobj.h"
+#include "Shlwapi.h"
+
 using namespace NLMISC;
 using namespace NL3D;
 using namespace EDen;
 
+TCHAR appSettingsPath[MAX_PATH];
+char appSettingsPathP[MAX_PATH];
+
 int _tmain(int argc, _TCHAR* argv[])
 {
-	try
+  SHGetSpecialFolderPath(0,appSettingsPath,CSIDL_APPDATA,1);
+  PathAppend(appSettingsPath,TEXT("EDen"));
+  wcstombs(appSettingsPathP,appSettingsPath,MAX_PATH);
+
+  try
 	{
 		// create OpenGL driver
 		NL3D::UDriver *Driver = UDriver::createDriver();
@@ -54,17 +70,44 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		Camera.lookAt (CVector(-10.f, 10.f, 0.f), CVector(0.f, 0.f, 0.f));
 
-    NELOrganismPrinter* printer = new NELOrganismPrinter(Scene);
+    /////////////////////
+    RuntimeManager* runtime = new RuntimeManager();
+    Groundpart* gp = new Groundpart(MAX_WATER,MAX_GOO);
+    runtime->add(gp);
+
+    NELOrganismPrinter* printer = new NELOrganismPrinter(Scene,runtime);
+
+    Bodypart* bp,* bp2,* bp3;
+    bp = new Bodypart(BPT_Stick,"TESTPART3");
+    Organism* organism = new Organism("TestOrganism2", bp, runtime);
+    organism->connectToGoundpart(gp);
+    runtime->add(organism);
+    bp->setScaleModifier(1.0f);
+    bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
+    bp->occupieSpawnpoint(bp2);
+    bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
+    bp->getChemicalStorage()->add("Energie",100.0f);
+    bp2->getChemicalStorage()->add("Energie",100.0f);
+    bp3->getChemicalStorage()->add("Energie",10.0f);
+    bp3->getChemicalStorage()->add("Sonne",200.0f);
+
+    gp->getChemicalStorage()->add("Wasser",STARTING_WATER);
+    gp->getChemicalStorage()->add("Goo",STARTING_GOO);
+
+    runtime->initDatabase(appSettingsPathP);
+    runtime->loadDatabase("autosave.xml");
+    ////////////////////
 
     std::vector<UInstance> Entities;
 
 		// initial angle
 		float angle = 0.f;
 
+    runtime->update();
     printer->print();
 
 		// main loop
-		while (Driver->isActive())
+		while (Driver->isActive() && runtime->orgsAlive())
 		{
 			Driver->EventServer.pump();
 			Driver->clearBuffers(CRGBA(0, 0, 0));

@@ -7,10 +7,19 @@
 #include "organism.h"
 #include "runtimeManager.h"
 #include <nel/3d/u_scene.h>
+#include <nel/3d/u_instance.h>
 
 namespace EDen {
 
+  const std::string pathToCylinderShape = "h:/src/ryzom/code/nel/samples/pacs/shapes/cylinder.shape";
+  const std::string pathToPlaneShape = "h:/src/ryzom/code/nel/samples/pacs/shapes/rectangle.shape";
+
   class NEL_SunlightProvider;
+
+  class NELBodypartInformation : public BodypartInformation {
+  public:
+    NL3D::UInstance entity; 
+  };
 
   class NELOrganismPrinter : public BodypartObserver {
   private:
@@ -18,9 +27,16 @@ namespace EDen {
   protected:
     NL3D::UScene *scene;
     std::list<Organism*> organisms;
+
+    NL3D::UInstance createEntity(Bodypart* bp);
   public:
     NELOrganismPrinter(NL3D::UScene *Scene);
     ~NELOrganismPrinter();
+
+    virtual BodypartInformation* updateInformation(Bodypart* bodypart, BodypartInformation* information = 0);
+
+    virtual bool bodypartAdded(Bodypart* bodypart, BodypartInformation* information);
+    virtual bool bodypartRemoved(Bodypart* bodypart, BodypartInformation* information);
 
     virtual bool print();
   };

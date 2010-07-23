@@ -19,9 +19,6 @@ using namespace NLMISC;
 using namespace NL3D;
 using namespace EDen;
 
-const std::string pathToCylinderShape = "h:/src/ryzom/code/nel/samples/pacs/shapes/cylinder.shape";
-const std::string pathToPlaneShape = "h:/src/ryzom/code/nel/samples/pacs/shapes/rectangle.shape";
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 	try
@@ -57,14 +54,14 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		Camera.lookAt (CVector(-10.f, 10.f, 0.f), CVector(0.f, 0.f, 0.f));
 
-    NELOrganismPrinter printer = new NELOrganismPrinter(Scene);
+    NELOrganismPrinter* printer = new NELOrganismPrinter(Scene);
 
     std::vector<UInstance> Entities;
 
 		// initial angle
 		float angle = 0.f;
 
-    printer.print();
+    printer->print();
 
 		// main loop
 		while (Driver->isActive())
@@ -72,7 +69,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			Driver->EventServer.pump();
 			Driver->clearBuffers(CRGBA(0, 0, 0));
       
-      printer.print();
+      printer->print();
 
       // animate the scene
 			Scene->animate(NLMISC::CTime::getLocalTime() / 1000.0);

@@ -2,9 +2,21 @@
 
 #include "nelOrganismPrinter.h"
 
+#include <nel/misc/path.h>
+#include <nel/misc/file.h>
+#include <nel/misc/common.h>
+#include <nel/3d/u_scene.h>
+#include <nel/3d/u_instance.h>
+
+using namespace NLMISC;
+using namespace NL3D;
+using namespace EDen;
+
 namespace EDen {
   NELOrganismPrinter::NELOrganismPrinter(NL3D::UScene *Scene) {
     scene = Scene; 
+    
+    CPath::addSearchPath(CFile::getPath(pathToCylinderShape), true, false);
   };
 
   NELOrganismPrinter::~NELOrganismPrinter() {
@@ -12,32 +24,49 @@ namespace EDen {
   };
 
   bool NELOrganismPrinter::print() {
-    // use the path of the shape to find its textures
-		CPath::addSearchPath(CFile::getPath(pathToCylinderShape), true, false);
+    return true;
+  };
 
-    // add an entity to the scene
-		UInstance Entity = Scene->createInstance(pathToCylinderShape);
+  UInstance NELOrganismPrinter::createEntity(Bodypart* bp) {
+    UInstance Entity = scene->createInstance(pathToCylinderShape);
 
 		// if we can't create entity, skip it
     if (!Entity.empty()) {
-
-		  // we will rotate it later so use Euler rotation transform mode
 		  Entity.setTransformMode(UTransformable::RotEuler);
-
-      Entity.setScale(0.2f,0.2f,1.f);
-
-		  // add entity to the vector
-			Entities.push_back(Entity);
+      Entity.setScale(0.2f * bp->getSize(),0.2f * bp->getSize(),1.f * bp->getSize());
     }
+    return Entity;
+  };
 
-    Entity = Scene->createInstance(pathToPlaneShape);
-    if (!Entity.empty()) {
-		  Entity.setTransformMode(UTransformable::RotEuler);
-			Entities.push_back(Entity);
+  BodypartInformation* NELOrganismPrinter::updateInformation(Bodypart* bodypart, BodypartInformation* information) {
+    if(information) {
+      return information; // could chec for valid entity here
     }
+    else {
+      NELBodypartInformation* info = new NELBodypartInformation();
+      info->entity = createEntity(bodypart);
+      return info;
+    };
+  };
 
+  bool NELOrganismPrinter::bodypartAdded(Bodypart* bodypart, BodypartInformation* information) {
+    if(information) {
+      return true;
+    }
+    else {
+      return false;
+    };
+  };
+
+  bool NELOrganismPrinter::bodypartRemoved(Bodypart* bodypart, BodypartInformation* information) {
+    UInstance entity = dynamic_cast<NELBodypartInformation*>(information)->entity;
+    scene->deleteInstance(entity);
+    dynamic_cast<NELBodypartInformation*>(information)->entity = 0;
+    return true;
   };
 };
+
+
 
 /*
 			// increase the angle

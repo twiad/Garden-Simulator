@@ -20,9 +20,9 @@ namespace EDen {
 namespace EDen {
 
   class BodypartObserver {
-  private:
+  protected:
     bool updateBodypartInformation(Bodypart* bodypart, BodypartInformation* information);
-  protected:  
+  
     std::map<Bodypart*, BodypartInformation*> bodyparts;
     boost::mutex bodypartsMutex;
 
@@ -39,6 +39,7 @@ namespace EDen {
 
     bool addBodypart(Bodypart* param_bodypart);
     bool removeBodypart(Bodypart* param_bodypart);
+    bool removeAllBodyparts();
   };
 };
 

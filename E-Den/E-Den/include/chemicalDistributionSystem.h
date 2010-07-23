@@ -22,27 +22,20 @@ namespace EDen {
     virtual ~ExtendedBodypartInformation() {};
   };
 
-  class ResourceProvider {
+  class ResourceProvider : public BodypartObserver {
   protected:  
     std::string chemicalName;
     float amount;
-
-    std::map<Bodypart*, ExtendedBodypartInformation*> bodyparts;
-    boost::mutex bodypartsMutex;
     BodypartType reactiveBodypartType;
-
-    ExtendedBodypartInformation* getInformation(Bodypart* param_bodypart);
-    bool updateBodypartInformation(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info);
-    
     virtual bool singleDistributionStep(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info);
+
+    virtual bool bodypartAdded(Bodypart* bodypart, BodypartInformation* information);
+    virtual bool bodypartRemoved(Bodypart* bodypart, BodypartInformation* information);
 
   public:
     ResourceProvider(std::string param_chemicalName, BodypartType param_bodypartType, float param_amount);
     ~ResourceProvider();
 
-    bool addBodypart(Bodypart* param_bodypart);
-    bool removeBodypart(Bodypart* param_bodypart);
-    
     bool distibute();
   };
 };

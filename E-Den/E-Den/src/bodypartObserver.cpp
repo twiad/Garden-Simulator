@@ -8,7 +8,12 @@
 
 namespace EDen {
 
-  BodypartInformation* updateInformation(Bodypart* bodypart, BodypartInformation* information = 0) {
+  BodypartObserver::BodypartObserver() {};
+  BodypartObserver::~BodypartObserver() {
+    removeAllBodyparts();
+  };
+
+  BodypartInformation* BodypartObserver::updateInformation(Bodypart* bodypart, BodypartInformation* information) {
     return 0;
   };
 
@@ -29,12 +34,22 @@ namespace EDen {
       if(!bodyparts[param_bodypart]) {
         info = updateInformation(param_bodypart);
         if(!info) info = new BodypartInformation();
-        bodypartAdded(param_bodypart,info);
-        updateBodypartInformation(param_bodypart,info);  
+        if(bodypartAdded(param_bodypart,info)) {
+          updateBodypartInformation(param_bodypart,info);  
+        }
+        else {
+          delete info;
+          return false;
+        };
       } 
       else {
-        info = updateInformation(param_bodypart,info);
-        bodypartAdded(param_bodypart,info);
+        info = updateInformation(param_bodypart,bodyparts[param_bodypart]);
+        if(bodypartAdded(param_bodypart,info)) {
+          
+        } else {
+          removeBodypart(param_bodypart);
+          return false;
+        }
       }
       return true;
     } else return false; // if param was zeropointer
@@ -49,5 +64,21 @@ namespace EDen {
       bodyparts.erase(param_bodypart);
     };
     return true;
+  };
+
+  bool BodypartObserver::removeAllBodyparts() {
+    std::map<Bodypart*, BodypartInformation*>::iterator it;
+    while(!bodyparts.empty()) {
+      it = bodyparts.begin();
+      bodypartRemoved(it->first,it->second);
+      delete it->second;
+      bodyparts.erase(it);
+    };
+    return true;
+  };
+
+  BodypartInformation* BodypartObserver::getInformation(Bodypart* param_bodypart) {
+    boost::mutex::scoped_lock lock(bodypartsMutex);
+    return bodyparts[param_bodypart];
   };
 };

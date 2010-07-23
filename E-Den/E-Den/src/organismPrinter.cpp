@@ -348,7 +348,7 @@ namespace EDen {
   };
 
   bool SDL_SunlightProvider::setFactor(Bodypart* param_bodypart ,float param_factor) {
-    ExtendedBodypartInformation* info = getInformation(param_bodypart);
+    ExtendedBodypartInformation* info = dynamic_cast<ExtendedBodypartInformation*>(getInformation(param_bodypart));
     if(info)
       info->factor = param_factor;
 

@@ -136,6 +136,14 @@ namespace EDen {
   bool RuntimeManager::add(ResourceProvider* param_resourceProvider) {
     if(param_resourceProvider) {
       resourceProviders.push_front(param_resourceProvider);
+      observers.push_front(param_resourceProvider);
+      return true;
+    } else return false;
+  };
+
+  bool RuntimeManager::add(BodypartObserver* observer) {
+    if(observer) {
+      observers.push_front(observer);
       return true;
     } else return false;
   };
@@ -149,7 +157,7 @@ namespace EDen {
 
   bool RuntimeManager::registerBodypart(Bodypart* param_bodypart) {
     //boost::mutex::scoped_lock lock(bodypartsMutex);
-    for(std::list<ResourceProvider*>::iterator it = resourceProviders.begin(); it != resourceProviders.end(); it++) {
+    for(std::list<BodypartObserver*>::iterator it = observers.begin(); it != observers.end(); it++) {
       if(*it) (*it)->addBodypart(param_bodypart);
     };
 
@@ -158,7 +166,7 @@ namespace EDen {
 
   bool RuntimeManager::unregisterBodypart(Bodypart* param_bodypart) {
     //boost::mutex::scoped_lock lock(bodypartsMutex);
-    for(std::list<ResourceProvider*>::iterator it = resourceProviders.begin(); it != resourceProviders.end(); it++) {
+    for(std::list<BodypartObserver*>::iterator it = observers.begin(); it != observers.end(); it++) {
       if(*it) (*it)->removeBodypart(param_bodypart);
     };
     return true;
@@ -179,6 +187,23 @@ namespace EDen {
     for(std::list<ResourceProvider*>::iterator it = resourceProviders.end(); it != resourceProviders.begin(); it--) {
       if(*it == param_resourceProvider) {
         resourceProviders.erase(it);
+        break;
+      };
+    };
+
+    for(std::list<BodypartObserver*>::iterator it = observers.end(); it != observers.begin(); it--) {
+      if(*it == param_resourceProvider) {
+        observers.erase(it);
+        break;
+      };
+    };
+    return true;
+  };
+
+  bool RuntimeManager::remove(BodypartObserver* observer) {
+    for(std::list<BodypartObserver*>::iterator it = observers.end(); it != observers.begin(); it--) {
+      if(*it == observer) {
+        observers.erase(it);
         break;
         return true;
       };

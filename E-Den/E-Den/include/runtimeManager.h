@@ -23,6 +23,7 @@ namespace EDen {
   protected:
     std::list<ResourceProvider*> resourceProviders;
     std::list<Groundpart*> groundparts;
+    std::list<BodypartObserver*> observers;
 
     static boost::mutex orgsToProcessMutex;
     static std::list<Organism*> orgsToProcess;
@@ -60,12 +61,14 @@ namespace EDen {
 
     bool add(Organism* param_org, bool connectToGroundpart = false);
     bool add(ResourceProvider* param_resourceProvider);
+    bool add(BodypartObserver* observer);
     bool add(Groundpart* param_groudnpart);
 
     bool registerBodypart(Bodypart* param_bodypart);
     bool unregisterBodypart(Bodypart* param_bodypart);
     bool remove(Organism* param_org);
     bool remove(ResourceProvider* param_resourceProvider);
+    bool remove(BodypartObserver* observer);
     bool remove(Groundpart* paramGroundpart);
 
     bool update();

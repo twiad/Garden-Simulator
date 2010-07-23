@@ -41,10 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(BOOST_HOME_MSVC)&quot;;&quot;..\E-Den\include&quot;;..\..\tinyxml"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -60,8 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/NODEFAULTLIB:MSVCRTD"
 				AdditionalDependencies="nl3d_d.lib nlmisc_d.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;;../Release;&quot;$(SDL_HOME)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -115,6 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="&quot;$(BOOST_HOME_MSVC)&quot;;&quot;..\E-Den\include&quot;;..\..\tinyxml"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -133,8 +137,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/NODEFAULTLIB:MSVCRTD /NODEFAULTLIB:LIBCMT"
 				AdditionalDependencies="nl3d_r.lib nlmisc_r.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;;../Release;&quot;$(SDL_HOME)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;"
+				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -177,6 +184,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\nelOrganismPrinter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 			</File>
@@ -186,6 +197,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\nelOrganismPrinter.h"
+				>
+			</File>
 			<File
 				RelativePath=".\stdafx.h"
 				>

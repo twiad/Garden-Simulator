@@ -120,7 +120,7 @@
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;$(BOOST_HOME_MSVC)&quot;;&quot;$(SDL_DRAW_HOME)\include&quot;;&quot;$(SDL_HOME)\include&quot;;&quot;..\E-Den\include&quot;;..\..\tinyxml"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"

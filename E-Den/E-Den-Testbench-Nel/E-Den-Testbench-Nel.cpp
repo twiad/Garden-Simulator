@@ -13,8 +13,11 @@
 #include <nel/3d/u_driver.h>
 #include <nel/3d/u_instance.h>
 
+#include "nelOrganismPrinter.h"
+
 using namespace NLMISC;
 using namespace NL3D;
+using namespace EDen;
 
 const std::string pathToCylinderShape = "h:/src/ryzom/code/nel/samples/pacs/shapes/cylinder.shape";
 const std::string pathToPlaneShape = "h:/src/ryzom/code/nel/samples/pacs/shapes/rectangle.shape";
@@ -26,11 +29,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		// create OpenGL driver
 		NL3D::UDriver *Driver = UDriver::createDriver();
 		if (!Driver) throw 2;
-
-		// create a window in 800x600
 		Driver->setDisplay(UDriver::CMode(800, 600, 32, true));
-
-		// set the title
 		Driver->setWindowTitle(ucstring("E-Den-Testbench-NEL"));
 
 		// can use both dds and tga textures for shapes
@@ -39,18 +38,11 @@ int _tmain(int argc, _TCHAR* argv[])
 		// create the light
 		ULight *Light = ULight::createLight();
 		if (!Light) throw 3;
-
-		// set mode of the light
 		Light->setMode(ULight::DirectionalLight);
-
-		// set position of the light
 		Light->setPosition(CVector(-20.f, 30.f, 10.f));
+  	Light->setAmbiant(CRGBA(255, 255, 255));
 
-		// white light
-		Light->setAmbiant(CRGBA(255, 255, 255));
-
-		// set and enable the light
-		Driver->setLight(0, *Light);
+    Driver->setLight(0, *Light);
 		Driver->enableLight(0);
 
 		// Create a scene
@@ -60,68 +52,31 @@ int _tmain(int argc, _TCHAR* argv[])
 		// create the camera
 		UCamera Camera = Scene->getCam();
 		if (Camera.empty()) throw 5;
-
 		Camera.setTransformMode (UTransformable::DirectMatrix);
 		Camera.setPerspective ((float)Pi/2.f, 1.33f, 0.1f, 1000);
 
-		// camera will look at entities
 		Camera.lookAt (CVector(-10.f, 10.f, 0.f), CVector(0.f, 0.f, 0.f));
 
-		// create entities
-		std::vector<UInstance> Entities;
+    NELOrganismPrinter printer = new NELOrganismPrinter(Scene);
 
-		// create a entity
-
-		// use the path of the shape to find its textures
-		CPath::addSearchPath(CFile::getPath(pathToCylinderShape), true, false);
-
-    // add an entity to the scene
-		UInstance Entity = Scene->createInstance(pathToCylinderShape);
-
-		// if we can't create entity, skip it
-    if (!Entity.empty()) {
-
-		  // we will rotate it later so use Euler rotation transform mode
-		  Entity.setTransformMode(UTransformable::RotEuler);
-
-		  // add entity to the vector
-			Entities.push_back(Entity);
-    }
-
-    Entity = Scene->createInstance(pathToPlaneShape);
-    if (!Entity.empty()) {
-		  Entity.setTransformMode(UTransformable::RotEuler);
-			Entities.push_back(Entity);
-    }
+    std::vector<UInstance> Entities;
 
 		// initial angle
 		float angle = 0.f;
+
+    printer.print();
 
 		// main loop
 		while (Driver->isActive())
 		{
 			Driver->EventServer.pump();
-			
-			// the background is black
 			Driver->clearBuffers(CRGBA(0, 0, 0));
+      
+      printer.print();
 
-			// increase the angle
-			angle += 0.1f;
-
-			if (angle >= NLMISC::Pi*2) angle = 0.f;
-
-			// rotate all entities
-			for(size_t i = 0; i < Entities.size(); ++i)
-			{
-				Entities[i].setRotEuler(0.f, angle, 0.f);
-			}
-
-			// animate the scene
+      // animate the scene
 			Scene->animate(NLMISC::CTime::getLocalTime() / 1000.0);
-
-			// render the scene
 			Scene->render();
-
 			// show the scene
 			Driver->swapBuffers();
 

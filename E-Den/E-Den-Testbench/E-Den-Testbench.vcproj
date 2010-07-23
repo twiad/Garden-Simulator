@@ -139,9 +139,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:MSVCRTD"
-				AdditionalDependencies="E-Den.lib SDLmain.lib SDL.lib SDL_draw.lib shlwapi.lib"
+				AdditionalDependencies="SDLmain.lib SDL.lib SDL_draw.lib shlwapi.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\stage\lib&quot;;../Release;&quot;$(SDL_HOME)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;;../Release;&quot;$(SDL_HOME)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"

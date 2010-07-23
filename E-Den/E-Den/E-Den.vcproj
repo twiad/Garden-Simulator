@@ -125,7 +125,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\stage\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 			/>
 			<Tool
@@ -155,6 +155,10 @@
 			>
 			<File
 				RelativePath=".\src\bodypart.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\bodypartObserver.cpp"
 				>
 			</File>
 			<File
@@ -225,6 +229,10 @@
 			>
 			<File
 				RelativePath=".\include\bodypart.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\bodypartObserver.h"
 				>
 			</File>
 			<File

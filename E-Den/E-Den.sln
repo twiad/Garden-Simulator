@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "E-Den-Testbench", "E-Den-Te
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TestbenchSetup", "Setup\TestbenchSetup\TestbenchSetup.vdproj", "{A2EE0391-A850-4BB1-9C03-E39A1819301A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "E-Den-Testbench-Nel", "E-Den-Testbench-Nel\E-Den-Testbench-Nel.vcproj", "{53F6306C-401D-45A2-BDCE-7B5B4C50EE5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -26,6 +28,10 @@ Global
 		{C768049D-3739-424F-B8D6-BA023B48C033}.Release|Win32.Build.0 = Release|Win32
 		{A2EE0391-A850-4BB1-9C03-E39A1819301A}.Debug|Win32.ActiveCfg = Debug
 		{A2EE0391-A850-4BB1-9C03-E39A1819301A}.Release|Win32.ActiveCfg = Release
+		{53F6306C-401D-45A2-BDCE-7B5B4C50EE5C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{53F6306C-401D-45A2-BDCE-7B5B4C50EE5C}.Debug|Win32.Build.0 = Debug|Win32
+		{53F6306C-401D-45A2-BDCE-7B5B4C50EE5C}.Release|Win32.ActiveCfg = Release|Win32
+		{53F6306C-401D-45A2-BDCE-7B5B4C50EE5C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

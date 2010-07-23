@@ -10,19 +10,18 @@ namespace EDen {
 };
 
 #include "globals.h"
-#include "chemicalSystem.h"
-#include "organism.h"
+#include "bodypartObserver.h"
 #include <boost/thread/mutex.hpp>
 
-class ExtendedBodypartInformation {
-public:
-  float factor;
-
-  ExtendedBodypartInformation() {factor = 1.0f;};
-  ~ExtendedBodypartInformation() {};
-};
-
 namespace EDen {
+  class ExtendedBodypartInformation : public BodypartInformation {
+  public:
+    float factor;
+
+    ExtendedBodypartInformation() {factor = 1.0f;};
+    virtual ~ExtendedBodypartInformation() {};
+  };
+
   class ResourceProvider {
   protected:  
     std::string chemicalName;
@@ -31,7 +30,6 @@ namespace EDen {
     std::map<Bodypart*, ExtendedBodypartInformation*> bodyparts;
     boost::mutex bodypartsMutex;
     BodypartType reactiveBodypartType;
-
 
     ExtendedBodypartInformation* getInformation(Bodypart* param_bodypart);
     bool updateBodypartInformation(Bodypart* param_bodypart, ExtendedBodypartInformation* param_info);

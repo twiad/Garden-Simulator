@@ -2,6 +2,8 @@
 // by Franz Koehler 2009
 
 #include "chemicalDistributionSystem.h"
+#include "chemicalSystem.h"
+#include "organism.h"
 #include <stdio.h>
 #include <iostream>
 

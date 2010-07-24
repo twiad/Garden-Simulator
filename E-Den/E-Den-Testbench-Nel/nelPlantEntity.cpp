@@ -3,7 +3,6 @@
 #include "nelPlantEntity.h"
 
 using namespace NLMISC;
-using namespace NL3D;
 using namespace EDen;
 
 namespace EDen {

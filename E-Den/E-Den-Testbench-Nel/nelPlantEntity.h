@@ -4,39 +4,35 @@
 #ifndef _E_DEN_NEL_PLANTENTITY_HEADER_
 #define _E_DEN_NEL_PLANTENTITY_HEADER_
 
+#include <nel/misc/vector.h>
 #include "organism.h"
 #include "runtimeManager.h"
-#include <nel/3d/u_instance.h>
-
-using namespace NLMISC;
-using namespace NL3D;
-using namespace EDen;
 
 namespace EDen {
   class PlantEntity {
   protected:
     Organism* org;
-    CVector pos;
+    NLMISC::CVector pos;
 
   public:
-    PlantEntity(Organism* organism, CVector Position);
+    PlantEntity(Organism* organism, NLMISC::CVector Position);
     ~PlantEntity();
 
     Organism* getOrganism();
-    CVector getPosition();
+    NLMISC::CVector getPosition();
   };
 
   class PlantEntityManager : public Groundpart {
   protected:
     std::list<PlantEntity*> plants;  
     float dimx, dimy;
-    CVector pos;
+    NLMISC::CVector pos;
 
     Randomizer rnd;
 
     void clear();
   public:
-    PlantEntityManager(CVector position = CVector(0.f,0.f,0.f), float p_dimx = 100.0f, float p_dimy = 100.0f, float maxWater = 2.0e8, float maxGoo = 2.0e8);
+    PlantEntityManager(NLMISC::CVector position = NLMISC::CVector(0.f,0.f,0.f), float p_dimx = 100.0f, float p_dimy = 100.0f, float maxWater = 2.0e8, float maxGoo = 2.0e8);
     ~PlantEntityManager();
 
     virtual bool registerOrganism(Organism* param_organism);

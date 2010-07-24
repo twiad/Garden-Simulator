@@ -4,6 +4,7 @@
 #ifndef _E_DEN_NEL_ORGANISMPRINTER_HEADER_
 #define _E_DEN_NEL_ORGANISMPRINTER_HEADER_
 
+#include "nelPlantEntity.h"
 #include "organism.h"
 #include "runtimeManager.h"
 #include <nel/3d/u_scene.h>
@@ -30,8 +31,9 @@ namespace EDen {
 
   protected:
     NL3D::UScene *scene;
-    std::list<Organism*> organisms;
+    std::list<PlantEntity*> plants;
     RuntimeManager* runtime;
+    PlantEntityManager* plantManager;
     NEL_SunlightProvider* sun;
 
     NL3D::UInstance createEntity(Bodypart* bp);
@@ -39,7 +41,7 @@ namespace EDen {
 
     bool req_print(Bodypart* bp, float offset_x, float offset_y, float offset_z, float rot1, float rot2, float rot3);
   public:
-    NELOrganismPrinter(NL3D::UScene *Scene, RuntimeManager* runtime);
+    NELOrganismPrinter(NL3D::UScene *Scene, RuntimeManager* runtime, PlantEntityManager* pplantManager);
     ~NELOrganismPrinter();
 
     virtual BodypartInformation* updateInformation(Bodypart* bodypart, BodypartInformation* information = 0);

@@ -4,7 +4,6 @@
 
 #include <nel/misc/path.h>
 #include <nel/misc/file.h>
-#include <nel/misc/common.h>
 #include <nel/3d/u_scene.h>
 #include <nel/3d/u_instance.h>
 
@@ -13,12 +12,13 @@ using namespace NL3D;
 using namespace EDen;
 
 namespace EDen {
-  NELOrganismPrinter::NELOrganismPrinter(NL3D::UScene *Scene, RuntimeManager* p_runtime) {
+  NELOrganismPrinter::NELOrganismPrinter(NL3D::UScene *Scene, RuntimeManager* p_runtime, PlantEntityManager* pplantManager) {
     scene = Scene; 
     runtime = p_runtime;
     sun = new NEL_SunlightProvider();
     if(runtime) runtime->add(sun);
 
+    plantManager = pplantManager;
     CPath::addSearchPath(CFile::getPath(pathToCylinderShape), true, false);
   };
 
@@ -28,18 +28,21 @@ namespace EDen {
   };
 
   bool NELOrganismPrinter::print() {
-    if(runtime) organisms = runtime->getOrganisms();
+    if(plantManager) plants = plantManager->getPlants();
     else cleanupDeadOrganisms();
     
     Organism* org;
+    PlantEntity* plant;
 
     int counter = 1;
-    int max = organisms.size() + 1;
+    int max = plants.size() + 1;
 
-    for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
-      org = *it;
+    for(std::list<PlantEntity*>::iterator it = plants.begin(); it != plants.end(); it++) {
+      plant = (*it);
+      org = plant->getOrganism();
+      CVector pos = plant->getPosition();
       if( org->getState() != BSP_dead) {
-        req_print(org->getRootBodypart(),0.0f,((100.0f/max)*counter) - 50.0f,0.0f,0.0f,0.0f,0.0f);
+        req_print(org->getRootBodypart(),pos.x,pos.y,pos.z,0.0f,0.0f,0.0f);
       };
       counter++;
     };
@@ -164,19 +167,19 @@ namespace EDen {
   };
 
   bool NELOrganismPrinter::cleanupDeadOrganisms() {
-    Organism* org;
-    std::list<Organism*> new_orgs;
+    PlantEntity* plant;
+    std::list<PlantEntity*> new_plants;
 
-    while(!organisms.empty()) {
-      org = organisms.back();
-      organisms.pop_back();
-      if(org)
-          if(org->getState() != BSP_dead)
-              new_orgs.push_front(org);
+    while(!plants.empty()) {
+      plant = plants.back();
+      plants.pop_back();
+      if(plant)
+          if(plant->getOrganism()->getState() != BSP_dead)
+              new_plants.push_front(plant);
     };
 
-    organisms.clear();
-    organisms.swap(new_orgs);
+    plants.clear();
+    plants.swap(new_plants);
 
     return true;
   };

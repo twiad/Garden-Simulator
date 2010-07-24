@@ -77,14 +77,15 @@ int _tmain(int argc, _TCHAR* argv[])
 		Camera.setTransformMode (UTransformable::DirectMatrix);
 		Camera.setPerspective ((float)Pi/2.f, 1.33f, 0.1f, 1000);
 
-		Camera.lookAt (CVector(50.f, 0.f, 10.f), CVector(0.f, 0.f, 35.f));
+		Camera.lookAt (CVector(50.f, 0.f, 3.f), CVector(0.f, 0.f, 35.f));
 
     /////////////////////
     RuntimeManager* runtime = new RuntimeManager();
-    Groundpart* gp = new Groundpart(MAX_WATER,MAX_GOO);
+    
+    PlantEntityManager* gp = new PlantEntityManager(CVector(-50.0f,-50.0f,0.0f),50.0f,100.0f,MAX_WATER,MAX_GOO);
     runtime->add(gp);
 
-    NELOrganismPrinter* printer = new NELOrganismPrinter(Scene,runtime);
+    NELOrganismPrinter* printer = new NELOrganismPrinter(Scene,runtime,gp);
     runtime->add(printer);
 
     Bodypart* bp,* bp2;
@@ -92,7 +93,7 @@ int _tmain(int argc, _TCHAR* argv[])
     Organism* organism = new Organism("TestOrganism2", bp, runtime);
     organism->connectToGoundpart(gp);
     runtime->add(organism);
-//    runtime->registerBodypart(bp);
+    //runtime->registerBodypart(bp);
     bp->setScaleModifier(1.0f);
     bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
     bp->occupieSpawnpoint(bp2);

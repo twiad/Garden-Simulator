@@ -67,13 +67,13 @@ namespace EDen {
     
     switch(bp->getBodypartType())  {
       case BPT_Stick:
-        entity.setScale(0.2f,0.2f,bp->getSize() * 0.4f);
+        entity.setScale(0.2f,0.2f,bp->getSize() * 0.2f);
         break;
       case BPT_Leaf:
         entity.setScale(bp->getSize() * 0.1f, 0.2f, bp->getSize() * 0.2f);
         break;
       case BPT_Branch:
-        entity.setScale(0.3f,0.3f,bp->getSize() * 0.3f);
+        entity.setScale(0.3f,0.3f,bp->getSize() * 0.2f);
         break;
       case BPT_Seed:
         entity.setScale(1.0f,1.0f,bp->getSize()*0.1f);

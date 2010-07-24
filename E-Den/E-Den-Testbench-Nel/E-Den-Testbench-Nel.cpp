@@ -113,6 +113,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			Driver->EventServer.pump();
       
       runtime->update();
+      if((runtime->getCycleCount() % 10) == 0) Driver->setWindowTitle(ucstring(runtime->getDebugOut(true)));
       Driver->clearBuffers(CRGBA(0, 0, 0));
       printer->print();
 
@@ -133,6 +134,14 @@ int _tmain(int argc, _TCHAR* argv[])
 				UDriver::TPolygonMode p = Driver->getPolygonMode();
 				p = UDriver::TPolygonMode(((int)p+1)%3);
 				Driver->setPolygonMode(p);
+			}
+      else if (Driver->AsyncListener.isKeyPushed(KeyF5))
+			{
+				runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1); 
+			}
+      else if (Driver->AsyncListener.isKeyPushed(KeyF6))
+			{
+				runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1); 
 			}
 			// F12 will take a screenshot
 			else if (Driver->AsyncListener.isKeyPushed(KeyF12))

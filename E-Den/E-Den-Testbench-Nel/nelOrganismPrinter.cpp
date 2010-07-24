@@ -39,7 +39,7 @@ namespace EDen {
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
       org = *it;
       if( org->getState() != BSP_dead) {
-        req_print(org->getRootBodypart(),0.0f,((50.0f/max)*counter) - 25.0f,0.0f,0.0f,0.0f,0.0f);
+        req_print(org->getRootBodypart(),0.0f,((100.0f/max)*counter) - 50.0f,0.0f,0.0f,0.0f,0.0f);
       };
       counter++;
     };

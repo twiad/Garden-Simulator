@@ -42,21 +42,30 @@ int _tmain(int argc, _TCHAR* argv[])
 		// create OpenGL driver
 		NL3D::UDriver *Driver = UDriver::createDriver();
 		if (!Driver) throw 2;
-		Driver->setDisplay(UDriver::CMode(800, 600, 32, true));
+		Driver->setDisplay(UDriver::CMode(800, 600, 32, true,0,4));
 		Driver->setWindowTitle(ucstring("E-Den-Testbench-NEL"));
 
 		// can use both dds and tga textures for shapes
 		CPath::remapExtension ("dds", "tga", true);
 
-		// create the light
+		// create the lights
 		ULight *Light = ULight::createLight();
 		if (!Light) throw 3;
 		Light->setMode(ULight::DirectionalLight);
 		Light->setPosition(CVector(60.f, 30.f, 40.f));
-  	Light->setAmbiant(CRGBA(255, 255, 255));
+  	Light->setAmbiant(CRGBA(200, 200, 200));
 
     Driver->setLight(0, *Light);
 		Driver->enableLight(0);
+
+    Light = ULight::createLight();
+		if (!Light) throw 3;
+		Light->setMode(ULight::DirectionalLight);
+		Light->setPosition(CVector(10.f, 40.f, 80.f));
+  	Light->setAmbiant(CRGBA(180, 180, 180));
+
+    Driver->setLight(1, *Light);
+		Driver->enableLight(1);
 
 		// Create a scene
 		NL3D::UScene *Scene = Driver->createScene(true);

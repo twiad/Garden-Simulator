@@ -64,7 +64,26 @@ namespace EDen {
 
     entity.setPos(offset_x,offset_y,offset_z);
     entity.setRotEuler(rot1/360.0f*(NLMISC::Pi*2),rot2/360.0f*(NLMISC::Pi*2),rot3/360.0f*(NLMISC::Pi*2));
-    entity.setScale(0.5f,0.5f,bp->getSize());
+    
+    switch(bp->getBodypartType())  {
+      case BPT_Stick:
+        entity.setScale(0.2f,0.2f,bp->getSize() * 0.4f);
+        break;
+      case BPT_Leaf:
+        entity.setScale(bp->getSize() * 0.1f, 0.2f, bp->getSize() * 0.2f);
+        break;
+      case BPT_Branch:
+        entity.setScale(0.3f,0.3f,bp->getSize() * 0.3f);
+        break;
+      case BPT_Seed:
+        entity.setScale(1.0f,1.0f,bp->getSize()*0.1f);
+        break;
+      default:
+        entity.setScale(0.2f,0.2f,bp->getSize() * 0.5f);
+    };
+    
+    entity.getMaterial(0).setColor(CRGBA(bp->color.r * 255,bp->color.g * 255,bp->color.b * 255,bp->color.a * 255));
+    entity.getMaterial(0).setDiffuse(CRGBA(bp->color.r * 255,bp->color.g * 255,bp->color.b * 255,bp->color.a * 255));
 
     CMatrix mat = entity.getMatrix();
 
@@ -177,17 +196,3 @@ namespace EDen {
   };
 
 };
-
-
-
-/*
-			// increase the angle
-			angle += 0.1f;
-
-			if (angle >= NLMISC::Pi*2) angle = 0.f;
-
-			// rotate all entities
-			for(size_t i = 0; i < Entities.size(); ++i)
-			{
-				Entities[i].setRotEuler(0.f, angle, 0.f);
-			}*/

@@ -62,9 +62,6 @@ namespace EDen {
 
     UInstance entity = info->entity;
     
-    if(sun)
-      sun->setFactor(bp,offset_z * 10.0f);
-
     entity.setPos(offset_x,offset_y,offset_z);
     entity.setRotEuler(rot1/360.0f*(NLMISC::Pi*2),rot2/360.0f*(NLMISC::Pi*2),rot3/360.0f*(NLMISC::Pi*2));
     
@@ -90,11 +87,22 @@ namespace EDen {
 
     CMatrix mat = entity.getMatrix();
 
-    CVector myVector = mat.mulVector(CVector(0.0f,0.0f,1.0f));
+    CVector myVector;
+    
+    // calculate the orientation of the leaf for sunlight distribution
+    myVector = mat.mulVector(CVector(0.0f,1.0f,0.0f));
+    if(sun)
+      sun->setFactor(bp,abs(myVector.z) * offset_z); 
+
+    // calculate next offset
+    myVector = mat.mulVector(CVector(0.0f,0.0f,1.0f));
 
     offset_x += myVector.x;
     offset_y += myVector.y;
     offset_z += myVector.z;
+
+    
+    
 
     SpawnpointInformationList bpSpawnpoints = bp->getSpawnpoints();
     for(SpawnpointInformationListIterator it = bpSpawnpoints.begin(); it != bpSpawnpoints.end(); it++) {
@@ -123,7 +131,7 @@ namespace EDen {
     if (!Entity.empty()) {
 		  Entity.setTransformMode(UTransformable::RotEuler);
       Entity.setScale(0.1f,0.1f,0.3f);
-      Entity.setPos(-5.0f,-50.0f + debuggy,80.0f - debuggz);
+      Entity.setPos(-50.0f,-50.0f + debuggy,80.0f - debuggz);
       debuggy += 0.2f; 
       if(debuggy > 100.0f) { 
         debuggy = 0.01f; debuggz += 0.4f;

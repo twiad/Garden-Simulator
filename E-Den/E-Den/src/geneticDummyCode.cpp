@@ -2,7 +2,7 @@
 #include "globals.h"
 
 #define GRUNDVERBRAUCH 5.95f
-#define LIFETIME 1500
+#define LIFETIME 2000
 #define SEED_DROP_ENERGIE_PERCENTAGE 95.0f
 #define SEED_DROP_ENERGIE_VALUE 200.0f
 #define BRANCHE_MUTATION 0.5f

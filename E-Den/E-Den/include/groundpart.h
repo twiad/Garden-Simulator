@@ -23,8 +23,8 @@ namespace EDen {
 
     ChemicalStorage* getChemicalStorage();
 
-    bool registerOrganism(Organism* param_organism) {return true;};
-    bool unregisterOrganism(Organism* param_organism) {return true;};
+    virtual bool registerOrganism(Organism* param_organism) {return true;};
+    virtual bool unregisterOrganism(Organism* param_organism) {return true;};
   };
 
 };

@@ -39,8 +39,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
   try
 	{
-		// create OpenGL driver
-		NL3D::UDriver *Driver = UDriver::createDriver();
+		// create driver
+		NL3D::UDriver *Driver = UDriver::createDriver(0,false);
 		if (!Driver) throw 2;
 		Driver->setDisplay(UDriver::CMode(800, 600, 32, true,0,4));
 		Driver->setWindowTitle(ucstring("E-Den-Testbench-NEL"));
@@ -77,7 +77,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		Camera.setTransformMode (UTransformable::DirectMatrix);
 		Camera.setPerspective ((float)Pi/2.f, 1.33f, 0.1f, 1000);
 
-		Camera.lookAt (CVector(50.f, 0.f, 3.f), CVector(0.f, 0.f, 35.f));
+		Camera.lookAt (CVector(30.f, 0.f, 5.f), CVector(0.f, 0.f, 15.f));
 
     /////////////////////
     RuntimeManager* runtime = new RuntimeManager();

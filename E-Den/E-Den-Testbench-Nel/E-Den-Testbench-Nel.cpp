@@ -6,6 +6,8 @@
 #define STARTING_WATER 1.7e9
 #define MAX_GOO 2.0e9
 #define STARTING_GOO 1.7e9
+#define INITIAL_MUTATION_COUNT 50
+#define INITIAL_MUTATION_RATE 2.0f
 
 
 #include "stdafx.h"
@@ -30,6 +32,31 @@ using namespace EDen;
 
 TCHAR appSettingsPath[MAX_PATH];
 char appSettingsPathP[MAX_PATH];
+
+Organism* generateProtoplant(RuntimeManager* runtime, PlantEntityManager* gp)
+{
+  Bodypart* bp,* bp2;
+  bp = new Bodypart(BPT_Stick,"TESTPART3");
+
+  Organism* organism = new Organism("TestOrganism2", bp, runtime);
+  organism->connectToGoundpart(gp);
+  runtime->add(organism);
+  //runtime->registerBodypart(bp);
+  bp->setScaleModifier(1.0f);
+  bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
+  for(int i = 0; i < INITIAL_MUTATION_COUNT; i++)
+    bp2->getGeneticCode()->mutate(INITIAL_MUTATION_RATE);
+
+  bp->occupieSpawnpoint(bp2);
+  runtime->registerBodypart(bp2);
+  //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
+  bp->getChemicalStorage()->add("Energie",100.0f);
+  bp2->getChemicalStorage()->add("Energie",100.0f);
+  //bp3->getChemicalStorage()->add("Energie",10.0f);
+  //bp3->getChemicalStorage()->add("Sonne",200.0f);
+
+  return organism;
+}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -88,21 +115,7 @@ int _tmain(int argc, _TCHAR* argv[])
     NELOrganismPrinter* printer = new NELOrganismPrinter(Scene,runtime,gp);
     runtime->add(printer);
 
-    Bodypart* bp,* bp2;
-    bp = new Bodypart(BPT_Stick,"TESTPART3");
-    Organism* organism = new Organism("TestOrganism2", bp, runtime);
-    organism->connectToGoundpart(gp);
-    runtime->add(organism);
-    //runtime->registerBodypart(bp);
-    bp->setScaleModifier(1.0f);
-    bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
-    bp->occupieSpawnpoint(bp2);
-    runtime->registerBodypart(bp2);
-    //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
-    bp->getChemicalStorage()->add("Energie",100.0f);
-    bp2->getChemicalStorage()->add("Energie",100.0f);
-    //bp3->getChemicalStorage()->add("Energie",10.0f);
-    //bp3->getChemicalStorage()->add("Sonne",200.0f);
+    generateProtoplant(runtime, gp);
 
     gp->getChemicalStorage()->add("Wasser",STARTING_WATER);
     gp->getChemicalStorage()->add("Goo",STARTING_GOO);
@@ -123,7 +136,17 @@ int _tmain(int argc, _TCHAR* argv[])
 			Driver->EventServer.pump();
       
       runtime->update();
-      if((runtime->getCycleCount() % 10) == 0) Driver->setWindowTitle(ucstring(runtime->getDebugOut(true)));
+      if(!runtime->orgsAlive())
+        generateProtoplant(runtime, gp);
+      if((runtime->getCycleCount() % 10) == 0) {
+        if((runtime->getCps() > 57) && (runtime->getPreferedOrganismCount() <= runtime->getOrganismCount()))
+          runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1);
+        if((runtime->getCps() < 30) && (runtime->getPreferedOrganismCount() >= runtime->getOrganismCount()) && (runtime->getPreferedOrganismCount() > 3))
+          runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
+        if((runtime->getCps() < 10))
+          runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount(),true);
+        Driver->setWindowTitle(ucstring(runtime->getDebugOut(true)));
+      };
       Driver->clearBuffers(CRGBA(0, 0, 0));
       printer->print();
 
@@ -153,6 +176,14 @@ int _tmain(int argc, _TCHAR* argv[])
 			{
 				runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1); 
 			}
+      else if (Driver->AsyncListener.isKeyPushed(KeyC))
+			{
+				generateProtoplant(runtime, gp);
+			}
+      else if (Driver->AsyncListener.isKeyPushed(KeyX))
+			{
+        runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount(),true);
+      }
 			// F12 will take a screenshot
 			else if (Driver->AsyncListener.isKeyPushed(KeyF12))
 			{

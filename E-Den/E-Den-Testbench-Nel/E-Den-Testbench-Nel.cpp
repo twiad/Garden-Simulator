@@ -139,13 +139,16 @@ int _tmain(int argc, _TCHAR* argv[])
       if(!runtime->orgsAlive())
         generateProtoplant(runtime, gp);
       if((runtime->getCycleCount() % 10) == 0) {
-        if((runtime->getCps() > 57) && (runtime->getPreferedOrganismCount() <= runtime->getOrganismCount()))
+        Driver->setWindowTitle(ucstring(runtime->getDebugOut(true)));
+      }
+      if((runtime->getCycleCount() % 500) == 0) {
+        if((runtime->getCps() > 40) && (runtime->getPreferedOrganismCount() <= runtime->getOrganismCount()))
           runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1);
         if((runtime->getCps() < 30) && (runtime->getPreferedOrganismCount() >= runtime->getOrganismCount()) && (runtime->getPreferedOrganismCount() > 3))
           runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
         if((runtime->getCps() < 10))
           runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount(),true);
-        Driver->setWindowTitle(ucstring(runtime->getDebugOut(true)));
+        
       };
       Driver->clearBuffers(CRGBA(0, 0, 0));
       printer->print();

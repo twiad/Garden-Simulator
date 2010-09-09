@@ -155,8 +155,8 @@ int _tmain(int argc, _TCHAR* argv[])
       
       angle += cameraRotationSpeed;
       while(angle >= 2 * PI) angle -= 2 * PI;
-      cameraPosition.x = cameraStart.x * sin(angle);
-      cameraPosition.y = cameraStart.x * cos(angle);
+      cameraPosition.x = cameraStart.x * sin(angle) + cameraLookAt.x;
+      cameraPosition.y = cameraStart.x * cos(angle) + cameraLookAt.y;
       Camera.lookAt (cameraPosition, cameraLookAt);
 
       if(!runtime->orgsAlive())
@@ -173,15 +173,19 @@ int _tmain(int argc, _TCHAR* argv[])
           runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount(),true);
         
       };
-      Driver->clearBuffers(CRGBA(0, 0, 0));
+      
+
       printer->print();
 
-      // animate the scene
-			Scene->animate(NLMISC::CTime::getLocalTime() / 1000.0);
-			Scene->render();
-			// show the scene
-			Driver->swapBuffers();
-
+      if((runtime->getCps() < 59) || ((runtime->getCycleCount() % 5) == 0)) {
+        Driver->clearBuffers(CRGBA(0, 0, 0));
+        
+        // animate the scene  
+			  Scene->animate(NLMISC::CTime::getLocalTime() / 1000.0);
+			  Scene->render();
+			  // show the scene
+			  Driver->swapBuffers();
+      }
 			// escape will leave the program
 			if (Driver->AsyncListener.isKeyPushed(KeyESCAPE))
 			{

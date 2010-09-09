@@ -5,7 +5,7 @@
 #define MAX_PLANT_COUNT 6
 #define CANDIDATES_LEVEL (150 / 25)
 
-#define NUM_THREADS 2
+#define NUM_CORES 2
 
 namespace EDen {
 
@@ -107,6 +107,7 @@ namespace EDen {
   bool RuntimeManager::reset() {
     preferedOrganismCount = MAX_PLANT_COUNT ;
     candidatesTreshold = CANDIDATES_LEVEL ;
+    numthreads = (int)(NUM_CORES * 1.5f);
     state = RMS_Normal;
     
     cycles = 0;
@@ -239,7 +240,7 @@ namespace EDen {
 
     boost::thread_group threadpool;
 
-    for(int i = 0; i < NUM_THREADS; i++) {
+    for(int i = 0; i < numthreads; i++) {
       threadpool.create_thread(&processOrgs);
     };
     threadpool.join_all();

@@ -42,6 +42,8 @@ namespace EDen {
 #endif
       };
     } while (org);
+
+    driver.execute();
   };
 
   void RuntimeManager::oneSecondTimer() {

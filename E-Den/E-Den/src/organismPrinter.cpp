@@ -284,23 +284,23 @@ namespace EDen {
     if(param_bp) {
       int returnvalue = 1;
       int x1,y1,x2,y2;
-      float ang1,ang2,ang3,dx,dy,px,rad1,rad2,rad3;
+      float a1,a2,a3,deltax,deltay,px,radi1,radi2,radi3;
       
       x1 = param_x;
       y1 = param_y;
-      ang1 = p_ang1;
-      ang2 = p_ang2;
-      ang3 = p_ang3;
-      rad1 = 2.0f * M_PI * (p_ang1/360.0f);
-      rad2 = 2.0f * M_PI * (p_ang2/360.0f);
-      rad3 = 2.0f * M_PI * (p_ang3/360.0f);
+      a1 = p_ang1;
+      a2 = p_ang2;
+      a3 = p_ang3;
+      radi1 = 2.0f * M_PI * (p_ang1/360.0f);
+      radi2 = 2.0f * M_PI * (p_ang2/360.0f);
+      radi3 = 2.0f * M_PI * (p_ang3/360.0f);
 
       //an absolut rotation?
-      dx = sin(rad1);//*(cos(rad3));
-      dy = cos(rad1);//*cos(rad2);
+      deltax = sin(radi1);//*(cos(rad3));
+      deltay = cos(radi1);//*cos(rad2);
 
-      x2 = (int)(param_x + (dx * param_bp->getSize() * scale));
-      y2 = (int)(param_y + (dy * param_bp->getSize() * scale));
+      x2 = (int)(param_x + (deltax * param_bp->getSize() * scale));
+      y2 = (int)(param_y + (deltay * param_bp->getSize() * scale));
 
       px = (float(y1) / (float)dimy) * 5;
       if(sun)
@@ -330,7 +330,7 @@ namespace EDen {
           float partner_ang1 = sp->ang2d;
           float partner_ang2 = sp->ang2;
           float partner_ang3 = sp->rot;
-          returnvalue += req_print((*it)->connectedBodypart,x2,y2,ang1 + 180.0f + partner_ang1 + (*it)->ang2d,ang2 + partner_ang2 + (*it)->ang2,ang3 + partner_ang3 + (*it)->rot);
+          returnvalue += req_print((*it)->connectedBodypart,x2,y2,a1 + 180.0f + partner_ang1 + (*it)->ang2d,a2 + partner_ang2 + (*it)->ang2,a3 + partner_ang3 + (*it)->rot);
         };
       };
       //std::cout << returnvalue << std::endl;

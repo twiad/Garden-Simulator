@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(BOOST_HOME_MSVC)&quot;;&quot;..\E-Den\include&quot;;..\..\tinyxml"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="&quot;$(CUDA_HOME)include&quot;;&quot;$(BOOST_HOME_MSVC)&quot;;&quot;..\E-Den\include&quot;;..\..\tinyxml"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;USE_CL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,9 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="nl3d_d.lib nlmisc_d.lib E-Den.lib shlwapi.lib"
+				AdditionalDependencies="nl3d_d.lib nlmisc_d.lib E-Den.lib shlwapi.lib OpenCl.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;;../Debug;&quot;$(SDL_HOME)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(CUDA_HOME)\lib\win32&quot;;&quot;$(BOOST_HOME_MSVC)\lib&quot;;../Debug;&quot;$(SDL_HOME)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(BOOST_HOME_MSVC)&quot;;&quot;..\E-Den\include&quot;;..\..\tinyxml"
+				AdditionalIncludeDirectories="&quot;$(CUDA_HOME)include&quot;;&quot;$(BOOST_HOME_MSVC)&quot;;&quot;..\E-Den\include&quot;;..\..\tinyxml"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;USE_CL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -137,9 +137,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:MSVCRTD /NODEFAULTLIB:LIBCMT"
-				AdditionalDependencies="nl3d_r.lib nlmisc_r.lib E-Den.lib shlwapi.lib"
+				AdditionalDependencies="nl3d_r.lib nlmisc_r.lib E-Den.lib shlwapi.lib OpenCl.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;;../Release;&quot;$(SDL_HOME)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(CUDA_HOME)\lib\win32&quot;;&quot;$(BOOST_HOME_MSVC)\lib&quot;;../Release;&quot;$(SDL_HOME)\lib&quot;;&quot;$(SDL_DRAW_HOME)\lib&quot;"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="1"

@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <iostream>
 
+
 namespace EDen {
   ResourceProvider::ResourceProvider(std::string param_chemicalName, BodypartType param_bodypartType, float param_amount) {
     amount = param_amount;

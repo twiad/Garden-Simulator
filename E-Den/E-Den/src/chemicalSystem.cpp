@@ -144,13 +144,13 @@ namespace EDen {
     size = param_size; 
     return true;
   };
-
-  bool ChemicalStorage::sync(ChemicalStorage* other) {
+#ifdef USE_CL
+  bool ChemicalStorage::sync(ChemicalStorage* other, CLDriver* driver) {
     /// TODO: UNDBEDINGT NOCH HYSTERESE CHECKEN!!! PERFORMANCE!
     for(ChemicalStorageMapIterator it = storage.begin(); it != storage.end(); it++) {
 //  I:  apost/amax = bpost/bmax
 // II: apost+bpost = a+b
-
+      /// CUDA: Push back task here?
       ChemicalStorageEntry storageEntry = (*it).second;
       if(storageEntry.max*size > 0.0) {
         float bamaxquot = (other->getMaxAmount(storageEntry.chemical))/(storageEntry.max*size);
@@ -162,6 +162,26 @@ namespace EDen {
     };
     return true;
   };
+#else
+  bool ChemicalStorage::sync(ChemicalStorage* other) {
+    /// TODO: UNDBEDINGT NOCH HYSTERESE CHECKEN!!! PERFORMANCE!
+    for(ChemicalStorageMapIterator it = storage.begin(); it != storage.end(); it++) {
+//  I:  apost/amax = bpost/bmax
+// II: apost+bpost = a+b
+      /// CUDA: Push back task here?
+      ChemicalStorageEntry storageEntry = (*it).second;
+      if(storageEntry.max*size > 0.0) {
+        float bamaxquot = (other->getMaxAmount(storageEntry.chemical))/(storageEntry.max*size);
+        float basum = (other->getCurrentAmount(storageEntry.chemical))+(storageEntry.current);
+        float newb = basum*(bamaxquot/(bamaxquot+1));
+        other->setCurrentAmount(storageEntry.chemical,newb);
+        (*it).second.current = basum - newb;
+      }
+    };
+        return true;
+  };
+#endif
+
 
   //bool ChemicalStorage::sync(ChemicalStorage* other) {
   //
@@ -235,11 +255,19 @@ namespace EDen {
     return element;
   };
 
+#ifdef USE_CL
+  void ChemicalStorageLink::update(CLDriver* driver) {
+    // TODO: Validate that _s1,_s2 are ready, port to CoAJnR maybe ;)
+    _s1->sync(_s2,driver);
+    //_s2->sync(_s1); // depends ... should not be needed :P
+  };
+#else
   void ChemicalStorageLink::update() {
     // TODO: Validate that _s1,_s2 are ready, port to CoAJnR maybe ;)
     _s1->sync(_s2);
     //_s2->sync(_s1); // depends ... should not be needed :P
   };
+#endif
 
   ChemicalStorage* ChemicalStorageLink::getS1() {
     return _s1; 

@@ -2,7 +2,7 @@
 // by Franz Koehler 2009
 
 #include "runtimeManager.h"
-#define MAX_PLANT_COUNT 6
+#define MAX_PLANT_COUNT 3
 #define CANDIDATES_LEVEL (150 / 25)
 
 #define NUM_THREADS 2
@@ -28,10 +28,17 @@ namespace EDen {
       lock.unlock();
 
       if((org) && (org->getState() != BSP_dead)) {
+#ifdef USE_CL
+        org->updateGeneticProcessors(&driver);
+        org->updateDelete();
+        org->updateChemicalStorageLinks(&driver);
+        org->incLifetime();
+#else
         org->updateGeneticProcessors();
         org->updateDelete();
         org->updateChemicalStorageLinks();
         org->incLifetime();
+#endif
       };
     } while (org);
   };
@@ -50,6 +57,7 @@ namespace EDen {
   RuntimeManager::RuntimeManager() {
     randomizer = new Randomizer();
     database = new SpeciesDatabase(this);
+
     reset();
     
     cpsWaiter = new boost::thread(&oneSecondTimer);

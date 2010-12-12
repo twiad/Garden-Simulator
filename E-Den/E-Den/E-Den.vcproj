@@ -106,8 +106,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(BOOST_HOME_MSVC)&quot;;include;..\..\tinyxml"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				AdditionalIncludeDirectories="&quot;$(CUDA_HOME)include&quot;;&quot;$(BOOST_HOME_MSVC)&quot;;include;..\..\tinyxml"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;USE_CL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -125,7 +125,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalLibraryDirectories="&quot;$(BOOST_HOME_MSVC)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(CUDA_HOME)\lib\win32&quot;;&quot;$(BOOST_HOME_MSVC)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 			/>
 			<Tool
@@ -167,6 +167,10 @@
 			</File>
 			<File
 				RelativePath=".\src\chemicalSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CLDriver.cpp"
 				>
 			</File>
 			<File
@@ -241,6 +245,10 @@
 			</File>
 			<File
 				RelativePath=".\include\chemicalSystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CLDriver.h"
 				>
 			</File>
 			<File

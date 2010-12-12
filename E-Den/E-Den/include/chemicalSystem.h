@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include "tinyxml.h"
+#include "CLDriver.h"
 
 #define STD_CHEM_STORAGE_MAX_AMOUNT 1.0f
 
@@ -75,7 +76,11 @@ namespace EDen {
     float getSize();
     bool setSize(float param_size);
 
+#ifdef USE_CL
+    bool sync(ChemicalStorage* other, CLDriver* driver);
+#else
     bool sync(ChemicalStorage* other);
+#endif
     bool moveAllToStorage(ChemicalStorage* other);
 
     TiXmlElement* toXmlElement();
@@ -92,7 +97,11 @@ namespace EDen {
     ChemicalStorage* getS1();
     ChemicalStorage* getS2();
 
+#ifdef USE_CL
+    void update(CLDriver* driver);
+#else
     void update();
+#endif
   };
 } // namespace EDen
 

@@ -25,8 +25,6 @@ namespace EDen {
   typedef std::list<Bodypart*> BodypartList;
   typedef std::list<Bodypart*>::iterator BodypartListIterator;
 
-  
-
   class Organism {
   protected:
     std::string name;
@@ -35,6 +33,7 @@ namespace EDen {
     Bodypart* rootBodypart;
     Groundpart* groundpart;
     RuntimeManager* runtimeManager;
+
 
     BodypartList bodyparts;
     BodypartList bodypartsToDelete;
@@ -56,10 +55,17 @@ namespace EDen {
     int getLifetime();
     bool incLifetime();
 
+#ifdef USE_CL
+    bool updateChemicalStorageLinks(CLDriver* driver);
+    bool updateGeneticProcessors(CLDriver* driver);
+    bool updateDelete();
+    bool update(CLDriver* driver);
+#else
     bool updateChemicalStorageLinks();
     bool updateGeneticProcessors();
     bool updateDelete();
     bool update();
+#endif
     
     bool registerBodypart(Bodypart* param_bodypart);
     bool unregisterBodypart(Bodypart* param_bodypart);

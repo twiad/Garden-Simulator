@@ -15,7 +15,9 @@
 #include "speciesDatabase.h"
 #include <boost/thread/thread.hpp>
 
-
+#ifdef USE_CL
+#include "CLDriver.h"
+#endif
 
 namespace EDen {
 
@@ -30,7 +32,11 @@ namespace EDen {
 
     static unsigned long cycles;
     static int cps;
-    
+
+#ifdef USE_CL
+    static CLDriver driver;
+#endif
+
     RuntimeManagerState state;
 
     std::list<Organism*> organisms;

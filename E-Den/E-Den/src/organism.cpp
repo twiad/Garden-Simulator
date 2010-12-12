@@ -183,7 +183,63 @@ namespace EDen {
     return true;
   };
 
-  bool Organism::updateChemicalStorageLinks() {
+#ifdef USE_CL
+  bool Organism::updateChemicalStorageLinks(CLDriver* driver) {
+    ChemicalStorageLinkList newStoragLinks;
+    ChemicalStorageLink* lastLink;
+    
+    while(!storageLinks.empty()) {
+      //do {
+        lastLink = storageLinks.back();
+        lastLink->update(driver);
+      //} 
+      //while(lastLink != storageLinks.back());
+      storageLinks.pop_back();
+      newStoragLinks.push_back(lastLink);
+    };
+
+    if(!newStoragLinks.empty()) {
+      newStoragLinks.push_back(newStoragLinks.front());
+      newStoragLinks.pop_front();
+    };
+
+    storageLinks.swap(newStoragLinks);
+
+    return true;
+  };
+
+  bool Organism::updateGeneticProcessors(CLDriver* driver) {
+    GeneticProcessorList newProcs;
+    GeneticProcessor* lastProc;
+    
+    while(!geneticProcessors.empty()) {
+      do {
+        lastProc = geneticProcessors.back();
+        lastProc->executeRelevantClauses();
+      } 
+      while((!geneticProcessors.empty()) && (lastProc != geneticProcessors.back()));
+      if(!geneticProcessors.empty()) geneticProcessors.pop_back();
+      newProcs.push_back(lastProc);
+    };
+
+    geneticProcessors.swap(newProcs);
+    
+    // old version .. faster, but crashes :P
+    //for(GeneticProcessorListIterator it = geneticProcessors.begin(); it != geneticProcessors.end(); it++) {
+    //  (*it)->executeRelevantClauses();
+    //};
+    return true;
+  };
+
+  bool Organism::update(CLDriver* driver) {
+    incLifetime();
+    updateChemicalStorageLinks(driver);
+    updateDelete();
+    updateGeneticProcessors(driver);  
+    return true;
+  };
+#else
+    bool Organism::updateChemicalStorageLinks() {
     ChemicalStorageLinkList newStoragLinks;
     ChemicalStorageLink* lastLink;
     
@@ -240,10 +296,11 @@ namespace EDen {
   bool Organism::update() {
     incLifetime();
     updateChemicalStorageLinks();
-    updateGeneticProcessors();  
     updateDelete();
+    updateGeneticProcessors();  
     return true;
   };
+#endif
 
   Bodypart* Organism::getRootBodypart() {
     return rootBodypart; 

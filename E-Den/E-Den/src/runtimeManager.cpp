@@ -8,6 +8,7 @@
 #define NUM_THREADS 2
 
 namespace EDen {
+  CLDriver RuntimeManager::driver;
 
   boost::mutex RuntimeManager::orgsToProcessMutex;
   std::list<Organism*> RuntimeManager::orgsToProcess;

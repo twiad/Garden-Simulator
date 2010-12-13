@@ -9,6 +9,8 @@
 #define INITIAL_MUTATION_COUNT 50
 #define INITIAL_MUTATION_RATE 2.0f
 
+// -.-
+#define PI 3.1415926536
 
 #include "stdafx.h"
 
@@ -20,6 +22,7 @@
 #include <nel/3d/u_camera.h>
 #include <nel/3d/u_driver.h>
 #include <nel/3d/u_instance.h>
+#include <math.h>
 
 #include "nelOrganismPrinter.h"
 
@@ -94,6 +97,15 @@ int _tmain(int argc, _TCHAR* argv[])
     Driver->setLight(1, *Light);
 		Driver->enableLight(1);
 
+    Light = ULight::createLight();
+		if (!Light) throw 3;
+		Light->setMode(ULight::DirectionalLight);
+		Light->setPosition(CVector(60.f, 30.f, -40.f));
+  	Light->setAmbiant(CRGBA(200, 200, 200));
+
+    Driver->setLight(2, *Light);
+		Driver->enableLight(2);
+
 		// Create a scene
 		NL3D::UScene *Scene = Driver->createScene(true);
 		if (!Scene) throw 4;
@@ -104,12 +116,15 @@ int _tmain(int argc, _TCHAR* argv[])
 		Camera.setTransformMode (UTransformable::DirectMatrix);
 		Camera.setPerspective ((float)Pi/2.f, 1.33f, 0.1f, 1000);
 
-		Camera.lookAt (CVector(30.f, 0.f, 5.f), CVector(0.f, 0.f, 15.f));
+    CVector cameraStart = CVector(130.f,0.f,50.f);
+    CVector cameraPosition = cameraStart;
+    CVector cameraLookAt = CVector(0.f,0.f,5.f);
+		Camera.lookAt (cameraPosition, cameraLookAt);
 
     /////////////////////
     RuntimeManager* runtime = new RuntimeManager();
     
-    PlantEntityManager* gp = new PlantEntityManager(CVector(-50.0f,-50.0f,0.0f),50.0f,100.0f,MAX_WATER,MAX_GOO);
+    PlantEntityManager* gp = new PlantEntityManager(CVector(-50.0f,-50.0f,0.0f),100.0f,100.0f,MAX_WATER,MAX_GOO);
     runtime->add(gp);
 
     NELOrganismPrinter* printer = new NELOrganismPrinter(Scene,runtime,gp);
@@ -124,8 +139,9 @@ int _tmain(int argc, _TCHAR* argv[])
     runtime->loadDatabase("autosave.xml");
     ////////////////////
 
-    // initial angle
-		float angle = 0.f;
+    // camera rotation
+    float angle = 1.f;
+    float cameraRotationSpeed = 0.0007f;
 
     runtime->update();
     printer->print();
@@ -136,29 +152,40 @@ int _tmain(int argc, _TCHAR* argv[])
 			Driver->EventServer.pump();
       
       runtime->update();
+      
+      angle += cameraRotationSpeed;
+      while(angle >= 2 * PI) angle -= 2 * PI;
+      cameraPosition.x = cameraStart.x * sin(angle) + cameraLookAt.x;
+      cameraPosition.y = cameraStart.x * cos(angle) + cameraLookAt.y;
+      Camera.lookAt (cameraPosition, cameraLookAt);
+
       if(!runtime->orgsAlive())
         generateProtoplant(runtime, gp);
       if((runtime->getCycleCount() % 10) == 0) {
         Driver->setWindowTitle(ucstring(runtime->getDebugOut(true)));
       }
       if((runtime->getCycleCount() % 500) == 0) {
-        if((runtime->getCps() > 40) && (runtime->getPreferedOrganismCount() <= runtime->getOrganismCount()))
+        if((runtime->getCps() > 40) && ((int)runtime->getPreferedOrganismCount() <= runtime->getOrganismCount()))
           runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1);
-        if((runtime->getCps() < 30) && (runtime->getPreferedOrganismCount() >= runtime->getOrganismCount()) && (runtime->getPreferedOrganismCount() > 3))
+        if((runtime->getCps() < 30) && ((int)runtime->getPreferedOrganismCount() >= runtime->getOrganismCount()) && (runtime->getPreferedOrganismCount() > 3))
           runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
         if((runtime->getCps() < 10))
           runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount(),true);
         
       };
-      Driver->clearBuffers(CRGBA(0, 0, 0));
+      
+
       printer->print();
 
-      // animate the scene
-			Scene->animate(NLMISC::CTime::getLocalTime() / 1000.0);
-			Scene->render();
-			// show the scene
-			Driver->swapBuffers();
-
+      if((runtime->getCps() < 59) || ((runtime->getCycleCount() % 5) == 0)) {
+        Driver->clearBuffers(CRGBA(0, 0, 0));
+        
+        // animate the scene  
+			  Scene->animate(NLMISC::CTime::getLocalTime() / 1000.0);
+			  Scene->render();
+			  // show the scene
+			  Driver->swapBuffers();
+      }
 			// escape will leave the program
 			if (Driver->AsyncListener.isKeyPushed(KeyESCAPE))
 			{
@@ -178,6 +205,14 @@ int _tmain(int argc, _TCHAR* argv[])
       else if (Driver->AsyncListener.isKeyPushed(KeyF6))
 			{
 				runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1); 
+			}
+      else if (Driver->AsyncListener.isKeyPushed(KeyF9))
+			{
+				cameraRotationSpeed = cameraRotationSpeed * 0.5f; 
+			}
+      else if (Driver->AsyncListener.isKeyPushed(KeyF10))
+			{
+				cameraRotationSpeed = cameraRotationSpeed * 2.0f; 
 			}
       else if (Driver->AsyncListener.isKeyPushed(KeyC))
 			{

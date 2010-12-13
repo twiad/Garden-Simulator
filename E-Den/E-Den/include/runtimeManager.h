@@ -42,6 +42,7 @@ namespace EDen {
     std::list<Organism*> organisms;
     unsigned int preferedOrganismCount;
     bool enforcePreferedOrganismCount;
+    int numthreads;
 
     boost::mutex bodypartsMutex;
 

@@ -185,12 +185,13 @@ namespace EDen {
             boost::mutex::scoped_lock chunkLock((*it)->chunkMutex);
             if(!(*it)->busy) {
               (*it)->busy = true;
-              data = (*it);           
-              continue;
+              data = (*it);  
+              fullStorageSyncDataChunksToProcess.remove(data);
+              break;
             }
           };
         };
-        fullStorageSyncDataChunksToProcess.remove(data);
+        
       }
 
       if(data == 0) {
@@ -200,12 +201,13 @@ namespace EDen {
             boost::mutex::scoped_lock chunkLock((*it)->chunkMutex);
             if(!(*it)->busy) {
               (*it)->busy = true;
-              data = (*it);           
-              continue;
+              data = (*it);
+              storageSyncDataChunksToProcess.remove(data);
+              break;
             }
           };
         };
-        storageSyncDataChunksToProcess.remove(data);
+        
       };
 
       if(data != 0) {
@@ -247,7 +249,7 @@ namespace EDen {
         emptyStorageSyncDataChunks.push_back(data);
         data->busy = false;
       };
-    } while (data != 0);
+    } while (!(storageSyncDataChunksToProcess.empty() && fullStorageSyncDataChunksToProcess.empty()));
   };
 
   void CLDriver::enqueueStorageSync(ChemicalStorage* A, ChemicalStorage* B, Chemical* Chem) {
@@ -269,7 +271,7 @@ namespace EDen {
               data = (*it);
               currentRow = data->current;
               data->current += 1;
-              continue;
+              break;
             };
           }
         };
@@ -302,9 +304,14 @@ namespace EDen {
             (*it)->busy = true;
             currentRow = data->current;
             data->current += 1;
-            continue;
+            emptyStorageSyncDataChunks.remove(data);
+            break;
           }
         };
+      };
+      if(data != 0) {
+        boost::mutex::scoped_lock listLock(storageSyncDataChunksToProcessMutex);
+        storageSyncDataChunksToProcess.push_back(data);
       };
     }
 

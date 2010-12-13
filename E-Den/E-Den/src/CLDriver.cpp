@@ -84,28 +84,28 @@ namespace EDen {
 
     if (ciErr1 != CL_SUCCESS)
     {
-        Cleanup(EXIT_FAILURE);
+        Cleanup(EXIT_FAILURE,"Platform Init Failed");
     }
 
     //Get the devices
     ciErr1 = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_GPU, 1, &cdDevice, NULL);
     if (ciErr1 != CL_SUCCESS)
     {
-        Cleanup(EXIT_FAILURE);
+        Cleanup(EXIT_FAILURE,"GetDeviceIDs failed");
     }
 
     //Create the context
     cxGPUContext = clCreateContext(0, 1, &cdDevice, NULL, NULL, &ciErr1);
     if (ciErr1 != CL_SUCCESS)
     {
-        Cleanup(EXIT_FAILURE);
+        Cleanup(EXIT_FAILURE,"Create Context failed");
     }
 
     // Create a command-queue
     cqCommandQueue = clCreateCommandQueue(cxGPUContext, cdDevice, 0, &ciErr1);
     if (ciErr1 != CL_SUCCESS)
     {
-        Cleanup(EXIT_FAILURE);
+        Cleanup(EXIT_FAILURE,"Create Command Cueue failed");
     }
 
     // Allocate the OpenCL buffer memory objects for source and result on the device GMEM
@@ -123,7 +123,7 @@ namespace EDen {
     ciErr1 |= ciErr2;
     if (ciErr1 != CL_SUCCESS)
     {
-        Cleanup(EXIT_FAILURE);
+        Cleanup(EXIT_FAILURE,"Buffer creation failed");
     }
     
     // Read the OpenCL kernel in from source file
@@ -133,7 +133,7 @@ namespace EDen {
     cpProgram = clCreateProgramWithSource(cxGPUContext, 1, (const char **)&cSourceCL, &szKernelLength,&ciErr1);
     if (ciErr1 != CL_SUCCESS)
     {
-        Cleanup(EXIT_FAILURE);
+        Cleanup(EXIT_FAILURE,"Program creation failed. Check if StorageSync.cl can be found");
     }
 
     // Build the program with 'mad' Optimization option
@@ -145,14 +145,14 @@ namespace EDen {
     ciErr1 = clBuildProgram(cpProgram, 0, NULL, NULL, NULL, NULL);
     if (ciErr1 != CL_SUCCESS)
     {
-      Cleanup(EXIT_FAILURE);
+      Cleanup(EXIT_FAILURE,"Program build failed");
     }
 
     // Create the kernel
     ckKernel = clCreateKernel(cpProgram, "StorageSync", &ciErr1);
     if (ciErr1 != CL_SUCCESS)
     {
-        Cleanup(EXIT_FAILURE);
+        Cleanup(EXIT_FAILURE,"Kernel creation failed");
     }
 
     // Set the Argument values
@@ -165,7 +165,7 @@ namespace EDen {
     ciErr1 |= clSetKernelArg(ckKernel, 6, sizeof(cl_int), (void*)&iNumElements);
     if (ciErr1 != CL_SUCCESS)
     {
-        Cleanup(EXIT_FAILURE);
+        Cleanup(EXIT_FAILURE,"Argument assignment failed");
     }
   };
 
@@ -209,20 +209,24 @@ namespace EDen {
         ciErr1 |= clEnqueueWriteBuffer(cqCommandQueue, cmDevSrcACurrent, CL_FALSE, 0, sizeof(cl_float) * CHUNKSIZE, data->aCurrent, 0, NULL, NULL);
         ciErr1 |= clEnqueueWriteBuffer(cqCommandQueue, cmDevSrcBMax, CL_FALSE, 0, sizeof(cl_float) * CHUNKSIZE, data->bMax, 0, NULL, NULL);
         ciErr1 |= clEnqueueWriteBuffer(cqCommandQueue, cmDevSrcBCurrent, CL_FALSE, 0, sizeof(cl_float) * CHUNKSIZE, data->bCurrent, 0, NULL, NULL);
+        if (ciErr1 != CL_SUCCESS)
+        {
+            Cleanup(EXIT_FAILURE,"Error while Argument data passing");
+        }
 
         size_t chunksize = CHUNKSIZE;
         size_t chunkcount = data->current;
         ciErr1 = clEnqueueNDRangeKernel(cqCommandQueue, ckKernel, 1, NULL, &chunksize, &chunkcount, 0, NULL, NULL);
         if (ciErr1 != CL_SUCCESS)
         {
-            Cleanup(EXIT_FAILURE);
+            Cleanup(EXIT_FAILURE,"Kernel execution error");
         }
 
         ciErr1  = clEnqueueReadBuffer(cqCommandQueue, cmDevDstACurrent, CL_TRUE, 0, sizeof(cl_float) * CHUNKSIZE, data->aCurrentOut, 0, NULL, NULL);
         ciErr1 |= clEnqueueReadBuffer(cqCommandQueue, cmDevDstBCurrent, CL_TRUE, 0, sizeof(cl_float) * CHUNKSIZE, data->bCurrentOut, 0, NULL, NULL);
         if (ciErr1 != CL_SUCCESS)
         {
-          Cleanup(EXIT_FAILURE);
+          Cleanup(EXIT_FAILURE,"Return value transfer error");
         }
 
         // copy data back to chem storages
@@ -312,9 +316,9 @@ namespace EDen {
     data->current += 1;
   };
 
-  void CLDriver::Cleanup (int iExitCode)
+  void CLDriver::Cleanup (int iExitCode, const char* msg)
   {
-      std::cerr << "[!!!] CLDriver->Error : " << iExitCode << std::endl;
+      std::cerr << "[!!!] CLDriver->Error : " << msg << std::endl;
       // Cleanup allocated objects
       if(cPathAndName)free(cPathAndName);
       if(cSourceCL)free(cSourceCL);

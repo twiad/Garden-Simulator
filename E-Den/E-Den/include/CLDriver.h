@@ -80,7 +80,7 @@ namespace EDen {
     int iNumElements;	// Length of float arrays to process (odd # for illustration)
     shrBOOL bNoPrompt;  
 
-    void Cleanup (int iExitCode);
+    void Cleanup (int iExitCode, const char* msg = "");
   public:
     CLDriver();
 

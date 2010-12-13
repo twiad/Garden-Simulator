@@ -6,28 +6,54 @@
 
 #include <list>
 #include <oclUtils.h>
+#include "chemicalSystem.h"
+#include <boost/thread/mutex.hpp>
 //#define __NO_STD_VECTOR
+#define CHUNKSIZE 1000
 
 namespace EDen {
-  //class CLDriver;
+  class CLDriver;
 };
 
 #include "globals.h"
 
 namespace EDen {
-  class CLDriver {
-  private:
-    //inline void checkErr(cl_int err, const char * name);
-    int anyvalue;
+  class ChemicalStorage;
+  class Chemical;
 
+  class CLDriver {
+  protected:
+    struct StorageSyncData {
+      StorageSyncData() {
+        current = 0; busy = false;
+      };
+      float* aMax;
+      float* aCurrent;
+      float* bMax;
+      float* bCurrent;
+      float* aCurrentOut;
+      float* bCurrentOut;
+      ChemicalStorage** a;
+      ChemicalStorage** b;
+      Chemical** chemical;
+      int current;
+      bool busy;
+      boost::mutex chunkMutex;
+    };
+
+    std::list<StorageSyncData*> fullStorageSyncDataChunksToProcess;
+    boost::mutex fullStorageSyncDataChunksToProcessMutex;
+    std::list<StorageSyncData*> storageSyncDataChunksToProcess;
+    boost::mutex storageSyncDataChunksToProcessMutex;
+    std::list<StorageSyncData*> storageSyncDataChunksProcessed;
+    boost::mutex storageSyncDataChunksProcessedMutex;
+    std::list<StorageSyncData*> emptyStorageSyncDataChunks;
+    boost::mutex emptyStorageSyncDataChunksMutex;
+
+  private:
     // Name of the file with the source code for the computation kernel
     // *********************************************************************
     const char* cSourceFile;
-
-    // Host buffers for demo
-    // *********************************************************************
-    void *srcA, *srcB, *dst;        // Host buffers for OpenCL test
-    void* Golden;                   // Host buffer for host golden processing cross check
 
     // OpenCL Vars
     cl_context cxGPUContext;        // OpenCL context
@@ -36,9 +62,12 @@ namespace EDen {
     cl_device_id cdDevice;          // OpenCL device
     cl_program cpProgram;           // OpenCL program
     cl_kernel ckKernel;             // OpenCL kernel
-    cl_mem cmDevSrcA;               // OpenCL device source buffer A
-    cl_mem cmDevSrcB;               // OpenCL device source buffer B 
-    cl_mem cmDevDst;                // OpenCL device destination buffer 
+    cl_mem cmDevSrcAMax;            // OpenCL device source buffer A
+    cl_mem cmDevSrcACurrent;        // OpenCL device source buffer B 
+    cl_mem cmDevSrcBMax;            // OpenCL device source buffer A
+    cl_mem cmDevSrcBCurrent;        // OpenCL device source buffer B 
+    cl_mem cmDevDstACurrent;        // OpenCL device destination buffer
+    cl_mem cmDevDstBCurrent;        // OpenCL device destination buffer
     size_t szGlobalWorkSize;        // 1D var for Total # of work items
     size_t szLocalWorkSize;		      // 1D var for # of work items in the work group	
     size_t szParmDataBytes;			    // Byte size of context information
@@ -56,6 +85,7 @@ namespace EDen {
     CLDriver();
 
     void execute();
+    void enqueueStorageSync(ChemicalStorage* A, ChemicalStorage* B, Chemical* C);
   };
 } // namespace EDen
 

@@ -13,6 +13,7 @@
 #define STD_CHEM_STORAGE_MAX_AMOUNT 1.0f
 
 namespace EDen {
+  class CLDriver;
 
 	class Chemical {
 		

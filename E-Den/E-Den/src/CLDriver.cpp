@@ -94,6 +94,10 @@ namespace EDen {
         Cleanup(EXIT_FAILURE,"GetDeviceIDs failed");
     }
 
+    size_t maxWorkgroupSize;
+    clGetDeviceInfo(cdDevice, CL_DEVICE_MAX_WORK_GROUP_SIZE,sizeof(maxWorkgroupSize),&maxWorkgroupSize,NULL);
+    //szLocalWorkSize = maxWorkgroupSize;
+
     //Create the context
     cxGPUContext = clCreateContext(0, 1, &cdDevice, NULL, NULL, &ciErr1);
     if (ciErr1 != CL_SUCCESS)
@@ -205,6 +209,7 @@ namespace EDen {
       };
 
       if(data != 0) {
+        boost::mutex::scoped_lock lock(executionMutex);
         ciErr1  = clEnqueueWriteBuffer(cqCommandQueue, cmDevSrcAMax, CL_FALSE, 0, sizeof(cl_float) * CHUNKSIZE, data->aMax, 0, NULL, NULL);
         ciErr1 |= clEnqueueWriteBuffer(cqCommandQueue, cmDevSrcACurrent, CL_FALSE, 0, sizeof(cl_float) * CHUNKSIZE, data->aCurrent, 0, NULL, NULL);
         ciErr1 |= clEnqueueWriteBuffer(cqCommandQueue, cmDevSrcBMax, CL_FALSE, 0, sizeof(cl_float) * CHUNKSIZE, data->bMax, 0, NULL, NULL);
@@ -216,7 +221,7 @@ namespace EDen {
 
         size_t chunksize = CHUNKSIZE;
         size_t chunkcount = data->current;
-        ciErr1 = clEnqueueNDRangeKernel(cqCommandQueue, ckKernel, 1, NULL, &chunksize, &chunkcount, 0, NULL, NULL);
+        ciErr1 = clEnqueueNDRangeKernel(cqCommandQueue, ckKernel, 1, NULL, &chunksize, &szLocalWorkSize, 0, NULL, NULL);
         if (ciErr1 != CL_SUCCESS)
         {
             Cleanup(EXIT_FAILURE,"Kernel execution error");
@@ -228,16 +233,17 @@ namespace EDen {
         {
           Cleanup(EXIT_FAILURE,"Return value transfer error");
         }
+        lock.unlock();
 
         // copy data back to chem storages
         for(int row = 0; row < data->current; row++) {
-          data->a[row]->setCurrentAmount(*(data->chemical[row]),data->aCurrentOut[row]);
-          data->b[row]->setCurrentAmount(*(data->chemical[row]),data->bCurrentOut[row]);
+          data->a[row]->setCurrentAmount(*(data->chemical[row]),((float*)(data->aCurrentOut))[row]);
+          data->b[row]->setCurrentAmount(*(data->chemical[row]),((float*)(data->bCurrentOut))[row]);
         };
 
         // empty chunk and put to empty list
         data->current = 0;
-        boost::mutex::scoped_lock listLock(emptyStorageSyncDataChunksMutex);
+        boost::mutex::scoped_lock emptyStorageLock(emptyStorageSyncDataChunksMutex);
         emptyStorageSyncDataChunks.push_back(data);
         data->busy = false;
       };
@@ -246,6 +252,7 @@ namespace EDen {
 
   void CLDriver::enqueueStorageSync(ChemicalStorage* A, ChemicalStorage* B, Chemical* Chem) {
     StorageSyncData* data = 0;
+    int currentRow = 0;
     std::list<StorageSyncData*> fullChunks;
 
     {
@@ -259,7 +266,9 @@ namespace EDen {
               fullChunks.push_back(*it);
             }
             else {
-              data = (*it);           
+              data = (*it);
+              currentRow = data->current;
+              data->current += 1;
               continue;
             };
           }
@@ -291,6 +300,8 @@ namespace EDen {
           if(!(*it)->busy) {
             data = (*it);           
             (*it)->busy = true;
+            currentRow = data->current;
+            data->current += 1;
             continue;
           }
         };
@@ -305,7 +316,6 @@ namespace EDen {
     };
     
     // data should now point to a valid and writable package with busy set to true by this
-    int currentRow = data->current;
     data->a[currentRow] = A;
     data->b[currentRow] = B;
     data->chemical[currentRow] = Chem;
@@ -313,7 +323,7 @@ namespace EDen {
     data->aMax[currentRow] = A->getMaxAmount(*Chem);
     data->bCurrent[currentRow] = B->getCurrentAmount(*Chem);
     data->bMax[currentRow] = B->getMaxAmount(*Chem);
-    data->current += 1;
+    data->busy = false;
   };
 
   void CLDriver::Cleanup (int iExitCode, const char* msg)

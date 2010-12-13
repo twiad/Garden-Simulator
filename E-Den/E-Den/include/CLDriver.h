@@ -9,7 +9,7 @@
 #include "chemicalSystem.h"
 #include <boost/thread/mutex.hpp>
 //#define __NO_STD_VECTOR
-#define CHUNKSIZE 1000
+#define CHUNKSIZE 1024
 
 namespace EDen {
   class CLDriver;
@@ -26,13 +26,35 @@ namespace EDen {
     struct StorageSyncData {
       StorageSyncData() {
         current = 0; busy = false;
+        aMax = (float*) malloc (CHUNKSIZE * sizeof(float));
+        aCurrent = (float*) malloc (CHUNKSIZE * sizeof(float));
+        bMax = (float*) malloc (CHUNKSIZE * sizeof(float));
+        bCurrent = (float*) malloc (CHUNKSIZE * sizeof(float));
+        aCurrentOut = (float*) malloc (CHUNKSIZE * sizeof(float));
+        bCurrentOut = (float*) malloc (CHUNKSIZE * sizeof(float));
+        a = (ChemicalStorage**) malloc (CHUNKSIZE * sizeof(ChemicalStorage*));
+        b = (ChemicalStorage**) malloc (CHUNKSIZE * sizeof(ChemicalStorage*));
+        chemical = (Chemical**) malloc (CHUNKSIZE * sizeof(Chemical*));
       };
+
+      ~StorageSyncData() {
+        free(aMax);
+        free(aCurrent);
+        free(bMax);
+        free(bCurrent);
+        free(aCurrentOut);
+        free(bCurrentOut);
+        free(a);
+        free(b);
+        free(chemical);
+      };
+
       float* aMax;
       float* aCurrent;
       float* bMax;
       float* bCurrent;
-      float* aCurrentOut;
-      float* bCurrentOut;
+      void* aCurrentOut;
+      void* bCurrentOut;
       ChemicalStorage** a;
       ChemicalStorage** b;
       Chemical** chemical;
@@ -50,6 +72,7 @@ namespace EDen {
     std::list<StorageSyncData*> emptyStorageSyncDataChunks;
     boost::mutex emptyStorageSyncDataChunksMutex;
 
+    boost::mutex executionMutex;
   private:
     // Name of the file with the source code for the computation kernel
     // *********************************************************************

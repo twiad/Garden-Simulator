@@ -152,13 +152,7 @@ namespace EDen {
 // II: apost+bpost = a+b
       /// CUDA: Push back task here?
       ChemicalStorageEntry storageEntry = (*it).second;
-      if(storageEntry.max*size > 0.0) {
-        float bamaxquot = (other->getMaxAmount(storageEntry.chemical))/(storageEntry.max*size);
-        float basum = (other->getCurrentAmount(storageEntry.chemical))+(storageEntry.current);
-        float newb = basum*(bamaxquot/(bamaxquot+1));
-        other->setCurrentAmount(storageEntry.chemical,newb);
-        (*it).second.current = basum - newb;
-      }
+      driver->enqueueStorageSync(this, other, &((*it).second.chemical));
     };
     return true;
   };

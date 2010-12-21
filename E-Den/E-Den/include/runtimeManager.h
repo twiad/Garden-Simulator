@@ -32,6 +32,7 @@ namespace EDen {
 
     static unsigned long cycles;
     static int cps;
+    static unsigned int bodypartCount;
 
 #ifdef USE_CL
     static CLDriver driver;
@@ -81,6 +82,7 @@ namespace EDen {
     bool update();
 
     unsigned long getCycleCount();
+    unsigned int getBodypartCount();
     int getOrganismCount();
     int getSeedCount();
     int getCps();

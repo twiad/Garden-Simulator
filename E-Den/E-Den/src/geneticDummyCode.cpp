@@ -1,9 +1,9 @@
 #include "geneticProcessor.h"
 #include "globals.h"
 
-#define GRUNDVERBRAUCH 5.90f
-#define LIFETIME 2543
-#define SEED_DROP_ENERGIE_PERCENTAGE 95.0f
+#define GRUNDVERBRAUCH 0.005f
+#define LIFETIME 2500
+#define SEED_DROP_ENERGIE_PERCENTAGE 90.0f
 #define SEED_DROP_ENERGIE_VALUE 200.0f
 #define BRANCHE_MUTATION 0.1f
 #define SEED_MUTATION 1.0f
@@ -164,7 +164,7 @@ namespace EDen {
       //compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 7));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(neededResource, 500.0f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction("Energie", 35.0f));
-      compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne", 0.01f));
+      compAct->add(new GeneticChangeMaxChemicalAmountAction("Sonne", 0.00f));
       compAct->add(new GeneticChangeMaxChemicalAmountAction(producedResource, 120.0f));
       
       compAct->add(new GeneticChangeMaxSizeAction(5.0f));
@@ -229,11 +229,11 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(cond);
       gAndCond->add(new GeneticChemicalCondition(GCC_space_left_more,75.0f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,15.0f,neededResource));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,5.0f,neededResource));
       gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.0f,"Sonne"));
 
       compAct->add(new GeneticChemicalConsumeAction("Sonne",1.0f));
-      compAct->add(new GeneticSimpleChemicalConvertAction(neededResource,"Energie",15.0f,5.0f));
+      compAct->add(new GeneticSimpleChemicalConvertAction(neededResource,"Energie",5.0f,15.0f));
       compAct->add(new GeneticSimpleChemicalConvertAction(neededResource,producedResource,1.0f,100.0f));
 
       addClause(new GeneticClause(gAndCond, compAct, "Leaf Energie Production"));
@@ -296,7 +296,7 @@ namespace EDen {
       gAndCond->add(new GeneticBodypartStateCondition(BSP_alive,GBT_equal));
       gAndCond->add(new GeneticCanGrowCondition());
       gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more,25.0f,"Energie"));
-      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.375f,"Energie"));
+      gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more,1.0f,"Energie"));
       
       compAct->add(new GeneticChemicalConsumeAction("Energie",0.50f));
       compAct->add(new GeneticGrowAction(0.1f));

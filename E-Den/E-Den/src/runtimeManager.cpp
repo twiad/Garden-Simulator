@@ -15,6 +15,7 @@ namespace EDen {
 
   unsigned long RuntimeManager::cycles = 0;
   int RuntimeManager::cps = 0;
+  unsigned int RuntimeManager::bodypartCount = 0;
 
   void RuntimeManager::processOrgs() {
     Organism* org = 0;
@@ -42,7 +43,7 @@ namespace EDen {
 #endif
       };
     } while (org);
-
+    bodypartCount = driver.getNumDatasets();
     driver.execute();
   };
 
@@ -118,10 +119,11 @@ namespace EDen {
   bool RuntimeManager::reset() {
     preferedOrganismCount = MAX_PLANT_COUNT ;
     candidatesTreshold = CANDIDATES_LEVEL ;
-    numthreads = (int)(NUM_CORES * 1.5f);
+    numthreads = (int)(NUM_CORES * 1.6f);
     state = RMS_Normal;
     
     cycles = 0;
+    bodypartCount = 0;
 
     deleteAll();
 
@@ -169,6 +171,7 @@ namespace EDen {
 
   bool RuntimeManager::registerBodypart(Bodypart* param_bodypart) {
     //boost::mutex::scoped_lock lock(bodypartsMutex);
+    //bodypartCount++; // does not work well, TODO: track down why
     if(param_bodypart) {
       for(std::list<BodypartObserver*>::iterator it = observers.begin(); it != observers.end(); it++) {
         if(*it) (*it)->addBodypart(param_bodypart);
@@ -182,6 +185,7 @@ namespace EDen {
     for(std::list<BodypartObserver*>::iterator it = observers.begin(); it != observers.end(); it++) {
       if(*it) (*it)->removeBodypart(param_bodypart);
     };
+    //bodypartCount--;
     return true;
   };
 
@@ -358,7 +362,7 @@ namespace EDen {
 			    break; 
 	    }
 
-      sprintf(str,"[%d/%d@%d|%d]",getOrganismCount(),getPreferedOrganismCount(),getCps(),getCycleCount());
+      sprintf(str,"[%d/%d->%d@%d|%d]",getOrganismCount(),getPreferedOrganismCount(),getBodypartCount(), getCps(),getCycleCount());
       out += str;
     } 
     else 
@@ -385,6 +389,10 @@ namespace EDen {
 
   void RuntimeManager::setState(RuntimeManagerState newState) {
     state = newState; 
+  };
+
+  unsigned int RuntimeManager::getBodypartCount() {
+    return bodypartCount;
   };
   
 };

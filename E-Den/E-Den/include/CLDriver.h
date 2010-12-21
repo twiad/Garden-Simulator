@@ -9,7 +9,7 @@
 #include "chemicalSystem.h"
 #include <boost/thread/mutex.hpp>
 //#define __NO_STD_VECTOR
-#define CHUNKSIZE 1024
+#define CHUNKSIZE 128
 
 namespace EDen {
   class CLDriver;
@@ -109,6 +109,7 @@ namespace EDen {
 
     void execute();
     void enqueueStorageSync(ChemicalStorage* A, ChemicalStorage* B, Chemical* C);
+    unsigned int getNumDatasets();
   };
 } // namespace EDen
 

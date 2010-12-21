@@ -38,6 +38,7 @@ namespace EDen {
 
   class Bodypart {
   protected:
+    static unsigned int bodypartCount;
     ChemicalStorage* chemStorage;
     GeneticProcessor* genProcessor;
 
@@ -116,6 +117,8 @@ namespace EDen {
     TiXmlElement* toXmlElement();
     static void spawnpointToXmlElement(SpawnpointInformation* sp, TiXmlElement* element);
     static void xmlElementToSpawnpoint(TiXmlElement* description, SpawnpointInformation* sp);
+
+    static unsigned int getBodypartCount();
   };
 } // namespace
 

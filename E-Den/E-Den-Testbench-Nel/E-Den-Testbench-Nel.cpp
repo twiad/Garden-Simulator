@@ -3,7 +3,7 @@
 // Partly copied from nel shapeviewer example which is under "GNU Affero General Public License"
 
 #define MAX_WATER 2.0e9
-#define STARTING_WATER 1.7e9
+#define STARTING_WATER 1.9e9
 #define MAX_GOO 2.0e9
 #define STARTING_GOO 1.7e9
 #define INITIAL_MUTATION_COUNT 50
@@ -74,6 +74,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		if (!Driver) throw 2;
 		Driver->setDisplay(UDriver::CMode(800, 600, 32, true,0,4));
 		Driver->setWindowTitle(ucstring("E-Den-Testbench-NEL"));
+
 
 		// can use both dds and tga textures for shapes
 		CPath::remapExtension ("dds", "tga", true);
@@ -167,7 +168,7 @@ int _tmain(int argc, _TCHAR* argv[])
       if((runtime->getCycleCount() % 500) == 0) {
         if((runtime->getCps() > 40) && ((int)runtime->getPreferedOrganismCount() <= runtime->getOrganismCount()))
           runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1);
-        if((runtime->getCps() < 30) && ((int)runtime->getPreferedOrganismCount() >= runtime->getOrganismCount()) && (runtime->getPreferedOrganismCount() > 3))
+        if((runtime->getCps() < 23) && ((int)runtime->getPreferedOrganismCount() >= runtime->getOrganismCount()) && (runtime->getPreferedOrganismCount() > 3))
           runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
         if((runtime->getCps() < 10))
           runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount(),true);
@@ -177,7 +178,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
       printer->print();
 
-      if((runtime->getCps() < 59) || ((runtime->getCycleCount() % 5) == 0)) {
+      int cps = runtime->getCps();
+      if((cps < 59) || 
+        ((cps < 120) && ((runtime->getCycleCount() % 3) == 0)) ||
+        ((cps < 300) && ((runtime->getCycleCount() % 10) == 0)) ||
+        ((runtime->getCycleCount() % 25) == 0) ) {
         Driver->clearBuffers(CRGBA(0, 0, 0));
         
         // animate the scene  

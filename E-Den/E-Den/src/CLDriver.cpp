@@ -6,7 +6,7 @@
 #include <iostream>
 
 #define FILEPATH "e:\Programme\NVIDIA GPU Computing Toolkit\CUDA\v3.2\src\oclVectorAdd"
-
+#define WORKGROUPSIZE 128
 
 namespace EDen {
   inline void checkCLErr(cl_int err, const char * name) {
@@ -74,7 +74,7 @@ namespace EDen {
     bNoPrompt = shrFALSE;
     
     // set and log Global and Local work size dimensions
-    szLocalWorkSize = 256;
+    szLocalWorkSize = WORKGROUPSIZE;
     szGlobalWorkSize = CHUNKSIZE + (szLocalWorkSize - (CHUNKSIZE % szLocalWorkSize));  // rounded up to the nearest multiple of the LocalWorkSize
 // -1?
 
@@ -109,21 +109,21 @@ namespace EDen {
     cqCommandQueue = clCreateCommandQueue(cxGPUContext, cdDevice, 0, &ciErr1);
     if (ciErr1 != CL_SUCCESS)
     {
-        Cleanup(EXIT_FAILURE,"Create Command Cueue failed");
+        Cleanup(EXIT_FAILURE,"Create Command Queue failed");
     }
 
     // Allocate the OpenCL buffer memory objects for source and result on the device GMEM
-    cmDevSrcAMax = clCreateBuffer(cxGPUContext, CL_MEM_READ_ONLY, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr1);
+    cmDevSrcAMax = clCreateBuffer(cxGPUContext, CL_MEM_READ_ONLY || CL_MEM_ALLOC_HOST_PTR, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr1);
     ciErr1 |= ciErr2;
-    cmDevSrcACurrent = clCreateBuffer(cxGPUContext, CL_MEM_READ_ONLY, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr2);
+    cmDevSrcACurrent = clCreateBuffer(cxGPUContext, CL_MEM_READ_ONLY || CL_MEM_ALLOC_HOST_PTR, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr2);
     ciErr1 |= ciErr2;
-    cmDevSrcBMax = clCreateBuffer(cxGPUContext, CL_MEM_READ_ONLY, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr2);
+    cmDevSrcBMax = clCreateBuffer(cxGPUContext, CL_MEM_READ_ONLY || CL_MEM_ALLOC_HOST_PTR, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr2);
     ciErr1 |= ciErr2;
-    cmDevSrcBCurrent = clCreateBuffer(cxGPUContext, CL_MEM_READ_ONLY, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr2);
+    cmDevSrcBCurrent = clCreateBuffer(cxGPUContext, CL_MEM_READ_ONLY || CL_MEM_ALLOC_HOST_PTR, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr2);
     ciErr1 |= ciErr2;
-    cmDevDstACurrent = clCreateBuffer(cxGPUContext, CL_MEM_WRITE_ONLY, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr2);
+    cmDevDstACurrent = clCreateBuffer(cxGPUContext, CL_MEM_WRITE_ONLY || CL_MEM_ALLOC_HOST_PTR, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr2);
     ciErr1 |= ciErr2;
-    cmDevDstBCurrent = clCreateBuffer(cxGPUContext, CL_MEM_WRITE_ONLY, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr2);
+    cmDevDstBCurrent = clCreateBuffer(cxGPUContext, CL_MEM_WRITE_ONLY || CL_MEM_ALLOC_HOST_PTR, sizeof(cl_float) * CHUNKSIZE, NULL, &ciErr2);
     ciErr1 |= ciErr2;
     if (ciErr1 != CL_SUCCESS)
     {
@@ -360,4 +360,17 @@ namespace EDen {
       }
       exit (iExitCode);
   }
+
+  unsigned int CLDriver::getNumDatasets() {
+    unsigned int counter = fullStorageSyncDataChunksToProcess.size() * CHUNKSIZE;
+
+    {
+      boost::mutex::scoped_lock listLock(storageSyncDataChunksToProcessMutex);
+      for(std::list<StorageSyncData*>::iterator it = storageSyncDataChunksToProcess.begin(); it != storageSyncDataChunksToProcess.end(); it++) {
+        counter += (*it)->current;
+      };
+    }
+
+    return counter;
+  };
 };

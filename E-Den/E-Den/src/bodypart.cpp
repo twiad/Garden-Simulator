@@ -4,6 +4,8 @@
 #include "bodypart.h"
 
 namespace EDen {
+  unsigned int Bodypart::bodypartCount = 0;
+
   SpawnpointInformation::~SpawnpointInformation() {
     supportedBpTypes.clear();
   };
@@ -111,6 +113,7 @@ namespace EDen {
     childBodyparts.clear();
     spawnpoints.clear();
     delete geneCode;
+    //bodypartCount--;
   };
 
   bool Bodypart::init() {
@@ -119,6 +122,7 @@ namespace EDen {
     genProcessor->executeRelevantClauses();
     bpState = BSP_alive;
     genProcessor->updateGeneticCode();
+    //bodypartCount++;
     return true;
   };
 
@@ -542,5 +546,9 @@ namespace EDen {
       supportedTypesElement->LinkEndChild(supportedTypeElement);
     };
     element->LinkEndChild(supportedTypesElement);
+  };
+
+  unsigned int Bodypart::getBodypartCount() {
+    return bodypartCount;
   };
 } // namespace

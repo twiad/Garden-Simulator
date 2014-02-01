@@ -153,6 +153,7 @@ void sdl_run(int cycles) {
 	    updateCaption();
 	else if(runtime->getCycleCount() % 10 == 0)
 		updateCaption();
+	if(runtime->getCycleCount() % 9990 == 0) if(gp) gp->saveDatabase();
   }
 //  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
 //  printOrgs();

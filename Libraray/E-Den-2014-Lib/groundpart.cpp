@@ -18,7 +18,8 @@ namespace EDen {
 
   Groundpart::~Groundpart() {
 	if(speciesDatabase != 0) {
-		std::string filename = name.append(".xml");
+		std::string filename = name;
+	    filename.append(".xml");
 		speciesDatabase->save(filename);
 		delete speciesDatabase;
 	};
@@ -80,7 +81,8 @@ namespace EDen {
 
   bool Groundpart::saveDatabase() {
 	  if(speciesDatabase != 0) {
-		std::string filename = name.append(".xml");
+		std::string filename = name;
+		filename.append(".xml");
 		speciesDatabase->save(filename);
 	  };
 

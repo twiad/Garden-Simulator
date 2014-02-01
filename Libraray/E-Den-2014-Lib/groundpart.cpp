@@ -78,6 +78,15 @@ namespace EDen {
 	  };
   };
 
+  bool Groundpart::saveDatabase() {
+	  if(speciesDatabase != 0) {
+		std::string filename = name.append(".xml");
+		speciesDatabase->save(filename);
+	  };
+
+	  return true;
+  };
+
   std::list<Organism*> Groundpart::getOrganisms() {
 	return organisms;
   };
@@ -216,7 +225,7 @@ namespace EDen {
 	  boost::mutex::scoped_lock lock(mutex);
 	  plantPositionMemoryIterator it = plantPositionMemory.find(param_organism);
 	  if(it == plantPositionMemory.end()) {
-		int newPosX = (int)Randomizer::value(0.0f,width);
+		int newPosX = (int)Randomizer::value(width/4.0f,width/4.0f*3.0f);
 		plantPositionMemory.insert(std::pair<Organism* , int>(param_organism, newPosX));
 		return newPosX;
 	  }
@@ -229,10 +238,10 @@ namespace EDen {
 	  Organism * org = param_bodypart->getParentOrganism();
 	  int orgX = getOrganismX(org);
 	  if(Randomizer::value(0.0f,1.0f) > 0.5) {
-		  return orgX + Randomizer::value(1.0f,5.0f);
+		  return orgX + Randomizer::value(1.5f,15.0f);
 	  }
 	  else {
-		  return orgX - Randomizer::value(1.0f,5.0f);
+		  return orgX - Randomizer::value(1.5f,15.0f);
 	  }
 	  
   };

@@ -79,7 +79,8 @@ namespace EDen {
       Organism* org;
       while(element != 0) {
         org = new Organism(element,runtime);
-        runtime->add(org);
+        //runtime->add(org);
+		push(org);
         element = element->NextSiblingElement("Organism");
       };
       return 2;

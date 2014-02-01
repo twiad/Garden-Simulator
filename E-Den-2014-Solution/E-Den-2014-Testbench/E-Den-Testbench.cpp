@@ -113,7 +113,11 @@ bool updateCaption() {
 		//  newCaption += str;
 		//};
 
-		newCaption.append(runtime->getDebugOut());
+		//newCaption.append(runtime->getDebugOut());
+	}
+
+	if(gp) {
+		newCaption.append(gp->getSpeciesDatabase()->getDebugOut());
 	}
 
     SDL_SetWindowTitle(window,newCaption.c_str());
@@ -192,10 +196,12 @@ bool wait_for_events()
 	          quit = true;
 		  else if ( key[0] == 'Q'  )	//quit if 'q'  pressed
 	          quit = true;			
-          else if ( key[0] == 'S'  )  //save if 's' pressed
-            runtime->saveDatabase();
-          else if ( key[0] == 'L'  )  //load if 'l' is pressed
-            runtime->loadDatabase();
+          else if ( key[0] == 'S'  )  {//save if 's' pressed
+            //runtime->saveDatabase();
+		    if(gp) gp->saveDatabase();
+          //else if ( key[0] == 'L'  )  //load if 'l' is pressed
+            //runtime->loadDatabase();
+		  }
           else if ( key[0] == 'Z'  ) {  //slow if 'z' is pressed
             slowMode = !slowMode;
             updateRuntimeState();
@@ -210,6 +216,7 @@ bool wait_for_events()
             updateRuntimeState();
           }
           else if ( key[0] == 'M'  ) {
+			  if(gp != 0) if(gp->incEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1);
 			  if(gp2 != 0) if(gp2->incEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1);
 		      if(gp3 != 0) if(gp3->incEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1);
 
@@ -217,10 +224,12 @@ bool wait_for_events()
           else if ( key[0] == 'N'  )
 			if((runtime->getPreferedOrganismCount() - 2) > 0) {
 				if(modifier == KMOD_RCTRL) {
+                  if(gp != 0) if(gp->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
 				  if(gp2 != 0) if(gp2->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
 				  if(gp3 != 0) if(gp3->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
 				}
 				else {
+				  if(gp != 0) if(gp->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
 				  if(gp2 != 0) if(gp2->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
 				  if(gp3 != 0) if(gp3->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
 				}
@@ -283,14 +292,16 @@ void sdl_test() {
   }
 
   runtime = new RuntimeManager();
-  gp = new SingleDimensionHeightmapGroundpart("GOO1",50,MAX_WATER,MAX_GOO*2,1);
+  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX,MAX_WATER,MAX_GOO*2,1);
   runtime->add(gp);
 
   gpDatabase = new SpeciesDatabase(runtime);
   gpDatabase->setApplicationSettingsPath(appSettingsPathP);
   gp->setSpeciesDatabase(gpDatabase);
-  gpdbFilename = gp->getName().append(".xml");
-  gpDatabase->load(gpdbFilename);
+  gp->incEmptySpaces();
+  gp->incEmptySpaces();
+  //gpdbFilename = gp->getName().append(".xml");
+  //gpDatabase->load(gpdbFilename);
 
   Bodypart* bp,* bp2;
   sun = new SDL_SunlightProvider();
@@ -305,7 +316,7 @@ void sdl_test() {
   //SDL_GL_GetAttribute( SDL_GL_MULTISAMPLESAMPLES, &Samples );
   //cout << "buf = " << Buffers << ", samples = " << Samples << ".";
 
-  op1 = new SDLOrganismPrinter(renderer, SDL_DIMX/5, SDL_DIMY, (SDL_DIMX/5) * 2, 0, gp, runtime);
+  op1 = new SDLOrganismPrinter(renderer, SDL_DIMX, SDL_DIMY, 0, 0, gp, runtime);
 
   activePrinter = op1;
 //  op3 = new SDLOrganismPrinter(&window, SDL_DIMX,SDL_DIMY,runtime);
@@ -373,9 +384,12 @@ void sdl_test() {
   //bp3->getChemicalStorage()->add("Energie",10.0f);
   //bp3->getChemicalStorage()->add("Sonne",200.0f);
 
+  run(1);
+
   runtime->loadDatabase("autosave.xml");
-  
-  gp2 = new SingleDimensionHeightmapGroundpart("WATER1", 200, MAX_WATER*2, MAX_GOO/2, 1);
+  gpdbFilename = gp->getName().append(".xml");
+  gpDatabase->load(gpdbFilename);
+  /*gp2 = new SingleDimensionHeightmapGroundpart("WATER1", 200, MAX_WATER*2, MAX_GOO/2, 1);
   runtime->add(gp2);
   
   gpDatabase = new SpeciesDatabase(runtime);
@@ -403,7 +417,7 @@ void sdl_test() {
   chemLink3 = new ChemicalStorageLink(gp3->getChemicalStorage(),gp->getChemicalStorage());
 
   op3 = new SDLOrganismPrinter(renderer, (SDL_DIMX/5)*2,SDL_DIMY,0, 0, gp3, runtime);
-  op4 = new SDLOrganismPrinter(renderer, (SDL_DIMX/5)*2,SDL_DIMY,(SDL_DIMX/5)*3, 0, gp2, runtime);
+  op4 = new SDLOrganismPrinter(renderer, (SDL_DIMX/5)*2,SDL_DIMY,(SDL_DIMX/5)*3, 0, gp2, runtime);*/
 
   run(1);
 

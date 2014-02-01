@@ -36,6 +36,7 @@ namespace EDen {
 	SpeciesDatabase* getSpeciesDatabase();
 	void setSpeciesDatabase(SpeciesDatabase* database);
 	Organism* addSeedFromDb();
+	bool saveDatabase();
 
 	virtual bool hasEmptySpaces();
 	virtual bool incEmptySpaces();

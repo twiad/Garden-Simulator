@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<E-DEN-CodeDefinition>
-    <Version>0.1.0.2</Version>
-    <Database speciesCount="2">
-        <Species ID="300" />
-        <Species ID="502" />
-    </Database>
-</E-DEN-CodeDefinition>

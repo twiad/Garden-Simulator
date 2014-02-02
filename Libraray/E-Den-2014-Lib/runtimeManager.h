@@ -90,8 +90,9 @@ namespace EDen {
     bool remove(Groundpart* paramGroundpart);
 
 	bool addDelete(Bodypart* bodypart);
-
-    bool update();
+	bool addDelete(Organism* org);
+    
+	bool update();
 
     unsigned long getCycleCount();
     unsigned int getBodypartCount();

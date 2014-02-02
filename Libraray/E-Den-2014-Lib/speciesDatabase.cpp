@@ -22,10 +22,12 @@ namespace EDen {
   };
 
   bool OneSpeciesDatabase::empty() {
+	  boost::mutex::scoped_lock lock(mutex);
 	  return orgs.empty() && candidates.empty();
   };
 
   int OneSpeciesDatabase::size() {
+    boost::mutex::scoped_lock lock(mutex);
     return orgs.size() + candidates.size();
   };
 
@@ -33,7 +35,7 @@ namespace EDen {
     Organism* org;
     
 	boost::mutex::scoped_lock lock(mutex);
-    while(!empty()) {
+    while(!(orgs.empty() && candidates.empty())) {
       org = pull(false);
       delete org;
     };
@@ -194,7 +196,7 @@ namespace EDen {
 		  };
 	  };
 	  orgs.remove(org);
-	  delete org;
+	  runtime->addDelete(org);
   };
 
   int OneSpeciesDatabase::getMaxSize() {

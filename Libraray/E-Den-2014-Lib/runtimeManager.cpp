@@ -263,6 +263,12 @@ namespace EDen {
 	  return true;
   };
 
+  bool RuntimeManager::addDelete(Organism* org) {
+	  boost::mutex::scoped_lock lock(orgsToDeleteMutex);
+	  orgsToDelete.push_back(org);
+	  return true;
+  };
+
   bool RuntimeManager::update() {
 
     {

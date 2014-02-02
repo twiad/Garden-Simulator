@@ -5,9 +5,11 @@
 #include "speciesDatabase.h"
 #include <iostream>
 #include <stdio.h>
+#include <limits>
 
 #define ORGS_TO_SAVE 100
 #define CANDIDATES_COUNT 20
+#define MAX_SIZE 2000
 #define LOWEST_SPECIES_SELECTION_COUNT 3
 #define XML_VERSION_STRING "0.1.0.2"
 
@@ -15,6 +17,7 @@ namespace EDen {
 
   OneSpeciesDatabase::OneSpeciesDatabase(RuntimeManager* p_runtime): inited(false), name("NONAME"), maxCandidates(20),changedSinceLastUpdate(true) {
     treshold = 2;
+	maxSize = MAX_SIZE;
     runtime = p_runtime;
   };
 
@@ -141,10 +144,15 @@ namespace EDen {
     boost::mutex::scoped_lock lock(mutex);
     
     changedSinceLastUpdate = true;
-    if((candidates.size() < (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= treshold))
+    if((candidates.size() < (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= treshold)) {
       candidates.push_back(org);
-    else
+	}
+    else {
+	  if(orgs.size() >= maxSize) {
+		  removeLeastPerformantOrganism();
+	  };
       orgs.push_back(org);
+	}
   };
 
   Organism* OneSpeciesDatabase::pull(bool random, bool del) {
@@ -172,6 +180,35 @@ namespace EDen {
       changedSinceLastUpdate = true;
     };
     return org;
+  };
+
+  void OneSpeciesDatabase::removeLeastPerformantOrganism() {
+	  int lowestValue = std::numeric_limits<int>::max();
+	  int current;
+	  Organism* org;
+	  for(std::list<Organism* >::iterator it = orgs.begin(); it != orgs.end(); it++) {
+		  current = (*it)->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier();
+		  if(current < lowestValue) {
+			  org = (*it);
+			  lowestValue = current;
+		  };
+	  };
+	  orgs.remove(org);
+	  delete org;
+  };
+
+  int OneSpeciesDatabase::getMaxSize() {
+	  return maxSize;
+  };
+
+  void OneSpeciesDatabase::setMaxSize(int newMaxSize) {
+	  boost::mutex::scoped_lock lock(mutex);
+	  int diff = maxSize - newMaxSize;
+	  
+      for(int i = 0; i < diff; i++) {
+		removeLeastPerformantOrganism();
+	  }
+	  maxSize = newMaxSize;
   };
 
   void OneSpeciesDatabase::setApplicationSettingsPath(std::string appSettingsPath) {

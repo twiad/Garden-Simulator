@@ -29,9 +29,12 @@ namespace EDen {
 
     int treshold;
     int maxCandidates;
+	int maxSize;
     void setTreshold(int p_trehold);
 
     bool changedSinceLastUpdate;
+
+	void removeLeastPerformantOrganism();
 
   public:
     OneSpeciesDatabase(RuntimeManager* p_runtime);
@@ -48,8 +51,10 @@ namespace EDen {
     void push(Organism* org);
     Organism* pull(bool random = true, bool del = true);
 
-    int getTreshold();
+	int getMaxSize();
+	void setMaxSize(int newMaxSize);
 
+    int getTreshold();
     void updateTreshold();
     void setMaxCandidates(int p_maxCandidates);
     int getMaxCandidates();

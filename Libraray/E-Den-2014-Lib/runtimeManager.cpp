@@ -3,7 +3,7 @@
 
 #include "globals.h"
 #include "runtimeManager.h"
-#define MAX_PLANT_COUNT 3
+#define MAX_PLANT_COUNT 1
 #define CANDIDATES_LEVEL (150 / 25)
 
 #define NUM_CORES 4
@@ -294,6 +294,10 @@ namespace EDen {
 
     if((cycles % 3000) == 0) {
       database->update();
+	  for(std::list<Groundpart* >::iterator it = groundparts.begin(); it != groundparts.end(); it++) {
+		  SpeciesDatabase* db = (*it)->getSpeciesDatabase();
+		  if(db) db->update();
+	  };
     };
 
     cycles++;

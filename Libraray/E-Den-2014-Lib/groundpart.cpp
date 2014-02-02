@@ -227,9 +227,20 @@ namespace EDen {
 	  boost::mutex::scoped_lock lock(mutex);
 	  plantPositionMemoryIterator it = plantPositionMemory.find(param_organism);
 	  if(it == plantPositionMemory.end()) {
-		int newPosX = (int)Randomizer::value(width/4.0f,width/4.0f*3.0f);
-		plantPositionMemory.insert(std::pair<Organism* , int>(param_organism, newPosX));
-		return newPosX;
+		int numOrgs = organisms.size();
+		if(numOrgs <= 1) {
+			return width/2;
+		}
+		else if(numOrgs <= 10) {
+			int newPosX = (int)Randomizer::value(width/3.0f,width/3.0f*2.0f);
+			plantPositionMemory.insert(std::pair<Organism* , int>(param_organism, newPosX));
+			return newPosX;
+		}
+		else {
+			int newPosX = (int)Randomizer::value(width/6.0f,width/6.0f*5.0f);
+			plantPositionMemory.insert(std::pair<Organism* , int>(param_organism, newPosX));
+			return newPosX;
+		};
 	  }
 	  else {
 		return (it->second);

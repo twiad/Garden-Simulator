@@ -223,7 +223,7 @@ bool wait_for_events()
 
 		  }
           else if ( key[0] == 'N'  )
-			if((runtime->getPreferedOrganismCount() - 2) > 0) {
+			if((runtime->getPreferedOrganismCount()) > 1) {
 				if(modifier == KMOD_RCTRL) {
                   if(gp != 0) if(gp->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
 				  if(gp2 != 0) if(gp2->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
@@ -293,14 +293,14 @@ void sdl_test() {
   }
 
   runtime = new RuntimeManager();
-  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX,MAX_WATER,MAX_GOO*2,1);
+  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
   runtime->add(gp);
 
   gpDatabase = new SpeciesDatabase(runtime);
   gpDatabase->setApplicationSettingsPath(appSettingsPathP);
   gp->setSpeciesDatabase(gpDatabase);
-  gp->incEmptySpaces();
-  gp->incEmptySpaces();
+  //gp->incEmptySpaces();
+  //gp->incEmptySpaces();
   //gpdbFilename = gp->getName().append(".xml");
   //gpDatabase->load(gpdbFilename);
 

@@ -58,6 +58,7 @@ namespace EDen {
 
   GeneticAction* GeneticCompoundAction::copy() {
     GeneticCompoundAction* act = new GeneticCompoundAction();
+//	boost::mutex::scoped_lock lock(mutex);
     for(GeneticActionsListIterator it = childActions.begin(); it != childActions.end(); it++) {
       act->add((*it)->copy());
     };
@@ -91,9 +92,9 @@ namespace EDen {
 
   bool GeneticCompoundAction::execute() {
     bool result = true;
-    
+
     for(GeneticActionsListIterator it = childActions.begin(); it != childActions.end(); it++) {
-      result = result && (*it)->execute();
+      result = (*it)->execute() && result;
     };
 
     return result;
@@ -111,6 +112,7 @@ namespace EDen {
 
   GeneticCondition* GeneticANDCondition::copy() {
     GeneticANDCondition* cond = new GeneticANDCondition();
+	//boost::mutex::scoped_lock lock(mutex);
     for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
       cond->add((*it)->copy());
     };
@@ -162,6 +164,7 @@ namespace EDen {
 
   GeneticCondition* GeneticORCondition::copy() {
     GeneticORCondition* cond = new GeneticORCondition();
+	//boost::mutex::scoped_lock lock(mutex);
     for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
       cond->add((*it)->copy());
     };
@@ -179,7 +182,6 @@ namespace EDen {
 
   bool GeneticORCondition::fullfilled() {
     bool result = false;
-    
     for(GeneticConditionsListIterator it = childConditions.begin(); it != childConditions.end(); it++) {
       result = result || (*it)->fullfilled();
     };

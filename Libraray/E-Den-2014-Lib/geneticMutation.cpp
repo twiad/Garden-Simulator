@@ -34,9 +34,9 @@ namespace EDen {
       bool retval = false;
       GeneticActionsList actions = ((GeneticCompoundAction*)(p_act))->getChildActions();
       for(GeneticActionsListIterator it = actions.begin(); it != actions.end(); it++) {
-        crawl(*it,strength);
+        retval = crawl(*it,strength) && retval;
       };
-      return true;
+      return retval;
     } 
     else  {
       return execute(p_act,strength);
@@ -48,9 +48,9 @@ namespace EDen {
       bool retval = false;
       GeneticConditionsList conditions = ((GeneticCompoundCondition*)(p_cond))->getChildConditions();
       for(GeneticConditionsListIterator it = conditions.begin(); it != conditions.end(); it++) {
-        crawl(*it,strength);
+        retval = crawl(*it,strength) && retval;
       };
-      return true;
+      return retval;
     } 
     else  {
       return execute(p_cond,strength);

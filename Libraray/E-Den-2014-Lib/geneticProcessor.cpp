@@ -43,29 +43,36 @@ namespace EDen {
       GeneticClauseList nextRelevantClauses;
       
       if(state == BSP_seed) {
-        Bodypart* bp = new Bodypart(BPT_Stick,bodypart->getGeneticCode()->copy(),bodypart->getParentOrganism());
-
         bodypart->setBodypartState(BSP_creation);
         executeRelevantClauses();
         bodypart->resetSpawnpoints();
-  
-        SpawnpointInformation* sp = new SpawnpointInformation();
-        sp->position = 1;
-        sp->addSupportedType(BPT_Stick);
-        sp->ang2d = 180.0f;
-        bodypart->addSpawnpoint(sp);
+          
+		Bodypart* bp = new Bodypart(BPT_Stick,bodypart->getGeneticCode()->copy(),bodypart->getParentOrganism());
+		SpawnpointInformation* sp = new SpawnpointInformation();
+		sp->position = 1;
+		sp->addSupportedType(BPT_Stick);
+		sp->ang2d = 180.0f;
+		bodypart->addSpawnpoint(sp);
 
-        if(!bodypart->spawnBodypart(bp)) {
-          delete bp; 
-        } 
-        else { 
-          SpawnpointInformationList spi = bp->getSpawnpoints();
-          for(SpawnpointInformationListIterator it = spi.begin(); it != spi.end(); it++) {
-            if((*it)->connectedBodypart == bodypart) {
-              (*it)->position = 0;
-            }
-          }
-        }
+		if(!bp->spawnPointAvailable(bodypart->getBodypartType())) {
+			sp = new SpawnpointInformation();
+			sp->position = 0;
+			sp->addSupportedType(bodypart->getBodypartType());
+			sp->ang2d = 0.0f;
+			bp->addSpawnpoint(sp);
+		}
+
+		if(!bodypart->spawnBodypart(bp)) {
+			delete bp; 
+		} 
+		else { 
+			SpawnpointInformationList spi = bp->getSpawnpoints();
+			for(SpawnpointInformationListIterator it = spi.begin(); it != spi.end(); it++) {
+				if((*it)->connectedBodypart == bodypart) {
+					(*it)->position = 0;
+				}
+			}
+		}
 
         bodypart->setBodypartState(BSP_alive);
       };

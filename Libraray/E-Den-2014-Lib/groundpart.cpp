@@ -102,8 +102,14 @@ namespace EDen {
 
   bool Groundpart::unregisterOrganism(Organism* param_organism) {
 	  boost::mutex::scoped_lock lock(mutex);
+	  
+	  for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+		if((*it) == param_organism) {
+			emptySpaces += 1;
+		};
+	  }
 	  organisms.remove(param_organism);
-	  emptySpaces += 1;
+	  
 	  return true;
   };
 
@@ -176,13 +182,19 @@ namespace EDen {
 
   bool SingleDimensionHeightmapGroundpart::unregisterOrganism(Organism* param_organism) {
 	  boost::mutex::scoped_lock lock(mutex);
+
+	  for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+		if((*it) == param_organism) {
+			emptySpaces += 1;
+		};
+	  }
 	  organisms.remove(param_organism);
+
       plantPositionMemoryIterator it = plantPositionMemory.find(param_organism);
 	  if(it != plantPositionMemory.end()) {
          plantPositionMemory.erase(it);
 	  };
 
-	  emptySpaces += 1;
 	  return true;
   };
 

@@ -26,8 +26,25 @@ namespace EDen {
   };
   
   Organism::~Organism() {
+    bool allreadyUnregistered = false;
+
+    if(runtimeManager) {
+		std::list<Groundpart*> groundparts = runtimeManager->getGroundparts();
+
+		for(std::list<Groundpart*>::iterator it = groundparts.begin(); it != groundparts.end(); it++) {
+		  if(*it) {
+		    if((*it) == groundpart) {
+			  allreadyUnregistered = true;
+		    };
+		  }
+		  (*it)->unregisterOrganism(this);
+		};
+	}
+
     if(connectedToGoundpart()) {
-      groundpart->unregisterOrganism(this);
+	  if(!allreadyUnregistered) {
+		groundpart->unregisterOrganism(this);
+	  }
       removeChemStorageLinksWithGroundpart(groundpart);
       groundpart = 0;
     };

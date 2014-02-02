@@ -116,8 +116,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib;../Release;$(SDL_HOME)\lib;$(SDL_DRAW_HOME)\lib;..\..\Libraray\E-Den-2014-Lib\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>x86/SDL2main.lib;x86/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib64;../x64/Debug;$(SDL_HOME)\lib;$(SDL_DRAW_HOME)\lib;..\..\Libraray\E-Den-2014-Lib\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>x64/SDL2main.lib;x64/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>msvcrt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>

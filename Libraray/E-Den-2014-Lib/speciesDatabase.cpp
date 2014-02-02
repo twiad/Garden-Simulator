@@ -9,7 +9,7 @@
 
 #define ORGS_TO_SAVE 100
 #define CANDIDATES_COUNT 20
-#define MAX_SIZE 150
+#define MAX_SIZE (2000 - CANDIDATES_COUNT)
 #define LOWEST_SPECIES_SELECTION_COUNT 3
 #define XML_VERSION_STRING "0.1.0.2"
 
@@ -243,6 +243,7 @@ namespace EDen {
 		  setTreshold(treshold - 1);
 	  };
     };
+
     changedSinceLastUpdate = false;
   };
 
@@ -271,6 +272,11 @@ namespace EDen {
           orgs.pop_front();
         };
         orgs.swap(newOrgs);
+
+		int diff = orgs.size() - maxSize;
+		for(int i = 0; i < diff; i++) {
+			removeLeastPerformantOrganism();
+		};
       };
     };
 

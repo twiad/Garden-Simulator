@@ -3,11 +3,13 @@
 
 #include "globals.h"
 #include "runtimeManager.h"
-#define MAX_PLANT_COUNT 1
-#define CANDIDATES_LEVEL (150 / 25)
 
 #define NUM_CORES 4
+#define MAX_PLANT_COUNT 60
 
+#define PLANT_ADD_DELTA 10
+
+#define CANDIDATES_LEVEL (150 / 25)
 namespace EDen {
   boost::mutex RuntimeManager::orgsToProcessMutex;
   boost::mutex RuntimeManager::orgsToDeleteMutex;
@@ -16,6 +18,7 @@ namespace EDen {
   unsigned long RuntimeManager::cycles = 0;
   int RuntimeManager::cps = 0;
   unsigned int RuntimeManager::bodypartCount = 0;
+  int RuntimeManager::lastPlantAddedAt = -PLANT_ADD_DELTA;
 
   void RuntimeManager::processOrgs() {
     Organism* org = 0;
@@ -333,7 +336,7 @@ namespace EDen {
 	Groundpart *gp = getGroundpartWithEmptySpaceAndSpecies();
 	if(gp == 0) gp = getGroundpartWithEmptySpace();
 
-    while(gp != 0 && (noSeeds == false)) {
+    while(gp != 0 && (lastPlantAddedAt + PLANT_ADD_DELTA <= cycles) && (noSeeds == false)) {
 		Organism* seed = gp->addSeedFromDb();
 		if(seed == 0) {
 			seed = getNextSeed();
@@ -341,6 +344,7 @@ namespace EDen {
 				new_orgs.push_back(seed);
 				seed->connectToGoundpart(gp);
 				gp = getGroundpartWithEmptySpace();
+				lastPlantAddedAt = cycles;
 			}
 			else {
 				noSeeds = true;
@@ -348,6 +352,7 @@ namespace EDen {
 		}
 		else {
 			new_orgs.push_back(seed);
+			lastPlantAddedAt = cycles;
 		};
 		gp = getGroundpartWithEmptySpace();
 	};
@@ -450,7 +455,7 @@ namespace EDen {
 			    break; 
 	    }
 
-      sprintf(str,"[%d/%d->%d@%d|%d]",getOrganismCount(),getPreferedOrganismCount(),getBodypartCount(), getCps(),getCycleCount());
+      sprintf(str,"[%d/%d@%d|%d]",getOrganismCount(),getPreferedOrganismCount(), getCps(),getCycleCount());
       out += str;
     } 
     else 

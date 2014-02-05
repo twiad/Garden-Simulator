@@ -5,9 +5,7 @@
 #include "runtimeManager.h"
 
 #define NUM_CORES 4
-#define MAX_PLANT_COUNT 60
-
-#define PLANT_ADD_DELTA 10
+#define MAX_PLANT_COUNT 15
 
 #define CANDIDATES_LEVEL (150 / 25)
 namespace EDen {
@@ -18,7 +16,7 @@ namespace EDen {
   unsigned long RuntimeManager::cycles = 0;
   int RuntimeManager::cps = 0;
   unsigned int RuntimeManager::bodypartCount = 0;
-  int RuntimeManager::lastPlantAddedAt = -PLANT_ADD_DELTA;
+  int RuntimeManager::lastPlantAddedAt = -1000;
 
   void RuntimeManager::processOrgs() {
     Organism* org = 0;
@@ -336,7 +334,7 @@ namespace EDen {
 	Groundpart *gp = getGroundpartWithEmptySpaceAndSpecies();
 	if(gp == 0) gp = getGroundpartWithEmptySpace();
 
-    while(gp != 0 && (lastPlantAddedAt + PLANT_ADD_DELTA <= cycles) && (noSeeds == false)) {
+    while(gp != 0 && (lastPlantAddedAt + (500.0f / preferedOrganismCount) <= cycles) && (noSeeds == false)) {
 		Organism* seed = gp->addSeedFromDb();
 		if(seed == 0) {
 			seed = getNextSeed();

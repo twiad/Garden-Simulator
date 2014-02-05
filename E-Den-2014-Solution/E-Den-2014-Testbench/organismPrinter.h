@@ -39,7 +39,9 @@ namespace EDen {
 	SDL_ShadowAccumulator* shadows;
 
     double scale;
-    bool needToScaleX;
+	double renderOffeset;
+	bool moveRight;
+    bool moveLeft;
 	bool needToScaleY;
 
 	bool drawLightDebug;

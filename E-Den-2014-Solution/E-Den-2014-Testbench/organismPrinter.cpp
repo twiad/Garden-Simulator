@@ -13,6 +13,7 @@
 //#define SCALE_FACTORX 0.99991f
 #define SCALE_FACTORX 0.99f
 #define SCALE_FACTORY 0.99f
+#define MOVE_AMOUNT 1.0f
 #define DOWN_SCALE_FACTOR 1.0001f
 
 namespace EDen {
@@ -155,7 +156,9 @@ namespace EDen {
 
 //    updateCaption();
     scale = SDL_SCALE;
-    needToScaleX = false;
+	renderOffeset = dimx/2;
+    moveLeft = false;
+	moveRight = false;
 	needToScaleY = false;
 	percentagePrinterCounter = 0;
 //    resetScreen();
@@ -242,7 +245,8 @@ namespace EDen {
 	if(groundpart) organisms = groundpart->getOrganisms();
     else cleanupDeadOrganisms();
     
-    needToScaleX = false;
+    moveLeft = false;
+	moveRight = false;
 	needToScaleY = false;
     Organism* org;
 
@@ -253,18 +257,16 @@ namespace EDen {
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
       org = *it;
       if( org->getState() != BSP_dead) {
-	    int orgX = ((dimx - padding)/max)*counter + padding / 2;
+	    int orgX = ((dimx - padding)/max)*counter + padding / 2 + renderOffeset;
 		int orgY = 0;
 
 		if(extendedGroundpart != 0) {
 		  int halfGroundpartWidth = extendedGroundpart->getWidth() /  2;
 		  int halfDimX = dimx / 2;
 
-		  //height = extendedGroundpart->getHeightAt(halfGroundpartWidth + ((i - halfDimX) * (1.0f/scale))) * scale;
-
 		  orgX = extendedGroundpart->getOrganismX(org);
 		  orgY = scale * extendedGroundpart->getHeightAt(orgX) - 1;
-		  orgX = (scale * orgX) + halfDimX - (halfGroundpartWidth * scale);
+		  orgX = (scale * orgX) + halfDimX - (halfGroundpartWidth * scale) + renderOffeset;
 		};
 
         req_print(org->getRootBodypart(), orgX, orgY, 0.0f, 0.0f, 0.0f);
@@ -282,8 +284,14 @@ namespace EDen {
 
 	if(needToScaleY) 
 		scale = scale * SCALE_FACTORY;
-	else if(needToScaleX) {
+	else if(moveLeft && moveRight) {
 		scale = scale * SCALE_FACTORX;
+	}
+	else if(moveLeft) {
+		renderOffeset += MOVE_AMOUNT * scale;
+	}
+	else if(moveRight) {
+		renderOffeset -= MOVE_AMOUNT * scale;
 	}
     else 
 		scale = scale * DOWN_SCALE_FACTOR;
@@ -326,8 +334,11 @@ namespace EDen {
 
       //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
 
-      if((x1 <= 0) || (x1 > dimx) || (x2 <= 0) || (x2 > dimx)) {
-		  needToScaleX = true;
+      if((x1 <= 0) || (x2 <= 0)) {
+		  moveLeft = true;
+	  }
+	  if((x1 > dimx) || (x2 > dimx)) {
+		  moveRight = true;
 	  }
 	  if((y1> dimy) || (y2 > dimy)) {
 		  needToScaleY = true;
@@ -373,8 +384,10 @@ namespace EDen {
 		  int halfGroundpartWidth = extendedGroundpart->getWidth() /  2;
 		  int halfDimX = dimx / 2;
 		  SDL_SetRenderDrawColor(renderer, 100, extendedGroundpart->getChemicalStorage()->getCurrentPercentage("Wasser")/100.0f * 100 + 100, extendedGroundpart->getChemicalStorage()->getCurrentPercentage("Goo")/100.0f * 100, 255);
+		  int ix;
 		  for(int i = 0; i < dimx; i++) {
-			height = extendedGroundpart->getHeightAt(halfGroundpartWidth + ((i - halfDimX) * (1.0f/scale))) * scale;
+			ix = i - renderOffeset;
+			height = extendedGroundpart->getHeightAt(halfGroundpartWidth + ((ix - halfDimX) * (1.0f/scale))) * scale;
 			SDL_RenderDrawLine(renderer, i + offX,dimy - (offY - 1 + height), i + offX,dimy - (offY - 1));
 		  };
 	  };

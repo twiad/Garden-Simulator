@@ -263,12 +263,11 @@ namespace EDen {
 	  Organism * org = param_bodypart->getParentOrganism();
 	  int orgX = getOrganismX(org);
 	  if(Randomizer::value(0.0f,1.0f) > 0.5) {
-		  return orgX + Randomizer::value(1.5f,15.0f);
+		  return orgX + Randomizer::value(3.0f,width / 100.0f);
 	  }
 	  else {
-		  return orgX - Randomizer::value(1.5f,15.0f);
+		  return orgX - Randomizer::value(3.0f,width / 100.0f);
 	  }
-	  
   };
 
   float SingleDimensionHeightmapGroundpart::getHeightAt(int posX) {

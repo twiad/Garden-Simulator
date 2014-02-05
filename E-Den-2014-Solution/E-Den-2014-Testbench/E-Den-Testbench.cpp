@@ -224,7 +224,7 @@ bool wait_for_events()
 		  }
           else if ( key[0] == 'N'  )
 			if((runtime->getPreferedOrganismCount()) > 1) {
-				if(modifier == KMOD_RCTRL) {
+				if(modifier == KMOD_LCTRL) {
                   if(gp != 0) if(gp->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
 				  if(gp2 != 0) if(gp2->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
 				  if(gp3 != 0) if(gp3->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
@@ -248,12 +248,25 @@ bool wait_for_events()
              SleepEx(500,true);
 			     break;
 		     case SDL_MOUSEBUTTONUP:           //mouse button pressed
-			     printf("Mouse button %d pressed x:%d, y:%d\n", event.button.button, event.button.x, event.button.y );
-           if(event.button.button == 1) {
-             gp->getChemicalStorage()->add("Wasser",((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_WATER / 7.0f));
-           }
-           else
-             gp->getChemicalStorage()->add("Wasser",-((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_WATER / 7.0f));
+			   printf("Mouse button %d pressed x:%d, y:%d\n", event.button.button, event.button.x, event.button.y );
+			   modifier = SDL_GetModState();
+
+			   if(event.button.button == 1) {
+					if(modifier == KMOD_LSHIFT) {
+						gp->getChemicalStorage()->add("Goo",((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_GOO / 7.0f));
+					}
+					else {
+						gp->getChemicalStorage()->add("Wasser",((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_WATER / 7.0f));
+					};
+				}
+				else if(event.button.button == 3){
+					 if(modifier == KMOD_LSHIFT) {
+						gp->getChemicalStorage()->add("Goo",-((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_GOO / 7.0f));
+					 }
+					 else {
+						gp->getChemicalStorage()->add("Wasser",-((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_WATER / 7.0f));
+					 };
+				}
 			     break; 
 	       case SDL_QUIT:
 			 SDL_Quit();
@@ -293,7 +306,7 @@ void sdl_test() {
   }
 
   runtime = new RuntimeManager();
-  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
+  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX*2,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
   runtime->add(gp);
 
   gpDatabase = new SpeciesDatabase(runtime);

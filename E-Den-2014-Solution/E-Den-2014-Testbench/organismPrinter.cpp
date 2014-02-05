@@ -13,7 +13,9 @@
 //#define SCALE_FACTORX 0.99991f
 #define SCALE_FACTORX 0.99f
 #define SCALE_FACTORY 0.99f
-#define MOVE_AMOUNT 1.0f
+#define MOVE_AMOUNT 0.3f
+#define MOVE_MAX_AMOUNT 5.0f
+#define MOVE_SLOWDOWN_FACTOR 0.3f
 #define DOWN_SCALE_FACTOR 1.0001f
 
 namespace EDen {
@@ -157,6 +159,7 @@ namespace EDen {
 //    updateCaption();
     scale = SDL_SCALE;
 	renderOffeset = dimx/2;
+	moveMomentum = 0.0f;
     moveLeft = false;
 	moveRight = false;
 	needToScaleY = false;
@@ -282,24 +285,36 @@ namespace EDen {
 	}
 	shadows->clear();
 
-	if(needToScaleY) 
+	if(needToScaleY) {
 		scale = scale * SCALE_FACTORY;
+		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
+	}
 	else if(moveLeft && moveRight) {
 		scale = scale * SCALE_FACTORX;
+		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
 	}
 	else if(moveLeft) {
-		renderOffeset += MOVE_AMOUNT * scale;
+		moveMomentum += MOVE_AMOUNT * scale;
+		if(moveMomentum > MOVE_MAX_AMOUNT) {
+			moveMomentum = MOVE_MAX_AMOUNT;
+		}
 	}
 	else if(moveRight) {
-		renderOffeset -= MOVE_AMOUNT * scale;
+		moveMomentum -= MOVE_AMOUNT * scale;
+		if(moveMomentum < -MOVE_MAX_AMOUNT) {
+			moveMomentum = -MOVE_MAX_AMOUNT;
+		}
 	}
-    else 
+    else {
 		scale = scale * DOWN_SCALE_FACTOR;
-    
+		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
+	}
     //if(runtimeManager->getState() == RMS_Slow)
     //    updateCaption();
     //else if(runtimeManager->getCycleCount() % 10 == 0)
     //    updateCaption();
+
+	renderOffeset += moveMomentum;
 
     return true;
   };

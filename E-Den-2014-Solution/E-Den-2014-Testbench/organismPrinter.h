@@ -40,6 +40,7 @@ namespace EDen {
 
     double scale;
 	double renderOffeset;
+	double moveMomentum;
 	bool moveRight;
     bool moveLeft;
 	bool needToScaleY;

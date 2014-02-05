@@ -11,11 +11,11 @@
 
 #define SDL_SCALE 40
 //#define SCALE_FACTORX 0.99991f
-#define SCALE_FACTORX 0.99f
+#define SCALE_FACTORX 0.995f
 #define SCALE_FACTORY 0.99f
-#define MOVE_AMOUNT 0.3f
-#define MOVE_MAX_AMOUNT 5.0f
-#define MOVE_SLOWDOWN_FACTOR 0.3f
+#define MOVE_AMOUNT 0.05f
+#define MOVE_MAX_AMOUNT 15.0f
+#define MOVE_SLOWDOWN_FACTOR 0.7f
 #define DOWN_SCALE_FACTOR 1.0001f
 
 namespace EDen {
@@ -298,12 +298,14 @@ namespace EDen {
 		if(moveMomentum > MOVE_MAX_AMOUNT) {
 			moveMomentum = MOVE_MAX_AMOUNT;
 		}
+		scale = scale * DOWN_SCALE_FACTOR;
 	}
 	else if(moveRight) {
 		moveMomentum -= MOVE_AMOUNT * scale;
 		if(moveMomentum < -MOVE_MAX_AMOUNT) {
 			moveMomentum = -MOVE_MAX_AMOUNT;
 		}
+		scale = scale * DOWN_SCALE_FACTOR;
 	}
     else {
 		scale = scale * DOWN_SCALE_FACTOR;

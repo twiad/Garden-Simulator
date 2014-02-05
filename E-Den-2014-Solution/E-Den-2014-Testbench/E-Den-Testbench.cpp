@@ -306,7 +306,7 @@ void sdl_test() {
   }
 
   runtime = new RuntimeManager();
-  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX*2,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
+  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
   runtime->add(gp);
 
   gpDatabase = new SpeciesDatabase(runtime);

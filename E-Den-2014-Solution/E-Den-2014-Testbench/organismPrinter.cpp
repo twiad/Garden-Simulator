@@ -295,15 +295,15 @@ namespace EDen {
 	}
 	else if(moveLeft) {
 		moveMomentum += MOVE_AMOUNT * scale;
-		if(moveMomentum > MOVE_MAX_AMOUNT) {
-			moveMomentum = MOVE_MAX_AMOUNT;
+		if(moveMomentum > (MOVE_MAX_AMOUNT * scale)) {
+			moveMomentum = (MOVE_MAX_AMOUNT * scale);
 		}
 		scale = scale * DOWN_SCALE_FACTOR;
 	}
 	else if(moveRight) {
 		moveMomentum -= MOVE_AMOUNT * scale;
-		if(moveMomentum < -MOVE_MAX_AMOUNT) {
-			moveMomentum = -MOVE_MAX_AMOUNT;
+		if(moveMomentum < -(MOVE_MAX_AMOUNT * scale)) {
+			moveMomentum = -(MOVE_MAX_AMOUNT * scale);
 		}
 		scale = scale * DOWN_SCALE_FACTOR;
 	}

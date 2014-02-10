@@ -16,10 +16,10 @@
 #define PRINT_OUT_ALL_N_CYCLES 3000
 #define SND_RUN_MULTIPLYER 2
 // STARTING_WATER_max: 2.0e9
-#define MAX_WATER 2.0e9
-#define STARTING_WATER 2.0e9
-#define MAX_GOO 2.0e8
-#define STARTING_GOO 1.5e8
+#define MAX_WATER 2.0e10
+#define STARTING_WATER 2.0e10
+#define MAX_GOO 2.0e10
+#define STARTING_GOO 1.8e10
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
@@ -306,7 +306,7 @@ void sdl_test() {
   }
 
   runtime = new RuntimeManager();
-  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
+  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX*2,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
   runtime->add(gp);
 
   gpDatabase = new SpeciesDatabase(runtime);

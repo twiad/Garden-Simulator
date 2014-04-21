@@ -84,7 +84,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(BOOST_HOME_MSVC);$(SDL_DRAW_HOME)\include;$(SDL_HOME)\include;..\E-Den\include;..\..\tinyxml;..\..\Libraray\E-Den-2014-Lib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_HOME_MSVC);$(GWEN_HOME)\include;$(SDL_DRAW_HOME)\include;$(SDL_TTF_HOME)\include;$(SDL_HOME)\include;..\E-Den\include;..\..\tinyxml;..\..\Libraray\E-Den-2014-Lib</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
       <ForcedIncludeFiles>organismPrinter.h;SDL_DirectPixelManipulation.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -92,8 +92,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib;../Release;$(SDL_HOME)\lib;$(SDL_DRAW_HOME)\lib;..\..\Libraray\E-Den-2014-Lib\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>x86/SDL2main.lib;x86/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib;$(SDL_TTF_HOME)\lib\x86;$(SDL_IMAGE_HOME)\lib\x86;$(GWEN_HOME)\lib\windows\vs2010;../Release;$(SDL_HOME)\lib;$(SDL_DRAW_HOME)\lib;..\..\Libraray\E-Den-2014-Lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>x86/SDL2main.lib;x86/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>msvcrt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -107,7 +107,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(BOOST_HOME_MSVC);$(SDL_DRAW_HOME)\include;$(SDL_HOME)\include;..\E-Den\include;..\..\tinyxml;..\..\Libraray\E-Den-2014-Lib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_HOME_MSVC);$(GWEN_HOME)\include;$(SDL_DRAW_HOME)\include;$(SDL_TTF_HOME)\include;$(SDL_HOME)\include;..\E-Den\include;..\..\tinyxml;..\..\Libraray\E-Den-2014-Lib</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <ForcedIncludeFiles>organismPrinter.h;SDL_DirectPixelManipulation.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -116,8 +116,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib64;../x64/Debug;$(SDL_HOME)\lib;$(SDL_DRAW_HOME)\lib;..\..\Libraray\E-Den-2014-Lib\x64\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>x64/SDL2main.lib;x64/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib64;$(GWEN_HOME)\lib\windows\vs2010x64;../x64/Debug;$(SDL_HOME)\lib;$(SDL_DRAW_HOME)\lib;$(SDL_TTF_HOME)\lib\x64;$(SDL_IMAGE_HOME)\lib\x64;..\..\Libraray\E-Den-2014-Lib\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>x64/SDL2main.lib;x64/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>msvcrt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -133,15 +133,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(BOOST_HOME_MSVC);$(SDL_DRAW_HOME)\include;$(SDL_HOME)\include;..\E-Den\include;..\..\tinyxml;..\..\Libraray\E-Den-2014-Lib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_HOME_MSVC);$(GWEN_HOME)\include;$(SDL_DRAW_HOME)\include;$(SDL_TTF_HOME)\include;$(SDL_HOME)\include;..\E-Den\include;..\..\tinyxml;..\..\Libraray\E-Den-2014-Lib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib;../Release;$(SDL_HOME)\lib;$(SDL_DRAW_HOME)\lib;..\..\Libraray\E-Den-2014-Lib\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>x86/SDL2main.lib;x86/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib;$(SDL_TTF_HOME)\lib\x86;$(SDL_IMAGE_HOME)\lib\x86;$(GWEN_HOME)\lib\windows\vs2010;../Release;$(SDL_HOME)\lib;$(SDL_DRAW_HOME)\lib;..\..\Libraray\E-Den-2014-Lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>x86/SDL2main.lib;x86/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,25 +152,35 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(BOOST_HOME_MSVC);$(SDL_DRAW_HOME)\include;$(SDL_HOME)\include;..\E-Den\include;..\..\tinyxml;..\..\Libraray\E-Den-2014-Lib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_HOME_MSVC);$(GWEN_HOME)\include;$(SDL_DRAW_HOME)\include;$(SDL_TTF_HOME)\include;$(SDL_IMAGE_HOME)\include;$(SDL_HOME)\include;..\E-Den\include;..\..\tinyxml;..\..\Libraray\E-Den-2014-Lib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib64;../x64/Release;$(SDL_HOME)\lib;$(SDL_DRAW_HOME)\lib;F:\src\E-Den-2014\Libraray\E-Den-2014-Lib\x64\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>x64/SDL2main.lib;x64/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib64;../x64/Release;$(SDL_HOME)\lib;$(SDL_TTF_HOME)\lib\x64;$(SDL_IMAGE_HOME)\lib\x64;$(SDL_DRAW_HOME)\lib;$(GWEN_HOME)\lib\windows\vs2010x64;F:\src\E-Den-2014\Libraray\E-Den-2014-Lib\x64\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>x64/SDL2main.lib;x64/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="E-Den-Testbench.cpp" />
     <ClCompile Include="organismPrinter.cpp" />
+    <ClCompile Include="SDLGwenStatusWindow.cpp" />
     <ClCompile Include="SDL_DirectPixelManipulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="organismPrinter.h" />
+    <ClInclude Include="SDLGwenStatusWindow.h" />
     <ClInclude Include="SDL_DirectPixelManipulation.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\gwen\Projects\windows\vs2010\GWEN-Static.vcxproj">
+      <Project>{b8994fc4-cb74-f44c-9924-8e78e0c526eb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\gwen\Projects\windows\vs2010\Renderer-SDL2.vcxproj">
+      <Project>{2e1fb760-842e-8b41-867d-92aad44cdfa5}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

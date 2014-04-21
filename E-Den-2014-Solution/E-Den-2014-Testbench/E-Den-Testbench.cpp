@@ -5,7 +5,17 @@
 #include "organismPrinter.h"
 #include "runtimeManager.h"
 #include "SDL.h"
+#include "SDL_ttf.h"
 #include "SDL_draw.h"
+
+#include "SDLGwenStatusWindow.h"
+
+#include <Gwen/Gwen.h>
+#include <Gwen/Skins/Simple.h>
+#include <Gwen/Skins/TexturedBase.h>
+#include <Gwen/UnitTest/UnitTest.h>
+#include <Gwen/Input/SDL2.h>
+#include <Gwen/Renderers/SDL2.h>
 
 #include "shlobj.h"
 #include "Shlwapi.h"
@@ -45,6 +55,9 @@ SDLOrganismPrinter* activePrinter = 0;
 ChemicalStorageLink* chemLink1 = 0;
 ChemicalStorageLink* chemLink2 = 0;
 ChemicalStorageLink* chemLink3 = 0;
+
+SDLGwenStatusWindow* statusWindow = 0;
+Gwen::Input::SDL2* GwenInput = 0;
 
 OrganismPrinter* op2 = 0;
 RuntimeManager* runtime;
@@ -117,7 +130,7 @@ bool updateCaption() {
 	}
 
 	if(gp) {
-		newCaption.append(gp->getSpeciesDatabase()->getDebugOut());
+	//	newCaption.append(gp->getSpeciesDatabase()->getDebugOut());
 	}
 
     SDL_SetWindowTitle(window,newCaption.c_str());
@@ -149,10 +162,14 @@ void sdl_run(int cycles) {
   SDL_RenderPresent(renderer);
   
   if(runtime) {
-	if(runtime->getState() == RMS_Slow)
+	if(runtime->getState() == RMS_Slow) {
 	    updateCaption();
-	else if(runtime->getCycleCount() % 10 == 0)
+		if(statusWindow) statusWindow->update();
+	}
+	else if(runtime->getCycleCount() % 10 == 0) {
 		updateCaption();
+		if(statusWindow) statusWindow->update();
+	}
 	//if(runtime->getCycleCount() % 9990 == 0) if(gp) gp->saveDatabase();
   }
 //  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
@@ -188,6 +205,8 @@ bool wait_for_events()
   printf("waiting for events, press 'q' or 'ESC' to quit\n");
   while ( !quit ) {				
     if(SDL_PollEvent(&event)) {	
+		
+
 	    switch (event.type) {		//check the event type
 		    case SDL_KEYDOWN:			//if a key has been pressed
           key = SDL_GetKeyName(event.key.keysym.sym);
@@ -198,10 +217,13 @@ bool wait_for_events()
 		  else if ( key[0] == 'Q'  )	//quit if 'q'  pressed
 	          quit = true;			
           else if ( key[0] == 'S'  )  {//save if 's' pressed
-            //runtime->saveDatabase();
-		    if(gp) gp->saveDatabase();
-          //else if ( key[0] == 'L'  )  //load if 'l' is pressed
-            //runtime->loadDatabase();
+			if(!statusWindow) {
+				statusWindow = new SDLGwenStatusWindow(runtime);
+			}
+			else {
+				delete statusWindow;
+				statusWindow = 0;
+			}
 		  }
           else if ( key[0] == 'Z'  ) {  //slow if 'z' is pressed
             slowMode = !slowMode;
@@ -276,6 +298,8 @@ bool wait_for_events()
 	         exit ( 1 );
 		     break;
 	    }
+
+		if(statusWindow) statusWindow->processEvent(&event);
     }
     else {
       if(! pause) 
@@ -303,9 +327,12 @@ void sdl_test() {
   SpeciesDatabase* gpDatabase;
   std::string gpdbFilename;
   
-  if(SDL_Init(SDL_INIT_EVERYTHING) < 0) 
-  {
-    /*exit with SDL_Init error*/
+  if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+		return;
+  }
+
+  if (TTF_Init() != 0) {
+        return;
   }
 
   runtime = new RuntimeManager();
@@ -598,6 +625,75 @@ void simpleSdl_test() {
 	SleepEx(1500,true);
 }
 
+void gwenTest() {
+    if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
+        return;
+
+    if (TTF_Init() != 0)
+        return;
+    
+    //Setup our window and renderer
+    const int SCREEN_WIDTH = 1024, SCREEN_HEIGHT = 768;
+	SDL_Window *window = SDL_CreateWindow("SDL2", 100, 100,
+                                          SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	if (!window)
+		return;
+
+    // Create a GWEN Allegro Renderer
+    Gwen::Renderer::SDL2 *pRenderer = new Gwen::Renderer::SDL2(window);
+
+    // Create a GWEN skin
+    Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(pRenderer);
+    skin->SetRender(pRenderer);
+    skin->Init("DefaultSkin.png");
+    
+    // Note, you can get fonts that cover many languages/locales to do Chinese,
+    //       Arabic, Korean, etc. e.g. "Arial Unicode" (but it's 23MB!).
+    skin->SetDefaultFont("OpenSans.ttf", 11);
+    
+    // Create a Canvas (it's root, on which all other GWEN panels are created)
+    Gwen::Controls::Canvas* pCanvas = new Gwen::Controls::Canvas(skin);
+    pCanvas->SetSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    pCanvas->SetDrawBackground(true);
+    pCanvas->SetBackgroundColor(Gwen::Color(200, 100, 20, 255));
+
+	GwenInput = new Gwen::Input::SDL2();
+    GwenInput->Initialize(pCanvas);
+    bool bQuit = false;
+
+	Gwen::Controls::Button* pButtonA = new Gwen::Controls::Button(pCanvas);
+    pButtonA->SetText("Event Tester");
+	
+
+    while (!bQuit)
+    {
+		SDL_Event evt;
+        while (SDL_PollEvent(&evt))
+        {
+            if (evt.type == SDL_QUIT)
+                bQuit = true;
+
+			if (evt.type == SDL_KEYDOWN) {			//if a key has been pressed
+				const char *key = SDL_GetKeyName(evt.key.keysym.sym);
+				if ( key[0] == 'Q'  )	//quit if 'q'  pressed
+					bQuit = true;
+				if ( key[0] == 'P'  );
+			}
+
+            GwenInput->ProcessEvent(&evt);
+        }
+        
+        pRenderer->BeginContext(NULL);
+        pCanvas->RenderCanvas();
+        pRenderer->PresentContext(NULL);
+        pRenderer->EndContext(NULL);
+    }
+
+    //TTF_Quit();   TODO: Currently crashes. GWEN needs work.
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}
+
 void TCharToChar(const wchar_t* Src, char* Dest, int Size)
 {
 	WideCharToMultiByte(CP_ACP, 0, Src, wcslen(Src)+1, Dest , Size, NULL, NULL);
@@ -615,6 +711,7 @@ int main(int argc, char **argv)
   cout << "loading autosave from " << appSettingsPathP << endl;
 
   sdl_test();
+  //gwenTest();
   //simpleSdl_test();
   //growthTest();
   //destructTest();

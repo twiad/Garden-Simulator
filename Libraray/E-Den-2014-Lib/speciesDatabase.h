@@ -99,6 +99,7 @@ namespace EDen {
     void update();
 
     std::string getDebugOut();
+	void getDebugOut(std::list<std::string>* singleSpeciesOutputs);
   };
 
 } // namespace

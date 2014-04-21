@@ -8,6 +8,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "E-Den-2014-Testbench", "E-D
 		{114CDD91-885F-4A01-949F-AA495B0C935D} = {114CDD91-885F-4A01-949F-AA495B0C935D}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GWEN-Static", "..\..\gwen\Projects\windows\vs2010\GWEN-Static.vcxproj", "{B8994FC4-CB74-F44C-9924-8E78E0C526EB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renderer-SDL2", "..\..\gwen\Projects\windows\vs2010\Renderer-SDL2.vcxproj", "{2E1FB760-842E-8B41-867D-92AAD44CDFA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -32,6 +36,22 @@ Global
 		{6C574106-65D0-4A07-AFBA-E853DA213F35}.Release|Win32.Build.0 = Release|Win32
 		{6C574106-65D0-4A07-AFBA-E853DA213F35}.Release|x64.ActiveCfg = Release|x64
 		{6C574106-65D0-4A07-AFBA-E853DA213F35}.Release|x64.Build.0 = Release|x64
+		{B8994FC4-CB74-F44C-9924-8E78E0C526EB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B8994FC4-CB74-F44C-9924-8E78E0C526EB}.Debug|Win32.Build.0 = Debug|Win32
+		{B8994FC4-CB74-F44C-9924-8E78E0C526EB}.Debug|x64.ActiveCfg = Debug|x64
+		{B8994FC4-CB74-F44C-9924-8E78E0C526EB}.Debug|x64.Build.0 = Debug|x64
+		{B8994FC4-CB74-F44C-9924-8E78E0C526EB}.Release|Win32.ActiveCfg = Release|Win32
+		{B8994FC4-CB74-F44C-9924-8E78E0C526EB}.Release|Win32.Build.0 = Release|Win32
+		{B8994FC4-CB74-F44C-9924-8E78E0C526EB}.Release|x64.ActiveCfg = Release|x64
+		{B8994FC4-CB74-F44C-9924-8E78E0C526EB}.Release|x64.Build.0 = Release|x64
+		{2E1FB760-842E-8B41-867D-92AAD44CDFA5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E1FB760-842E-8B41-867D-92AAD44CDFA5}.Debug|Win32.Build.0 = Debug|Win32
+		{2E1FB760-842E-8B41-867D-92AAD44CDFA5}.Debug|x64.ActiveCfg = Debug|x64
+		{2E1FB760-842E-8B41-867D-92AAD44CDFA5}.Debug|x64.Build.0 = Debug|x64
+		{2E1FB760-842E-8B41-867D-92AAD44CDFA5}.Release|Win32.ActiveCfg = Release|Win32
+		{2E1FB760-842E-8B41-867D-92AAD44CDFA5}.Release|Win32.Build.0 = Release|Win32
+		{2E1FB760-842E-8B41-867D-92AAD44CDFA5}.Release|x64.ActiveCfg = Release|x64
+		{2E1FB760-842E-8B41-867D-92AAD44CDFA5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

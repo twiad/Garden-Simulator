@@ -141,4 +141,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\gwen\Projects\windows\vs2010\Renderer-SDL2.vcxproj.filters" />
+  </ItemGroup>
 </Project>

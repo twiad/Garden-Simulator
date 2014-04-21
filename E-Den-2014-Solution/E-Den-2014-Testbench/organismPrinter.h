@@ -78,10 +78,10 @@ namespace EDen {
 		{
 			ChemicalStorage* storage = gp->getChemicalStorage();
 			if(increment) {
-				storage->add(resourceName,storage->getMaxAmount(resourceName) * 0.2f);
+				storage->add(resourceName,storage->getMaxAmount(resourceName) * 0.1f);
 			}
 			else {
-				storage->add(resourceName,-storage->getMaxAmount(resourceName) * 0.2f);
+				storage->add(resourceName,-storage->getMaxAmount(resourceName) * 0.1f);
 			}
 		}
 	};

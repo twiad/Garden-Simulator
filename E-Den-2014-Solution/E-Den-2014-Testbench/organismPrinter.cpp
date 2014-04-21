@@ -160,7 +160,7 @@ namespace EDen {
 	Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(gwenRenderer);
 	skin->SetRender(gwenRenderer);
 	skin->Init("DefaultSkin.png");
-	skin->SetDefaultFont("OpenSans.ttf", 11);
+	skin->SetDefaultFont("OpenSans.ttf", 8);
 
 	pCanvas = new Gwen::Controls::Canvas(skin);
 	pCanvas->SetSize(dimx, dimy);

@@ -163,11 +163,11 @@ void sdl_run(int cycles) {
   
   if(runtime) {
 	if(runtime->getState() == RMS_Slow) {
-	    updateCaption();
+	    //updateCaption();
 		if(statusWindow) statusWindow->update();
 	}
 	else if(runtime->getCycleCount() % 10 == 0) {
-		updateCaption();
+		//updateCaption();
 		if(statusWindow) statusWindow->update();
 	}
 	//if(runtime->getCycleCount() % 9990 == 0) if(gp) gp->saveDatabase();
@@ -350,7 +350,7 @@ void sdl_test() {
   Bodypart* bp,* bp2;
   sun = new SDL_SunlightProvider();
 
-  window = SDL_CreateWindow("An SDL2 window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SDL_DIMX, SDL_DIMY, SDL_WINDOW_OPENGL);
+  window = SDL_CreateWindow("EDen-Testbench 2014", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SDL_DIMX, SDL_DIMY, SDL_WINDOW_OPENGL);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
   SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);

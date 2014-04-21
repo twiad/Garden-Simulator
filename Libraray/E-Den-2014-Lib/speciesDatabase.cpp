@@ -299,7 +299,7 @@ namespace EDen {
     std::string out = "";
     char str[64];
 
-    sprintf(str,"[%d|%d|%d]-",size(),candidates.size(),treshold);
+    sprintf(str,"[%d|%d|%d]",size(),candidates.size(),treshold);
 
     out += str;
     out.insert(0,name);

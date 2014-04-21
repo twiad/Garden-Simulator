@@ -46,9 +46,11 @@ namespace EDen {
 	void SDLGwenStatusWindow::update() {
 		listBox->Clear();
 
+		listBox->AddItem(runtime->getDebugOut(true));
+
 		std::list<Groundpart*> groundparts = runtime->getGroundparts();
 		for(std::list<Groundpart* >::iterator it = groundparts.begin(); it != groundparts.end(); it++) {
-			listBox->AddItem((*it)->getName());
+			//listBox->AddItem((*it)->getName());
 
 			std::list<std::string> outputs;
 			(*it)->getSpeciesDatabase()->getDebugOut(&outputs);

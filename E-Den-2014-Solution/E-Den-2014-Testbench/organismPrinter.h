@@ -10,6 +10,13 @@
 #include "SDL_draw.h"
 #include "SDL_DirectPixelManipulation.h"
 
+#include <Gwen/Gwen.h>
+#include <Gwen/Skins/Simple.h>
+#include <Gwen/Skins/TexturedBase.h>
+#include <Gwen/UnitTest/UnitTest.h>
+#include <Gwen/Input/SDL2.h>
+#include <Gwen/Renderers/SDL2.h>
+
 namespace EDen {
 
   class SDL_SunlightProvider;
@@ -31,6 +38,9 @@ namespace EDen {
   class SDLOrganismPrinter {
   private:
 	SDL_Renderer *renderer;
+	Gwen::Renderer::SDL2 *gwenRenderer;
+	Gwen::Controls::Canvas* pCanvas;
+	Gwen::Input::SDL2* GwenInput;
 
 	RuntimeManager* runtime;
     Groundpart* groundpart;
@@ -50,7 +60,12 @@ namespace EDen {
     bool cleanupDeadOrganisms();
     int req_print(Bodypart* param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3);
 	void printHeigtmap();
-    int percentagePrinterCounter;
+
+	Gwen::Controls::Button* waterPlusButton;
+	Gwen::Controls::Button* waterMinusButton;
+	Gwen::Controls::Button* gooPlusButton;
+	Gwen::Controls::Button* gooMinusButton;
+
   protected:
 	//GroundpartList groundparts;
     std::list<Organism*> organisms;
@@ -70,7 +85,6 @@ namespace EDen {
 	//GroundpartList getGroundparts();
 
     bool orgsAlive();
-    bool printOutPercentage(float value);
 
     int getDimX();
     int getDimY();
@@ -81,6 +95,13 @@ namespace EDen {
 	bool getDrawLightDebug();
 
 	void setOffset(int param_offX, int param_offY);
+
+	void processEvent(SDL_Event* evt);
+
+	void incWater(Gwen::Controls::Base* pControl);
+	void decWater(Gwen::Controls::Base* pControl);
+	void incGoo(Gwen::Controls::Base* pControl);
+	void decGoo(Gwen::Controls::Base* pControl);
   };
 
   class SDL_ShadowAccumulator {

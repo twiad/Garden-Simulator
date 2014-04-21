@@ -156,6 +156,39 @@ namespace EDen {
 	shadows = new SDL_ShadowAccumulator(offX,offY,dimx,dimy,sun,renderer);
 	drawLightDebug = false;
 
+	gwenRenderer = new Gwen::Renderer::SDL2(renderer);
+	Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(gwenRenderer);
+	skin->SetRender(gwenRenderer);
+	skin->Init("DefaultSkin.png");
+	skin->SetDefaultFont("OpenSans.ttf", 11);
+
+	pCanvas = new Gwen::Controls::Canvas(skin);
+	pCanvas->SetSize(dimx, dimy);
+	pCanvas->SetBounds(offX,offY,dimx,dimy);
+	pCanvas->SetDrawBackground(true);
+	pCanvas->SetBackgroundColor(Gwen::Color(0, 0, 0, 255));
+
+	GwenInput = new Gwen::Input::SDL2();
+	GwenInput->Initialize(pCanvas);
+
+	waterPlusButton = new Gwen::Controls::Button(pCanvas);
+    waterPlusButton->SetText("W+");
+	//waterPlusButton->onPress.Add(pCanvas, &SDLOrganismPrinter::incWater);
+	waterMinusButton = new Gwen::Controls::Button(pCanvas);
+    waterMinusButton->SetText("W-");
+	//waterMinusButton->onPress.Add(pCanvas, &SDLOrganismPrinter::decWater);
+	gooPlusButton = new Gwen::Controls::Button(pCanvas);
+    gooPlusButton->SetText("G+");
+	//gooPlusButton->onPress.Add(pCanvas, &SDLOrganismPrinter::incGoo);
+	gooMinusButton = new Gwen::Controls::Button(pCanvas);
+    gooMinusButton->SetText("G-");
+	//gooMinusButton->onPress.Add(pCanvas, &SDLOrganismPrinter::decGoo);
+
+	waterPlusButton->SetBounds(115,0,15,15);
+	waterMinusButton->SetBounds(0,0,15,15);
+	gooPlusButton->SetBounds(115,15,15,15);
+	gooMinusButton->SetBounds(0,15,15,15);
+
 //    updateCaption();
     scale = SDL_SCALE;
 	renderOffeset = dimx/2;
@@ -163,7 +196,6 @@ namespace EDen {
     moveLeft = false;
 	moveRight = false;
 	needToScaleY = false;
-	percentagePrinterCounter = 0;
 //    resetScreen();
   };
 
@@ -243,11 +275,25 @@ namespace EDen {
   //};
 
   bool SDLOrganismPrinter::print() {
-    percentagePrinterCounter = 0;
+    gwenRenderer->BeginContext(NULL);
+	pCanvas->RenderCanvas();
 
 	if(groundpart) organisms = groundpart->getOrganisms();
     else cleanupDeadOrganisms();
     
+	
+	SDL_Rect statusBarRect;
+	statusBarRect.x = 15;
+	statusBarRect.h = 15;
+	statusBarRect.y = 0;
+	statusBarRect.w = 100 * groundpart->getChemicalStorage()->getCurrentPercentage("Wasser") / 100.0f;
+	SDL_SetRenderDrawColor(renderer, 0, 0, 140, 255);
+	SDL_RenderFillRect(renderer,&statusBarRect);
+	statusBarRect.y = 15;
+	statusBarRect.w = 100 * groundpart->getChemicalStorage()->getCurrentPercentage("Goo") / 100.0f;
+	SDL_SetRenderDrawColor(renderer, 140, 30, 0, 255);
+	SDL_RenderFillRect(renderer,&statusBarRect);
+
     moveLeft = false;
 	moveRight = false;
 	needToScaleY = false;
@@ -285,6 +331,9 @@ namespace EDen {
 	}
 	shadows->clear();
 
+	gwenRenderer->PresentContext(NULL);
+	gwenRenderer->EndContext(NULL);
+
 	if(needToScaleY) {
 		scale = scale * SCALE_FACTORY;
 		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
@@ -320,6 +369,10 @@ namespace EDen {
 
     return true;
   };
+
+  void SDLOrganismPrinter::processEvent(SDL_Event* evt) {
+	GwenInput->ProcessEvent(evt);
+  }
 
   int SDLOrganismPrinter::req_print(Bodypart *param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3) {
 	int returnvalue = 0;
@@ -444,25 +497,24 @@ namespace EDen {
     return false;
   };
 
-  bool SDLOrganismPrinter::printOutPercentage(float value) {
-    Uint32 col;
-    int barheight = 2;
-    if(percentagePrinterCounter % 2) SDL_SetRenderDrawColor(renderer, 255, 125, 0, 255);
-    else SDL_SetRenderDrawColor(renderer, 125, 255, 0, 255);;
-    
-    while(value > 1.0f) value = value / 100.0f;
-    
-	SDL_Rect rect;
+  void SDLOrganismPrinter::incWater(Gwen::Controls::Base* pControl) {
+	  ChemicalStorage* storage = groundpart->getChemicalStorage();
+	  storage->add("Wasser",storage->getMaxAmount("Wasser") * 0.2f);
+  };
 
-	rect.h = barheight;
-	rect.w = (dimx*value);
-	rect.x = 0 + offX;
-	rect.y = (barheight * percentagePrinterCounter) + offY;
+  void SDLOrganismPrinter::decWater(Gwen::Controls::Base* pControl) {
+	  ChemicalStorage* storage = groundpart->getChemicalStorage();
+	  storage->add("Wasser",-storage->getMaxAmount("Wasser") * 0.2f);
+  };
 
-	SDL_RenderDrawRect(renderer,&rect);
-    
-    percentagePrinterCounter++;
-    return true;
+  void SDLOrganismPrinter::incGoo(Gwen::Controls::Base* pControl) {
+	  ChemicalStorage* storage = groundpart->getChemicalStorage();
+	  storage->add("Goo",storage->getMaxAmount("Goo") * 0.2f);
+  };
+
+  void SDLOrganismPrinter::decGoo(Gwen::Controls::Base* pControl) {
+	  ChemicalStorage* storage = groundpart->getChemicalStorage();
+	  storage->add("Goo",-storage->getMaxAmount("Goo") * 0.2f);
   };
 
   bool SDL_SunlightProvider::setFactor(Bodypart* param_bodypart ,float param_factor) {

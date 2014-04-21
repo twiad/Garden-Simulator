@@ -139,25 +139,15 @@ bool updateCaption() {
 
 void sdl_run(int cycles) {
   run(cycles);
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-  SDL_RenderClear(renderer);
+  //SDL_RenderClear(renderer);
 
   op1->print();
-  op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Wasser"));
-  op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Goo"));
+  //op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Wasser"));
+  //op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Goo"));
 
-  if(op3) {
-	  op3->print();
-	  op3->printOutPercentage(gp3->getChemicalStorage()->getCurrentPercentage("Wasser"));
-	  op3->printOutPercentage(gp3->getChemicalStorage()->getCurrentPercentage("Goo"));
-  }
-
-  if(op4) {
-	  op4->print();
-	  op4->printOutPercentage(gp2->getChemicalStorage()->getCurrentPercentage("Wasser"));
-	  op4->printOutPercentage(gp2->getChemicalStorage()->getCurrentPercentage("Goo"));
-  }
+  
 
   SDL_RenderPresent(renderer);
   
@@ -276,22 +266,22 @@ bool wait_for_events()
 			   printf("Mouse button %d pressed x:%d, y:%d\n", event.button.button, event.button.x, event.button.y );
 			   modifier = SDL_GetModState();
 
-			   if(event.button.button == 1) {
-					if(modifier == KMOD_LSHIFT) {
-						gp->getChemicalStorage()->add("Goo",((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_GOO / 7.0f));
-					}
-					else {
-						gp->getChemicalStorage()->add("Wasser",((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_WATER / 7.0f));
-					};
-				}
-				else if(event.button.button == 3){
-					 if(modifier == KMOD_LSHIFT) {
-						gp->getChemicalStorage()->add("Goo",-((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_GOO / 7.0f));
-					 }
-					 else {
-						gp->getChemicalStorage()->add("Wasser",-((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_WATER / 7.0f));
-					 };
-				}
+			 //  if(event.button.button == 1) {
+				//	if(modifier == KMOD_LSHIFT) {
+				//		gp->getChemicalStorage()->add("Goo",((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_GOO / 7.0f));
+				//	}
+				//	else {
+				//		gp->getChemicalStorage()->add("Wasser",((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_WATER / 7.0f));
+				//	};
+				//}
+				//else if(event.button.button == 3){
+				//	 if(modifier == KMOD_LSHIFT) {
+				//		gp->getChemicalStorage()->add("Goo",-((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_GOO / 7.0f));
+				//	 }
+				//	 else {
+				//		gp->getChemicalStorage()->add("Wasser",-((float)event.button.x / (float)op1->getDimX()) * ((float)STARTING_WATER / 7.0f));
+				//	 };
+				//}
 			     break; 
 	       case SDL_QUIT:
 			 SDL_Quit();
@@ -300,6 +290,7 @@ bool wait_for_events()
 	    }
 
 		if(statusWindow) statusWindow->processEvent(&event);
+		if(activePrinter) activePrinter->processEvent(&event);
     }
     else {
       if(! pause) 

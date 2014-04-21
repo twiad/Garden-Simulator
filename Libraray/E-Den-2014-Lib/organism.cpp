@@ -120,7 +120,8 @@ namespace EDen {
 	  for(BodypartListIterator it = bodyparts.begin(); it != bodyparts.end(); it++) {
 		  if((*it)->getBodypartType() == BodypartType::BPT_Leaf) value += 5;
 		  else if((*it)->getBodypartType() == BodypartType::BPT_Seed) value += 0.5f;
-		  else if((*it)->getBodypartType() == BodypartType::BPT_Branch) value -= 0.5; 
+		  else if((*it)->getBodypartType() == BodypartType::BPT_Branch) value -= 0.5;
+		  else if((*it)->getBodypartType() == BodypartType::BPT_Stick) value += 0.3;
 	  }
 	  return (int)value;
   };

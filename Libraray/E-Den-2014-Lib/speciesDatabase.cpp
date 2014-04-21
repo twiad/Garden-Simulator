@@ -8,8 +8,8 @@
 #include <limits>
 
 #define ORGS_TO_SAVE 100
-#define CANDIDATES_COUNT 20
-#define MAX_SIZE (2000 - CANDIDATES_COUNT)
+#define CANDIDATES_COUNT 200
+#define MAX_SIZE 2000
 #define LOWEST_SPECIES_SELECTION_COUNT 3
 #define XML_VERSION_STRING "0.1.0.2"
 
@@ -17,7 +17,7 @@ namespace EDen {
 
   OneSpeciesDatabase::OneSpeciesDatabase(RuntimeManager* p_runtime): inited(false), name("NONAME"), maxCandidates(20),changedSinceLastUpdate(true) {
     treshold = 2;
-	maxSize = MAX_SIZE;
+	maxSize = MAX_SIZE - CANDIDATES_COUNT;
     runtime = p_runtime;
   };
 
@@ -239,9 +239,17 @@ namespace EDen {
       while(candidates.size() >= 0.9f * getMaxCandidates()) {
 		  setTreshold(treshold + 1);
 	  };
-      while(candidates.size() == 0) {
-		  setTreshold(treshold - 1);
-	  };
+
+	  if(candidates.size() == 0) {
+		  int newNumberOfCandidates = getMaxCandidates();
+		  if(orgs.size() < newNumberOfCandidates) {
+			  newNumberOfCandidates = orgs.size();		
+		  };
+		  newNumberOfCandidates = floor(newNumberOfCandidates / 2.0f);
+		  while(candidates.size() < newNumberOfCandidates) {
+			  setTreshold(treshold - 1);
+		  };
+	  }
     };
 
     changedSinceLastUpdate = false;
@@ -272,13 +280,13 @@ namespace EDen {
           orgs.pop_front();
         };
         orgs.swap(newOrgs);
-
-		int diff = orgs.size() - maxSize;
-		for(int i = 0; i < diff; i++) {
-			removeLeastPerformantOrganism();
-		};
       };
     };
+
+	int diff = orgs.size() - maxSize;
+	for(int i = 0; i < diff; i++) {
+		removeLeastPerformantOrganism();
+	};
 
     treshold = p_treshold;
   };

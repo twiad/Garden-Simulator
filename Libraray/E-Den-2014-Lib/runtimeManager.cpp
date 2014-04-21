@@ -5,9 +5,10 @@
 #include "runtimeManager.h"
 
 #define NUM_CORES 4
-#define MAX_PLANT_COUNT 15
+#define MAX_PLANT_COUNT (NUM_CORES + (NUM_CORES / 2))
 
 #define CANDIDATES_LEVEL (150 / 25)
+#define DATABASE_UPDATE_CYCLES 100
 namespace EDen {
   boost::mutex RuntimeManager::orgsToProcessMutex;
   boost::mutex RuntimeManager::orgsToDeleteMutex;
@@ -299,7 +300,7 @@ namespace EDen {
       saveDatabase("autosave.xml");
     };
 
-    if((cycles % 3000) == 0) {
+    if((cycles % DATABASE_UPDATE_CYCLES) == 0) {
       database->update();
 	  for(std::list<Groundpart* >::iterator it = groundparts.begin(); it != groundparts.end(); it++) {
 		  SpeciesDatabase* db = (*it)->getSpeciesDatabase();

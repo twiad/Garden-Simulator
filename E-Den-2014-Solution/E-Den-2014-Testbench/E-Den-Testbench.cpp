@@ -207,6 +207,9 @@ bool wait_for_events()
             slowMode = !slowMode;
             updateRuntimeState();
           }
+		  else if ( key[0] == 'V'  ) {  //if 'v' is pressed
+
+          }
 		  else if ( key[0] == 'D'  ) {  //debug displays
 			  if(op1) op1->setDrawLightDebug(!op1->getDrawLightDebug());
 			  if(op3) op3->setDrawLightDebug(!op3->getDrawLightDebug());

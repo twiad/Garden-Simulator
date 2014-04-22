@@ -188,10 +188,10 @@ namespace EDen {
 	gooMinusEventHandler = new ResourceButtonEventHandler(groundpart,"Goo",false);
 	gooMinusButton->onPress.Add(gooMinusEventHandler, &ResourceButtonEventHandler::onClick);
 
-	waterPlusButton->SetBounds(115,0,15,15);
-	waterMinusButton->SetBounds(0,0,15,15);
-	gooPlusButton->SetBounds(115,15,15,15);
-	gooMinusButton->SetBounds(0,15,15,15);
+	waterPlusButton->SetBounds(115,0,15,10);
+	waterMinusButton->SetBounds(0,0,15,10);
+	gooPlusButton->SetBounds(115,10,15,10);
+	gooMinusButton->SetBounds(0,10,15,10);
 
 //    updateCaption();
     scale = SDL_SCALE;
@@ -288,12 +288,12 @@ namespace EDen {
 	
 	SDL_Rect statusBarRect;
 	statusBarRect.x = 15;
-	statusBarRect.h = 15;
+	statusBarRect.h = 10;
 	statusBarRect.y = 0;
 	statusBarRect.w = 100 * groundpart->getChemicalStorage()->getCurrentPercentage("Wasser") / 100.0f;
 	SDL_SetRenderDrawColor(renderer, 0, 0, 140, 255);
 	SDL_RenderFillRect(renderer,&statusBarRect);
-	statusBarRect.y = 15;
+	statusBarRect.y = 10;
 	statusBarRect.w = 100 * groundpart->getChemicalStorage()->getCurrentPercentage("Goo") / 100.0f;
 	SDL_SetRenderDrawColor(renderer, 140, 30, 0, 255);
 	SDL_RenderFillRect(renderer,&statusBarRect);

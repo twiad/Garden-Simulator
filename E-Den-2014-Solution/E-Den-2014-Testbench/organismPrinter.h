@@ -99,15 +99,19 @@ namespace EDen {
 	ResourceButtonEventHandler* waterPlusEventHandler;
 	Gwen::Controls::Button* waterMinusButton;
 	ResourceButtonEventHandler* waterMinusEventHandler;
+	
 	Gwen::Controls::Button* gooPlusButton;
 	ResourceButtonEventHandler* gooPlusEventHandler;
 	Gwen::Controls::Button* gooMinusButton;
 	ResourceButtonEventHandler* gooMinusEventHandler;
+	
 	Gwen::Controls::Button* organismsPlusButton;
 	OrganismCountButtonEventHandler* organismsPlusButtonEventHandler;
 	Gwen::Controls::Button* organismsMinusButton;
 	OrganismCountButtonEventHandler* organismsMinusButtonEventHandler;
+	
 	Gwen::Controls::Label* organismsNumberLabel;
+	int numOrganisms, numEmptySpaces,cps;
 
   protected:
 	//GroundpartList groundparts;

@@ -313,10 +313,17 @@ namespace EDen {
 	SDL_RenderFillRect(renderer,&statusBarRect);
 
 	if(organismsNumberLabel) {
-	  int numOrganisms, numEmptySpaces;
-      groundpart->getNumOrganismsAndEmptySpaces(&numOrganisms,&numEmptySpaces);
+      int new_numOrganisms, new_numEmptySpaces,new_cps;
+      groundpart->getNumOrganismsAndEmptySpaces(&new_numOrganisms,&new_numEmptySpaces);
+	  new_cps = runtime->getCps();
 
-	  organismsNumberLabel->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)).append("@").append(Gwen::Utility::ToString(runtime->getCps())));
+	  if((new_numOrganisms != numOrganisms) || (new_numEmptySpaces != numEmptySpaces) || (new_cps != cps)) {
+        numOrganisms = new_numOrganisms;
+		numEmptySpaces = new_numEmptySpaces;
+		cps = new_cps;
+
+        organismsNumberLabel->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)).append("@").append(Gwen::Utility::ToString(cps)));
+	  }
 	}
 
     moveLeft = false;

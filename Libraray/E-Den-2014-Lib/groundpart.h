@@ -41,6 +41,7 @@ namespace EDen {
 	virtual bool hasEmptySpaces();
 	virtual bool incEmptySpaces();
 	virtual bool decEmptySpaces();
+	virtual void getNumOrganismsAndEmptySpaces(int* numOrganisms, int* numEmptySpaces);
 
 	std::list<Organism*> getOrganisms();
 

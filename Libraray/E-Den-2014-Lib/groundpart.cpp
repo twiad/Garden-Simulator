@@ -48,6 +48,11 @@ namespace EDen {
 	 }
   };
 
+  void Groundpart::getNumOrganismsAndEmptySpaces(int* numOrganisms, int* numEmptySpaces) {
+	  *numOrganisms = organisms.size();
+	  *numEmptySpaces = emptySpaces;
+  };
+
   std::string Groundpart::getName() {
 	return name;
   };

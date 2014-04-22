@@ -37,6 +37,40 @@ namespace EDen {
 
   class SDLOrganismPrinter {
   private:
+	struct ResourceButtonEventHandler :public Gwen::Event::Handler
+	{
+		Groundpart* gp;
+		std::string resourceName;
+		bool increment;
+
+		ResourceButtonEventHandler(Groundpart* gp, std::string resourceName, bool increment)
+			:gp(gp),
+			resourceName(resourceName),
+			increment(increment)
+		{
+		}
+
+		void onClick(Gwen::Controls::Base* pControl);
+	};
+
+	struct OrganismCountButtonEventHandler :public Gwen::Event::Handler
+	{
+		Groundpart* gp;
+		RuntimeManager* runtime;
+		Gwen::Controls::Label* label;
+		bool increment;
+
+		OrganismCountButtonEventHandler(Groundpart* gp, RuntimeManager* runtime, Gwen::Controls::Label* label, bool increment)
+			:gp(gp),
+			runtime(runtime),
+			increment(increment),
+			label(label)
+		{
+		}
+
+		void onClick(Gwen::Controls::Base* pControl);
+	};
+
 	SDL_Renderer *renderer;
 	Gwen::Renderer::SDL2 *gwenRenderer;
 	Gwen::Controls::Canvas* pCanvas;
@@ -61,31 +95,6 @@ namespace EDen {
     int req_print(Bodypart* param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3);
 	void printHeigtmap();
 
-	struct ResourceButtonEventHandler :public Gwen::Event::Handler
-	{
-		Groundpart* gp;
-		std::string resourceName;
-		bool increment;
-
-		ResourceButtonEventHandler(Groundpart* gp, std::string resourceName, bool increment)
-			:gp(gp),
-			resourceName(resourceName),
-			increment(increment)
-		{
-		}
-
-		void onClick(Gwen::Controls::Base* pControl)
-		{
-			ChemicalStorage* storage = gp->getChemicalStorage();
-			if(increment) {
-				storage->add(resourceName,storage->getMaxAmount(resourceName) * 0.1f);
-			}
-			else {
-				storage->add(resourceName,-storage->getMaxAmount(resourceName) * 0.1f);
-			}
-		}
-	};
-
 	Gwen::Controls::Button* waterPlusButton;
 	ResourceButtonEventHandler* waterPlusEventHandler;
 	Gwen::Controls::Button* waterMinusButton;
@@ -94,6 +103,11 @@ namespace EDen {
 	ResourceButtonEventHandler* gooPlusEventHandler;
 	Gwen::Controls::Button* gooMinusButton;
 	ResourceButtonEventHandler* gooMinusEventHandler;
+	Gwen::Controls::Button* organismsPlusButton;
+	OrganismCountButtonEventHandler* organismsPlusButtonEventHandler;
+	Gwen::Controls::Button* organismsMinusButton;
+	OrganismCountButtonEventHandler* organismsMinusButtonEventHandler;
+	Gwen::Controls::Label* organismsNumberLabel;
 
   protected:
 	//GroundpartList groundparts;

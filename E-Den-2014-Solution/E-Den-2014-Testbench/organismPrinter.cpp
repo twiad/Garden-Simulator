@@ -187,11 +187,25 @@ namespace EDen {
     gooMinusButton->SetText("G-");
 	gooMinusEventHandler = new ResourceButtonEventHandler(groundpart,"Goo",false);
 	gooMinusButton->onPress.Add(gooMinusEventHandler, &ResourceButtonEventHandler::onClick);
+	organismsNumberLabel = new Gwen::Controls::Label(pCanvas);
+	organismsNumberLabel->SetText("0/0");
+	organismsNumberLabel->SetTextColor(Gwen::Color(250,200,0,255));
+	organismsPlusButton = new Gwen::Controls::Button(pCanvas);
+	organismsPlusButton->SetText("O+");
+	organismsPlusButtonEventHandler = new OrganismCountButtonEventHandler(groundpart,runtime,organismsNumberLabel,true);
+	organismsPlusButton->onPress.Add(organismsPlusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);	
+	organismsMinusButton = new Gwen::Controls::Button(pCanvas);
+	organismsMinusButton->SetText("O+");
+	organismsMinusButtonEventHandler = new OrganismCountButtonEventHandler(groundpart,runtime,organismsNumberLabel,false);
+	organismsMinusButton->onPress.Add(organismsMinusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);	
 
 	waterPlusButton->SetBounds(115,0,15,10);
 	waterMinusButton->SetBounds(0,0,15,10);
 	gooPlusButton->SetBounds(115,10,15,10);
 	gooMinusButton->SetBounds(0,10,15,10);
+	organismsPlusButton->SetBounds(115,20,15,10);
+	organismsNumberLabel->SetBounds(15,20,100,10);
+	organismsMinusButton->SetBounds(0,20,15,10);
 
 //    updateCaption();
     scale = SDL_SCALE;
@@ -285,7 +299,6 @@ namespace EDen {
 	if(groundpart) organisms = groundpart->getOrganisms();
     else cleanupDeadOrganisms();
     
-	
 	SDL_Rect statusBarRect;
 	statusBarRect.x = 15;
 	statusBarRect.h = 10;
@@ -297,6 +310,13 @@ namespace EDen {
 	statusBarRect.w = 100 * groundpart->getChemicalStorage()->getCurrentPercentage("Goo") / 100.0f;
 	SDL_SetRenderDrawColor(renderer, 140, 30, 0, 255);
 	SDL_RenderFillRect(renderer,&statusBarRect);
+
+	if(organismsNumberLabel) {
+	  int numOrganisms, numEmptySpaces;
+      groundpart->getNumOrganismsAndEmptySpaces(&numOrganisms,&numEmptySpaces);
+
+	  organismsNumberLabel->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)));
+	}
 
     moveLeft = false;
 	moveRight = false;
@@ -450,6 +470,32 @@ namespace EDen {
       return returnvalue;
     }
     else return 0;
+  };
+
+  void SDLOrganismPrinter::ResourceButtonEventHandler::onClick(Gwen::Controls::Base* pControl) {
+    ChemicalStorage* storage = gp->getChemicalStorage();
+    if(increment) {
+      storage->add(resourceName,storage->getMaxAmount(resourceName) * 0.1f);
+    }
+    else {
+      storage->add(resourceName,-storage->getMaxAmount(resourceName) * 0.1f);
+    }
+  };
+
+  void SDLOrganismPrinter::OrganismCountButtonEventHandler::onClick(Gwen::Controls::Base* pControl) {
+    if(increment) {
+	  if(gp->incEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() + 1);
+    }
+    else {
+      if(gp->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
+    }
+
+	if(label) {
+	  int numOrganisms, numEmptySpaces;
+      gp->getNumOrganismsAndEmptySpaces(&numOrganisms,&numEmptySpaces);
+
+	  label->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)));
+	}
   };
 
   void SDLOrganismPrinter::printHeigtmap() {

@@ -189,13 +189,14 @@ namespace EDen {
 	gooMinusButton->onPress.Add(gooMinusEventHandler, &ResourceButtonEventHandler::onClick);
 	organismsNumberLabel = new Gwen::Controls::Label(pCanvas);
 	organismsNumberLabel->SetText("0/0");
+	organismsNumberLabel->SetAlignment(3);
 	organismsNumberLabel->SetTextColor(Gwen::Color(250,200,0,255));
 	organismsPlusButton = new Gwen::Controls::Button(pCanvas);
 	organismsPlusButton->SetText("O+");
 	organismsPlusButtonEventHandler = new OrganismCountButtonEventHandler(groundpart,runtime,organismsNumberLabel,true);
 	organismsPlusButton->onPress.Add(organismsPlusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);	
 	organismsMinusButton = new Gwen::Controls::Button(pCanvas);
-	organismsMinusButton->SetText("O+");
+	organismsMinusButton->SetText("O-");
 	organismsMinusButtonEventHandler = new OrganismCountButtonEventHandler(groundpart,runtime,organismsNumberLabel,false);
 	organismsMinusButton->onPress.Add(organismsMinusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);	
 
@@ -204,7 +205,7 @@ namespace EDen {
 	gooPlusButton->SetBounds(115,10,15,10);
 	gooMinusButton->SetBounds(0,10,15,10);
 	organismsPlusButton->SetBounds(115,20,15,10);
-	organismsNumberLabel->SetBounds(15,20,100,10);
+	organismsNumberLabel->SetBounds(16,20,98,10);
 	organismsMinusButton->SetBounds(0,20,15,10);
 
 //    updateCaption();
@@ -315,7 +316,7 @@ namespace EDen {
 	  int numOrganisms, numEmptySpaces;
       groundpart->getNumOrganismsAndEmptySpaces(&numOrganisms,&numEmptySpaces);
 
-	  organismsNumberLabel->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)));
+	  organismsNumberLabel->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)).append("@").append(Gwen::Utility::ToString(runtime->getCps())));
 	}
 
     moveLeft = false;
@@ -491,10 +492,16 @@ namespace EDen {
     }
 
 	if(label) {
-	  int numOrganisms, numEmptySpaces;
+	  int numOrganisms, numEmptySpaces,cps;
       gp->getNumOrganismsAndEmptySpaces(&numOrganisms,&numEmptySpaces);
+	  if(runtime) {
+		  cps = runtime->getCps();
+	  }
+	  else {
+		  cps = 0;
+	  }
 
-	  label->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)));
+	  label->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)).append("@").append(Gwen::Utility::ToString(cps)));
 	}
   };
 

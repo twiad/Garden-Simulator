@@ -8,7 +8,7 @@ namespace EDen {
 	{
 		runtime = p_runtime;
 
-		window = SDL_CreateWindow("Status", 100, 100, STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y, SDL_WINDOW_SHOWN);
+		window = SDL_CreateWindow("Species Overview", 100, 100, STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y, SDL_WINDOW_SHOWN);
 	
 		if (!window) {
 			return;
@@ -46,7 +46,7 @@ namespace EDen {
 	void SDLGwenStatusWindow::update() {
 		listBox->Clear();
 
-		listBox->AddItem(runtime->getDebugOut(true));
+		//listBox->AddItem(runtime->getDebugOut(true));
 
 		std::list<Groundpart*> groundparts = runtime->getGroundparts();
 		for(std::list<Groundpart* >::iterator it = groundparts.begin(); it != groundparts.end(); it++) {

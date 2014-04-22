@@ -96,18 +96,18 @@ namespace EDen {
 	void printHeigtmap();
 
 	Gwen::Controls::Button* waterPlusButton;
+	ResourceButtonEventHandler* waterPlusEventHandler;
 	Gwen::Controls::Button* waterMinusButton;
+	ResourceButtonEventHandler* waterMinusEventHandler;
 	Gwen::Controls::Button* gooPlusButton;
+	ResourceButtonEventHandler* gooPlusEventHandler;
 	Gwen::Controls::Button* gooMinusButton;
-<<<<<<< HEAD
 	ResourceButtonEventHandler* gooMinusEventHandler;
 	Gwen::Controls::Button* organismsPlusButton;
 	OrganismCountButtonEventHandler* organismsPlusButtonEventHandler;
 	Gwen::Controls::Button* organismsMinusButton;
 	OrganismCountButtonEventHandler* organismsMinusButtonEventHandler;
 	Gwen::Controls::Label* organismsNumberLabel;
-=======
->>>>>>> github_eden/master
 
   protected:
 	//GroundpartList groundparts;
@@ -140,11 +140,6 @@ namespace EDen {
 	void setOffset(int param_offX, int param_offY);
 
 	void processEvent(SDL_Event* evt);
-
-	void incWater(Gwen::Controls::Base* pControl);
-	void decWater(Gwen::Controls::Base* pControl);
-	void incGoo(Gwen::Controls::Base* pControl);
-	void decGoo(Gwen::Controls::Base* pControl);
   };
 
   class SDL_ShadowAccumulator {

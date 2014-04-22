@@ -173,16 +173,18 @@ namespace EDen {
 
 	waterPlusButton = new Gwen::Controls::Button(pCanvas);
     waterPlusButton->SetText("W+");
-	//waterPlusButton->onPress.Add(pCanvas, &SDLOrganismPrinter::incWater);
+	waterPlusEventHandler = new ResourceButtonEventHandler(groundpart,"Wasser",true);
+	waterPlusButton->onPress.Add(waterPlusEventHandler, &ResourceButtonEventHandler::onClick);
 	waterMinusButton = new Gwen::Controls::Button(pCanvas);
     waterMinusButton->SetText("W-");
-	//waterMinusButton->onPress.Add(pCanvas, &SDLOrganismPrinter::decWater);
+	waterMinusEventHandler = new ResourceButtonEventHandler(groundpart,"Wasser",false);
+	waterMinusButton->onPress.Add(waterMinusEventHandler, &ResourceButtonEventHandler::onClick);
 	gooPlusButton = new Gwen::Controls::Button(pCanvas);
     gooPlusButton->SetText("G+");
-	//gooPlusButton->onPress.Add(pCanvas, &SDLOrganismPrinter::incGoo);
+	gooPlusEventHandler = new ResourceButtonEventHandler(groundpart,"Goo",true);
+	gooPlusButton->onPress.Add(gooPlusEventHandler, &ResourceButtonEventHandler::onClick);
 	gooMinusButton = new Gwen::Controls::Button(pCanvas);
     gooMinusButton->SetText("G-");
-<<<<<<< HEAD
 	gooMinusEventHandler = new ResourceButtonEventHandler(groundpart,"Goo",false);
 	gooMinusButton->onPress.Add(gooMinusEventHandler, &ResourceButtonEventHandler::onClick);
 	organismsNumberLabel = new Gwen::Controls::Label(pCanvas);
@@ -205,14 +207,6 @@ namespace EDen {
 	organismsPlusButton->SetBounds(115,20,15,10);
 	organismsNumberLabel->SetBounds(16,20,98,10);
 	organismsMinusButton->SetBounds(0,20,15,10);
-=======
-	//gooMinusButton->onPress.Add(pCanvas, &SDLOrganismPrinter::decGoo);
-
-	waterPlusButton->SetBounds(115,0,15,15);
-	waterMinusButton->SetBounds(0,0,15,15);
-	gooPlusButton->SetBounds(115,15,15,15);
-	gooMinusButton->SetBounds(0,15,15,15);
->>>>>>> github_eden/master
 
 //    updateCaption();
     scale = SDL_SCALE;
@@ -558,26 +552,6 @@ namespace EDen {
   bool SDLOrganismPrinter::orgsAlive() {
     if(organisms.size() > 0) return true;
     return false;
-  };
-
-  void SDLOrganismPrinter::incWater(Gwen::Controls::Base* pControl) {
-	  ChemicalStorage* storage = groundpart->getChemicalStorage();
-	  storage->add("Wasser",storage->getMaxAmount("Wasser") * 0.2f);
-  };
-
-  void SDLOrganismPrinter::decWater(Gwen::Controls::Base* pControl) {
-	  ChemicalStorage* storage = groundpart->getChemicalStorage();
-	  storage->add("Wasser",-storage->getMaxAmount("Wasser") * 0.2f);
-  };
-
-  void SDLOrganismPrinter::incGoo(Gwen::Controls::Base* pControl) {
-	  ChemicalStorage* storage = groundpart->getChemicalStorage();
-	  storage->add("Goo",storage->getMaxAmount("Goo") * 0.2f);
-  };
-
-  void SDLOrganismPrinter::decGoo(Gwen::Controls::Base* pControl) {
-	  ChemicalStorage* storage = groundpart->getChemicalStorage();
-	  storage->add("Goo",-storage->getMaxAmount("Goo") * 0.2f);
   };
 
   bool SDL_SunlightProvider::setFactor(Bodypart* param_bodypart ,float param_factor) {

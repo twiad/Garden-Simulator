@@ -47,6 +47,9 @@ namespace EDen {
 	void SDLGwenStatisticsWindow::update() {
 		//addDataPoint("AvgBodypartCount",runtime->getBodypartCount() / (double)runtime->getOrganisms().size());
 		addDataPoint("BodypartCount",runtime->getBodypartCount());
+		//for(std::list<Groundpart*>::iterator itGp = runtime->getGroundparts().begin(); itGp != runtime->getGroundparts().end(); itGp++) {
+
+		//}
 
 		if(window != 0) {
 			pRenderer->BeginContext(NULL);

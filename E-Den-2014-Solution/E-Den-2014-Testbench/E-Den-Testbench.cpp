@@ -464,7 +464,7 @@ void sdl_test() {
   op3 = new SDLOrganismPrinter(renderer, (SDL_DIMX/5)*2,SDL_DIMY,0, 0, gp3, runtime);
   op4 = new SDLOrganismPrinter(renderer, (SDL_DIMX/5)*2,SDL_DIMY,(SDL_DIMX/5)*3, 0, gp2, runtime);*/
 
-  statsWindow = new SDLGwenStatisticsWindow(runtime);
+  //statsWindow = new SDLGwenStatisticsWindow(runtime);
 
   run(1);
 

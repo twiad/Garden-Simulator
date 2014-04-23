@@ -27,6 +27,9 @@
     <ClCompile Include="SDLGwenStatusWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SDLGwenStatisticsWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="organismPrinter.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SDLGwenStatusWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLGwenStatisticsWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

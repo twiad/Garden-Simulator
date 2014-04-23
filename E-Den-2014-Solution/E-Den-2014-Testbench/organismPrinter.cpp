@@ -194,7 +194,7 @@ namespace EDen {
 	organismsPlusButton = new Gwen::Controls::Button(pCanvas);
 	organismsPlusButton->SetText("O+");
 	organismsPlusButtonEventHandler = new OrganismCountButtonEventHandler(groundpart,runtime,organismsNumberLabel,true);
-	organismsPlusButton->onPress.Add(organismsPlusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);	
+	organismsPlusButton->onPress.Add(organismsPlusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);
 	organismsMinusButton = new Gwen::Controls::Button(pCanvas);
 	organismsMinusButton->SetText("O-");
 	organismsMinusButtonEventHandler = new OrganismCountButtonEventHandler(groundpart,runtime,organismsNumberLabel,false);

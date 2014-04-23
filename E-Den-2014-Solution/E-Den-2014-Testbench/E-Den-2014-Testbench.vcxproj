@@ -166,11 +166,13 @@
   <ItemGroup>
     <ClCompile Include="E-Den-Testbench.cpp" />
     <ClCompile Include="organismPrinter.cpp" />
+    <ClCompile Include="SDLGwenStatisticsWindow.cpp" />
     <ClCompile Include="SDLGwenStatusWindow.cpp" />
     <ClCompile Include="SDL_DirectPixelManipulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="organismPrinter.h" />
+    <ClInclude Include="SDLGwenStatisticsWindow.h" />
     <ClInclude Include="SDLGwenStatusWindow.h" />
     <ClInclude Include="SDL_DirectPixelManipulation.h" />
   </ItemGroup>

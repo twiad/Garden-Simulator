@@ -9,6 +9,7 @@
 #include "SDL_draw.h"
 
 #include "SDLGwenStatusWindow.h"
+#include "SDLGwenStatisticsWindow.h"
 
 #include <Gwen/Gwen.h>
 #include <Gwen/Skins/Simple.h>
@@ -57,6 +58,7 @@ ChemicalStorageLink* chemLink2 = 0;
 ChemicalStorageLink* chemLink3 = 0;
 
 SDLGwenStatusWindow* statusWindow = 0;
+SDLGwenStatisticsWindow* statsWindow = 0;
 Gwen::Input::SDL2* GwenInput = 0;
 
 OrganismPrinter* op2 = 0;
@@ -147,8 +149,6 @@ void sdl_run(int cycles) {
   //op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Wasser"));
   //op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Goo"));
 
-  
-
   SDL_RenderPresent(renderer);
   
   if(runtime) {
@@ -160,6 +160,8 @@ void sdl_run(int cycles) {
 		//updateCaption();
 		if(statusWindow) statusWindow->update();
 	}
+
+	if(statsWindow) statsWindow->update();
 	//if(runtime->getCycleCount() % 9990 == 0) if(gp) gp->saveDatabase();
   }
 //  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
@@ -220,7 +222,14 @@ bool wait_for_events()
             updateRuntimeState();
           }
 		  else if ( key[0] == 'V'  ) {  //if 'v' is pressed
-
+			  if(statsWindow) {
+				  if(statsWindow->isShown()) {
+					  statsWindow->hide();
+				  }
+				  else {
+					  statsWindow->show();
+				  }
+			  }
           }
 		  else if ( key[0] == 'D'  ) {  //debug displays
 			  if(op1) op1->setDrawLightDebug(!op1->getDrawLightDebug());
@@ -290,6 +299,7 @@ bool wait_for_events()
 	    }
 
 		if(statusWindow) statusWindow->processEvent(&event);
+		if(statsWindow) statsWindow->processEvent(&event);
 		if(activePrinter) activePrinter->processEvent(&event);
     }
     else {
@@ -453,6 +463,8 @@ void sdl_test() {
 
   op3 = new SDLOrganismPrinter(renderer, (SDL_DIMX/5)*2,SDL_DIMY,0, 0, gp3, runtime);
   op4 = new SDLOrganismPrinter(renderer, (SDL_DIMX/5)*2,SDL_DIMY,(SDL_DIMX/5)*3, 0, gp2, runtime);*/
+
+  statsWindow = new SDLGwenStatisticsWindow(runtime);
 
   run(1);
 

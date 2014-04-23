@@ -484,7 +484,13 @@ namespace EDen {
   };
 
   unsigned int RuntimeManager::getBodypartCount() {
-    return bodypartCount;
+	int count = 0;
+
+	for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+		count += (*it)->getBodypartCount();
+    };
+
+    return count;
   };
   
 };

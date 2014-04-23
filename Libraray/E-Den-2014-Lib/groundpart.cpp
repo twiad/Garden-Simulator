@@ -268,10 +268,10 @@ namespace EDen {
 	  Organism * org = param_bodypart->getParentOrganism();
 	  int orgX = getOrganismX(org);
 	  if(Randomizer::value(0.0f,1.0f) > 0.5) {
-		  return orgX + Randomizer::value(3.0f,width / 100.0f);
+		  return orgX + Randomizer::value(3.0f,width / 50.0f);
 	  }
 	  else {
-		  return orgX - Randomizer::value(3.0f,width / 100.0f);
+		  return orgX - Randomizer::value(3.0f,width / 50.0f);
 	  }
   };
 

@@ -11,7 +11,7 @@
 
 #define SDL_SCALE 40
 //#define SCALE_FACTORX 0.99991f
-#define SCALE_FACTORX 0.995f
+#define SCALE_FACTORX 0.992f
 #define SCALE_FACTORY 0.99f
 #define MOVE_AMOUNT 0.05f
 #define MOVE_MAX_AMOUNT 50.0f
@@ -357,7 +357,7 @@ namespace EDen {
 		  orgX = (scale * orgX) + halfDimX - (halfGroundpartWidth * scale) + renderOffeset;
 		};
 
-        req_print(org->getRootBodypart(), orgX, orgY, 0.0f, 0.0f, 0.0f);
+        req_print(org->getRootBodypart(), orgX, orgY, 0.0f, 0.0f, 0.0f, true, false);
       };
       counter++;
     };
@@ -421,7 +421,7 @@ namespace EDen {
 	GwenInput->ProcessEvent(evt);
   }
 
-  int SDLOrganismPrinter::req_print(Bodypart *param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3) {
+  int SDLOrganismPrinter::req_print(Bodypart *param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked) {
 	int returnvalue = 0;
     
     if(param_bp) {
@@ -451,23 +451,25 @@ namespace EDen {
 
       //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
 
-      if((x1 <= 0) || (x2 <= 0)) {
-		  moveLeft = true;
-	  }
-	  if((x1 > dimx) || (x2 > dimx)) {
-		  moveRight = true;
-	  }
-	  if((y1 > dimy) || (y2 > dimy)) {
-		  needToScaleY = true;
-      };
-	  if((x1 <= SCALE_DOWN_HYST) || (x2 <= SCALE_DOWN_HYST)) {
-		  scaleDownLeft = false;
-	  }
-	  if((x1 > (dimx - SCALE_DOWN_HYST)) || (x2 > (dimx - SCALE_DOWN_HYST))) {
-		  scaleDownRight = false;
-	  }
-	  if((y1 > (dimy - SCALE_DOWN_HYST)) || (y2 > (dimy - SCALE_DOWN_HYST))) {
-		  scaleDown = false;
+	  if(relevantForScaling) {
+		  if((x1 <= 0) || (x2 <= 0)) {
+			  moveLeft = true;
+		  }
+		  if((x1 > dimx) || (x2 > dimx)) {
+			  moveRight = true;
+		  }
+		  if((y1 > dimy) || (y2 > dimy)) {
+			  needToScaleY = true;
+		  };
+		  if((x1 <= SCALE_DOWN_HYST) || (x2 <= SCALE_DOWN_HYST)) {
+			  scaleDownLeft = false;
+		  }
+		  if((x1 > (dimx - SCALE_DOWN_HYST)) || (x2 > (dimx - SCALE_DOWN_HYST))) {
+			  scaleDownRight = false;
+		  }
+		  if((y1 > (dimy - SCALE_DOWN_HYST)) || (y2 > (dimy - SCALE_DOWN_HYST))) {
+			  scaleDown = false;
+		  }
 	  }
 
     //  if(
@@ -483,7 +485,13 @@ namespace EDen {
 		//else {
 		//	SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, ((param_bp->getChemicalStorage()->getCurrentPercentage("Energie") * 200) / 100) + 55);
 		//}
-      SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 255);
+
+	  if(marked) {
+		SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+	  }
+	  else {
+		SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 255);
+	  }
       SDL_RenderDrawLine(renderer,x1+offX,dimy-(y1+1)+offY,x2+offX,dimy-(y2+1)+offY);
 
       SpawnpointInformationList bpSpawnpoints = param_bp->getSpawnpoints();
@@ -495,7 +503,7 @@ namespace EDen {
           float partner_ang1 = sp->ang2d;
           float partner_ang2 = sp->ang2;
           float partner_ang3 = sp->rot;
-          returnvalue += req_print((*it)->connectedBodypart,x2,y2,a1 + 180.0f + partner_ang1 + (*it)->ang2d,a2 + partner_ang2 + (*it)->ang2,a3 + partner_ang3 + (*it)->rot);
+          returnvalue += req_print((*it)->connectedBodypart,x2,y2,a1 + 180.0f + partner_ang1 + (*it)->ang2d,a2 + partner_ang2 + (*it)->ang2,a3 + partner_ang3 + (*it)->rot, relevantForScaling, marked);
         };
       };
       //std::cout << returnvalue << std::endl;

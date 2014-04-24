@@ -95,7 +95,7 @@ namespace EDen {
 	bool drawLightDebug;
 
     bool cleanupDeadOrganisms();
-    int req_print(Bodypart* param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3);
+    int req_print(Bodypart* param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked);
 	void printHeigtmap();
 
 	Gwen::Controls::Button* waterPlusButton;

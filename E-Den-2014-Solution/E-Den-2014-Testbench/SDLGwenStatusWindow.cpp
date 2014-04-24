@@ -32,6 +32,8 @@ namespace EDen {
 		listBox = new Gwen::Controls::ListBox(pCanvas);
 		listBox->SetBounds(3, 3, STATUS_WINDOW_DIM_X - 6, STATUS_WINDOW_DIM_Y - 6);
 		listBox->AddItem("No Items Yet");
+
+		update();
 	}
 
 	SDLGwenStatusWindow::~SDLGwenStatusWindow()

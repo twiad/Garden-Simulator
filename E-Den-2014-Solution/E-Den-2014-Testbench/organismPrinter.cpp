@@ -14,9 +14,10 @@
 #define SCALE_FACTORX 0.995f
 #define SCALE_FACTORY 0.99f
 #define MOVE_AMOUNT 0.05f
-#define MOVE_MAX_AMOUNT 15.0f
+#define MOVE_MAX_AMOUNT 50.0f
 #define MOVE_SLOWDOWN_FACTOR 0.7f
-#define DOWN_SCALE_FACTOR 1.0001f
+#define DOWN_SCALE_FACTOR 1.0003f
+#define SCALE_DOWN_HYST 25
 
 namespace EDen {
 
@@ -215,6 +216,9 @@ namespace EDen {
     moveLeft = false;
 	moveRight = false;
 	needToScaleY = false;
+	scaleDownLeft = true;
+	scaleDownRight = true;
+	scaleDown = true;
 //    resetScreen();
   };
 
@@ -329,6 +333,9 @@ namespace EDen {
     moveLeft = false;
 	moveRight = false;
 	needToScaleY = false;
+	scaleDownLeft = true;
+	scaleDownRight = true;
+	scaleDown = true;
     Organism* org;
 
     int counter = 1;
@@ -366,6 +373,8 @@ namespace EDen {
 	gwenRenderer->PresentContext(NULL);
 	gwenRenderer->EndContext(NULL);
 
+	scaleDown = scaleDown && (scaleDownLeft || scaleDownRight);
+
 	if(needToScaleY) {
 		scale = scale * SCALE_FACTORY;
 		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
@@ -379,17 +388,23 @@ namespace EDen {
 		if(moveMomentum > (MOVE_MAX_AMOUNT * scale)) {
 			moveMomentum = (MOVE_MAX_AMOUNT * scale);
 		}
-		scale = scale * DOWN_SCALE_FACTOR;
+		if(scaleDown) {
+			scale = scale * DOWN_SCALE_FACTOR;
+		}
 	}
 	else if(moveRight) {
 		moveMomentum -= MOVE_AMOUNT * scale;
 		if(moveMomentum < -(MOVE_MAX_AMOUNT * scale)) {
 			moveMomentum = -(MOVE_MAX_AMOUNT * scale);
 		}
-		scale = scale * DOWN_SCALE_FACTOR;
+		if(scaleDown) {
+			scale = scale * DOWN_SCALE_FACTOR;
+		}
 	}
     else {
-		scale = scale * DOWN_SCALE_FACTOR;
+		if(scaleDown) {
+			scale = scale * DOWN_SCALE_FACTOR;
+		}
 		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
 	}
     //if(runtimeManager->getState() == RMS_Slow)
@@ -442,9 +457,18 @@ namespace EDen {
 	  if((x1 > dimx) || (x2 > dimx)) {
 		  moveRight = true;
 	  }
-	  if((y1> dimy) || (y2 > dimy)) {
+	  if((y1 > dimy) || (y2 > dimy)) {
 		  needToScaleY = true;
       };
+	  if((x1 <= SCALE_DOWN_HYST) || (x2 <= SCALE_DOWN_HYST)) {
+		  scaleDownLeft = false;
+	  }
+	  if((x1 > (dimx - SCALE_DOWN_HYST)) || (x2 > (dimx - SCALE_DOWN_HYST))) {
+		  scaleDownRight = false;
+	  }
+	  if((y1 > (dimy - SCALE_DOWN_HYST)) || (y2 > (dimy - SCALE_DOWN_HYST))) {
+		  scaleDown = false;
+	  }
 
     //  if(
 		  ////(x1-offsetx >= 0) && (x1-offsetx < dimx) && (x2-offsetx >= 0) && (x2-offsetx < dimx) && 

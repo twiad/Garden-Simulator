@@ -140,7 +140,9 @@ bool updateCaption() {
 };
 
 void sdl_run(int cycles) {
-  run(cycles);
+  if(!pause) {
+	run(cycles);
+  }
   //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   //SDL_RenderClear(renderer);
@@ -151,18 +153,20 @@ void sdl_run(int cycles) {
 
   SDL_RenderPresent(renderer);
   
-  if(runtime) {
-	if(runtime->getState() == RMS_Slow) {
-	    //updateCaption();
-		if(statusWindow) statusWindow->update();
-	}
-	else if(runtime->getCycleCount() % 10 == 0) {
-		//updateCaption();
-		if(statusWindow) statusWindow->update();
-	}
+  if(!pause) {
+	  if(runtime) {
+		if(runtime->getState() == RMS_Slow) {
+			//updateCaption();
+			if(statusWindow) statusWindow->update();
+		}
+		else if(runtime->getCycleCount() % 10 == 0) {
+			//updateCaption();
+			if(statusWindow) statusWindow->update();
+		}
 
-	if(statsWindow) statsWindow->update();
-	//if(runtime->getCycleCount() % 9990 == 0) if(gp) gp->saveDatabase();
+		if(statsWindow) statsWindow->update();
+		//if(runtime->getCycleCount() % 9990 == 0) if(gp) gp->saveDatabase();
+	  }
   }
 //  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
 //  printOrgs();
@@ -197,8 +201,6 @@ bool wait_for_events()
   printf("waiting for events, press 'q' or 'ESC' to quit\n");
   while ( !quit ) {				
     if(SDL_PollEvent(&event)) {	
-		
-
 	    switch (event.type) {		//check the event type
 		    case SDL_KEYDOWN:			//if a key has been pressed
           key = SDL_GetKeyName(event.key.keysym.sym);
@@ -209,12 +211,17 @@ bool wait_for_events()
 		  else if ( key[0] == 'Q'  )	//quit if 'q'  pressed
 	          quit = true;			
           else if ( key[0] == 'S'  )  {//save if 's' pressed
-			if(!statusWindow) {
-				statusWindow = new SDLGwenStatusWindow(runtime);
+			if(key[1] != 'p') {
+				if(!statusWindow) {
+					statusWindow = new SDLGwenStatusWindow(runtime);
+				}
+				else {
+					delete statusWindow;
+					statusWindow = 0;
+				}
 			}
 			else {
-				delete statusWindow;
-				statusWindow = 0;
+				pause = !pause;
 			}
 		  }
           else if ( key[0] == 'Z'  ) {  //slow if 'z' is pressed
@@ -265,11 +272,8 @@ bool wait_for_events()
           }
 		    break;
 		     case SDL_MOUSEMOTION:             //mouse moved
-			     printf("Mouse motion x:%d, y:%d\n", event.motion.x, event.motion.y );
-           if(! pause) 
-             sdl_run(SDL_IDEL_CYCLES);
-           else
-             SleepEx(500,true);
+//			     printf("Mouse motion x:%d, y:%d\n", event.motion.x, event.motion.y );
+	             sdl_run(SDL_IDEL_CYCLES);
 			     break;
 		     case SDL_MOUSEBUTTONUP:           //mouse button pressed
 			   printf("Mouse button %d pressed x:%d, y:%d\n", event.button.button, event.button.x, event.button.y );
@@ -303,10 +307,7 @@ bool wait_for_events()
 		if(activePrinter) activePrinter->processEvent(&event);
     }
     else {
-      if(! pause) 
-        sdl_run(SDL_IDEL_CYCLES);
-      else
-        SleepEx(500,true);
+      sdl_run(SDL_IDEL_CYCLES);
 
       if(! runtime->orgsAlive()) {
 		SDL_Quit();

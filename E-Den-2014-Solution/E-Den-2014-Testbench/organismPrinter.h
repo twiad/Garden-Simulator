@@ -88,6 +88,9 @@ namespace EDen {
 	bool moveRight;
     bool moveLeft;
 	bool needToScaleY;
+	bool scaleDownLeft;
+	bool scaleDownRight;
+	bool scaleDown;
 
 	bool drawLightDebug;
 

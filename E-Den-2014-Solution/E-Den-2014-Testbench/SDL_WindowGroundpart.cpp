@@ -252,7 +252,7 @@ namespace EDen {
 
   void SDL_WindowGroundpart::processEvent(SDL_Event* evt) {
 	GwenInput->ProcessEvent(evt);
-	if (evt->type == SDL_WINDOWEVENT) {
+	if ((evt->type == SDL_WINDOWEVENT) && (evt->window.windowID == SDL_GetWindowID(window))) {
 		//if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
 		//	resizeWindow(evt->window.data1, evt->window.data2);
 		//}

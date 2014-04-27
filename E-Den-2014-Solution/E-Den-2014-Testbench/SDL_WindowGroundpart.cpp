@@ -259,10 +259,6 @@ namespace EDen {
 			if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
 				resizeWindow(evt->window.data1, evt->window.data2);
 			}
-			//else 
-			//if(evt->window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
-			//	resizeWindow(evt->window.data1, evt->window.data2);
-			//}
 		}
 	}
 	else if(evt->type == SDL_MOUSEBUTTONUP) {
@@ -272,6 +268,12 @@ namespace EDen {
 				int clickedX = (width / 2) + ((x - (dimx / 2)) * (1.0f/scale));
 
 				primaryMarkedOrganism = getOrganismNearX(clickedX);
+			}
+			else if(evt->button.button == 3) {
+				//int x = evt->button.x - renderOffeset;
+				//int clickedX = (width / 2) + ((x - (dimx / 2)) * (1.0f/scale));
+
+				primaryMarkedOrganism = 0;
 			}
 		}
 	};

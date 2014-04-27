@@ -27,6 +27,8 @@ namespace EDen {
     	return;
 	}
 
+	int id = SDL_GetWindowID(window);
+
 	primaryMarkedOrganism = 0;
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -252,23 +254,25 @@ namespace EDen {
 
   void SDL_WindowGroundpart::processEvent(SDL_Event* evt) {
 	GwenInput->ProcessEvent(evt);
-	if ((evt->type == SDL_WINDOWEVENT) && (evt->window.windowID == SDL_GetWindowID(window))) {
-		//if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
-		//	resizeWindow(evt->window.data1, evt->window.data2);
-		//}
-		//else 
-		if(evt->window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
-			resizeWindow(evt->window.data1, evt->window.data2);
+	if ((evt->type == SDL_WINDOWEVENT)) {
+		if(evt->window.windowID == SDL_GetWindowID(window)) {
+			if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
+				resizeWindow(evt->window.data1, evt->window.data2);
+			}
+			//else 
+			//if(evt->window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+			//	resizeWindow(evt->window.data1, evt->window.data2);
+			//}
 		}
 	}
 	else if(evt->type == SDL_MOUSEBUTTONUP) {
-		//event.button.button, event.button.x, event.button.y
+		if(evt->window.windowID == SDL_GetWindowID(window)) {
+			if(evt->button.button == 1) {
+				int x = evt->button.x - renderOffeset;
+				int clickedX = (width / 2) + ((x - (dimx / 2)) * (1.0f/scale));
 
-		if(evt->button.button == 1) {
-			int x = evt->button.x - renderOffeset;
-			int clickedX = (width / 2) + ((x - (dimx / 2)) * (1.0f/scale));
-
-			primaryMarkedOrganism = getOrganismNearX(clickedX);
+				primaryMarkedOrganism = getOrganismNearX(clickedX);
+			}
 		}
 	};
   }

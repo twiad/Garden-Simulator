@@ -10,6 +10,8 @@ namespace EDen {
 
 		window = SDL_CreateWindow("Species", 10, 10, STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y, SDL_WINDOW_SHOWN);
 	
+		int id = SDL_GetWindowID(window);
+
 		if (!window) {
 			return;
 		}

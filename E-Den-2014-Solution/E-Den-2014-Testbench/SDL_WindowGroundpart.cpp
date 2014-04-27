@@ -27,8 +27,6 @@ namespace EDen {
     	return;
 	}
 
-	int id = SDL_GetWindowID(window);
-
 	primaryMarkedOrganism = 0;
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -57,8 +55,8 @@ namespace EDen {
 	pCanvas = new Gwen::Controls::Canvas(skin);
 	pCanvas->SetSize(dimx, dimy);
 	pCanvas->SetBounds(0,0,dimx,dimy);
-	pCanvas->SetDrawBackground(true);
-	pCanvas->SetBackgroundColor(Gwen::Color(0, 0, 0, 255));
+	pCanvas->SetDrawBackground(false);
+	//pCanvas->SetBackgroundColor(Gwen::Color(0, 0, 0, 255));
 
 	GwenInput = new Gwen::Input::SDL2();
 	GwenInput->Initialize(pCanvas);
@@ -130,7 +128,6 @@ namespace EDen {
 
   bool SDL_WindowGroundpart::print() {
     gwenRenderer->BeginContext(NULL);
-	pCanvas->RenderCanvas();
 
 	if(orgInsprector->getOrganism() != primaryMarkedOrganism) {
 		orgInsprector->setOrganism(primaryMarkedOrganism);
@@ -139,6 +136,14 @@ namespace EDen {
 	orgInsprector->update();
 
 	SDL_Rect statusBarRect;
+	//draw Background 
+	statusBarRect.x = 0;
+	statusBarRect.y = 0;
+	statusBarRect.w = dimx;
+	statusBarRect.h = dimy;
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderFillRect(renderer,&statusBarRect);
+	//draw status bar
 	statusBarRect.x = 15;
 	statusBarRect.h = 10;
 	statusBarRect.y = 0;
@@ -202,6 +207,7 @@ namespace EDen {
 	}
 	shadows->clear();
 
+    pCanvas->RenderCanvas();
 	gwenRenderer->PresentContext(NULL);
 	gwenRenderer->EndContext(NULL);
 

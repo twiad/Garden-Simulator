@@ -105,6 +105,8 @@ namespace EDen {
 		int dimy;
 
 		Organism* primaryMarkedOrganism;
+
+		void resizeWindow(int dimx, int dimy);
 	  public:
 		SDL_WindowGroundpart(std::string name, int width, int height, float maxWater = 2.0e8, float maxGoo = 2.0e8, int emptySpaces = 1, RuntimeManager* runtimeManager = 0);
 		~SDL_WindowGroundpart();

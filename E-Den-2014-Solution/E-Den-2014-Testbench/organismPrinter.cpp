@@ -860,4 +860,9 @@ namespace EDen {
 		  return currentLight;
 	  };
   };
+
+  void SDL_ShadowAccumulator::setSize(int pDimX, int pDimY) {
+	  w = pDimX;
+	  h = pDimY;
+  };
 }

@@ -194,6 +194,7 @@ namespace EDen {
 		void distribute();
 		void draw();
 		void clear();
+		void setSize(int dimx, int dimy);
   };
 
   class SDL_SunlightProvider : public ResourceProvider {

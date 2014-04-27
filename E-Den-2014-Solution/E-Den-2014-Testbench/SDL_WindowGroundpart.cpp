@@ -22,7 +22,7 @@ namespace EDen {
 	};
 
   SDL_WindowGroundpart::SDL_WindowGroundpart(std::string name, int width, int height, float maxWater, float maxGoo, int emptySpaces, RuntimeManager* runtimeManager) : SingleDimensionHeightmapGroundpart(name, width * 2, maxWater, maxGoo, emptySpaces) {
-	window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
 	if (!window) {
     	return;
 	}
@@ -252,8 +252,16 @@ namespace EDen {
 
   void SDL_WindowGroundpart::processEvent(SDL_Event* evt) {
 	GwenInput->ProcessEvent(evt);
-
-	if(evt->type == SDL_MOUSEBUTTONUP) {
+	if (evt->type == SDL_WINDOWEVENT) {
+		//if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
+		//	resizeWindow(evt->window.data1, evt->window.data2);
+		//}
+		//else 
+		if(evt->window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+			resizeWindow(evt->window.data1, evt->window.data2);
+		}
+	}
+	else if(evt->type == SDL_MOUSEBUTTONUP) {
 		//event.button.button, event.button.x, event.button.y
 
 		if(evt->button.button == 1) {
@@ -264,6 +272,15 @@ namespace EDen {
 		}
 	};
   }
+
+  void SDL_WindowGroundpart::resizeWindow(int pDimx, int pDimy) {
+	  dimx = pDimx;
+	  dimy = pDimy;
+
+	  pCanvas->SetSize(dimx,dimy);
+	  orgInsprector->setBounds(dimx - 100,0,100,92);
+	  shadows->setSize(dimx,dimy);
+  };
 
   int SDL_WindowGroundpart::req_print(Bodypart *param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked) {
 	int returnvalue = 0;

@@ -8,6 +8,7 @@
 #include "SDL_ttf.h"
 #include "SDL_draw.h"
 
+#include "SDL_WindowGroundpart.h"
 #include "SDLGwenStatusWindow.h"
 #include "SDLGwenStatisticsWindow.h"
 
@@ -52,7 +53,7 @@ Groundpart* gp3 = 0;
 SDLOrganismPrinter* op1 = 0;
 SDLOrganismPrinter* op3 = 0;
 SDLOrganismPrinter* op4 = 0;
-SDLOrganismPrinter* activePrinter = 0;
+SDL_WindowGroundpart* activePrinter = 0;
 ChemicalStorageLink* chemLink1 = 0;
 ChemicalStorageLink* chemLink2 = 0;
 ChemicalStorageLink* chemLink3 = 0;
@@ -147,7 +148,7 @@ void sdl_run(int cycles) {
   //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   //SDL_RenderClear(renderer);
 
-  op1->print();
+  activePrinter->print();
   //op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Wasser"));
   //op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Goo"));
 
@@ -178,18 +179,18 @@ void updateRuntimeState() {
   else runtime->setState(RMS_Normal);
 };
 
-void switchActivePrinter() {
-  if(activePrinter == 0)  {
-    if(op1 != 0) activePrinter = op1;
-    else activePrinter = op3;
-  } 
-  else if(activePrinter == op1) {
-    if(op3 != 0) activePrinter = op3;
-  }
-  else if(activePrinter == op3) {
-    if(op1 != 0) activePrinter = op1;
-  };
-};
+//void switchActivePrinter() {
+//  if(activePrinter == 0)  {
+//    if(op1 != 0) activePrinter = op1;
+//    else activePrinter = op3;
+//  } 
+//  else if(activePrinter == op1) {
+//    if(op3 != 0) activePrinter = op3;
+//  }
+//  else if(activePrinter == op3) {
+//    if(op1 != 0) activePrinter = op1;
+//  };
+//};
 
 bool wait_for_events()
 {
@@ -338,38 +339,40 @@ void sdl_test() {
   }
 
   runtime = new RuntimeManager();
-  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX*2,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
-  runtime->add(gp);
+//  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX*2,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
+//  runtime->add(gp);
+//
+//  gpDatabase = new SpeciesDatabase(runtime);
+//  gpDatabase->setApplicationSettingsPath(appSettingsPathP);
+//  gp->setSpeciesDatabase(gpDatabase);
+//  //gp->incEmptySpaces();
+//  //gp->incEmptySpaces();
+//  //gpdbFilename = gp->getName().append(".xml");
+//  //gpDatabase->load(gpdbFilename);
+//
+//  sun = new SDL_SunlightProvider();
+//
+//  window = SDL_CreateWindow("EDen-Testbench 2014", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SDL_DIMX, SDL_DIMY, SDL_WINDOW_OPENGL);
+//  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+//
+//  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+//
+//  //int Buffers, Samples;
+//  //SDL_GL_GetAttribute( SDL_GL_MULTISAMPLEBUFFERS, &Buffers );
+//  //SDL_GL_GetAttribute( SDL_GL_MULTISAMPLESAMPLES, &Samples );
+//  //cout << "buf = " << Buffers << ", samples = " << Samples << ".";
+//
+//  op1 = new SDLOrganismPrinter(renderer, SDL_DIMX, SDL_DIMY, 0, 0, gp, runtime);
+//
+//  activePrinter = op1;
+////  op3 = new SDLOrganismPrinter(&window, SDL_DIMX,SDL_DIMY,runtime);
 
-  gpDatabase = new SpeciesDatabase(runtime);
+  activePrinter = new SDL_WindowGroundpart("GOO1",SDL_DIMX,SDL_DIMY,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount(),runtime);
+  gp = activePrinter;
+  gpDatabase = gp->getSpeciesDatabase();
   gpDatabase->setApplicationSettingsPath(appSettingsPathP);
-  gp->setSpeciesDatabase(gpDatabase);
-  //gp->incEmptySpaces();
-  //gp->incEmptySpaces();
-  //gpdbFilename = gp->getName().append(".xml");
-  //gpDatabase->load(gpdbFilename);
 
   Bodypart* bp,* bp2;
-  sun = new SDL_SunlightProvider();
-
-  window = SDL_CreateWindow("EDen-Testbench 2014", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SDL_DIMX, SDL_DIMY, SDL_WINDOW_OPENGL);
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-
-  //int Buffers, Samples;
-  //SDL_GL_GetAttribute( SDL_GL_MULTISAMPLEBUFFERS, &Buffers );
-  //SDL_GL_GetAttribute( SDL_GL_MULTISAMPLESAMPLES, &Samples );
-  //cout << "buf = " << Buffers << ", samples = " << Samples << ".";
-
-  op1 = new SDLOrganismPrinter(renderer, SDL_DIMX, SDL_DIMY, 0, 0, gp, runtime);
-
-  activePrinter = op1;
-//  op3 = new SDLOrganismPrinter(&window, SDL_DIMX,SDL_DIMY,runtime);
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////
   //bp = new Bodypart(BPT_Stick,"TESTPART4");
   //organism = new Organism("TestOrganism", bp, runtime);
@@ -679,9 +682,10 @@ void gwenTest() {
 
 			if (evt.type == SDL_KEYDOWN) {			//if a key has been pressed
 				const char *key = SDL_GetKeyName(evt.key.keysym.sym);
-				if ( key[0] == 'Q'  )	//quit if 'q'  pressed
+				if ( key[0] == 'Q'  ) {	//quit if 'q'  pressed
 					bQuit = true;
-				if ( key[0] == 'P'  );
+				}
+				if ( key[0] == 'P'  ) {};
 			}
 
             GwenInput->ProcessEvent(&evt);

@@ -117,7 +117,6 @@ namespace EDen {
 	int numOrganisms, numEmptySpaces,cps;
 
   protected:
-	//GroundpartList groundparts;
     std::list<Organism*> organisms;
     int dimx;
     int dimy;

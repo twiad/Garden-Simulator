@@ -169,12 +169,14 @@
     <ClCompile Include="SDLGwenStatisticsWindow.cpp" />
     <ClCompile Include="SDLGwenStatusWindow.cpp" />
     <ClCompile Include="SDL_DirectPixelManipulation.cpp" />
+    <ClCompile Include="SDL_WindowGroundpart.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="organismPrinter.h" />
     <ClInclude Include="SDLGwenStatisticsWindow.h" />
     <ClInclude Include="SDLGwenStatusWindow.h" />
     <ClInclude Include="SDL_DirectPixelManipulation.h" />
+    <ClInclude Include="SDL_WindowGroundpart.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\gwen\Projects\windows\vs2010\GWEN-Static.vcxproj">

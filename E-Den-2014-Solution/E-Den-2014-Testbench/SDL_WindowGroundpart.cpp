@@ -194,12 +194,14 @@ namespace EDen {
 
 	scaleDown = scaleDown && (scaleDownLeft || scaleDownRight);
 
+	float newScale = scale;
+
 	if(needToScaleY) {
-		scale = scale * SCALE_FACTORY;
+		newScale = scale * SCALE_FACTORY;
 		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
 	}
 	else if(moveLeft && moveRight) {
-		scale = scale * SCALE_FACTORX;
+		newScale = scale * SCALE_FACTORX;
 		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
 	}
 	else if(moveLeft) {
@@ -208,7 +210,7 @@ namespace EDen {
 			moveMomentum = (MOVE_MAX_AMOUNT * scale);
 		}
 		if(scaleDown) {
-			scale = scale * DOWN_SCALE_FACTOR;
+			newScale = scale * DOWN_SCALE_FACTOR;
 		}
 	}
 	else if(moveRight) {
@@ -217,16 +219,21 @@ namespace EDen {
 			moveMomentum = -(MOVE_MAX_AMOUNT * scale);
 		}
 		if(scaleDown) {
-			scale = scale * DOWN_SCALE_FACTOR;
+			newScale = scale * DOWN_SCALE_FACTOR;
 		}
 	}
     else {
 		if(scaleDown) {
-			scale = scale * DOWN_SCALE_FACTOR;
+			newScale = scale * DOWN_SCALE_FACTOR;
 		}
 		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
 	}
 
+	if(scale != newScale) {
+		renderOffeset = renderOffeset/scale*newScale;
+		scale = newScale;
+	}
+	
 	renderOffeset += moveMomentum;
 
     return true;

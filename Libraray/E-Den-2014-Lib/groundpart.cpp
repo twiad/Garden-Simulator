@@ -39,7 +39,7 @@ namespace EDen {
 
   bool Groundpart::decEmptySpaces() {
 	 boost::mutex::scoped_lock lock(mutex);
-	 if((emptySpaces + organisms.size()) > 0) {
+	 if((emptySpaces + organisms.size()) > 1) {
 		emptySpaces -= 1;
 		return true;
 	 }

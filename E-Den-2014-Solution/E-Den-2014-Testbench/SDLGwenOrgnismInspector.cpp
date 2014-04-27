@@ -39,8 +39,9 @@ namespace EDen {
 
 	void SDLGwenOrgnismInspector::hide() {
 		if(listBox != 0) {
-			delete listBox;
+			Gwen::Controls::ListBox* oldListBox = listBox;
 			listBox = 0;
+			delete oldListBox;
 			org = 0;
 		}
 	};

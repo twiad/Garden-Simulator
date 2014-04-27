@@ -75,7 +75,6 @@ namespace EDen {
 
 		bool drawLightDebug;
 
-		bool cleanupDeadOrganisms();
 		int req_print(Bodypart* param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked);
 		void printHeigtmap();
 
@@ -99,9 +98,14 @@ namespace EDen {
 	  protected:
 		int dimx;
 		int dimy;
+
+		Organism* primaryMarkedOrganism;
 	  public:
 		SDL_WindowGroundpart(std::string name, int width, int height, float maxWater = 2.0e8, float maxGoo = 2.0e8, int emptySpaces = 1, RuntimeManager* runtimeManager = 0);
 		~SDL_WindowGroundpart();
+
+		virtual bool registerOrganism(Organism* param_organism);
+        virtual bool unregisterOrganism(Organism* param_organism);
 
 		virtual bool print();
 

@@ -179,21 +179,24 @@ namespace EDen {
   };
 
   bool SingleDimensionHeightmapGroundpart::registerOrganism(Organism* param_organism) {
-	  boost::mutex::scoped_lock lock(mutex);
-	  organisms.push_back(param_organism);
-	  emptySpaces -= 1;
-	  return true;
+	  bool retval = Groundpart::registerOrganism(param_organism);
+
+	  int plantPosX = getOrganismX(param_organism);
+	  alivePlantPositions[plantPosX].push_back(param_organism);
+	  
+	  return retval;
   };
 
   bool SingleDimensionHeightmapGroundpart::unregisterOrganism(Organism* param_organism) {
-	  boost::mutex::scoped_lock lock(mutex);
+	  bool retval = Groundpart::unregisterOrganism(param_organism);
 
-	  for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
-		if((*it) == param_organism) {
-			emptySpaces += 1;
-		};
+	  int plantPosX = getOrganismX(param_organism);
+
+	  boost::mutex::scoped_lock lock(mutex);
+	  alivePlantPositions[plantPosX].remove(param_organism);
+	  if(alivePlantPositions[plantPosX].size() == 0) {
+		  alivePlantPositions.erase(plantPosX);
 	  }
-	  organisms.remove(param_organism);
 
       plantPositionMemoryIterator it = plantPositionMemory.find(param_organism);
 	  if(it != plantPositionMemory.end()) {
@@ -273,6 +276,39 @@ namespace EDen {
 	  else {
 		  return orgX - Randomizer::value(3.0f,width / 50.0f);
 	  }
+  };
+
+  Organism* SingleDimensionHeightmapGroundpart::getOrganismNearX(int posX) {
+	  Organism* orgOut = 0;
+		
+	  bool leftBoundHit = false;
+	  bool rightBoundHit = false;
+
+	  int i = 0;
+
+	  while(orgOut == 0 && (!leftBoundHit) && (!rightBoundHit)) {
+		if((posX + i) > width) {
+			rightBoundHit = true;
+		}
+		if((posX - i) < 0) {
+			leftBoundHit = true;
+		}
+
+		if((!rightBoundHit) && alivePlantPositions.count(posX + i) > 0) {
+			orgOut = alivePlantPositions[posX + i].back();
+		}
+		else if((!leftBoundHit) && alivePlantPositions.count(posX - i) > 0) {
+			orgOut = alivePlantPositions[posX - i].back();
+		}
+
+		i++;
+	  }
+	  
+	  return orgOut;
+  };
+
+  bool SingleDimensionHeightmapGroundpart::isOccupiedByAlivePlant(int posX) {
+	  return alivePlantPositions.count(posX) > 0;
   };
 
   float SingleDimensionHeightmapGroundpart::getHeightAt(int posX) {

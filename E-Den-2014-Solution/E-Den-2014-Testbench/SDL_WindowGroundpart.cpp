@@ -107,23 +107,6 @@ namespace EDen {
 	scaleDown = true;
   };
 
- // bool SDLOrganismPrinter::resetScreen() {
-	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	//SDL_RenderClear(renderer);
- //   
- //   percentagePrinterCounter = 0;
-
- //   return true;
- // };
-
-//  bool SDLOrganismPrinter::redrawScreen() {
-////	SDL_RenderCopy(renderer, screen, NULL, NULL);
-//	SDL_RenderPresent(renderer);
-//
-//	//SDL_UpdateWindowSurface(window);
-//    return true;
-//  };
-
   bool SDL_WindowGroundpart::add(Organism* param_organism) {
     static bool alternate;
     
@@ -137,46 +120,6 @@ namespace EDen {
   std::list<Organism*> SDL_WindowGroundpart::getOrganisms() {
     return organisms;
   };
-
-  bool SDL_WindowGroundpart::cleanupDeadOrganisms() {
-    Organism* org;
-    std::list<Organism*> new_orgs;
-
-    while(!organisms.empty()) {
-      org = organisms.back();
-      organisms.pop_back();
-      if(org)
-          if(org->getState() != BSP_dead)
-              new_orgs.push_front(org);
-    };
-
-    organisms.clear();
-    organisms.swap(new_orgs);
-
-    return true;
-  };
-
-  //bool SDL_WindowGroundpart::updateCaption() {
-  //  std::string newCaption = "";
-  //  char str[255];
-  //  
-  //  //if(runtimeManager) {
-  //  //  sprintf(str,"[%d|%lu]-",runtimeManager->getCps(), runtimeManager->getCycleCount());
-  //  //  newCaption += str;
-  //  //}
-
-  //  if(runtimeManager) newCaption.append(runtimeManager->getDebugOut(true)).append("-");
-
-  //  for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
-  //    sprintf(str,"(%d|%d|%d)",(*it)->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier(),(*it)->getBodypartCount(),(*it)->getLifetime());
-  //    newCaption += str;
-  //  };
-
-  //  if(runtimeManager) newCaption.append(runtimeManager->getDebugOut());
-
-  //  SDL_SetWindowTitle(window,newCaption.c_str());
-  //  return true;
-  //};
 
   bool SDL_WindowGroundpart::print() {
     gwenRenderer->BeginContext(NULL);
@@ -233,7 +176,7 @@ namespace EDen {
 		orgY = scale * getHeightAt(orgX) - 1;
   	    orgX = (scale * orgX) + halfDimX - (halfGroundpartWidth * scale) + renderOffeset;
 
-        req_print(org->getRootBodypart(), orgX, orgY, 0.0f, 0.0f, 0.0f, true, false);
+        req_print(org->getRootBodypart(), orgX, orgY, 0.0f, 0.0f, 0.0f, true, org == primaryMarkedOrganism);
       };
       counter++;
     };
@@ -291,6 +234,17 @@ namespace EDen {
 
   void SDL_WindowGroundpart::processEvent(SDL_Event* evt) {
 	GwenInput->ProcessEvent(evt);
+
+	if(evt->type == SDL_MOUSEBUTTONUP) {
+		//event.button.button, event.button.x, event.button.y
+
+		if(evt->button.button == 1) {
+			int x = evt->button.x - renderOffeset;
+			int clickedX = (width / 2) + ((x - (dimx / 2)) * (1.0f/scale));
+
+			primaryMarkedOrganism = getOrganismNearX(clickedX);
+		}
+	};
   }
 
   int SDL_WindowGroundpart::req_print(Bodypart *param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked) {
@@ -344,19 +298,9 @@ namespace EDen {
 		  }
 	  }
 
-    //  if(
-		  ////(x1-offsetx >= 0) && (x1-offsetx < dimx) && (x2-offsetx >= 0) && (x2-offsetx < dimx) && 
-    //    (y1 >= 0) && (y1< dimy) && (y2 >= 0) && (y2 < dimy)) {
-		
       if(renderer == 0) {
 	    std::cout << "renderer is null\n";
       }
-		//if(param_bp->getBodypartType() == BPT_Leaf) {
-		//	SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, ((param_bp->getChemicalStorage()->getCurrentPercentage("Sonne") * 200) / 100) + 55);
-		//}
-		//else {
-		//	SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, ((param_bp->getChemicalStorage()->getCurrentPercentage("Energie") * 200) / 100) + 55);
-		//}
 
 	  if(marked) {
 		SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
@@ -450,5 +394,38 @@ namespace EDen {
     return false;
   };
 
+  bool SDL_WindowGroundpart::registerOrganism(Organism* param_organism) {
+	  int posX = getOrganismX(param_organism);
+	  bool emptySlotFound = false;
+	  int i = 0;
+	  int newPosX;
+	  while(!emptySlotFound) {
+	    if(!isOccupiedByAlivePlant(posX + i)) {
+			newPosX = posX + i;
+			emptySlotFound = true;
+		}
+		else if(!isOccupiedByAlivePlant(posX - i)) {
+			newPosX = posX - i;
+			emptySlotFound = true;
+		}
 
+		i++;
+	  }
+
+	  if(posX != newPosX) {
+		  boost::mutex::scoped_lock lock(mutex);
+		  plantPositionMemory[param_organism] = newPosX;
+	  }
+
+	  bool retval = SingleDimensionHeightmapGroundpart::registerOrganism(param_organism);
+	  return retval;
+  };
+
+  bool SDL_WindowGroundpart::unregisterOrganism(Organism* param_organism) {
+	  if(primaryMarkedOrganism == param_organism) {
+		  primaryMarkedOrganism = 0;
+	  };
+
+	  return SingleDimensionHeightmapGroundpart::unregisterOrganism(param_organism);
+  };
 }

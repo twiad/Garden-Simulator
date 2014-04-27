@@ -240,6 +240,7 @@ bool wait_for_events()
 			  }
           }
 		  else if ( key[0] == 'D'  ) {  //debug displays
+			  if(activePrinter) activePrinter->setDrawLightDebug(!activePrinter->getDrawLightDebug());
 			  if(op1) op1->setDrawLightDebug(!op1->getDrawLightDebug());
 			  if(op3) op3->setDrawLightDebug(!op3->getDrawLightDebug());
 			  if(op4) op4->setDrawLightDebug(!op4->getDrawLightDebug());

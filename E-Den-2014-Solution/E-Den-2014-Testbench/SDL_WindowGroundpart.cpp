@@ -27,6 +27,8 @@ namespace EDen {
     	return;
 	}
 
+	primaryMarkedOrganism = 0;
+
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
@@ -88,6 +90,8 @@ namespace EDen {
 	organismsMinusButtonEventHandler = new OrganismCountButtonEventHandler(this,runtime,organismsNumberLabel,false);
 	organismsMinusButton->onPress.Add(organismsMinusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);	
 
+	orgInsprector = new SDLGwenOrgnismInspector(pCanvas);
+
 	waterPlusButton->SetBounds(115,0,15,10);
 	waterMinusButton->SetBounds(0,0,15,10);
 	gooPlusButton->SetBounds(115,10,15,10);
@@ -95,6 +99,7 @@ namespace EDen {
 	organismsPlusButton->SetBounds(115,20,15,10);
 	organismsNumberLabel->SetBounds(16,20,98,10);
 	organismsMinusButton->SetBounds(0,20,15,10);
+	orgInsprector->setBounds(dimx - 100,0,100,92);
 
     scale = SDL_SCALE;
 	renderOffeset = dimx/2;
@@ -124,6 +129,12 @@ namespace EDen {
   bool SDL_WindowGroundpart::print() {
     gwenRenderer->BeginContext(NULL);
 	pCanvas->RenderCanvas();
+
+	if(orgInsprector->getOrganism() != primaryMarkedOrganism) {
+		orgInsprector->setOrganism(primaryMarkedOrganism);
+	};
+
+	orgInsprector->update();
 
 	SDL_Rect statusBarRect;
 	statusBarRect.x = 15;

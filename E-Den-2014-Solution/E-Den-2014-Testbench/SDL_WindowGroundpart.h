@@ -16,6 +16,8 @@
 
 #include "organismPrinter.h" // for now ... sunlight and shadow providers still in there
 
+#include "SDLGwenOrgnismInspector.h"
+
 namespace EDen {
 	class SDL_WindowGroundpart : public EDen::SingleDimensionHeightmapGroundpart {
 	private:
@@ -94,6 +96,9 @@ namespace EDen {
 		OrganismCountButtonEventHandler* organismsMinusButtonEventHandler;
 	
 		Gwen::Controls::Label* organismsNumberLabel;
+
+		SDLGwenOrgnismInspector* orgInsprector;
+
 		int numOrganisms, numEmptySpaces,cps;
 	  protected:
 		int dimx;

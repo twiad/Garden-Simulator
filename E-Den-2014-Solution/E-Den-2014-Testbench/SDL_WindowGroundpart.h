@@ -105,11 +105,15 @@ namespace EDen {
 		int dimy;
 
 		Organism* primaryMarkedOrganism;
+		std::list<Organism*> scaleToOrganisms;
+		bool isScaleToOrganism(Organism* org);
 
 		void resizeWindow(int dimx, int dimy);
 	  public:
 		SDL_WindowGroundpart(std::string name, int width, int height, float maxWater = 2.0e8, float maxGoo = 2.0e8, int emptySpaces = 1, RuntimeManager* runtimeManager = 0);
 		~SDL_WindowGroundpart();
+
+		RuntimeManager* getRuntimeManager();
 
 		virtual bool registerOrganism(Organism* param_organism);
         virtual bool unregisterOrganism(Organism* param_organism);
@@ -117,7 +121,10 @@ namespace EDen {
 		virtual bool print();
 
 		bool add(Organism* param_organism);
-		std::list<Organism*> getOrganisms();
+		std::list<Organism*>* getOrganisms();
+
+		void clearScaleToOrganisms();
+		void addScaleToOrganism(Organism* org);
 
 		bool orgsAlive();
 

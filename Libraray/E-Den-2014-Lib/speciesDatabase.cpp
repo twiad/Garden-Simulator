@@ -594,9 +594,9 @@ namespace EDen {
     return out;
   };
 
-  void SpeciesDatabase::getDebugOut(std::list<std::string>* outList) {
+  void SpeciesDatabase::getDebugOut(std::map<int, std::string>* outList) {
     for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
-	  outList->push_back((*it).second->getDebugOut());
+	  outList->insert(std::pair<int,std::string>((it->first),it->second->getDebugOut()));
     };
   };
 

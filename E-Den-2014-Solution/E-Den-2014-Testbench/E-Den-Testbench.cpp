@@ -214,7 +214,7 @@ bool wait_for_events()
           else if ( key[0] == 'S'  )  {//save if 's' pressed
 			if(key[1] != 'p') {
 				if(!statusWindow) {
-					statusWindow = new SDLGwenStatusWindow(runtime);
+					if(activePrinter) statusWindow = new SDLGwenStatusWindow(activePrinter);
 				}
 				else {
 					delete statusWindow;

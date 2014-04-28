@@ -5,14 +5,13 @@
 #endif
 
 #define SDL_SCALE 40
-//#define SCALE_FACTORX 0.99991f
-#define SCALE_FACTORX 0.992f
-#define SCALE_FACTORY 0.99f
+#define SCALE_FACTORX 0.981f
+#define SCALE_FACTORY 0.98f
 #define MOVE_AMOUNT 0.05f
 #define MOVE_MAX_AMOUNT 50.0f
 #define MOVE_SLOWDOWN_FACTOR 0.7f
-#define DOWN_SCALE_FACTOR 1.0003f
-#define SCALE_DOWN_HYST 25
+#define DOWN_SCALE_FACTOR 1.003f
+#define SCALE_DOWN_HYST 40
 
 namespace EDen {
 	SDL_WindowGroundpart::~SDL_WindowGroundpart() {
@@ -122,8 +121,16 @@ namespace EDen {
     return true;
   };
 
-  std::list<Organism*> SDL_WindowGroundpart::getOrganisms() {
-    return organisms;
+  std::list<Organism*>* SDL_WindowGroundpart::getOrganisms() {
+    return &organisms;
+  };
+
+  void SDL_WindowGroundpart::clearScaleToOrganisms() {
+	  scaleToOrganisms.clear();
+  };
+
+  void SDL_WindowGroundpart::addScaleToOrganism(Organism* org) {
+	  scaleToOrganisms.push_back(org);
   };
 
   bool SDL_WindowGroundpart::print() {
@@ -194,7 +201,13 @@ namespace EDen {
 		orgY = scale * getHeightAt(orgX) - 1;
   	    orgX = (scale * orgX) + halfDimX - (halfGroundpartWidth * scale) + renderOffeset;
 
-        req_print(org->getRootBodypart(), orgX, orgY, 0.0f, 0.0f, 0.0f, true, org == primaryMarkedOrganism);
+		if(scaleToOrganisms.size() != 0) {
+			req_print(org->getRootBodypart(), orgX, orgY, 0.0f, 0.0f, 0.0f, isScaleToOrganism(org), org == primaryMarkedOrganism);
+		}
+		else {
+			req_print(org->getRootBodypart(), orgX, orgY, 0.0f, 0.0f, 0.0f, true , org == primaryMarkedOrganism);
+		}
+        
       };
       counter++;
     };
@@ -253,7 +266,7 @@ namespace EDen {
 		scale = newScale;
 	}
 	
-	renderOffeset += moveMomentum;
+	renderOffeset += moveMomentum * scale;
 
     return true;
   };
@@ -441,6 +454,10 @@ namespace EDen {
     return false;
   };
 
+  RuntimeManager* SDL_WindowGroundpart::getRuntimeManager() {
+	  return runtime;
+  };
+
   bool SDL_WindowGroundpart::registerOrganism(Organism* param_organism) {
 	  int posX = getOrganismX(param_organism);
 	  bool emptySlotFound = false;
@@ -474,5 +491,15 @@ namespace EDen {
 	  };
 
 	  return SingleDimensionHeightmapGroundpart::unregisterOrganism(param_organism);
-  };
+  }
+
+  bool SDL_WindowGroundpart::isScaleToOrganism(Organism* org) {
+	  for(std::list<Organism*>::iterator it = scaleToOrganisms.begin(); it != scaleToOrganisms.end(); it++) {
+		  if((*it) == org) {
+			  return true;
+		  }
+	  }
+
+	  return false;
+  }
 }

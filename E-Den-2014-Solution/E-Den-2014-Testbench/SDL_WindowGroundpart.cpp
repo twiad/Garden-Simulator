@@ -49,8 +49,6 @@ namespace EDen {
 	shadows = new SDL_ShadowAccumulator(0,0,dimx,dimy,sun,renderer);
 	drawLightDebug = false;
 
-	statsWindow = new SDLGwenStatisticsWindow(runtime);
-
 	//renderer skin and layout from here
 	gwenRenderer = new Gwen::Renderer::SDL2(renderer);
 	Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(gwenRenderer);
@@ -305,7 +303,18 @@ namespace EDen {
 				};
 			}
 			else if ( key[0] == 'V'  ) {
-				if(statsWindow) {
+				if(evt->key.keysym.mod & KMOD_CTRL) {
+					if(statsWindow) {
+						SDLGwenStatisticsWindow* tmpPointer = statsWindow;
+						statsWindow = 0;
+						delete tmpPointer;
+					}
+					else {
+						statsWindow = new SDLGwenStatisticsWindow(runtime);
+						statsWindow->show();
+					}
+				}
+				else if(statsWindow) {
 					if(statsWindow->isShown()) {
 						statsWindow->hide();
 					}

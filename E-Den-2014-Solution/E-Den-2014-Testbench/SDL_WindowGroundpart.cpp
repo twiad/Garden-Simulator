@@ -234,9 +234,10 @@ namespace EDen {
 	}
 	else if(moveLeft && moveRight) {
 		newScale = scale * SCALE_FACTORX;
-		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
+		//moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
 	}
 	else if(moveLeft) {
+		if(moveMomentum < 0) moveMomentum = 0.0f;
 		moveMomentum += MOVE_AMOUNT * scale;
 		if(moveMomentum > (MOVE_MAX_AMOUNT * scale)) {
 			moveMomentum = (MOVE_MAX_AMOUNT * scale);
@@ -246,6 +247,8 @@ namespace EDen {
 		}
 	}
 	else if(moveRight) {
+		if(moveMomentum > 0) moveMomentum = 0.0f;
+
 		moveMomentum -= MOVE_AMOUNT * scale;
 		if(moveMomentum < -(MOVE_MAX_AMOUNT * scale)) {
 			moveMomentum = -(MOVE_MAX_AMOUNT * scale);

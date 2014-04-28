@@ -339,6 +339,22 @@ namespace EDen {
 			}
 		};
 	};
+
+	if ((evt->type == SDL_WINDOWEVENT)) {
+		if(evt->window.event == SDL_WINDOWEVENT_CLOSE) {
+			if((statusWindow) && statusWindow->getSDLWindowID() == evt->window.windowID) {
+				SDLGwenStatusWindow* tmpPointer = statusWindow;
+				statusWindow = 0;
+				delete tmpPointer;
+			};
+
+			if((statsWindow) && statsWindow->getSDLWindowID() == evt->window.windowID) {
+				if(statsWindow->isShown()) {
+					statsWindow->hide();
+				};
+			};
+		};
+	};
   };
 
 

@@ -53,6 +53,18 @@ namespace EDen {
 	  *numEmptySpaces = emptySpaces;
   };
 
+  int Groundpart::getAliveOrganismsOfSpecies(int speciesID) {
+    int outVal = 0;
+	boost::mutex::scoped_lock lock(mutex);
+	for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+		if((*it)->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier() == speciesID) {
+			outVal++;
+		}
+	};
+
+	return outVal;
+  };
+
   std::string Groundpart::getName() {
 	return name;
   };

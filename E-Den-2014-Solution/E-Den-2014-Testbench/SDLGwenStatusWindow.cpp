@@ -81,7 +81,7 @@ namespace EDen {
 			Gwen::Controls::Layout::TableRow* item;
 
 			for(std::map<int,std::string>::iterator itOutputs = outputs.begin(); itOutputs != outputs.end(); itOutputs++) {
-				item = listBox->AddItem(itOutputs->second);
+				item = listBox->AddItem(itOutputs->second.append("(").append(Gwen::Utility::ToString(gp->getAliveOrganismsOfSpecies(itOutputs->first)).append(")")));
 				item->UserData.Set("speciesID",itOutputs->first);
 				item->onHoverEnter.Add(hoverHandler,&ListItemHoverEventHandler::onHoverIn);
 				item->onHoverLeave.Add(hoverHandler,&ListItemHoverEventHandler::onHoverOut);

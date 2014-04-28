@@ -38,6 +38,10 @@ namespace EDen {
 		}
 	};
 
+	int SDLGwenStatisticsWindow::getSDLWindowID() {
+		return SDL_GetWindowID(window);
+	};
+
 	void SDLGwenStatisticsWindow::processEvent(SDL_Event* evt) {
 		if(window != 0) {
 			if(evt->window.windowID == SDL_GetWindowID(window)) {

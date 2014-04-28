@@ -58,8 +58,6 @@ ChemicalStorageLink* chemLink1 = 0;
 ChemicalStorageLink* chemLink2 = 0;
 ChemicalStorageLink* chemLink3 = 0;
 
-SDLGwenStatusWindow* statusWindow = 0;
-SDLGwenStatisticsWindow* statsWindow = 0;
 Gwen::Input::SDL2* GwenInput = 0;
 
 OrganismPrinter* op2 = 0;
@@ -149,28 +147,8 @@ void sdl_run(int cycles) {
   //SDL_RenderClear(renderer);
 
   activePrinter->print();
-  //op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Wasser"));
-  //op1->printOutPercentage(gp->getChemicalStorage()->getCurrentPercentage("Goo"));
 
   SDL_RenderPresent(renderer);
-  
-  if(!pause) {
-	  if(runtime) {
-		if(runtime->getState() == RMS_Slow) {
-			//updateCaption();
-			if(statusWindow) statusWindow->update();
-		}
-		else if(runtime->getCycleCount() % 10 == 0) {
-			//updateCaption();
-			if(statusWindow) statusWindow->update();
-		}
-
-		if(statsWindow) statsWindow->update();
-		//if(runtime->getCycleCount() % 9990 == 0) if(gp) gp->saveDatabase();
-	  }
-  }
-//  printf("bp3.maxSize: %f\n", bp3->getMaxSize());
-//  printOrgs();
 }
 
 void updateRuntimeState() {
@@ -178,19 +156,6 @@ void updateRuntimeState() {
   else if(pause) runtime->setState(RMS_Pause);
   else runtime->setState(RMS_Normal);
 };
-
-//void switchActivePrinter() {
-//  if(activePrinter == 0)  {
-//    if(op1 != 0) activePrinter = op1;
-//    else activePrinter = op3;
-//  } 
-//  else if(activePrinter == op1) {
-//    if(op3 != 0) activePrinter = op3;
-//  }
-//  else if(activePrinter == op3) {
-//    if(op1 != 0) activePrinter = op1;
-//  };
-//};
 
 bool wait_for_events()
 {
@@ -211,17 +176,8 @@ bool wait_for_events()
 	          quit = true;
 		  else if ( key[0] == 'Q'  )	//quit if 'q'  pressed
 	          quit = true;			
-          else if ( key[0] == 'S'  )  {//save if 's' pressed
-			if(key[1] != 'p') {
-				if(!statusWindow) {
-					if(activePrinter) statusWindow = new SDLGwenStatusWindow(activePrinter);
-				}
-				else {
-					delete statusWindow;
-					statusWindow = 0;
-				}
-			}
-			else {
+          else if ( key[0] == 'S'  )  {
+			if(key[1] == 'p') {
 				pause = !pause;
 			}
 		  }
@@ -230,14 +186,7 @@ bool wait_for_events()
             updateRuntimeState();
           }
 		  else if ( key[0] == 'V'  ) {  //if 'v' is pressed
-			  if(statsWindow) {
-				  if(statsWindow->isShown()) {
-					  statsWindow->hide();
-				  }
-				  else {
-					  statsWindow->show();
-				  }
-			  }
+			  
           }
 		  else if ( key[0] == 'D'  ) {  //debug displays
 			  if(activePrinter) activePrinter->setDrawLightDebug(!activePrinter->getDrawLightDebug());
@@ -268,7 +217,7 @@ bool wait_for_events()
 				  if(gp3 != 0) if(gp3->decEmptySpaces()) if(runtime) runtime->setPreferedOrganismCount(runtime->getPreferedOrganismCount() - 1);
 				}
 			}
-          else if ( key[0] == 'j'  ) { //testmode if 'p' is pressed
+          else if ( key[0] == 'j'  ) {
           //  switchActivePrinter();
           //  printOrgs();
           }
@@ -304,8 +253,6 @@ bool wait_for_events()
 		     break;
 	    }
 
-		if(statusWindow) statusWindow->processEvent(&event);
-		if(statsWindow) statsWindow->processEvent(&event);
 		if(activePrinter) activePrinter->processEvent(&event);
     }
     else {

@@ -17,8 +17,13 @@
 #include "organismPrinter.h" // for now ... sunlight and shadow providers still in there
 
 #include "SDLGwenOrgnismInspector.h"
+#include "SDLGwenStatusWindow.h"
+#include "SDLGwenStatisticsWindow.h"
 
 namespace EDen {
+	class SDLGwenStatusWindow;
+	class SDLGwenStatisticsWindow;
+
 	class SDL_WindowGroundpart : public EDen::SingleDimensionHeightmapGroundpart {
 	private:
 		struct ResourceButtonEventHandler :public Gwen::Event::Handler
@@ -87,6 +92,8 @@ namespace EDen {
 		int req_print(Bodypart* param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked);
 		void printHeigtmap();
 		
+		SDLGwenStatusWindow* statusWindow;
+		SDLGwenStatisticsWindow* statsWindow;
 
 		Gwen::Controls::Button* waterPlusButton;
 		ResourceButtonEventHandler* waterPlusEventHandler;

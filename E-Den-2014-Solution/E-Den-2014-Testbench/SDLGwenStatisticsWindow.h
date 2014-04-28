@@ -36,6 +36,8 @@ namespace EDen {
 		SDLGwenStatisticsWindow(RuntimeManager* p_runtime);
 		~SDLGwenStatisticsWindow();
 
+		int getSDLWindowID();
+
 		void show();
 		void hide();
 		bool isShown();

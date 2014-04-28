@@ -7,16 +7,18 @@
 #define SDL_SCALE 40
 #define SCALE_FACTORX 0.981f
 #define SCALE_FACTORY 0.98f
-#define MOVE_AMOUNT 0.5f
+#define MOVE_AMOUNT 0.45f
 #define MOVE_MAX_AMOUNT 500.0f
 #define MOVE_SLOWDOWN_FACTOR 0.5f
 #define DOWN_SCALE_FACTOR 1.03f
-#define SCALE_DOWN_HYST 50
+#define SCALE_DOWN_HYST_FACTOR 0.1f
 
 namespace EDen {
 	SDL_WindowGroundpart::~SDL_WindowGroundpart() {
 		runtime->remove(sun);
 		runtime->remove(this);
+		if(statsWindow) delete statsWindow;
+		if(statusWindow) delete statusWindow;
 		SDL_DestroyWindow(window);
 	};
 
@@ -27,6 +29,8 @@ namespace EDen {
 	}
 
 	primaryMarkedOrganism = 0;
+	statusWindow = 0;
+	statsWindow = 0;
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -45,6 +49,9 @@ namespace EDen {
 	shadows = new SDL_ShadowAccumulator(0,0,dimx,dimy,sun,renderer);
 	drawLightDebug = false;
 
+	statsWindow = new SDLGwenStatisticsWindow(runtime);
+
+	//renderer skin and layout from here
 	gwenRenderer = new Gwen::Renderer::SDL2(renderer);
 	Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(gwenRenderer);
 	skin->SetRender(gwenRenderer);
@@ -135,7 +142,10 @@ namespace EDen {
 		orgInsprector->setOrganism(primaryMarkedOrganism);
 	};
 
+	//update childobjects data
 	orgInsprector->update();
+	if(statsWindow) statsWindow->update();
+	if(statusWindow) statusWindow->update();
 
 	SDL_Rect statusBarRect;
 	//draw Background 
@@ -234,7 +244,7 @@ namespace EDen {
 			moveMomentum = 0.0f;
 		}
 		else {
-			moveMomentum += MOVE_AMOUNT * scale;
+			moveMomentum += MOVE_AMOUNT * scale * 0.99f;
 		}
 
 		if(moveMomentum > (MOVE_MAX_AMOUNT * scale)) {
@@ -277,9 +287,38 @@ namespace EDen {
   };
 
   void SDL_WindowGroundpart::processEvent(SDL_Event* evt) {
-    if(evt->window.windowID == SDL_GetWindowID(window)) {
-		GwenInput->ProcessEvent(evt);
+	if(statsWindow) statsWindow->processEvent(evt);
+	if(statusWindow) statusWindow->processEvent(evt);
 
+	if(evt->window.windowID == SDL_GetWindowID(window) || ((statsWindow) && statsWindow->getSDLWindowID() == evt->window.windowID) || ((statusWindow) && statusWindow->getSDLWindowID() == evt->window.windowID)) {
+		if(evt->type == SDL_KEYDOWN) {
+			const char *key = SDL_GetKeyName(evt->key.keysym.sym);
+			if ( key[0] == 'S'  )  {
+				if(key[1] != 'p') {
+					if(!statusWindow) {
+						statusWindow = new SDLGwenStatusWindow(this);
+					}
+					else {
+						delete statusWindow;
+						statusWindow = 0;
+					};
+				};
+			}
+			else if ( key[0] == 'V'  ) {
+				if(statsWindow) {
+					if(statsWindow->isShown()) {
+						statsWindow->hide();
+					}
+					else {
+						statsWindow->show();
+					};
+				};
+			};
+		};
+	};
+
+	if(evt->window.windowID == SDL_GetWindowID(window)) {
+		GwenInput->ProcessEvent(evt);
 		if ((evt->type == SDL_WINDOWEVENT)) {
 			if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
 				resizeWindow(evt->window.data1, evt->window.data2);
@@ -300,7 +339,8 @@ namespace EDen {
 			}
 		};
 	};
-  }
+  };
+
 
   void SDL_WindowGroundpart::resizeWindow(int pDimx, int pDimy) {
 	  dimx = pDimx;
@@ -351,13 +391,13 @@ namespace EDen {
 		  if((y1 > dimy) || (y2 > dimy)) {
 			  clip.needToScaleY = true;
 		  };
-		  if((x1 <= SCALE_DOWN_HYST) || (x2 <= SCALE_DOWN_HYST)) {
+		  if((x1 <= (dimx * SCALE_DOWN_HYST_FACTOR)) || (x2 <= (dimx * SCALE_DOWN_HYST_FACTOR))) {
 			  clip.scaleDownLeft = false;
 		  }
-		  if((x1 > (dimx - SCALE_DOWN_HYST)) || (x2 > (dimx - SCALE_DOWN_HYST))) {
+		  if((x1 > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR))) || (x2 > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR)))) {
 			  clip.scaleDownRight = false;
 		  }
-		  if((y1 > (dimy - SCALE_DOWN_HYST)) || (y2 > (dimy - SCALE_DOWN_HYST))) {
+		  if((y1 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR))) || (y2 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR)))) {
 			  clip.scaleDown = false;
 		  }
 	  }

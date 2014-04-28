@@ -8,7 +8,7 @@ namespace EDen {
 	{
 		gp = p_gp;
 
-		window = SDL_CreateWindow("Species", 10, 10, STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y, SDL_WINDOW_RESIZABLE);
+		window = SDL_CreateWindow(gp->getName().append(" Species").c_str(), 10, 10, STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y, SDL_WINDOW_RESIZABLE);
 
 		if (!window) {
 			return;
@@ -46,6 +46,10 @@ namespace EDen {
 		}
 		delete hoverHandler;
 	}
+
+	int SDLGwenStatusWindow::getSDLWindowID() {
+		return SDL_GetWindowID(window);
+	};
 
 	void SDLGwenStatusWindow::processEvent(SDL_Event* evt) {
 		if(evt->window.windowID == SDL_GetWindowID(window)) {

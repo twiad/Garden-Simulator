@@ -12,6 +12,8 @@
 #include "SDL_WindowGroundpart.h"
 
 namespace EDen {
+	class SDL_WindowGroundpart;
+
 	class SDLGwenStatusWindow
 	{
 	private:
@@ -43,6 +45,8 @@ namespace EDen {
 	public:
 		SDLGwenStatusWindow(SDL_WindowGroundpart* groundpart);
 		~SDLGwenStatusWindow();
+
+		int getSDLWindowID();
 
 		void processEvent(SDL_Event* evt);
 		void update();

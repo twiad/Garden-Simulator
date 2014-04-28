@@ -8,7 +8,7 @@ namespace EDen {
 	{
 		gp = p_gp;
 
-		window = SDL_CreateWindow("Species", 10, 10, STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y, SDL_WINDOW_SHOWN);
+		window = SDL_CreateWindow("Species", 10, 10, STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y, SDL_WINDOW_RESIZABLE);
 
 		if (!window) {
 			return;
@@ -46,24 +46,24 @@ namespace EDen {
 	void SDLGwenStatusWindow::processEvent(SDL_Event* evt) {
 		if(evt->window.windowID == SDL_GetWindowID(window)) {
 			GwenInput->ProcessEvent(evt);
-		};
-
-		if ((evt->type == SDL_WINDOWEVENT)) {
 			if(evt->window.windowID == SDL_GetWindowID(window)) {
-				if(evt->window.event == SDL_WINDOWEVENT_LEAVE) {
+				if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
+					resizeWindow(evt->window.data1, evt->window.data2);
+				}
+				else if(evt->window.event == SDL_WINDOWEVENT_LEAVE) {
 					if(hoverHandler->currentSpeciesID != 0) {
-						gp->clearScaleToOrganisms();
 						hoverHandler->currentSpeciesID = 0;
+						gp->clearScaleToOrganisms();
 					}
 				}
-			}
-			else {
-				if(hoverHandler->currentSpeciesID != 0) {
-					gp->clearScaleToOrganisms();
-					hoverHandler->currentSpeciesID = 0;
-				}
-			}
+			};
 		}
+		else {
+			if(hoverHandler->currentSpeciesID != 0) {
+				hoverHandler->currentSpeciesID = 0;
+				gp->clearScaleToOrganisms();
+			}
+		};
 	}
 
 	void SDLGwenStatusWindow::update() {
@@ -103,6 +103,11 @@ namespace EDen {
 			};
 		};
 	}
+	
+	void SDLGwenStatusWindow::resizeWindow(int dimx, int dimy) {
+		pCanvas->SetSize(dimx, dimy);
+		listBox->SetSize(dimx - 6, dimy - 6);
+	};
 
 	void SDLGwenStatusWindow::ListItemHoverEventHandler::onHoverIn(Gwen::Controls::Base* pControl) {
 		if(pControl->IsHovered()) {
@@ -119,11 +124,9 @@ namespace EDen {
 	};
 
 	void SDLGwenStatusWindow::ListItemHoverEventHandler::onHoverOut(Gwen::Controls::Base* pControl) {
-		if(!pControl->IsHovered()) {
-			if(pControl->UserData.Get<int>("speciesID") == currentSpeciesID) {
-				gp->clearScaleToOrganisms();
-				currentSpeciesID = 0;
-			}
+		if(pControl->UserData.Get<int>("speciesID") == currentSpeciesID) {
+			gp->clearScaleToOrganisms();
+			currentSpeciesID = 0;
 		}
 	};
 }

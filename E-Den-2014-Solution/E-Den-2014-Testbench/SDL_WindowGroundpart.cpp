@@ -103,12 +103,7 @@ namespace EDen {
     scale = SDL_SCALE;
 	renderOffeset = dimx/2;
 	moveMomentum = 0.0f;
-    moveLeft = false;
-	moveRight = false;
-	needToScaleY = false;
-	scaleDownLeft = true;
-	scaleDownRight = true;
-	scaleDown = true;
+
   };
 
   bool SDL_WindowGroundpart::add(Organism* param_organism) {
@@ -176,12 +171,8 @@ namespace EDen {
 	  }
 	}
 
-    moveLeft = false;
-	moveRight = false;
-	needToScaleY = false;
-	scaleDownLeft = true;
-	scaleDownRight = true;
-	scaleDown = true;
+	//draw organisms
+    clip.reset();
     Organism* org;
 
     int counter = 1;
@@ -220,45 +211,56 @@ namespace EDen {
 	}
 	shadows->clear();
 
+	//render canvas and flip to window
     pCanvas->RenderCanvas();
 	gwenRenderer->PresentContext(NULL);
 	gwenRenderer->EndContext(NULL);
 
-	scaleDown = scaleDown && (scaleDownLeft || scaleDownRight);
+	//care about moving and scaling the viewport
+	clip.scaleDown = clip.scaleDown && (clip.scaleDownLeft || clip.scaleDownRight);
 
 	float newScale = scale;
 
-	if(needToScaleY) {
+	if(clip.needToScaleY) {
 		newScale = scale * SCALE_FACTORY;
 		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
 	}
-	else if(moveLeft && moveRight) {
+	else if(clip.moveLeft && clip.moveRight) {
 		newScale = scale * SCALE_FACTORX;
 		//moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
 	}
-	else if(moveLeft) {
-		if(moveMomentum < 0) moveMomentum = 0.0f;
-		moveMomentum += MOVE_AMOUNT * scale;
+	else if(clip.moveLeft) {
+		if(moveMomentum < 0) {
+			moveMomentum = 0.0f;
+		}
+		else {
+			moveMomentum += MOVE_AMOUNT * scale;
+		}
+
 		if(moveMomentum > (MOVE_MAX_AMOUNT * scale)) {
 			moveMomentum = (MOVE_MAX_AMOUNT * scale);
 		}
-		if(scaleDown) {
+		if(clip.scaleDown) {
 			newScale = scale * DOWN_SCALE_FACTOR;
 		}
 	}
-	else if(moveRight) {
-		if(moveMomentum > 0) moveMomentum = 0.0f;
+	else if(clip.moveRight) {
+		if(moveMomentum > 0) {
+			moveMomentum = 0.0f;
+		}
+		else {
+			moveMomentum -= MOVE_AMOUNT * scale;
+		}
 
-		moveMomentum -= MOVE_AMOUNT * scale;
 		if(moveMomentum < -(MOVE_MAX_AMOUNT * scale)) {
 			moveMomentum = -(MOVE_MAX_AMOUNT * scale);
 		}
-		if(scaleDown) {
+		if(clip.scaleDown) {
 			newScale = scale * DOWN_SCALE_FACTOR;
 		}
 	}
     else {
-		if(scaleDown) {
+		if(clip.scaleDown) {
 			newScale = scale * DOWN_SCALE_FACTOR;
 		}
 		moveMomentum = moveMomentum * MOVE_SLOWDOWN_FACTOR;
@@ -277,17 +279,13 @@ namespace EDen {
   void SDL_WindowGroundpart::processEvent(SDL_Event* evt) {
     if(evt->window.windowID == SDL_GetWindowID(window)) {
 		GwenInput->ProcessEvent(evt);
-	};
 
-	if ((evt->type == SDL_WINDOWEVENT)) {
-		if(evt->window.windowID == SDL_GetWindowID(window)) {
+		if ((evt->type == SDL_WINDOWEVENT)) {
 			if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
 				resizeWindow(evt->window.data1, evt->window.data2);
 			}
 		}
-	}
-	else if(evt->type == SDL_MOUSEBUTTONUP) {
-		if(evt->window.windowID == SDL_GetWindowID(window)) {
+		else if(evt->type == SDL_MOUSEBUTTONUP) {
 			if(evt->button.button == 1) {
 				int x = evt->button.x - renderOffeset;
 				int clickedX = (width / 2) + ((x - (dimx / 2)) * (1.0f/scale));
@@ -300,7 +298,7 @@ namespace EDen {
 
 				primaryMarkedOrganism = 0;
 			}
-		}
+		};
 	};
   }
 
@@ -345,22 +343,22 @@ namespace EDen {
 
 	  if(relevantForScaling) {
 		  if((x1 <= 0) || (x2 <= 0)) {
-			  moveLeft = true;
+			  clip.moveLeft = true;
 		  }
 		  if((x1 > dimx) || (x2 > dimx)) {
-			  moveRight = true;
+			  clip.moveRight = true;
 		  }
 		  if((y1 > dimy) || (y2 > dimy)) {
-			  needToScaleY = true;
+			  clip.needToScaleY = true;
 		  };
 		  if((x1 <= SCALE_DOWN_HYST) || (x2 <= SCALE_DOWN_HYST)) {
-			  scaleDownLeft = false;
+			  clip.scaleDownLeft = false;
 		  }
 		  if((x1 > (dimx - SCALE_DOWN_HYST)) || (x2 > (dimx - SCALE_DOWN_HYST))) {
-			  scaleDownRight = false;
+			  clip.scaleDownRight = false;
 		  }
 		  if((y1 > (dimy - SCALE_DOWN_HYST)) || (y2 > (dimy - SCALE_DOWN_HYST))) {
-			  scaleDown = false;
+			  clip.scaleDown = false;
 		  }
 	  }
 
@@ -372,7 +370,12 @@ namespace EDen {
 		SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
 	  }
 	  else {
-		SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 255);
+		  if(relevantForScaling) {
+			  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 255);
+		  }
+		  else {
+			  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 70);
+		  }
 	  }
       SDL_RenderDrawLine(renderer,x1,dimy-(y1+1),x2,dimy-(y2+1));
 
@@ -424,6 +427,20 @@ namespace EDen {
 
 	  label->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)).append("@").append(Gwen::Utility::ToString(cps)));
 	}
+  };
+
+  SDL_WindowGroundpart::ViewportClippingInformation::ViewportClippingInformation() 
+  {
+	  reset();
+  };
+
+  void SDL_WindowGroundpart::ViewportClippingInformation::reset() {
+	moveLeft = false;
+	moveRight = false;
+	needToScaleY = false;
+	scaleDownLeft = true;
+	scaleDownRight = true;
+	scaleDown = true;
   };
 
   void SDL_WindowGroundpart::printHeigtmap() {

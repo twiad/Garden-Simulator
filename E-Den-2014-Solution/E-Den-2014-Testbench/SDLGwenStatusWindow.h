@@ -35,9 +35,11 @@ namespace EDen {
 
 		SDL_WindowGroundpart* gp;
 
-		Gwen::Controls::Button* testButton;
+		//Gwen::Controls::Button* testButton;
 		Gwen::Controls::ListBox* listBox;
 		ListItemHoverEventHandler* hoverHandler;
+	protected:
+		void resizeWindow(int dimx, int dimy);
 	public:
 		SDLGwenStatusWindow(SDL_WindowGroundpart* groundpart);
 		~SDLGwenStatusWindow();

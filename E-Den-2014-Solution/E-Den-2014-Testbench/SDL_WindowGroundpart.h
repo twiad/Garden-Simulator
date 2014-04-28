@@ -55,6 +55,18 @@ namespace EDen {
 			void onClick(Gwen::Controls::Base* pControl);
 		};
 
+		struct ViewportClippingInformation {
+			bool moveLeft;
+			bool moveRight;
+			bool needToScaleY;
+			bool scaleDownLeft;
+			bool scaleDownRight;
+			bool scaleDown;
+
+			ViewportClippingInformation();
+			void reset();
+		};
+
 		SDL_Window *window;
 		SDL_Renderer *renderer;
 		Gwen::Renderer::SDL2 *gwenRenderer;
@@ -68,17 +80,13 @@ namespace EDen {
 		double scale;
 		double renderOffeset;
 		double moveMomentum;
-		bool moveRight;
-		bool moveLeft;
-		bool needToScaleY;
-		bool scaleDownLeft;
-		bool scaleDownRight;
-		bool scaleDown;
+		ViewportClippingInformation clip;
 
 		bool drawLightDebug;
 
 		int req_print(Bodypart* param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked);
 		void printHeigtmap();
+		
 
 		Gwen::Controls::Button* waterPlusButton;
 		ResourceButtonEventHandler* waterPlusEventHandler;

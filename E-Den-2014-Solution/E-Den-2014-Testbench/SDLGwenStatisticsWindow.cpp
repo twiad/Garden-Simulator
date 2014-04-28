@@ -42,8 +42,17 @@ namespace EDen {
 		if(window != 0) {
 			if(evt->window.windowID == SDL_GetWindowID(window)) {
 				GwenInput->ProcessEvent(evt);
+				if ((evt->type == SDL_WINDOWEVENT)) {
+					if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
+						resizeWindow(evt->window.data1, evt->window.data2);
+					};
+				};
 			};
-		}
+		};
+	};
+
+    void SDLGwenStatisticsWindow::resizeWindow(int dimx, int dimy) {
+		pCanvas->SetSize(dimx,dimy);
 	};
 
 	void SDLGwenStatisticsWindow::update() {

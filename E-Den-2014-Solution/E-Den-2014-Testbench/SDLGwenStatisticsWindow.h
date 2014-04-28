@@ -31,6 +31,7 @@ namespace EDen {
 		std::map<std::string,DataStorageEntry> data;
 	protected:
 		void addDataPoint(std::string identifier,double value);
+		void resizeWindow(int dimx, int dimy);
 	public:
 		SDLGwenStatisticsWindow(RuntimeManager* p_runtime);
 		~SDLGwenStatisticsWindow();

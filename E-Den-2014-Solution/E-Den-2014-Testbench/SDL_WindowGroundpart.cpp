@@ -7,11 +7,11 @@
 #define SDL_SCALE 40
 #define SCALE_FACTORX 0.981f
 #define SCALE_FACTORY 0.98f
-#define MOVE_AMOUNT 0.05f
-#define MOVE_MAX_AMOUNT 50.0f
-#define MOVE_SLOWDOWN_FACTOR 0.7f
-#define DOWN_SCALE_FACTOR 1.003f
-#define SCALE_DOWN_HYST 40
+#define MOVE_AMOUNT 0.5f
+#define MOVE_MAX_AMOUNT 500.0f
+#define MOVE_SLOWDOWN_FACTOR 0.5f
+#define DOWN_SCALE_FACTOR 1.03f
+#define SCALE_DOWN_HYST 50
 
 namespace EDen {
 	SDL_WindowGroundpart::~SDL_WindowGroundpart() {
@@ -266,13 +266,16 @@ namespace EDen {
 		scale = newScale;
 	}
 	
-	renderOffeset += moveMomentum * scale;
+	renderOffeset += moveMomentum;
 
     return true;
   };
 
   void SDL_WindowGroundpart::processEvent(SDL_Event* evt) {
-	GwenInput->ProcessEvent(evt);
+    if(evt->window.windowID == SDL_GetWindowID(window)) {
+		GwenInput->ProcessEvent(evt);
+	};
+
 	if ((evt->type == SDL_WINDOWEVENT)) {
 		if(evt->window.windowID == SDL_GetWindowID(window)) {
 			if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {

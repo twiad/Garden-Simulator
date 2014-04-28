@@ -40,7 +40,9 @@ namespace EDen {
 
 	void SDLGwenStatisticsWindow::processEvent(SDL_Event* evt) {
 		if(window != 0) {
-			GwenInput->ProcessEvent(evt);
+			if(evt->window.windowID == SDL_GetWindowID(window)) {
+				GwenInput->ProcessEvent(evt);
+			};
 		}
 	};
 

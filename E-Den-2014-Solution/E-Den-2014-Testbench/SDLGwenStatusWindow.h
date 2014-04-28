@@ -25,7 +25,7 @@ namespace EDen {
 			}
 
 			void onHoverIn(Gwen::Controls::Base* pControl);
-			//void onHoverOut(Gwen::Controls::Base* pControl);
+			void onHoverOut(Gwen::Controls::Base* pControl);
 		};
 
 		SDL_Window *window;

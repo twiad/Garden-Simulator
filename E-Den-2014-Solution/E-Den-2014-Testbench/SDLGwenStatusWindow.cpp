@@ -40,6 +40,10 @@ namespace EDen {
 	SDLGwenStatusWindow::~SDLGwenStatusWindow()
 	{
 		SDL_DestroyWindow(window);
+		if(hoverHandler->currentSpeciesID != 0) {
+			hoverHandler->currentSpeciesID = 0;
+			gp->clearScaleToOrganisms();
+		}
 		delete hoverHandler;
 	}
 
@@ -58,12 +62,12 @@ namespace EDen {
 				}
 			};
 		}
-		else {
-			if(hoverHandler->currentSpeciesID != 0) {
-				hoverHandler->currentSpeciesID = 0;
-				gp->clearScaleToOrganisms();
-			}
-		};
+		//else {
+		//	if(hoverHandler->currentSpeciesID != 0) {
+		//		hoverHandler->currentSpeciesID = 0;
+		//		gp->clearScaleToOrganisms();
+		//	}
+		//};
 	}
 
 	void SDLGwenStatusWindow::update() {

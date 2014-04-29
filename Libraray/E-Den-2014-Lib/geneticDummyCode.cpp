@@ -1,10 +1,10 @@
 #include "geneticProcessor.h"
 #include "globals.h"
 
-#define GRUNDVERBRAUCH 0.5f
-#define LIFETIME 1000
-#define SEED_DROP_ENERGIE_PERCENTAGE 90.0f
-#define SEED_DROP_ENERGIE_VALUE 200.0f
+#define GRUNDVERBRAUCH 0.6f
+#define LIFETIME 2000
+#define SEED_DROP_ENERGIE_PERCENTAGE 97.0f
+#define SEED_DROP_ENERGIE_VALUE 500.0f
 #define BRANCHE_MUTATION 0.1f
 #define SEED_MUTATION 1.0f
 
@@ -62,7 +62,7 @@ namespace EDen {
         neededResource = "Wasser";
         producedResource = "Goo";
       };
-      speciesIdentifier = (int)randomizer.value(100.0f + ((int)gooCreature * 100),105.0f + ((int)gooCreature * 100)) + 10;      
+      speciesIdentifier = (int)randomizer.value(100.0f + ((int)gooCreature * 100),105.0f + ((int)gooCreature * 100)) + 20;      
       bool unfullfilledBPTConditionFound = false;
       GeneticANDCondition* gAndCond = 0;
       GeneticORCondition* gOrCond = 0;

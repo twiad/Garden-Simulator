@@ -4,7 +4,7 @@
 #define M_PI    3.14159265358979323846f
 #endif
 
-#define SDL_SCALE 40
+#define SDL_SCALE 10
 #define SCALE_FACTORX 0.981f
 #define SCALE_FACTORY 0.98f
 #define MOVE_AMOUNT 0.45f
@@ -19,6 +19,10 @@ namespace EDen {
 		runtime->remove(this);
 		if(statsWindow) delete statsWindow;
 		if(statusWindow) delete statusWindow;
+		if(shadows) {
+			shadows->clear();
+			delete shadows;
+		}
 		SDL_DestroyWindow(window);
 	};
 
@@ -179,6 +183,8 @@ namespace EDen {
 	  }
 	}
 
+	shadows->clear();
+
 	//draw organisms
     clip.reset();
     Organism* org;
@@ -217,7 +223,6 @@ namespace EDen {
 	if(drawLightDebug) {
 		shadows->draw();
 	}
-	shadows->clear();
 
 	//render canvas and flip to window
     pCanvas->RenderCanvas();
@@ -242,7 +247,7 @@ namespace EDen {
 			moveMomentum = 0.0f;
 		}
 		else {
-			moveMomentum += MOVE_AMOUNT * scale * 0.99f;
+			moveMomentum += MOVE_AMOUNT * scale * 0.9f;
 		}
 
 		if(moveMomentum > (MOVE_MAX_AMOUNT * scale)) {
@@ -547,24 +552,34 @@ namespace EDen {
   };
 
   bool SDL_WindowGroundpart::registerOrganism(Organism* param_organism) {
-	  int posX = getOrganismX(param_organism);
+	  int orgPosX = getOrganismX(param_organism);
+	  int posX = orgPosX;
+	  int windowPosX = (posX - (width / 2)) * scale + (dimx / 2) + renderOffeset;
 	  bool emptySlotFound = false;
 	  int i = 0;
 	  int newPosX;
+
 	  while(!emptySlotFound) {
-	    if(!isOccupiedByAlivePlant(posX + i)) {
-			newPosX = posX + i;
+		posX = orgPosX + i;
+		windowPosX = (posX - (width / 2)) * scale + (dimx / 2) + renderOffeset;
+
+		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::ShadowState::LIT)) {
+			newPosX = posX;
 			emptySlotFound = true;
 		}
-		else if(!isOccupiedByAlivePlant(posX - i)) {
-			newPosX = posX - i;
+
+		posX = orgPosX - i;
+		windowPosX = (posX - (width / 2)) * scale + (dimx / 2) + renderOffeset;
+
+		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::ShadowState::LIT)) {
+			newPosX = posX;
 			emptySlotFound = true;
 		}
 
 		i++;
 	  }
 
-	  if(posX != newPosX) {
+	  if(orgPosX != newPosX) {
 		  boost::mutex::scoped_lock lock(mutex);
 		  plantPositionMemory[param_organism] = newPosX;
 	  }

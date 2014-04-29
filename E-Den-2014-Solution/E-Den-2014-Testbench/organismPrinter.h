@@ -189,12 +189,21 @@ namespace EDen {
 		SDL_Renderer* renderer;
 		int x,y,w,h;
 	public:
+		enum ShadowState {
+			BRIGHT_LIT = 8,
+			LIT = 4,
+			DARK = 2,
+			BLACK = 1
+		};
+
 		SDL_ShadowAccumulator(int x, int y, int w, int h, SDL_SunlightProvider* provider, SDL_Renderer *renderer);
 		void add(Bodypart* bodypart, int x1, int y1, int x2, int y2);
 		void distribute();
 		void draw();
 		void clear();
 		void setSize(int dimx, int dimy);
+
+		ShadowState getShadowStateAt(int x, int y);
   };
 
   class SDL_SunlightProvider : public ResourceProvider {

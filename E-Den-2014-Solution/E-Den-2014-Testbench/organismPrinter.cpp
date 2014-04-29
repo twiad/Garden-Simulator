@@ -861,6 +861,29 @@ namespace EDen {
 	  };
   };
 
+  SDL_ShadowAccumulator::ShadowState SDL_ShadowAccumulator::getShadowStateAt(int x, int y) {
+	  SDL_ShadowAccumulator::color c = getShadowAt(x, y);
+
+	  float akku = c.r;
+	  akku += c.g;
+	  akku += c.b;
+	  akku /= 3.0f;
+
+	  if(akku > 0.95f) {
+		  return ShadowState::BLACK;
+	  }
+	  else if(akku > 0.6f) {
+		  return ShadowState::DARK;
+	  }
+	  else if(akku > 0.05f) {
+		  return ShadowState::LIT;
+	  }
+	  else {
+		  return ShadowState::BRIGHT_LIT;
+	  }
+	  
+  };
+
   void SDL_ShadowAccumulator::setSize(int pDimX, int pDimY) {
 	  w = pDimX;
 	  h = pDimY;

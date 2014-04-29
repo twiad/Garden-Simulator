@@ -14,6 +14,9 @@ namespace EDen {
 		pCanvas = 0;
 		GwenInput = 0;
 
+		dimx = STATISTICS_WINDOW_DIM_X;
+		dimy = STATISTICS_WINDOW_DIM_Y;
+
 		Gwen::Color* col;
 
 		//col = &data["AvgBodypartCount"].col;
@@ -55,7 +58,10 @@ namespace EDen {
 		};
 	};
 
-    void SDLGwenStatisticsWindow::resizeWindow(int dimx, int dimy) {
+    void SDLGwenStatisticsWindow::resizeWindow(int pDimx, int pDimy) {
+		dimx = pDimx;
+		dimy = pDimy;
+
 		pCanvas->SetSize(dimx,dimy);
 	};
 
@@ -102,14 +108,14 @@ namespace EDen {
 						double dataOffset = minValue;
 						double dataScale;
 						if(minValue != maxValue) {
-							dataScale = (STATISTICS_WINDOW_DIM_Y - 20) /(maxValue - minValue);
+							dataScale = (dimy - 20) /(maxValue - minValue);
 						}
 						else {
 							dataScale = 0;
 						}
 
 						int cursor = 0;
-						int maxDataValues = STATISTICS_WINDOW_DIM_X / numVisibleValues;
+						int maxDataValues = dimx / numVisibleValues;
 						int startX = currentViewport * maxDataValues;
 						
 						if(it->second.maxValues != maxDataValues) it->second.maxValues = maxDataValues;
@@ -120,7 +126,7 @@ namespace EDen {
 
 							if(dataScale >= 0) {
 								pRenderer->SetDrawColor(it->second.col);
-								int y = (STATISTICS_WINDOW_DIM_Y - 10) - (*itData - dataOffset) * dataScale;
+								int y = (dimy - 10) - (*itData - dataOffset) * dataScale;
 								pRenderer->DrawPixel(startX - cursor, y);
 
 								if(cursor == 0) {
@@ -128,7 +134,7 @@ namespace EDen {
 								}
 								else {
 									if(lastValue != *itData) {
-										int lastY = (STATISTICS_WINDOW_DIM_Y - 10) - (lastValue - dataOffset) * dataScale;
+										int lastY = (dimy - 10) - (lastValue - dataOffset) * dataScale;
 										pRenderer->DrawFilledRect(Gwen::Rect(startX - cursor, lastY, 1, y - lastY + 1));
 										lastValue = *itData;
 									}
@@ -145,8 +151,8 @@ namespace EDen {
 
 						if(font->data) {
 							pRenderer->RenderText(font, Gwen::Point(startX - 20,0),Gwen::Utility::ToString(maxValue));
-							pRenderer->RenderText(font, Gwen::Point(startX - 20,STATISTICS_WINDOW_DIM_Y - 10),Gwen::Utility::ToString(minValue));
-							pRenderer->RenderText(font, Gwen::Point(startX - ((maxDataValues*2)/3),STATISTICS_WINDOW_DIM_Y - 10),it->first);
+							pRenderer->RenderText(font, Gwen::Point(startX - 20,dimy - 10),Gwen::Utility::ToString(minValue));
+							pRenderer->RenderText(font, Gwen::Point(startX - ((maxDataValues*2)/3),dimy - 10),it->first);
 						}
 
 						currentViewport++;
@@ -161,7 +167,7 @@ namespace EDen {
 
 	void SDLGwenStatisticsWindow::show() {
 		if(window == 0) {
-			window = SDL_CreateWindow("Stats", 210, 10, STATISTICS_WINDOW_DIM_X, STATISTICS_WINDOW_DIM_Y, SDL_WINDOW_SHOWN);
+			window = SDL_CreateWindow("Stats", 210, 20, dimx, dimy, SDL_WINDOW_RESIZABLE);
 	
 			if (!window) {
 				return;
@@ -175,7 +181,7 @@ namespace EDen {
 			skin->SetDefaultFont("OpenSans.ttf", 8);
 
 			pCanvas = new Gwen::Controls::Canvas(skin);
-			pCanvas->SetSize(STATISTICS_WINDOW_DIM_X, STATISTICS_WINDOW_DIM_Y);
+			pCanvas->SetSize(dimx, dimy);
 			pCanvas->SetDrawBackground(true);
 			pCanvas->SetBackgroundColor(Gwen::Color(0, 0, 0, 255));
 

@@ -29,6 +29,7 @@ namespace EDen {
 		};
 
 		std::map<std::string,DataStorageEntry> data;
+		int dimx, dimy;
 	protected:
 		void addDataPoint(std::string identifier,double value);
 		void resizeWindow(int dimx, int dimy);
@@ -44,5 +45,8 @@ namespace EDen {
 
 		void processEvent(SDL_Event* evt);
 		void update();
+
+		int getDimX();
+		int getDimY();
 	};
 }

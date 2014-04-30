@@ -154,6 +154,7 @@
     <ClInclude Include="chemicalDistributionSystem.h" />
     <ClInclude Include="chemicalSystem.h" />
     <ClInclude Include="geneticCode.h" />
+    <ClInclude Include="geneticCodeFactory.h" />
     <ClInclude Include="geneticCodeSerialisationDefinition.h" />
     <ClInclude Include="geneticMutation.h" />
     <ClInclude Include="geneticProcessor.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="chemicalDistributionSystem.cpp" />
     <ClCompile Include="chemicalSystem.cpp" />
     <ClCompile Include="geneticCode.cpp" />
+    <ClCompile Include="geneticCodeFactory.cpp" />
     <ClCompile Include="geneticDummyCode.cpp" />
     <ClCompile Include="geneticMutation.cpp" />
     <ClCompile Include="geneticProcessor.cpp" />

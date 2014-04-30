@@ -11,7 +11,7 @@ namespace EDen {
     generateDummyGenecode(dummyCodeIdentifier); 
   };
 
-  GeneticCode::GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList p_mutations, int param_generation, int param_speciesIdentifier, int param_subSpeciesIdentifier) {
+  GeneticCode::GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList p_mutations, unsigned long param_generation, unsigned long param_speciesIdentifier, int param_subSpeciesIdentifier) {
     speciesIdentifier = param_speciesIdentifier;
     subSpeciesIdentifier = param_subSpeciesIdentifier;
     generation = param_generation;
@@ -22,9 +22,15 @@ namespace EDen {
   GeneticCode::GeneticCode(TiXmlElement* description) {
     TiXmlElement* it;
     
-    description->QueryIntAttribute("SpeciesID",&speciesIdentifier);
+	int speciesID;
+	int gen;
+
+	description->QueryIntAttribute("SpeciesID",&speciesID);
     description->QueryIntAttribute("SubSpeciesID",&subSpeciesIdentifier);
-    description->QueryIntAttribute("Generation",&generation);
+    description->QueryIntAttribute("Generation",&gen);
+
+	speciesIdentifier = speciesID;
+	generation = gen;
     
     it = description->FirstChildElement("Clauses");
     for(it = it->FirstChildElement("Clause"); it != 0; it = it->NextSiblingElement()) {
@@ -53,11 +59,11 @@ namespace EDen {
     };
   };
 
-  int GeneticCode::getGeneration() {
+  unsigned long GeneticCode::getGeneration() {
     return generation; 
   };
 
-  int GeneticCode::incGeneration() {
+  unsigned long GeneticCode::incGeneration() {
     generation += 1;
     return generation;
   };
@@ -97,7 +103,7 @@ namespace EDen {
     return clauses; 
   };
 
-  int GeneticCode::getSpeciesIdentifier() {
+  unsigned long GeneticCode::getSpeciesIdentifier() {
     return speciesIdentifier; 
   };
 
@@ -105,7 +111,7 @@ namespace EDen {
     return subSpeciesIdentifier; 
   };
 
-  void GeneticCode::setSubSpeciesIdentifier(int newIdentifier) {
+  void GeneticCode::setSubSpeciesIdentifier(unsigned long newIdentifier) {
     subSpeciesIdentifier = newIdentifier; 
   };
 

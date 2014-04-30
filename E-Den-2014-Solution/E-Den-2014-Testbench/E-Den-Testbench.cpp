@@ -4,6 +4,7 @@
 #include "bodypart.h"
 #include "organismPrinter.h"
 #include "runtimeManager.h"
+#include "geneticCodeFactory.h"
 #include "SDL.h"
 #include "SDL_ttf.h"
 #include "SDL_draw.h"
@@ -362,8 +363,12 @@ void sdl_test() {
   //runtime->initDatabase("f:\\tmp\\eden\\");
   run(1);
 
-  bp = new Bodypart(BPT_Seed,"TESTPART3");
-  organism = new Organism("TestOrganism2", bp, runtime);
+  //bp = new Bodypart(BPT_Seed,"TESTPART3");
+  //organism = new Organism("TestOrganism2", bp, runtime);
+  
+  bp = new Bodypart(BPT_Seed,GeneticCodeFactory::generateRandomSimplePlant());
+  organism = new Organism("RandomSimplePlant", bp, runtime);
+  
   //organism->connectToGoundpart(gp);
   //op1->add(organism); 
   bp->setBodypartState(BSP_seed);
@@ -376,7 +381,7 @@ void sdl_test() {
   //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
   //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
   //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
-  bp->getChemicalStorage()->add("Energie",100.0f);
+  bp->getChemicalStorage()->add("Energie",500.0f);
   //bp2->getChemicalStorage()->add("Energie",100.0f);
   //bp3->getChemicalStorage()->add("Energie",10.0f);
   //bp3->getChemicalStorage()->add("Sonne",200.0f);

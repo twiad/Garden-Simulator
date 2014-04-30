@@ -16,23 +16,23 @@ namespace EDen {
     GeneticClauseList clauses;
     GeneticMutationList possibleMutations;
 
-    int speciesIdentifier;
+    unsigned long speciesIdentifier;
     int subSpeciesIdentifier;
-    int generation;
+    unsigned long generation;
     
     bool addClause(GeneticClause* clause);
     bool addMutation(GeneticMutation* newMutation);
   public:
     GeneticCode(std::string dummyCodeIdentifier = "TESTPART3");
-    GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList possibleMutations, int init_generation = 0, int param_speciesIdentifier = 0, int param_subSpeciesIdentifier = 0);
+    GeneticCode(GeneticClauseList param_clauseList, GeneticMutationList possibleMutations, unsigned long init_generation = 0, unsigned long param_speciesIdentifier = 0, int param_subSpeciesIdentifier = 0);
     GeneticCode(TiXmlElement* description);
     ~GeneticCode();
 
-    int getSpeciesIdentifier();
+    unsigned long getSpeciesIdentifier();
     int getSubSpeciesIdentifier();
-    void setSubSpeciesIdentifier(int newIdentifier);
-    int getGeneration();
-    int incGeneration();
+    void setSubSpeciesIdentifier(unsigned long newIdentifier);
+    unsigned long getGeneration();
+    unsigned long incGeneration();
     bool setBodypart(Bodypart* p_bp);
 
     bool mutate(float strength = 1.0f);

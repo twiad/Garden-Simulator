@@ -517,7 +517,7 @@ namespace EDen {
 	  int height;
 	  int halfGroundpartWidth = getWidth() /  2;
 	  int halfDimX = dimx / 2;
-	  SDL_SetRenderDrawColor(renderer, 100, chemStorage->getCurrentPercentage("Wasser")/100.0f * 100 + 100, chemStorage->getCurrentPercentage("Goo")/100.0f * 100, 255);
+	  SDL_SetRenderDrawColor(renderer, 100, chemStorage->getCurrentPercentage("Wasser")/100.0f * 100 + 100, chemStorage->getCurrentPercentage("Goo")/100.0f * 100, 100);
 	  int ix;
 	  for(int i = 0; i < dimx; i++) {
 		ix = i - renderOffeset;

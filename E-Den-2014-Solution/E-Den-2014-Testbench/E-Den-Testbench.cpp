@@ -372,7 +372,7 @@ void sdl_test() {
   //organism->connectToGoundpart(gp);
   //op1->add(organism); 
   bp->setBodypartState(BSP_seed);
-  runtime->add(organism);
+  //runtime->add(organism);
   bp->setScaleModifier(1.0f);
   //bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
   //bp->occupieSpawnpoint(bp2);
@@ -381,10 +381,13 @@ void sdl_test() {
   //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
   //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
   //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
-  bp->getChemicalStorage()->add("Energie",500.0f);
+  bp->getChemicalStorage()->add("Energie", 1000.0f);
+  bp->getChemicalStorage()->add("Wasser", 1000.0f);
+  bp->getChemicalStorage()->add("Goo", 1000.0f);
   //bp2->getChemicalStorage()->add("Energie",100.0f);
   //bp3->getChemicalStorage()->add("Energie",10.0f);
   //bp3->getChemicalStorage()->add("Sonne",200.0f);
+  activePrinter->getSpeciesDatabase()->push(organism);
 
   run(1);
 

@@ -583,7 +583,9 @@ namespace EDen {
   };
 
   bool GeneticHasParentCondition::fullfilled() {
-    if(bp->getParentBodypart()) return true;
+    if(bp->getParentBodypart()) {
+		return true;
+	}
     else return false;
   };
   

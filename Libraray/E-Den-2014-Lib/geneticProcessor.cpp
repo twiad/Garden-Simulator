@@ -51,25 +51,29 @@ namespace EDen {
 		SpawnpointInformation* sp = new SpawnpointInformation();
 		sp->position = 1;
 		sp->addSupportedType(BPT_Stick);
-		sp->ang2d = 180.0f;
+		sp->ang2d = 0.0f;
 		bodypart->addSpawnpoint(sp);
 
-		if(!bp->spawnPointAvailable(bodypart->getBodypartType())) {
-			sp = new SpawnpointInformation();
-			sp->position = 0;
-			sp->addSupportedType(bodypart->getBodypartType());
-			sp->ang2d = 0.0f;
-			bp->addSpawnpoint(sp);
+		
+		sp = new SpawnpointInformation();
+		sp->position = 0;
+		sp->addSupportedType(bodypart->getBodypartType());
+		sp->ang2d = 180.0f;
+		
+		SpawnpointInformationList spi = bp->getSpawnpoints();
+		for(SpawnpointInformationListIterator it = spi.begin(); it != spi.end(); it++) {
+			(*it)->occupied = true;
 		}
+		bp->addSpawnpoint(sp);
 
 		if(!bodypart->spawnBodypart(bp)) {
 			delete bp; 
 		} 
-		else { 
-			SpawnpointInformationList spi = bp->getSpawnpoints();
+		else {
+			spi = bp->getSpawnpoints();
 			for(SpawnpointInformationListIterator it = spi.begin(); it != spi.end(); it++) {
-				if((*it)->connectedBodypart == bodypart) {
-					(*it)->position = 0;
+				if((*it)->position != 0) {
+					(*it)->occupied = false;
 				}
 			}
 		}

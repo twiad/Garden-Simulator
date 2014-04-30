@@ -9,7 +9,7 @@ namespace EDen {
 
 		int lifetime = Randomizer::value(1500.0f,3000.0f);
 		float baseEnergyConsumption = 0.60f;
-		float dropSeedEnergyPercentage = 90.0f;
+		float dropSeedEnergyPercentage = 87.5f;
 
 		bool gooCreature = (Randomizer::value(0,3) > 2.0f);
 		std::string neededResource, producedResource;
@@ -37,7 +37,7 @@ namespace EDen {
 		float branchMutation = 0.1f;
 
 		float branchMaxSize = 15.0f;
-		int branchNumLeafSpawnpoints = 0;
+		int branchNumLeafSpawnpoints = 2;
 		int branchNumStickOrBranchSpawnpoints = 2;
 		int branchNumBranchSpawnpoints = 0;
 		int branchNumStickSpawnpoints = 0;
@@ -46,11 +46,11 @@ namespace EDen {
 		float branchPrimaryResourceStorageSize = 200.0f;
 		float branchSecondaryResourceStorageSize = 80.0f;
 		float branchEnergyStorageSize = 3.0f;
-		//Color branchColor(0.37f,0.37f,0.18f,1.0f);
-		Color branchColor(1.00f,0.00f,0.00f,1.0f);
+		Color branchColor(0.37f,0.37f,0.18f,1.0f);
+		//Color branchColor(1.00f,0.00f,0.00f,1.0f);
 
 		float stickMaxSize = 5.0f;
-		int stickNumLeafSpawnpoints = 2;
+		int stickNumLeafSpawnpoints = 4;
 		int stickNumStickOrBranchSpawnpoints = 2;
 		int stickNumStickSpawnpoints = 0;
 		int stickNumBranchSpawnpoints = 0;
@@ -60,17 +60,17 @@ namespace EDen {
 		float stickPrimaryResourceStorageSize = 500.0f;
 		float stickSecondaryResourceStorageSize = 120.0f;
 		float stickEnergyStorageSize = 35.0f;
-		//Color stickColor(0.62f,0.43f,0.18f,1.0f);
-		Color stickColor(0.00f,0.00f,1.0f,1.0f);
+		Color stickColor(0.62f,0.43f,0.18f,1.0f);
+		//Color stickColor(0.00f,0.00f,1.0f,1.0f);
 		
-		float leafMaxSize = 2.0f;
+		float leafMaxSize = 2.5f;
 		float leafSpawnEnergyCost = 2.0f;
 		float leafSpawnPrimaryResourceCost = 10.0f;
 		float leafPrimaryResourceStorageSize = 100.0f;
 		float leafSecondaryResourceStorageSize = 100.0f;
 		float leafEnergyStorageSize = 175.0f;
-		//Color leafColor(0.43f,0.62f,0.08f,1.0f);
-		Color leafColor(0.0f,1.0f,0.00f,1.0f);
+		Color leafColor(0.43f,0.62f,0.08f,1.0f);
+		//Color leafColor(0.0f,1.0f,0.00f,1.0f);
 
 		float seedMaxSize = 1.0f;
 		float seedSpawnEnergyCost = 1.0f;
@@ -307,18 +307,18 @@ namespace EDen {
 		gAndCond->add(new GeneticBodypartCreationCondition());
 
 		//backwardSpawn
-		compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f,0.0f,0.0f));
+		compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f));
 
 		unsigned int sumSpawnpoints = numStickAndBranchSpawnpoints + numBranchSpawnPoints + numStickSpawnpoints + numLeafSpawnpoints;
 		if(sumSpawnpoints > 0) {
 			float singleScaleModifierStep = 0.5f / sumSpawnpoints;
 			float currentScaleModifier = 0.75f;
-			float singleAngularStep = 120.0f / sumSpawnpoints;
-			float currentAngle = 10.0f;
+			float singleAngularStep = 15.0f / sumSpawnpoints;
+			float currentAngle = 1.5f;
 			unsigned int spawnpointIndex = 1;
 
 			for(unsigned int i = 0; i < numStickAndBranchSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(bpts, spawnpointIndex, currentScaleModifier, (-1 + ((spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(bpts, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -326,7 +326,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numStickSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, spawnpointIndex, currentScaleModifier, (-1 + ((spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -334,7 +334,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numBranchSpawnPoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Branch, spawnpointIndex, currentScaleModifier, (-1 + ((spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Branch, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -342,7 +342,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numLeafSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, spawnpointIndex, currentScaleModifier, (-1 + ((spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -405,18 +405,18 @@ namespace EDen {
 		bpts.push_back(BPT_Branch);
 		bpts.push_back(BPT_Stick);
 
-		compAct->add(new GeneticAddSpawnpointAction(backSpawnpoint, 0, 0.80f, 0.0f));
+		compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f));
 
 		unsigned int sumSpawnpoints = numStickAndBranchSpawnpoints + numBranchSpawnpoints + numStickSpawnpoints + numLeafSpawnpoints + numSeedSpawnpoints;
 		if(sumSpawnpoints > 0) {
 			float singleScaleModifierStep = 0.5f / sumSpawnpoints;
 			float currentScaleModifier = 0.75f;
-			float singleAngularStep = 120.0f / sumSpawnpoints;
-			float currentAngle = 10.0f;
+			float singleAngularStep = 40.0f / sumSpawnpoints;
+			float currentAngle = 5.0f;
 			unsigned int spawnpointIndex = 1;
 
 			for(unsigned int i = 0; i < numStickAndBranchSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(bpts, spawnpointIndex, currentScaleModifier, (-1 + ((spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(bpts, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -424,7 +424,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numStickSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, spawnpointIndex, currentScaleModifier, (-1 + ((spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -432,7 +432,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numBranchSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Branch, spawnpointIndex, currentScaleModifier, (-1 + ((spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Branch, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -440,7 +440,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numLeafSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, spawnpointIndex, currentScaleModifier, (-1 + ((spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -448,7 +448,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numSeedSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Seed, spawnpointIndex, currentScaleModifier, (-1 + ((spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Seed, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -557,7 +557,7 @@ namespace EDen {
 		bpts.push_back(BPT_Branch);
 		bpts.push_back(BPT_Stick);
 
-		compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.00f, 0.0f));
+		compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.00f, 180.0f));
 
 		//resources
 		compAct->add(new GeneticChangeMaxChemicalAmountAction(primaryResource, primaryResourceStorageSize));

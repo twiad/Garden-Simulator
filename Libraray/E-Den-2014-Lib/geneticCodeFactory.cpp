@@ -1,38 +1,41 @@
 #include "geneticCodeFactory.h"
 
-
+#define RANDOM_SIMPLE_PLANT_MAX_LIFETIME 3000
+#define RANDOM_SIMPLE_PLANT_MIN_LIFETIME 1500
  
 namespace EDen {
 	GeneticCode* GeneticCodeFactory::generateRandomSimplePlant() {
 		int speciesIDConstant1 = 100;
 		int speciesIDConstant2 = 20;
 
-		int lifetime = Randomizer::value(1500.0f,3000.0f);
-		float baseEnergyConsumption = 0.60f;
-		float dropSeedEnergyPercentage = 87.5f;
+
+
+		int lifetime = Randomizer::value(RANDOM_SIMPLE_PLANT_MIN_LIFETIME,RANDOM_SIMPLE_PLANT_MAX_LIFETIME);
+		float baseEnergyConsumption = 0.60f + ((lifetime/3000) * 0.1f);
+		float dropSeedEnergyPercentage = mini(97.0f, 84.5f  + ((lifetime/1500) * 1.0f));
 
 		bool gooCreature = (Randomizer::value(0,3) > 2.0f);
-		std::string neededResource, producedResource;
-		if (gooCreature) {
-			neededResource = "Goo";
-			producedResource = "Wasser"; 
-		}
-		else {
-			neededResource = "Wasser";
-			producedResource = "Goo";
-		};
+		std::string neededResource = "Wasser";
+		std::string producedResource = "Goo";
+		
 		unsigned int speciesIdentifier = (int)Randomizer::value(speciesIDConstant1 + ((int)gooCreature * 100),speciesIDConstant1 + 5.0f + ((int)gooCreature * 100)) + speciesIDConstant2;
 
-		return generateSimplePlant(speciesIdentifier, lifetime, baseEnergyConsumption, dropSeedEnergyPercentage, neededResource, producedResource);
+		return generateSimplePlant(speciesIdentifier, lifetime, baseEnergyConsumption, dropSeedEnergyPercentage, neededResource, producedResource, gooCreature);
 	};
 
-	GeneticCode* GeneticCodeFactory::generateSimplePlant(long speciesID, unsigned int lifetime, float baseEnergyConsumption, float seedDropEnergyPercentage, std::string primaryResource, std::string secondaryResource) {
+	GeneticCode* GeneticCodeFactory::generateSimplePlant(long speciesID, unsigned int lifetime, float baseEnergyConsumption, float seedDropEnergyPercentage, std::string primaryResource, std::string secondaryResource, bool switchResources) {
 		if(primaryResource == "Energie" || primaryResource == "Sonne" || secondaryResource == "Energie" || secondaryResource == "Sonne") {
 			return 0;
 		}
 
+		if(switchResources) {
+			std::string tmp = primaryResource;
+			primaryResource = secondaryResource;
+			secondaryResource = tmp;
+		}
+
 		float growthEnergyUseAmount = 0.5f;
-		float seedDropEnergyAmount = 300.0f;
+		float seedDropEnergyAmount = 600.0f;
 		float seedMutation = 1.0f;
 		float branchMutation = 0.1f;
 
@@ -69,10 +72,10 @@ namespace EDen {
 		float leafPrimaryResourceStorageSize = 100.0f;
 		float leafSecondaryResourceStorageSize = 100.0f;
 		float leafEnergyStorageSize = 175.0f;
-		Color leafColor(0.43f,0.62f,0.08f,1.0f);
+		Color leafColor(0.43f,0.9f - (((int)switchResources) * 0.8f),0.08f  + (((int)switchResources) * 0.8f),Randomizer::value(0.8f,1.0f)  - (((int)switchResources) * 0.2f));
 		//Color leafColor(0.0f,1.0f,0.00f,1.0f);
 
-		float seedMaxSize = 1.0f;
+		float seedMaxSize = 1.3f;
 		float seedSpawnEnergyCost = 1.0f;
 		float seedSpawnPrimaryResourceCost = 5.0f;
 		float seedPrimaryResourceStorageSize = 500.0f;

@@ -23,7 +23,7 @@ namespace EDen {
 		static void addColorMutation(GeneticMutationList* mutations, float probability);
 		static void addSpawnpointMutations(GeneticMutationList* mutations, float probabilityAngle, float probabilityScale, float probabilityActive);
 	public:
-		static GeneticCode* generateSimplePlant(long speciesID, unsigned int lifetime, float baseEnergyConsumption = 0.6f, float seedDropEnergyPercentage = 0.95f, std::string primaryResource = "Wasser", std::string secondaryResource = "");
+		static GeneticCode* generateSimplePlant(long speciesID, unsigned int lifetime, float baseEnergyConsumption = 0.6f, float seedDropEnergyPercentage = 0.95f, std::string primaryResource = "Wasser", std::string secondaryResource = "", bool switchResources = false);
 		static GeneticCode* generateRandomSimplePlant();
 	};
 };

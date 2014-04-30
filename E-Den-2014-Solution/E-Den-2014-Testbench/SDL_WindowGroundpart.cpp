@@ -9,7 +9,7 @@
 #define SCALE_FACTORY 0.98f
 #define MOVE_AMOUNT 0.45f
 #define MOVE_MAX_AMOUNT 500.0f
-#define MOVE_SLOWDOWN_FACTOR 0.5f
+#define MOVE_SLOWDOWN_FACTOR 0.2f
 #define DOWN_SCALE_FACTOR 1.03f
 #define SCALE_DOWN_HYST_FACTOR 0.1f
 
@@ -229,7 +229,13 @@ namespace EDen {
 	gwenRenderer->PresentContext(NULL);
 	gwenRenderer->EndContext(NULL);
 
-	//care about moving and scaling the viewport
+
+	adjustViewport();
+
+    return true;
+  };
+
+  void SDL_WindowGroundpart::adjustViewport() {
 	clip.scaleDown = clip.scaleDown && (clip.scaleDownLeft || clip.scaleDownRight);
 
 	float newScale = scale;
@@ -245,6 +251,7 @@ namespace EDen {
 	else if(clip.moveLeft) {
 		if(moveMomentum < 0) {
 			moveMomentum = 0.0f;
+			newScale = scale * SCALE_FACTORX;
 		}
 		else {
 			moveMomentum += MOVE_AMOUNT * scale * 0.9f;
@@ -260,6 +267,7 @@ namespace EDen {
 	else if(clip.moveRight) {
 		if(moveMomentum > 0) {
 			moveMomentum = 0.0f;
+			newScale = scale * SCALE_FACTORX;
 		}
 		else {
 			moveMomentum -= MOVE_AMOUNT * scale;
@@ -285,8 +293,6 @@ namespace EDen {
 	}
 	
 	renderOffeset += moveMomentum;
-
-    return true;
   };
 
   void SDL_WindowGroundpart::processEvent(SDL_Event* evt) {
@@ -517,7 +523,7 @@ namespace EDen {
 	  int height;
 	  int halfGroundpartWidth = getWidth() /  2;
 	  int halfDimX = dimx / 2;
-	  SDL_SetRenderDrawColor(renderer, 100, chemStorage->getCurrentPercentage("Wasser")/100.0f * 100 + 100, chemStorage->getCurrentPercentage("Goo")/100.0f * 100, 100);
+	  SDL_SetRenderDrawColor(renderer, 100, chemStorage->getCurrentPercentage("Wasser")/100.0f * 100 + 100, chemStorage->getCurrentPercentage("Goo")/100.0f * 100, 255);
 	  int ix;
 	  for(int i = 0; i < dimx; i++) {
 		ix = i - renderOffeset;

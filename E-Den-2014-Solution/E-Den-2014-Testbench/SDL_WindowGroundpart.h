@@ -115,6 +115,8 @@ namespace EDen {
 		SDLGwenOrgnismInspector* orgInsprector;
 
 		int numOrganisms, numEmptySpaces,cps;
+
+		void adjustViewport();
 	  protected:
 		int dimx;
 		int dimy;

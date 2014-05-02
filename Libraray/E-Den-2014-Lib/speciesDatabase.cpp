@@ -315,7 +315,7 @@ namespace EDen {
 
   bool SpeciesDatabase::empty() {
     bool foundOne = false;
-    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+    for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
       if(!(*it).second->empty()) {
         foundOne = true;
         break;
@@ -327,14 +327,14 @@ namespace EDen {
 
   int SpeciesDatabase::size() {
     int size = 0;
-    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+    for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
       size += (*it).second->size();
     };
     return size;
   };
 
   void SpeciesDatabase::clear() {
-    std::map<int,OneSpeciesDatabase*>::iterator dbit;
+    std::map<unsigned int,OneSpeciesDatabase*>::iterator dbit;
     while(!species.empty()) {
       dbit = species.begin();
       (*dbit).second->clear();
@@ -379,7 +379,7 @@ namespace EDen {
       initEmptyFile(filename);
 	  }
     
-    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+    for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
       (*it).second->load(pFilename);
     };
     return true;
@@ -400,7 +400,7 @@ namespace EDen {
       database->Clear();
 
       TiXmlElement* spec;
-      for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+      for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
         spec = new TiXmlElement("Species");
         spec->SetAttribute("ID",(*it).first);
         database->LinkEndChild(spec);
@@ -409,7 +409,7 @@ namespace EDen {
 
       doc->SaveFile(filename);
 
-      for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+      for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
         (*it).second->save(p_filename);
       };
 
@@ -419,7 +419,7 @@ namespace EDen {
  
   void SpeciesDatabase::setApplicationSettingsPath(std::string appSettingsPath) {
     path = appSettingsPath;
-    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+    for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
       (*it).second->setApplicationSettingsPath(appSettingsPath);
     };
   };
@@ -502,7 +502,7 @@ namespace EDen {
       
     }
     else {
-      std::map<int,OneSpeciesDatabase*>::iterator it;
+      std::map<unsigned int,OneSpeciesDatabase*>::iterator it;
       for(it = species.begin(); it != species.end(); it++) {
         if((*it).first == lastSpeciesId) {
           it++;
@@ -533,7 +533,7 @@ namespace EDen {
   int SpeciesDatabase::getSpeciesIdWithLowestCount() {
     int lowestCount = 1000000, lowestCountId = 0;
 
-    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+    for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
       if((*it).second->size() < lowestCount) {
         lowestCountId = (*it).first;
         lowestCount = (*it).second->size();
@@ -546,7 +546,7 @@ namespace EDen {
   int SpeciesDatabase::getSpeciesIdWithHighestCount() {
     int highest = 0, highestCountId = 0;
 
-    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+    for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
       if((*it).second->size() > highest) {
         highestCountId = (*it).first;
         highest = (*it).second->size();
@@ -579,7 +579,7 @@ namespace EDen {
   };
 
   void SpeciesDatabase::update() {
-    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+    for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
       (*it).second->updateTreshold();
     };
   };
@@ -587,16 +587,16 @@ namespace EDen {
   std::string SpeciesDatabase::getDebugOut() {
     std::string out = "-";
 
-    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+    for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
       out.append((*it).second->getDebugOut());
     };
 
     return out;
   };
 
-  void SpeciesDatabase::getDebugOut(std::map<int, std::string>* outList) {
-    for(std::map<int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
-	  outList->insert(std::pair<int,std::string>((it->first),it->second->getDebugOut()));
+  void SpeciesDatabase::getDebugOut(std::map<unsigned int, std::string>* outList) {
+    for(std::map<unsigned int,OneSpeciesDatabase*>::iterator it = species.begin(); it != species.end(); it++) {
+	  outList->insert(std::pair<unsigned int,std::string>((it->first),it->second->getDebugOut()));
     };
   };
 

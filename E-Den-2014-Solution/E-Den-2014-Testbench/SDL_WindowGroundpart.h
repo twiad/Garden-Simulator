@@ -110,11 +110,14 @@ namespace EDen {
 		Gwen::Controls::Button* organismsMinusButton;
 		OrganismCountButtonEventHandler* organismsMinusButtonEventHandler;
 	
+		Gwen::Controls::Label* waterPercentageLabel;
+		Gwen::Controls::Label* gooPercentageLabel;
 		Gwen::Controls::Label* organismsNumberLabel;
 
 		SDLGwenOrgnismInspector* orgInsprector;
 
 		int numOrganisms, numEmptySpaces,cps;
+		float waterPercentage, gooPercentage;
 
 		void adjustViewport();
 	  protected:

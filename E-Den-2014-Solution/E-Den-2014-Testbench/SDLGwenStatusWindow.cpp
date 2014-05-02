@@ -32,8 +32,8 @@ namespace EDen {
 		hoverHandler = new ListItemHoverEventHandler(gp);
 		listBox = new Gwen::Controls::ListBox(pCanvas);
 		listBox->SetBounds(3, 3, STATUS_WINDOW_DIM_X - 6, STATUS_WINDOW_DIM_Y - 6);
-		listBox->AddItem("No Items Yet");
-		listBox->SetMouseInputEnabled(true);
+		listBox->SetMouseInputEnabled(false);
+		listBox->SetKeyboardInputEnabled(false);
 		update();
 	}
 
@@ -53,50 +53,67 @@ namespace EDen {
 
 	void SDLGwenStatusWindow::processEvent(SDL_Event* evt) {
 		if(evt->window.windowID == SDL_GetWindowID(window)) {
-			GwenInput->ProcessEvent(evt);
-			if(evt->window.windowID == SDL_GetWindowID(window)) {
-				if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
-					resizeWindow(evt->window.data1, evt->window.data2);
+			if(evt->type == SDL_MOUSEBUTTONUP) {
+				GwenInput->ProcessEvent(evt);
+			}
+			else {
+				GwenInput->ProcessEvent(evt);
+			}
+			if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
+				resizeWindow(evt->window.data1, evt->window.data2);
+			}
+			else if(evt->window.event == SDL_WINDOWEVENT_LEAVE) {
+				if(hoverHandler->currentSpeciesID != 0) {
+					hoverHandler->currentSpeciesID = 0;
+					gp->clearScaleToOrganisms();
 				}
-				else if(evt->window.event == SDL_WINDOWEVENT_LEAVE) {
-					if(hoverHandler->currentSpeciesID != 0) {
-						hoverHandler->currentSpeciesID = 0;
-						gp->clearScaleToOrganisms();
-					}
-				}
-			};
+			}
 		}
-		//else {
-		//	if(hoverHandler->currentSpeciesID != 0) {
-		//		hoverHandler->currentSpeciesID = 0;
-		//		gp->clearScaleToOrganisms();
-		//	}
-		//};
 	}
 
 	void SDLGwenStatusWindow::update() {
-		listBox->Clear();
+		std::map<unsigned int,std::string> outputs;
+		gp->getSpeciesDatabase()->getDebugOut(&outputs);
 
-		//listBox->AddItem(runtime->getDebugOut(true));
+		Gwen::Controls::Layout::TableRow* item;
+		unsigned int speciesID;
+		bool foundOne = false;
 
-		std::list<Groundpart*> groundparts = gp->getRuntimeManager()->getGroundparts();
-		for(std::list<Groundpart* >::iterator it = groundparts.begin(); it != groundparts.end(); it++) {
-			//listBox->AddItem((*it)->getName());
+		for(int i = listBox->GetTable()->RowCount() - 1; i >= 0 ; i--) {
+			item = listBox->GetTable()->GetRow(i);
+			speciesID = item->UserData.Get<unsigned int>("speciesID");
+			foundOne = false;
+			for(std::map<unsigned int,std::string>::iterator itOutputs = outputs.begin(); itOutputs != outputs.end(); itOutputs++) {
+				if(speciesID == itOutputs->first) {
+					item->SetCellText(0,itOutputs->second.append("(").append(Gwen::Utility::ToString(gp->getAliveOrganismsOfSpecies(itOutputs->first)).append(")")));
+					foundOne = true;
+					continue;
+				};
+			};
+			if(!foundOne) {
+				listBox->GetTable()->Remove(item);
+			};
+		};
 
-			std::map<int,std::string> outputs;
-			(*it)->getSpeciesDatabase()->getDebugOut(&outputs);
+		for(std::map<unsigned int,std::string>::iterator itOutputs = outputs.begin(); itOutputs != outputs.end(); itOutputs++) {
+			foundOne = false;
+			for(int i = listBox->GetTable()->RowCount() - 1; i >= 0 ; i--) {
+				item = listBox->GetTable()->GetRow(i);
+				speciesID = item->UserData.Get<unsigned int>("speciesID");
+				if(speciesID == itOutputs->first) {
+					foundOne = true;
+					continue;
+				};
+			};
 
-			Gwen::Controls::Layout::TableRow* item;
-
-			for(std::map<int,std::string>::iterator itOutputs = outputs.begin(); itOutputs != outputs.end(); itOutputs++) {
+			if(!foundOne) {
 				item = listBox->AddItem(itOutputs->second.append("(").append(Gwen::Utility::ToString(gp->getAliveOrganismsOfSpecies(itOutputs->first)).append(")")));
-				item->UserData.Set("speciesID",itOutputs->first);
+				item->UserData.Set<unsigned int>("speciesID",itOutputs->first);
 				item->onHoverEnter.Add(hoverHandler,&ListItemHoverEventHandler::onHoverIn);
 				item->onHoverLeave.Add(hoverHandler,&ListItemHoverEventHandler::onHoverOut);
 			}
-		};
-
-		//listBox->UpdateScrollBars();
+		}
+		
 
 		pRenderer->BeginContext(NULL);
 		pCanvas->RenderCanvas();
@@ -121,8 +138,8 @@ namespace EDen {
 
 	void SDLGwenStatusWindow::ListItemHoverEventHandler::onHoverIn(Gwen::Controls::Base* pControl) {
 		if(pControl->IsHovered()) {
-			if(currentSpeciesID != pControl->UserData.Get<int>("speciesID")) {
-				currentSpeciesID = pControl->UserData.Get<int>("speciesID");
+			if(currentSpeciesID != pControl->UserData.Get<unsigned int>("speciesID")) {
+				currentSpeciesID = pControl->UserData.Get<unsigned int>("speciesID");
 				gp->clearScaleToOrganisms();
 				for(std::list<Organism*>::iterator it = gp->getOrganisms()->begin(); it != gp->getOrganisms()->end(); it++) {
 					if((*it)->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier() == currentSpeciesID) {
@@ -134,7 +151,7 @@ namespace EDen {
 	};
 
 	void SDLGwenStatusWindow::ListItemHoverEventHandler::onHoverOut(Gwen::Controls::Base* pControl) {
-		if(pControl->UserData.Get<int>("speciesID") == currentSpeciesID) {
+		if(pControl->UserData.Get<unsigned int>("speciesID") == currentSpeciesID) {
 			gp->clearScaleToOrganisms();
 			currentSpeciesID = 0;
 		}

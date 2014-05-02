@@ -18,7 +18,7 @@ namespace EDen {
 		
 		unsigned int speciesIdentifier = (int)Randomizer::value(speciesIDConstant1 + ((int)gooCreature * 100),speciesIDConstant1 + 5.0f + ((int)gooCreature * 100)) + speciesIDConstant2;
 
-		return generateSimplePlant(speciesIdentifier + Randomizer::value(1000,9999000), lifetime, baseEnergyConsumption, dropSeedEnergyPercentage, neededResource, producedResource, gooCreature);
+		return generateSimplePlant(speciesIdentifier + (Randomizer::value(1,9999) * 1000), lifetime, baseEnergyConsumption, dropSeedEnergyPercentage, neededResource, producedResource, gooCreature);
 	};
 
 	GeneticCode* GeneticCodeFactory::generateSimplePlant(long speciesID, unsigned int lifetime, float baseEnergyConsumption, float seedDropEnergyPercentage, std::string primaryResource, std::string secondaryResource, bool switchResources) {

@@ -64,7 +64,7 @@ namespace EDen {
 
   class SpeciesDatabase {
   protected:
-    std::map<int,OneSpeciesDatabase*> species;
+    std::map<unsigned int,OneSpeciesDatabase*> species;
     TiXmlDocument* doc;
     std::string path;
     RuntimeManager* runtime;
@@ -99,7 +99,7 @@ namespace EDen {
     void update();
 
     std::string getDebugOut();
-	void getDebugOut(std::map<int,std::string>* singleSpeciesOutputs);
+	void getDebugOut(std::map<unsigned int,std::string>* singleSpeciesOutputs);
   };
 
 } // namespace

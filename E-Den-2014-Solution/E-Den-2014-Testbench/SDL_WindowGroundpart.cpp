@@ -1,4 +1,5 @@
 #include "SDL_WindowGroundpart.h"
+#include "math.h"
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
@@ -85,6 +86,14 @@ namespace EDen {
     gooMinusButton->SetText("G-");
 	gooMinusEventHandler = new ResourceButtonEventHandler(this,"Goo",false);
 	gooMinusButton->onPress.Add(gooMinusEventHandler, &ResourceButtonEventHandler::onClick);
+	waterPercentageLabel = new Gwen::Controls::Label(pCanvas);
+	waterPercentageLabel->SetText("0%");
+	waterPercentageLabel->SetAlignment(3);
+	waterPercentageLabel->SetTextColor(Gwen::Color(250,200,0,255));
+	gooPercentageLabel = new Gwen::Controls::Label(pCanvas);
+	gooPercentageLabel->SetText("0%");
+	gooPercentageLabel->SetAlignment(3);
+	gooPercentageLabel->SetTextColor(Gwen::Color(250,200,0,255));
 	organismsNumberLabel = new Gwen::Controls::Label(pCanvas);
 	organismsNumberLabel->SetText("0/0");
 	organismsNumberLabel->SetAlignment(3);
@@ -101,8 +110,10 @@ namespace EDen {
 	orgInsprector = new SDLGwenOrgnismInspector(pCanvas);
 
 	waterPlusButton->SetBounds(115,0,15,10);
+	waterPercentageLabel->SetBounds(16,0,98,10);
 	waterMinusButton->SetBounds(0,0,15,10);
 	gooPlusButton->SetBounds(115,10,15,10);
+	gooPercentageLabel->SetBounds(16,10,98,10);
 	gooMinusButton->SetBounds(0,10,15,10);
 	organismsPlusButton->SetBounds(115,20,15,10);
 	organismsNumberLabel->SetBounds(16,20,98,10);
@@ -140,11 +151,11 @@ namespace EDen {
   bool SDL_WindowGroundpart::print() {
     gwenRenderer->BeginContext(NULL);
 
+	//update childobjects data
 	if(orgInsprector->getOrganism() != primaryMarkedOrganism) {
 		orgInsprector->setOrganism(primaryMarkedOrganism);
 	};
 
-	//update childobjects data
 	orgInsprector->update();
 	if(statsWindow) statsWindow->update();
 	if(statusWindow) statusWindow->update();
@@ -157,6 +168,32 @@ namespace EDen {
 	statusBarRect.h = dimy;
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(renderer,&statusBarRect);
+
+	shadows->clear();
+
+	//draw organisms
+    clip.reset();
+    Organism* org;
+
+    for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+      org = *it;
+      if( org->getState() != BSP_dead) {
+		if(scaleToOrganisms.size() != 0) {
+			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, isScaleToOrganism(org), org == primaryMarkedOrganism);
+		}
+		else {
+			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, true , org == primaryMarkedOrganism);
+		}
+      };
+    };
+    
+	printHeigtmap();
+
+	shadows->distribute();
+	if(drawLightDebug) {
+		shadows->draw();
+	}
+
 	//draw status bar
 	statusBarRect.x = 15;
 	statusBarRect.h = 10;
@@ -183,29 +220,20 @@ namespace EDen {
 	  }
 	}
 
-	shadows->clear();
+	if(waterPercentageLabel) {
+	  float newWaterPercentage = ceilf(chemStorage->getCurrentPercentage("Wasser"));
+	  if(waterPercentage != newWaterPercentage) {
+		  waterPercentageLabel->SetText(Gwen::Utility::ToString(newWaterPercentage).append("%"));
+		  waterPercentage = newWaterPercentage;
+	  }
+	}
 
-	//draw organisms
-    clip.reset();
-    Organism* org;
-
-    for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
-      org = *it;
-      if( org->getState() != BSP_dead) {
-		if(scaleToOrganisms.size() != 0) {
-			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, isScaleToOrganism(org), org == primaryMarkedOrganism);
-		}
-		else {
-			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, true , org == primaryMarkedOrganism);
-		}
-      };
-    };
-    
-	printHeigtmap();
-
-	shadows->distribute();
-	if(drawLightDebug) {
-		shadows->draw();
+	if(gooPercentageLabel) {
+	  float newGooPercentage = ceilf(chemStorage->getCurrentPercentage("Goo"));
+	  if(gooPercentage != newGooPercentage) {
+		  gooPercentageLabel->SetText(Gwen::Utility::ToString(newGooPercentage).append("%"));
+		  gooPercentage = newGooPercentage;
+	  }
 	}
 
 	//render canvas and flip to window

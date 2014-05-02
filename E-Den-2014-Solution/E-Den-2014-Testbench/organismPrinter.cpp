@@ -494,8 +494,8 @@ namespace EDen {
 	  }
       SDL_RenderDrawLine(renderer,x1+offX,dimy-(y1+1)+offY,x2+offX,dimy-(y2+1)+offY);
 
-      SpawnpointInformationList bpSpawnpoints = param_bp->getSpawnpoints();
-      for(SpawnpointInformationListIterator it = bpSpawnpoints.begin(); it != bpSpawnpoints.end(); it++) {
+      SpawnpointInformationList* bpSpawnpoints = param_bp->getSpawnpoints();
+      for(SpawnpointInformationListIterator it = bpSpawnpoints->begin(); it != bpSpawnpoints->end(); it++) {
         // position 0 is reserved for the backwards spawnpoint
         SpawnpointInformation* sp;
         if(((*it)->occupied) && ((*it)->position != 0)) { 

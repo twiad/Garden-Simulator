@@ -6,9 +6,7 @@
 namespace EDen {
 	GeneticCode* GeneticCodeFactory::generateRandomSimplePlant() {
 		int speciesIDConstant1 = 100;
-		int speciesIDConstant2 = 20;
-
-
+		int speciesIDConstant2 = 25;
 
 		int lifetime = Randomizer::value(RANDOM_SIMPLE_PLANT_MIN_LIFETIME,RANDOM_SIMPLE_PLANT_MAX_LIFETIME);
 		float baseEnergyConsumption = 0.60f + ((lifetime/3000) * 0.1f);
@@ -457,6 +455,8 @@ namespace EDen {
 				currentScaleModifier += singleScaleModifierStep;
 				spawnpointIndex += 1;
 			}
+
+			compAct->add(new GeneticAddSpawnpointAction(BPT_Branch, spawnpointIndex, 1.0f, 0.0f, 0.0f, 0.0f, false, false));
 		}
 
 

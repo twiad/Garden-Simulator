@@ -93,7 +93,7 @@ namespace EDen {
     Organism* getParentOrganism();
     Bodypart* getParentBodypart();
     BodypartList getChildBodyparts();
-    SpawnpointInformationList getSpawnpoints();
+    SpawnpointInformationList* getSpawnpoints();
     SpawnpointInformation* getSpawnpointInformationForBodypart(Bodypart* param_bp);
 
     bool occupieSpawnpoint(Bodypart* param_odypart);

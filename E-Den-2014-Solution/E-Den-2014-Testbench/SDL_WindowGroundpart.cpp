@@ -189,32 +189,16 @@ namespace EDen {
     clip.reset();
     Organism* org;
 
-    int counter = 1;
-    int max = organisms.size() + 1;
-	int padding = dimx / 10;
-
     for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
       org = *it;
       if( org->getState() != BSP_dead) {
-	    int orgX = ((dimx - padding)/max)*counter + padding / 2 + renderOffeset;
-		int orgY = 0;
-
-		int halfGroundpartWidth = getWidth() /  2;
-		int halfDimX = dimx / 2;
-
-		orgX = getOrganismX(org);
-		orgY = scale * getHeightAt(orgX) - 1;
-  	    orgX = (scale * orgX) + halfDimX - (halfGroundpartWidth * scale) + renderOffeset;
-
 		if(scaleToOrganisms.size() != 0) {
-			req_print(org->getRootBodypart(), orgX, orgY, 0.0f, 0.0f, 0.0f, isScaleToOrganism(org), org == primaryMarkedOrganism);
+			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, isScaleToOrganism(org), org == primaryMarkedOrganism);
 		}
 		else {
-			req_print(org->getRootBodypart(), orgX, orgY, 0.0f, 0.0f, 0.0f, true , org == primaryMarkedOrganism);
+			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, true , org == primaryMarkedOrganism);
 		}
-        
       };
-      counter++;
     };
     
 	printHeigtmap();
@@ -392,79 +376,83 @@ namespace EDen {
     
     if(param_bp) {
       returnvalue = 1;
-      int x1,y1,x2,y2;
-      float a1,a2,a3,deltax,deltay,px,radi1,radi2,radi3;
+	  int x2,y2;
       
-      x1 = param_x;
-      y1 = param_y;
+      float a1,a2,a3;
       a1 = p_ang1;
       a2 = p_ang2;
       a3 = p_ang3;
-      radi1 = 2.0f * M_PI * (p_ang1/360.0f);
-      radi2 = 2.0f * M_PI * (p_ang2/360.0f);
-      radi3 = 2.0f * M_PI * (p_ang3/360.0f);
+      
+	  {
+          int x1,y1;  
+		  x1 = param_x;
+		  y1 = param_y;
+		  {
+		  float radi1,radi2,radi3,deltax,deltay;
+			radi1 = 2.0f * M_PI * (p_ang1/360.0f);
+			radi2 = 2.0f * M_PI * (p_ang2/360.0f);
+			radi3 = 2.0f * M_PI * (p_ang3/360.0f);
 
-      //an absolut rotation?
-      deltax = sin(radi1);//*(cos(rad3));
-      deltay = cos(radi1);//*cos(rad2);
+			//an absolut rotation?
+			deltax = sin(radi1);//*(cos(rad3));
+			deltay = cos(radi1);//*cos(rad2);
 
-      x2 = (int)(param_x + (deltax * param_bp->getSize() * scale));
-      y2 = (int)(param_y + (deltay * param_bp->getSize() * scale));
-
-	  if(shadows) {
-		  shadows->add(param_bp,x1,y1,x2,y2);
-	  }
-
-      //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
-
-	  if(relevantForScaling) {
-		  if((x1 <= 0) || (x2 <= 0)) {
-			  clip.moveLeft = true;
+			x2 = (int)(param_x + (deltax * param_bp->getSize() * scale));
+			y2 = (int)(param_y + (deltay * param_bp->getSize() * scale));
 		  }
-		  if((x1 > dimx) || (x2 > dimx)) {
-			  clip.moveRight = true;
-		  }
-		  if((y1 > dimy) || (y2 > dimy)) {
-			  clip.needToScaleY = true;
-		  };
-		  if((x1 <= (dimx * SCALE_DOWN_HYST_FACTOR)) || (x2 <= (dimx * SCALE_DOWN_HYST_FACTOR))) {
-			  clip.scaleDownLeft = false;
-		  }
-		  if((x1 > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR))) || (x2 > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR)))) {
-			  clip.scaleDownRight = false;
-		  }
-		  if((y1 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR))) || (y2 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR)))) {
-			  clip.scaleDown = false;
-		  }
-	  }
 
-      if(renderer == 0) {
-	    std::cout << "renderer is null\n";
-      }
+		  if(shadows) {
+			  shadows->add(param_bp,x1,y1,x2,y2);
+		  }
 
-	  if(marked) {
-		SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
-	  }
-	  else {
+		  //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
+
 		  if(relevantForScaling) {
-			  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 255);
+			  if((x1 <= 0) || (x2 <= 0)) {
+				  clip.moveLeft = true;
+			  }
+			  if((x1 > dimx) || (x2 > dimx)) {
+				  clip.moveRight = true;
+			  }
+			  if((y1 > dimy) || (y2 > dimy)) {
+				  clip.needToScaleY = true;
+			  };
+			  if((x1 <= (dimx * SCALE_DOWN_HYST_FACTOR)) || (x2 <= (dimx * SCALE_DOWN_HYST_FACTOR))) {
+				  clip.scaleDownLeft = false;
+			  }
+			  if((x1 > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR))) || (x2 > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR)))) {
+				  clip.scaleDownRight = false;
+			  }
+			  if((y1 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR))) || (y2 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR)))) {
+				  clip.scaleDown = false;
+			  }
+		  }
+
+		  if(renderer == 0) {
+			std::cout << "renderer is null\n";
+		  }
+
+		  if(marked) {
+			SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
 		  }
 		  else {
-			  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 70);
+			  if(relevantForScaling) {
+				  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 255);
+			  }
+			  else {
+				  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 70);
+			  }
 		  }
+		  SDL_RenderDrawLine(renderer,x1,dimy-(y1+1),x2,dimy-(y2+1));
 	  }
-      SDL_RenderDrawLine(renderer,x1,dimy-(y1+1),x2,dimy-(y2+1));
 
-      SpawnpointInformationList bpSpawnpoints = param_bp->getSpawnpoints();
-      for(SpawnpointInformationListIterator it = bpSpawnpoints.begin(); it != bpSpawnpoints.end(); it++) {
+      SpawnpointInformationList* bpSpawnpoints = param_bp->getSpawnpoints();
+      for(SpawnpointInformationListIterator it = bpSpawnpoints->begin(); it != bpSpawnpoints->end(); it++) {
         // position 0 is reserved for the backwards spawnpoint
         SpawnpointInformation* sp;
         if(((*it)->occupied) && ((*it)->position != 0)) { 
           sp = (*it)->connectedBodypart->getSpawnpointInformationForBodypart(param_bp);
-          float partner_ang1 = sp->ang2d;
-          float partner_ang2 = sp->ang2;
-          float partner_ang3 = sp->rot;
-          returnvalue += req_print((*it)->connectedBodypart,x2,y2,a1 + 180.0f + partner_ang1 + (*it)->ang2d,a2 + partner_ang2 + (*it)->ang2,a3 + partner_ang3 + (*it)->rot, relevantForScaling, marked);
+          returnvalue += req_print((*it)->connectedBodypart,x2,y2,a1 + 180.0f + sp->ang2d + (*it)->ang2d,a2 + sp->ang2 + (*it)->ang2,a3 + sp->rot + (*it)->rot, relevantForScaling, marked);
         };
       };
       //std::cout << returnvalue << std::endl;

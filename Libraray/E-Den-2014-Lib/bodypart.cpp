@@ -316,8 +316,8 @@ namespace EDen {
     return childBodyparts; 
   };
 
-  SpawnpointInformationList Bodypart::getSpawnpoints() {
-    return spawnpoints;
+  SpawnpointInformationList* Bodypart::getSpawnpoints() {
+    return &spawnpoints;
   };
 
   SpawnpointInformation* Bodypart::getSpawnpointInformationForBodypart(Bodypart* param_bp) {

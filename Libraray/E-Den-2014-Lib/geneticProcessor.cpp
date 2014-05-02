@@ -60,8 +60,8 @@ namespace EDen {
 		sp->addSupportedType(bodypart->getBodypartType());
 		sp->ang2d = 180.0f;
 		
-		SpawnpointInformationList spi = bp->getSpawnpoints();
-		for(SpawnpointInformationListIterator it = spi.begin(); it != spi.end(); it++) {
+		SpawnpointInformationList* spi = bp->getSpawnpoints();
+		for(SpawnpointInformationListIterator it = spi->begin(); it != spi->end(); it++) {
 			(*it)->occupied = true;
 		}
 		bp->addSpawnpoint(sp);
@@ -71,7 +71,7 @@ namespace EDen {
 		} 
 		else {
 			spi = bp->getSpawnpoints();
-			for(SpawnpointInformationListIterator it = spi.begin(); it != spi.end(); it++) {
+			for(SpawnpointInformationListIterator it = spi->begin(); it != spi->end(); it++) {
 				if((*it)->position != 0) {
 					(*it)->occupied = false;
 				}

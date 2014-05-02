@@ -221,7 +221,7 @@ namespace EDen {
 	}
 
 	if(waterPercentageLabel) {
-	  float newWaterPercentage = ceilf(chemStorage->getCurrentPercentage("Wasser"));
+	  float newWaterPercentage = ceilf(chemStorage->getCurrentPercentage("Wasser") * 100) / 100;
 	  if(waterPercentage != newWaterPercentage) {
 		  waterPercentageLabel->SetText(Gwen::Utility::ToString(newWaterPercentage).append("%"));
 		  waterPercentage = newWaterPercentage;
@@ -229,7 +229,7 @@ namespace EDen {
 	}
 
 	if(gooPercentageLabel) {
-	  float newGooPercentage = ceilf(chemStorage->getCurrentPercentage("Goo"));
+	  float newGooPercentage = ceilf(chemStorage->getCurrentPercentage("Goo") * 100) / 100;
 	  if(gooPercentage != newGooPercentage) {
 		  gooPercentageLabel->SetText(Gwen::Utility::ToString(newGooPercentage).append("%"));
 		  gooPercentage = newGooPercentage;

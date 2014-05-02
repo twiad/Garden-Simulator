@@ -55,16 +55,30 @@ namespace EDen {
 		bodypart->addSpawnpoint(sp);
 
 		
-		sp = new SpawnpointInformation();
-		sp->position = 0;
-		sp->addSupportedType(bodypart->getBodypartType());
-		sp->ang2d = 180.0f;
-		
 		SpawnpointInformationList* spi = bp->getSpawnpoints();
+
+		sp = 0;
 		for(SpawnpointInformationListIterator it = spi->begin(); it != spi->end(); it++) {
-			(*it)->occupied = true;
+			if((*it)->position == 0) {
+				sp = (*it);
+				if(!sp->isSupportedType(bodypart->getBodypartType())) {
+					sp->addSupportedType(bodypart->getBodypartType());
+				}
+				sp->ang2d = 180.0f;
+			}
+			else {
+				(*it)->occupied = true;
+			};
 		}
-		bp->addSpawnpoint(sp);
+		
+		if(sp == 0) {
+			sp = new SpawnpointInformation();
+			sp->position = 0;
+			sp->addSupportedType(bodypart->getBodypartType());
+			sp->ang2d = 180.0f;
+			bp->addSpawnpoint(sp);
+		}
+		
 
 		if(!bodypart->spawnBodypart(bp)) {
 			delete bp; 

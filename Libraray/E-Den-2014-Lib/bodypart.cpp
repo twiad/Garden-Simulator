@@ -237,7 +237,13 @@ namespace EDen {
 
   bool Bodypart::addSpawnpoint(SpawnpointInformation* sp) {
     sp->occupied = false;
-    spawnpoints.push_back(sp);
+	if(sp->position == 0) {
+		spawnpoints.push_front(sp);
+	}
+	else {
+		spawnpoints.push_back(sp);
+	}
+    
     return true;
   };
 

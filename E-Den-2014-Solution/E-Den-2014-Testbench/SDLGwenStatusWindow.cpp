@@ -96,6 +96,8 @@ namespace EDen {
 			}
 		};
 
+		//listBox->UpdateScrollBars();
+
 		pRenderer->BeginContext(NULL);
 		pCanvas->RenderCanvas();
 		pRenderer->PresentContext(NULL);

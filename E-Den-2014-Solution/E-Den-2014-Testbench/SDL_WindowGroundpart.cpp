@@ -107,7 +107,7 @@ namespace EDen {
 	organismsPlusButton->SetBounds(115,20,15,10);
 	organismsNumberLabel->SetBounds(16,20,98,10);
 	organismsMinusButton->SetBounds(0,20,15,10);
-	orgInsprector->setBounds(dimx - 100,0,100,92);
+	orgInsprector->setBounds(dimx - 150,0,150,92);
 
     scale = SDL_SCALE;
 	renderOffeset = dimx/2;

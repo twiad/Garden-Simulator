@@ -18,7 +18,7 @@ namespace EDen {
 		
 		unsigned int speciesIdentifier = (int)Randomizer::value(speciesIDConstant1 + ((int)gooCreature * 100),speciesIDConstant1 + 5.0f + ((int)gooCreature * 100)) + speciesIDConstant2;
 
-		return generateSimplePlant(speciesIdentifier, lifetime, baseEnergyConsumption, dropSeedEnergyPercentage, neededResource, producedResource, gooCreature);
+		return generateSimplePlant(speciesIdentifier + Randomizer::value(1000,9999000), lifetime, baseEnergyConsumption, dropSeedEnergyPercentage, neededResource, producedResource, gooCreature);
 	};
 
 	GeneticCode* GeneticCodeFactory::generateSimplePlant(long speciesID, unsigned int lifetime, float baseEnergyConsumption, float seedDropEnergyPercentage, std::string primaryResource, std::string secondaryResource, bool switchResources) {
@@ -37,7 +37,7 @@ namespace EDen {
 		float seedMutation = 1.0f;
 		float branchMutation = 0.1f;
 
-		float branchMaxSize = 15.0f;
+		float branchMaxSize = Randomizer::value(5.0f,15.0f);
 		int branchNumLeafSpawnpoints = 2;
 		int branchNumStickOrBranchSpawnpoints = 2;
 		int branchNumBranchSpawnpoints = 0;
@@ -50,7 +50,7 @@ namespace EDen {
 		Color branchColor(0.37f,0.37f,0.18f,1.0f);
 		//Color branchColor(1.00f,0.00f,0.00f,1.0f);
 
-		float stickMaxSize = 5.0f;
+		float stickMaxSize = Randomizer::value(5.0f,15.0f);
 		int stickNumLeafSpawnpoints = 4;
 		int stickNumStickOrBranchSpawnpoints = 2;
 		int stickNumStickSpawnpoints = 0;
@@ -64,7 +64,7 @@ namespace EDen {
 		Color stickColor(0.62f,0.43f,0.18f,1.0f);
 		//Color stickColor(0.00f,0.00f,1.0f,1.0f);
 		
-		float leafMaxSize = 2.5f;
+		float leafMaxSize = Randomizer::value(1.0f,5.0f);;
 		float leafSpawnEnergyCost = 2.0f;
 		float leafSpawnPrimaryResourceCost = 10.0f;
 		float leafPrimaryResourceStorageSize = 100.0f;

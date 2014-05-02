@@ -139,6 +139,23 @@ bool updateCaption() {
     return true;
 };
 
+void addRandomOrganism() {
+	  //bp = new Bodypart(BPT_Seed,"TESTPART3");
+  //organism = new Organism("TestOrganism2", bp, runtime);
+  
+  Bodypart* bp = new Bodypart(BPT_Seed,GeneticCodeFactory::generateRandomSimplePlant());
+  Organism* organism = new Organism("RandomSimplePlant", bp, runtime);
+  
+  bp->setBodypartState(BSP_seed);
+  bp->setScaleModifier(1.0f);
+  bp->getChemicalStorage()->add("Energie", 1000.0f);
+  bp->getChemicalStorage()->add("Wasser", 1000.0f);
+  bp->getChemicalStorage()->add("Goo", 1000.0f);
+  activePrinter->getSpeciesDatabase()->push(organism);
+
+  run(1);
+}
+
 void sdl_run(int cycles) {
   if(!pause) {
 	run(cycles);
@@ -186,8 +203,8 @@ bool wait_for_events()
             slowMode = !slowMode;
             updateRuntimeState();
           }
-		  else if ( key[0] == 'V'  ) {  //if 'v' is pressed
-			  
+		  else if ( key[0] == 'R'  ) {  //if 'r' is pressed
+			  addRandomOrganism();
           }
 		  else if ( key[0] == 'D'  ) {  //debug displays
 			  if(activePrinter) activePrinter->setDrawLightDebug(!activePrinter->getDrawLightDebug());
@@ -363,37 +380,15 @@ void sdl_test() {
   //runtime->initDatabase("f:\\tmp\\eden\\");
   run(1);
 
-  //bp = new Bodypart(BPT_Seed,"TESTPART3");
-  //organism = new Organism("TestOrganism2", bp, runtime);
-  
-  bp = new Bodypart(BPT_Seed,GeneticCodeFactory::generateRandomSimplePlant());
-  organism = new Organism("RandomSimplePlant", bp, runtime);
-  
-  //organism->connectToGoundpart(gp);
-  //op1->add(organism); 
-  bp->setBodypartState(BSP_seed);
-  //runtime->add(organism);
-  bp->setScaleModifier(1.0f);
-  //bp2 = new Bodypart(BPT_Stick,"TESTPART3",organism);
-  //bp->occupieSpawnpoint(bp2);
-  //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
-  //if(!(bp->spawnBodypart(bp2))) cout << "[!2] bp2 not spawned" << endl;
-  //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp3 not spawned" << endl;
-  //bp3 = new Bodypart(BPT_Leaf,"TESTPART3",organism);
-  //if(!(bp->spawnBodypart(bp3))) cout << "[!2] bp4 not spawned" << endl;
-  bp->getChemicalStorage()->add("Energie", 1000.0f);
-  bp->getChemicalStorage()->add("Wasser", 1000.0f);
-  bp->getChemicalStorage()->add("Goo", 1000.0f);
-  //bp2->getChemicalStorage()->add("Energie",100.0f);
-  //bp3->getChemicalStorage()->add("Energie",10.0f);
-  //bp3->getChemicalStorage()->add("Sonne",200.0f);
-  activePrinter->getSpeciesDatabase()->push(organism);
-
-  run(1);
-
   runtime->loadDatabase("autosave.xml");
   gpdbFilename = gp->getName().append(".xml");
   gpDatabase->load(gpdbFilename);
+
+  if(gpDatabase->getSpeciesCount() == 0) {
+	  addRandomOrganism();
+  }
+
+  run(1);
   /*gp2 = new SingleDimensionHeightmapGroundpart("WATER1", 200, MAX_WATER*2, MAX_GOO/2, 1);
   runtime->add(gp2);
   

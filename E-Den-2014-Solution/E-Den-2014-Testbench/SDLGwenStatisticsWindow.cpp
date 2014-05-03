@@ -16,6 +16,8 @@ namespace EDen {
 
 		dimx = STATISTICS_WINDOW_DIM_X;
 		dimy = STATISTICS_WINDOW_DIM_Y;
+		posx = SDL_WINDOWPOS_UNDEFINED;
+		posy = SDL_WINDOWPOS_UNDEFINED;
 
 		Gwen::Color* col;
 
@@ -167,7 +169,7 @@ namespace EDen {
 
 	void SDLGwenStatisticsWindow::show() {
 		if(window == 0) {
-			window = SDL_CreateWindow("Stats", 210, 20, dimx, dimy, SDL_WINDOW_RESIZABLE);
+			window = SDL_CreateWindow("Stats", posx, posy, dimx, dimy, SDL_WINDOW_RESIZABLE);
 	
 			if (!window) {
 				return;
@@ -192,6 +194,7 @@ namespace EDen {
 
 	void SDLGwenStatisticsWindow::hide() {
 		if(window != 0) {
+			SDL_GetWindowPosition(window,&posx,&posy);
 			SDL_DestroyWindow(window);
 			window = 0;
 			pRenderer = 0;

@@ -30,6 +30,7 @@ namespace EDen {
 
 		std::map<std::string,DataStorageEntry> data;
 		int dimx, dimy;
+		int posx, posy;
 	protected:
 		void addDataPoint(std::string identifier,double value);
 		void resizeWindow(int dimx, int dimy);

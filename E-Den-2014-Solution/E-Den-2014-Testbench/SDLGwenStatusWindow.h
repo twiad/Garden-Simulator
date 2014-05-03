@@ -40,13 +40,12 @@ namespace EDen {
 
 		SDL_WindowGroundpart* gp;
 
-		//Gwen::Controls::Button* testButton;
 		Gwen::Controls::ListBox* listBox;
 		ListItemHoverEventHandler* hoverHandler;
 	protected:
 		void resizeWindow(int dimx, int dimy);
 	public:
-		SDLGwenStatusWindow(SDL_WindowGroundpart* groundpart, Gwen::Rect position  = Gwen::Rect(SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,STATUS_WINDOW_DIM_X,STATUS_WINDOW_DIM_Y));
+		SDLGwenStatusWindow(SDL_WindowGroundpart* groundpart, Gwen::Rect position = Gwen::Rect(SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,STATUS_WINDOW_DIM_X,STATUS_WINDOW_DIM_Y));
 		~SDLGwenStatusWindow();
 
 		int getSDLWindowID();

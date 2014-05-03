@@ -123,7 +123,7 @@ namespace EDen {
 	organismsNumberLabel->SetBounds(16,31,98,15);
 	organismsMinusButton->SetBounds(0,30,15,15);
 	statusWindowButton->SetBounds(130,30,15,15);
-	orgInsprector->setBounds(dimx - 150,0,150,102);
+	orgInsprector->setBounds(dimx - 175,0,175,102);
 
     scale = SDL_SCALE;
 	renderOffeset = dimx/2;

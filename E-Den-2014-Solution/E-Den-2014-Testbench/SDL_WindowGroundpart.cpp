@@ -392,7 +392,7 @@ namespace EDen {
 	  dimy = pDimy;
 
 	  pCanvas->SetSize(dimx,dimy);
-	  orgInsprector->setBounds(dimx - 150,0,150,92);
+	  orgInsprector->setBounds(dimx - 150,0,orgInsprector->getWidth(),orgInsprector->getHeight());
 	  shadows->setSize(dimx,dimy);
   };
 
@@ -631,7 +631,12 @@ namespace EDen {
 
   void SDL_WindowGroundpart::toggleStatusWindow() {
 	  if(!statusWindow) {
-		  statusWindow = new SDLGwenStatusWindow(this);
+		  if(lastStatusWindowPosition == 0) {
+			statusWindow = new SDLGwenStatusWindow(this);
+		  }
+		  else {
+			statusWindow = new SDLGwenStatusWindow(this,*lastStatusWindowPosition);
+		  }
 	  }
 	  else {
 		  hideStatusWindow();
@@ -641,6 +646,12 @@ namespace EDen {
   void SDL_WindowGroundpart::hideStatusWindow() {
 	SDLGwenStatusWindow* tmpPointer = statusWindow;
 	statusWindow = 0;
+	if(lastStatusWindowPosition == 0) {
+		lastStatusWindowPosition = new Gwen::Rect();
+	}
+	tmpPointer->getSize(&lastStatusWindowPosition->w,&lastStatusWindowPosition->h);
+	tmpPointer->getPosition(&lastStatusWindowPosition->x,&lastStatusWindowPosition->y);
+
 	delete tmpPointer;
 	clearScaleToOrganisms();
   }

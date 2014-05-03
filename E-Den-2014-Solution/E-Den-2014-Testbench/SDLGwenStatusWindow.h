@@ -11,6 +11,9 @@
 
 #include "SDL_WindowGroundpart.h"
 
+#define STATUS_WINDOW_DIM_X 200
+#define STATUS_WINDOW_DIM_Y 400
+
 namespace EDen {
 	class SDL_WindowGroundpart;
 
@@ -43,12 +46,14 @@ namespace EDen {
 	protected:
 		void resizeWindow(int dimx, int dimy);
 	public:
-		SDLGwenStatusWindow(SDL_WindowGroundpart* groundpart);
+		SDLGwenStatusWindow(SDL_WindowGroundpart* groundpart, Gwen::Rect position  = Gwen::Rect(SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,STATUS_WINDOW_DIM_X,STATUS_WINDOW_DIM_Y));
 		~SDLGwenStatusWindow();
 
 		int getSDLWindowID();
 
 		void processEvent(SDL_Event* evt);
 		void update();
+		void getSize(int* w, int* h);
+		void getPosition(int* x, int* y);
 	};
 };

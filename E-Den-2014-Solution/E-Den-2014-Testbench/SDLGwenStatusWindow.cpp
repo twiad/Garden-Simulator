@@ -1,14 +1,11 @@
 #include "SDLGwenStatusWindow.h"
 
-#define STATUS_WINDOW_DIM_X 200
-#define STATUS_WINDOW_DIM_Y 400
-
 namespace EDen {
-	SDLGwenStatusWindow::SDLGwenStatusWindow(SDL_WindowGroundpart* p_gp)
+	SDLGwenStatusWindow::SDLGwenStatusWindow(SDL_WindowGroundpart* p_gp, Gwen::Rect pos)
 	{
 		gp = p_gp;
 
-		window = SDL_CreateWindow(gp->getName().append(" Species").c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y, SDL_WINDOW_RESIZABLE);
+		window = SDL_CreateWindow(gp->getName().append(" Species").c_str(), pos.x, pos.y, pos.w, pos.h, SDL_WINDOW_RESIZABLE);
 
 		if (!window) {
 			return;
@@ -22,7 +19,7 @@ namespace EDen {
 		skin->SetDefaultFont("OpenSans.ttf", 11);
 
 		pCanvas = new Gwen::Controls::Canvas(skin);
-		pCanvas->SetSize(STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y);
+		pCanvas->SetSize(pos.w, pos.h);
 		pCanvas->SetDrawBackground(true);
 		pCanvas->SetBackgroundColor(Gwen::Color(200, 100, 20, 255));
 
@@ -31,7 +28,7 @@ namespace EDen {
 
 		hoverHandler = new ListItemHoverEventHandler(gp);
 		listBox = new Gwen::Controls::ListBox(pCanvas);
-		listBox->SetBounds(3, 3, STATUS_WINDOW_DIM_X - 6, STATUS_WINDOW_DIM_Y - 6);
+		listBox->SetBounds(3, 3, pos.w - 6, pos.h - 6);
 		listBox->SetMouseInputEnabled(false);
 		listBox->SetKeyboardInputEnabled(false);
 		update();
@@ -139,6 +136,14 @@ namespace EDen {
 	void SDLGwenStatusWindow::resizeWindow(int dimx, int dimy) {
 		pCanvas->SetSize(dimx, dimy);
 		listBox->SetSize(dimx - 6, dimy - 6);
+	};
+
+	void SDLGwenStatusWindow::getSize(int* w, int* h) {
+		SDL_GetWindowSize(window,w,h);
+	};
+
+	void SDLGwenStatusWindow::getPosition(int* x, int* y) {
+		SDL_GetWindowPosition(window,x,y);
 	};
 
 	void SDLGwenStatusWindow::ListItemHoverEventHandler::onHoverIn(Gwen::Controls::Base* pControl) {

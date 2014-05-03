@@ -105,7 +105,7 @@ namespace EDen {
 		void printHeigtmap();
 		
 		SDLGwenStatusWindow* statusWindow;
-		
+		Gwen::Rect* lastStatusWindowPosition;
 
 		SDLGwenStatisticsWindow* statsWindow;
 

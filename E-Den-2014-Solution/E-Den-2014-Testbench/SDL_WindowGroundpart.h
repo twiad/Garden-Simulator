@@ -60,6 +60,18 @@ namespace EDen {
 			void onClick(Gwen::Controls::Base* pControl);
 		};
 
+		struct StatusWindowButtonEventHandler :public Gwen::Event::Handler
+		{
+			SDL_WindowGroundpart* gp;
+			
+			StatusWindowButtonEventHandler(SDL_WindowGroundpart* gp)
+				:gp(gp)
+			{
+			}
+
+			void onClick(Gwen::Controls::Base* pControl);
+		};
+
 		struct ViewportClippingInformation {
 			bool moveLeft;
 			bool moveRight;
@@ -93,6 +105,8 @@ namespace EDen {
 		void printHeigtmap();
 		
 		SDLGwenStatusWindow* statusWindow;
+		
+
 		SDLGwenStatisticsWindow* statsWindow;
 
 		Gwen::Controls::Button* waterPlusButton;
@@ -114,6 +128,9 @@ namespace EDen {
 		Gwen::Controls::Label* gooPercentageLabel;
 		Gwen::Controls::Label* organismsNumberLabel;
 
+		Gwen::Controls::Button* statusWindowButton;
+		StatusWindowButtonEventHandler* statusWindowButtonEventHandler;
+
 		SDLGwenOrgnismInspector* orgInsprector;
 
 		int numOrganisms, numEmptySpaces,cps;
@@ -129,6 +146,8 @@ namespace EDen {
 		bool isScaleToOrganism(Organism* org);
 
 		void resizeWindow(int dimx, int dimy);
+
+		void hideStatusWindow();
 	  public:
 		SDL_WindowGroundpart(std::string name, int width, int height, float maxWater = 2.0e8, float maxGoo = 2.0e8, int emptySpaces = 1, RuntimeManager* runtimeManager = 0);
 		~SDL_WindowGroundpart();
@@ -155,5 +174,6 @@ namespace EDen {
 		bool getDrawLightDebug();
 
 		void processEvent(SDL_Event* evt);
+		void toggleStatusWindow();
 	};
 } // namespace

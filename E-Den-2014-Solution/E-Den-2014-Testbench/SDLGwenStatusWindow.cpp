@@ -8,7 +8,7 @@ namespace EDen {
 	{
 		gp = p_gp;
 
-		window = SDL_CreateWindow(gp->getName().append(" Species").c_str(), 10, 20, STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y, SDL_WINDOW_RESIZABLE);
+		window = SDL_CreateWindow(gp->getName().append(" Species").c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, STATUS_WINDOW_DIM_X, STATUS_WINDOW_DIM_Y, SDL_WINDOW_RESIZABLE);
 
 		if (!window) {
 			return;

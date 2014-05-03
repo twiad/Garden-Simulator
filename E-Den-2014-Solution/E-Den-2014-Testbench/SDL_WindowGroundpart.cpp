@@ -59,7 +59,7 @@ namespace EDen {
 	Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(gwenRenderer);
 	skin->SetRender(gwenRenderer);
 	skin->Init("DefaultSkin.png");
-	skin->SetDefaultFont("OpenSans.ttf", 8);
+	skin->SetDefaultFont("OpenSans.ttf", 10);
 
 	pCanvas = new Gwen::Controls::Canvas(skin);
 	pCanvas->SetSize(dimx, dimy);
@@ -106,19 +106,24 @@ namespace EDen {
 	organismsMinusButton->SetText("O-");
 	organismsMinusButtonEventHandler = new OrganismCountButtonEventHandler(this,runtime,organismsNumberLabel,false);
 	organismsMinusButton->onPress.Add(organismsMinusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);	
+	statusWindowButton = new Gwen::Controls::Button(pCanvas);
+	statusWindowButton->SetText("S");
+	statusWindowButtonEventHandler = new StatusWindowButtonEventHandler(this);
+	statusWindowButton->onPress.Add(statusWindowButtonEventHandler, &StatusWindowButtonEventHandler::onClick);
 
 	orgInsprector = new SDLGwenOrgnismInspector(pCanvas);
 
-	waterPlusButton->SetBounds(115,0,15,10);
-	waterPercentageLabel->SetBounds(16,0,98,10);
-	waterMinusButton->SetBounds(0,0,15,10);
-	gooPlusButton->SetBounds(115,10,15,10);
-	gooPercentageLabel->SetBounds(16,10,98,10);
-	gooMinusButton->SetBounds(0,10,15,10);
-	organismsPlusButton->SetBounds(115,20,15,10);
-	organismsNumberLabel->SetBounds(16,20,98,10);
-	organismsMinusButton->SetBounds(0,20,15,10);
-	orgInsprector->setBounds(dimx - 150,0,150,92);
+	waterPlusButton->SetBounds(115,0,15,15);
+	waterPercentageLabel->SetBounds(16,1,98,15);
+	waterMinusButton->SetBounds(0,0,15,15);
+	gooPlusButton->SetBounds(115,15,15,15);
+	gooPercentageLabel->SetBounds(16,16,98,15);
+	gooMinusButton->SetBounds(0,15,15,15);
+	organismsPlusButton->SetBounds(115,30,15,15);
+	organismsNumberLabel->SetBounds(16,31,98,15);
+	organismsMinusButton->SetBounds(0,30,15,15);
+	statusWindowButton->SetBounds(130,30,15,15);
+	orgInsprector->setBounds(dimx - 150,0,150,102);
 
     scale = SDL_SCALE;
 	renderOffeset = dimx/2;
@@ -196,12 +201,12 @@ namespace EDen {
 
 	//draw status bar
 	statusBarRect.x = 15;
-	statusBarRect.h = 10;
+	statusBarRect.h = 15;
 	statusBarRect.y = 0;
 	statusBarRect.w = 100 * chemStorage->getCurrentPercentage("Wasser") / 100.0f;
 	SDL_SetRenderDrawColor(renderer, 0, 0, 140, 255);
 	SDL_RenderFillRect(renderer,&statusBarRect);
-	statusBarRect.y = 10;
+	statusBarRect.y = 15;
 	statusBarRect.w = 100 * chemStorage->getCurrentPercentage("Goo") / 100.0f;
 	SDL_SetRenderDrawColor(renderer, 140, 30, 0, 255);
 	SDL_RenderFillRect(renderer,&statusBarRect);
@@ -316,15 +321,7 @@ namespace EDen {
 			const char *key = SDL_GetKeyName(evt->key.keysym.sym);
 			if ( key[0] == 'S'  )  {
 				if(key[1] != 'p') {
-					if(!statusWindow) {
-						statusWindow = new SDLGwenStatusWindow(this);
-					}
-					else {
-						SDLGwenStatusWindow* tmpPointer = statusWindow;
-						statusWindow = 0;
-						delete tmpPointer;
-						clearScaleToOrganisms();
-					};
+					toggleStatusWindow();
 				};
 			}
 			else if ( key[0] == 'V'  ) {
@@ -352,13 +349,13 @@ namespace EDen {
 	};
 
 	if(evt->window.windowID == SDL_GetWindowID(window)) {
-		GwenInput->ProcessEvent(evt);
+		bool eventDigested = GwenInput->ProcessEvent(evt);
 		if ((evt->type == SDL_WINDOWEVENT)) {
 			if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
 				resizeWindow(evt->window.data1, evt->window.data2);
 			}
 		}
-		else if(evt->type == SDL_MOUSEBUTTONUP) {
+		else if(!eventDigested && evt->type == SDL_MOUSEBUTTONUP) {
 			if(evt->button.button == 1) {
 				int x = evt->button.x - renderOffeset;
 				int clickedX = (width / 2) + ((x - (dimx / 2)) * (1.0f/scale));
@@ -377,10 +374,7 @@ namespace EDen {
 	if ((evt->type == SDL_WINDOWEVENT)) {
 		if(evt->window.event == SDL_WINDOWEVENT_CLOSE) {
 			if((statusWindow) && statusWindow->getSDLWindowID() == evt->window.windowID) {
-				SDLGwenStatusWindow* tmpPointer = statusWindow;
-				statusWindow = 0;
-				delete tmpPointer;
-				clearScaleToOrganisms();
+				hideStatusWindow();
 			};
 
 			if((statsWindow) && statsWindow->getSDLWindowID() == evt->window.windowID) {
@@ -524,6 +518,10 @@ namespace EDen {
 	}
   };
 
+  void SDL_WindowGroundpart::StatusWindowButtonEventHandler::onClick(Gwen::Controls::Base* pControl) {
+	  gp->toggleStatusWindow();
+  };
+
   SDL_WindowGroundpart::ViewportClippingInformation::ViewportClippingInformation() 
   {
 	  reset();
@@ -629,5 +627,21 @@ namespace EDen {
 	  }
 
 	  return false;
+  }
+
+  void SDL_WindowGroundpart::toggleStatusWindow() {
+	  if(!statusWindow) {
+		  statusWindow = new SDLGwenStatusWindow(this);
+	  }
+	  else {
+		  hideStatusWindow();
+	  };
+  }
+
+  void SDL_WindowGroundpart::hideStatusWindow() {
+	SDLGwenStatusWindow* tmpPointer = statusWindow;
+	statusWindow = 0;
+	delete tmpPointer;
+	clearScaleToOrganisms();
   }
 }

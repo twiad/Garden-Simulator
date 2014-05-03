@@ -53,12 +53,13 @@ namespace EDen {
 
 	void SDLGwenStatusWindow::processEvent(SDL_Event* evt) {
 		if(evt->window.windowID == SDL_GetWindowID(window)) {
+			GwenInput->ProcessEvent(evt);
 			if(evt->type == SDL_MOUSEBUTTONUP) {
-				GwenInput->ProcessEvent(evt);
+				if(evt->button.button == 3) {
+					listBox->UnselectAll();
+				};
 			}
-			else {
-				GwenInput->ProcessEvent(evt);
-			}
+			
 			if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
 				resizeWindow(evt->window.data1, evt->window.data2);
 			}
@@ -120,8 +121,11 @@ namespace EDen {
 		pRenderer->PresentContext(NULL);
 		pRenderer->EndContext(NULL);
 
-		if(hoverHandler->currentSpeciesID != 0) {
+		if(hoverHandler->currentSpeciesID != 0 || listBox->GetSelectedRow() != 0) {
 			int currentSpeciesID = hoverHandler->currentSpeciesID;
+			if(currentSpeciesID == 0) {
+				currentSpeciesID = listBox->GetSelectedRow()->UserData.Get<unsigned int>("speciesID");
+			}
 			gp->clearScaleToOrganisms();
 			for(std::list<Organism*>::iterator it = gp->getOrganisms()->begin(); it != gp->getOrganisms()->end(); it++) {
 				if((*it)->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier() == currentSpeciesID) {

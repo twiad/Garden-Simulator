@@ -5,6 +5,7 @@
 #include "geneticMutation.h"
 #include <iostream>
 #include <ctime>
+#include <boost/thread/mutex.hpp>
 
 namespace EDen {
 
@@ -76,14 +77,22 @@ namespace EDen {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+  bool Randomizer::inited = false;
+  boost::mutex Randomizer::randomizerMutex;
+
   Randomizer::Randomizer() {
-    std::srand((unsigned) time(NULL));
+	
   };
 
   float Randomizer::value() {
-    float xmpf = ((float)(std::rand() % 100)) / 99.0f;
-    // std::cout << " rnd: " << xmpf << std::endl;
-    return xmpf;
+	{
+	  boost::mutex::scoped_lock lock(randomizerMutex);
+	  if(!inited) {
+	    std::srand((unsigned) time(NULL));
+	    inited = true;
+	  }
+	}
+	return ((float)(std::rand() % 100)) / 99.0f;
   }; // returns a value betwien 0 and 1 (possibly including both of them)
   
   float Randomizer::value(float min, float max) {

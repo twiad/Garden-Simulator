@@ -36,6 +36,9 @@ namespace EDen {
   typedef std::list<Groundpart*>::iterator GroundpartListIterator;
   
   class Randomizer {
+  private: 
+	static bool inited;
+	static boost::mutex randomizerMutex;
   public:
     Randomizer();
 

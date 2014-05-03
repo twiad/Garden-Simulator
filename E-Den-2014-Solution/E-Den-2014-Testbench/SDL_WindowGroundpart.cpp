@@ -320,8 +320,10 @@ namespace EDen {
 						statusWindow = new SDLGwenStatusWindow(this);
 					}
 					else {
-						delete statusWindow;
+						SDLGwenStatusWindow* tmpPointer = statusWindow;
 						statusWindow = 0;
+						delete tmpPointer;
+						clearScaleToOrganisms();
 					};
 				};
 			}
@@ -378,6 +380,7 @@ namespace EDen {
 				SDLGwenStatusWindow* tmpPointer = statusWindow;
 				statusWindow = 0;
 				delete tmpPointer;
+				clearScaleToOrganisms();
 			};
 
 			if((statsWindow) && statsWindow->getSDLWindowID() == evt->window.windowID) {

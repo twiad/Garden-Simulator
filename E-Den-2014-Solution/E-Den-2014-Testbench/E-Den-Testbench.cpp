@@ -140,11 +140,16 @@ bool updateCaption() {
 };
 
 void addRandomOrganism() {
-	  //bp = new Bodypart(BPT_Seed,"TESTPART3");
-  //organism = new Organism("TestOrganism2", bp, runtime);
-  
-  Bodypart* bp = new Bodypart(BPT_Seed,GeneticCodeFactory::generateRandomSimplePlant());
-  Organism* organism = new Organism("RandomSimplePlant", bp, runtime);
+  Bodypart* bp;
+  Organism* organism;
+  if(Randomizer::value() >= 0.5f) {
+	bp = new Bodypart(BPT_Seed,GeneticCodeFactory::generateRandomSimplePlant());
+	organism = new Organism("RandomSimplePlant", bp, runtime);
+  }
+  else {
+	bp = new Bodypart(BPT_Seed,"TESTPART3");
+	organism = new Organism("TestOrganism2", bp, runtime);
+  }
   
   bp->setBodypartState(BSP_seed);
   bp->setScaleModifier(1.0f);
@@ -152,8 +157,6 @@ void addRandomOrganism() {
   bp->getChemicalStorage()->add("Wasser", 1000.0f);
   bp->getChemicalStorage()->add("Goo", 1000.0f);
   activePrinter->getSpeciesDatabase()->push(organism);
-
-  run(1);
 }
 
 void sdl_run(int cycles) {

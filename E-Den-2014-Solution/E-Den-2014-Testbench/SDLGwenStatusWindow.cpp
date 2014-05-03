@@ -57,6 +57,7 @@ namespace EDen {
 			if(evt->type == SDL_MOUSEBUTTONUP) {
 				if(evt->button.button == 3) {
 					listBox->UnselectAll();
+					gp->clearScaleToOrganisms();
 				};
 			}
 			

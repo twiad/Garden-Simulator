@@ -62,7 +62,7 @@ namespace EDen {
         neededResource = "Wasser";
         producedResource = "Goo";
       };
-      speciesIdentifier = (int)randomizer.value(100.0f + ((int)gooCreature * 100),105.0f + ((int)gooCreature * 100)) + 20;      
+      speciesIdentifier = (int)randomizer.value(300.0f + ((int)gooCreature * 100),305.0f + ((int)gooCreature * 100)) + 20 + (randomizer.value(1,9999) * 1000);      
       bool unfullfilledBPTConditionFound = false;
       GeneticANDCondition* gAndCond = 0;
       GeneticORCondition* gOrCond = 0;

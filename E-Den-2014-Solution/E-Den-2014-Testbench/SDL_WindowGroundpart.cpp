@@ -27,7 +27,7 @@ namespace EDen {
 		SDL_DestroyWindow(window);
 	};
 
-  SDL_WindowGroundpart::SDL_WindowGroundpart(std::string name, int width, int height, float maxWater, float maxGoo, int emptySpaces, RuntimeManager* runtimeManager) : SingleDimensionHeightmapGroundpart(name, width * 2, maxWater, maxGoo, emptySpaces) {
+  SDL_WindowGroundpart::SDL_WindowGroundpart(std::string name, int width, int height, float maxWater, float maxGoo, int emptySpaces, RuntimeManager* runtimeManager) : SingleDimensionHeightmapGroundpart(name, width * 3, maxWater, maxGoo, emptySpaces) {
 	window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
 	if (!window) {
     	return;
@@ -172,6 +172,7 @@ namespace EDen {
 	statusBarRect.w = dimx;
 	statusBarRect.h = dimy;
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	//SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderFillRect(renderer,&statusBarRect);
 
 	shadows->clear();
@@ -465,7 +466,7 @@ namespace EDen {
 				  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 255);
 			  }
 			  else {
-				  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 70);
+				  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 40 + 10);
 			  }
 		  }
 		  SDL_RenderDrawLine(renderer,x1,dimy-(y1+1),x2,dimy-(y2+1));

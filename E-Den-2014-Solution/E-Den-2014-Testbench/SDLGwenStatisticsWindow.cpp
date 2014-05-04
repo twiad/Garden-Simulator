@@ -152,8 +152,8 @@ namespace EDen {
 						}
 
 						if(font->data) {
-							pRenderer->RenderText(font, Gwen::Point(startX - 20,0),Gwen::Utility::ToString(maxValue));
-							pRenderer->RenderText(font, Gwen::Point(startX - 20,dimy - 10),Gwen::Utility::ToString(minValue));
+							pRenderer->RenderText(font, Gwen::Point(startX - 30,0),Gwen::Utility::ToString(maxValue));
+							pRenderer->RenderText(font, Gwen::Point(startX - 30,dimy - 10),Gwen::Utility::ToString(minValue));
 							pRenderer->RenderText(font, Gwen::Point(startX - ((maxDataValues*2)/3),dimy - 10),it->first);
 						}
 

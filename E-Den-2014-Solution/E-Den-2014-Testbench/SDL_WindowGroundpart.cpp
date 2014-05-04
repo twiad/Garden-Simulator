@@ -392,7 +392,7 @@ namespace EDen {
 	  dimy = pDimy;
 
 	  pCanvas->SetSize(dimx,dimy);
-	  orgInsprector->setBounds(dimx - 150,0,orgInsprector->getWidth(),orgInsprector->getHeight());
+	  orgInsprector->setBounds(dimx - 175,0,orgInsprector->getWidth(),orgInsprector->getHeight());
 	  shadows->setSize(dimx,dimy);
   };
 

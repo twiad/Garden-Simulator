@@ -743,12 +743,21 @@ namespace EDen {
     return true;
   };
 
-  GeneticDropSeedAction::GeneticDropSeedAction(Bodypart* p_bp):GeneticAction(GAT_DropSeed) {
+  GeneticDropSeedAction::GeneticDropSeedAction(Bodypart* p_bp, bool p_blockParentSpawnpointForBodyparttype):GeneticAction(GAT_DropSeed) {
     bp = p_bp;
+	blockParentSpawnpointForBodyparttype = p_blockParentSpawnpointForBodyparttype;
   };
 
   GeneticDropSeedAction::GeneticDropSeedAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_DropSeed) {
     setBodypart(p_bp);
+	int result;
+	description->Attribute("blockParentSpawnpoint",&result);
+	if(result == 1) {
+		blockParentSpawnpointForBodyparttype = true;
+	}
+	else {
+		blockParentSpawnpointForBodyparttype = false;
+	}
   };
 
   GeneticDropSeedAction::~GeneticDropSeedAction() {
@@ -763,7 +772,7 @@ namespace EDen {
       code->setSubSpeciesIdentifier(parentOrganism->getFitnessValue());
     };
     code->incGeneration();
-    bp->detachToNewOrganism(false);
+    bp->detachToNewOrganism(blockParentSpawnpointForBodyparttype);
   return true;
   };
 
@@ -773,22 +782,31 @@ namespace EDen {
   };
   
   GeneticAction* GeneticDropSeedAction::copy() {
-    return new GeneticDropSeedAction();
+    return new GeneticDropSeedAction(0,blockParentSpawnpointForBodyparttype);
   };
 
   TiXmlElement* GeneticDropSeedAction::toXmlElement() {
     TiXmlElement* element;
     element = new TiXmlElement("DropSeedAction");
-
+	element->SetAttribute("blockParentSpawnpoint",(int)blockParentSpawnpointForBodyparttype);
     return element;
   };
 
-  GeneticDropLeafAction::GeneticDropLeafAction(Bodypart* p_bp):GeneticAction(GAT_DropLeaf) {
+  GeneticDropLeafAction::GeneticDropLeafAction(Bodypart* p_bp, bool p_blockParentSpawnpointForBodyparttype):GeneticAction(GAT_DropLeaf) {
     bp = p_bp;
+	blockParentSpawnpointForBodyparttype = p_blockParentSpawnpointForBodyparttype;
   };
 
   GeneticDropLeafAction::GeneticDropLeafAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_DropLeaf) {
     setBodypart(p_bp);
+	int result;
+	description->Attribute("blockParentSpawnpoint",&result);
+	if(result == 1) {
+		blockParentSpawnpointForBodyparttype = true;
+	}
+	else {
+		blockParentSpawnpointForBodyparttype = false;
+	}
   };
 
   GeneticDropLeafAction::~GeneticDropLeafAction() {
@@ -797,7 +815,7 @@ namespace EDen {
 
   bool GeneticDropLeafAction::execute() {
     bp->setBodypartState(BSP_dead);
-	bp->detachToNowhere(true);
+	bp->detachToNowhere(blockParentSpawnpointForBodyparttype);
 	return true;
   };
 
@@ -807,13 +825,13 @@ namespace EDen {
   };
   
   GeneticAction* GeneticDropLeafAction::copy() {
-    return new GeneticDropLeafAction();
+    return new GeneticDropLeafAction(0,blockParentSpawnpointForBodyparttype);
   };
 
   TiXmlElement* GeneticDropLeafAction::toXmlElement() {
     TiXmlElement* element;
     element = new TiXmlElement("DropLeafAction");
-
+	element->SetAttribute("blockParentSpawnpoint",(int)blockParentSpawnpointForBodyparttype);
     return element;
   };
 

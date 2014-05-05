@@ -11,7 +11,7 @@
 #define CANDIDATES_COUNT 200
 #define MAX_SIZE 2000
 #define LOWEST_SPECIES_SELECTION_COUNT 3
-#define XML_VERSION_STRING "0.1.0.2"
+#define XML_VERSION_STRING "0.1.0.3"
 
 namespace EDen {
 

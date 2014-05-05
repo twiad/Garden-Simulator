@@ -297,8 +297,9 @@ namespace EDen {
   class GeneticDropSeedAction: public GeneticAction {
   protected:
     Bodypart* bp;
+	bool blockParentSpawnpointForBodyparttype;
   public:
-    GeneticDropSeedAction(Bodypart* p_bp = 0);
+    GeneticDropSeedAction(Bodypart* p_bp = 0, bool blockParentSpawnpointForBodyparttype = false);
     GeneticDropSeedAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticDropSeedAction();
 
@@ -311,8 +312,9 @@ namespace EDen {
   class GeneticDropLeafAction: public GeneticAction {
   protected:
     Bodypart* bp;
+	bool blockParentSpawnpointForBodyparttype;
   public:
-    GeneticDropLeafAction(Bodypart* p_bp = 0);
+    GeneticDropLeafAction(Bodypart* p_bp = 0, bool blockParentSpawnpointForBodyparttype = true);
     GeneticDropLeafAction(TiXmlElement* description, Bodypart* p_bp = 0);
     virtual ~GeneticDropLeafAction();
 

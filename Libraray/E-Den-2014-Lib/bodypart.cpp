@@ -144,7 +144,7 @@ namespace EDen {
       if((*it)->connectedBodypart == param_childBodypart) {
         (*it)->connectedBodypart = 0;
 		if(blockSpawnpointForBodyparttype) {
-			(*it)->removeSupportedType(getBodypartType());
+			(*it)->removeSupportedType(param_childBodypart->getBodypartType());
 		}
         (*it)->occupied = false;
       };

@@ -490,10 +490,10 @@ namespace EDen {
   void SDL_WindowGroundpart::ResourceButtonEventHandler::onClick(Gwen::Controls::Base* pControl) {
     ChemicalStorage* storage = gp->getChemicalStorage();
     if(increment) {
-      storage->add(resourceName,storage->getMaxAmount(resourceName) * 0.1f);
+      storage->add(resourceName,storage->getMaxAmount(resourceName) * 0.02f);
     }
     else {
-      storage->add(resourceName,-storage->getMaxAmount(resourceName) * 0.1f);
+      storage->add(resourceName,-storage->getMaxAmount(resourceName) * 0.02f);
     }
   };
 

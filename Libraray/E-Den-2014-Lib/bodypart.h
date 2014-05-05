@@ -25,6 +25,7 @@ namespace EDen {
     int position;
     Bodypart* connectedBodypart;
 
+	bool removeSupportedType(BodypartType param_bpType);
     bool addSupportedType(BodypartType param_bpType);
     bool isSupportedType(BodypartType param_bpType);
 
@@ -99,9 +100,9 @@ namespace EDen {
     bool occupieSpawnpoint(Bodypart* param_odypart);
 
     bool detachFromOrganism();
-    bool unregisterChildBodypart(Bodypart* param_childBodypart);
-    Organism* detachToNewOrganism();
-	bool detachToNowhere();
+    bool unregisterChildBodypart(Bodypart* param_childBodypart, bool blockSpawnpointForBodypartType = false);
+    Organism* detachToNewOrganism(bool blockSpawnpointForBodypartType = false);
+	bool detachToNowhere(bool blockSpawnpointForBodypartType = true);
 
     float getHealthpoints();
     bool hurt(float damage);

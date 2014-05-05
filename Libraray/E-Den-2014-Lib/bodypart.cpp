@@ -127,7 +127,7 @@ namespace EDen {
     return true;
   };
 
-  bool Bodypart::unregisterChildBodypart(Bodypart* param_childBodypart) {
+  bool Bodypart::unregisterChildBodypart(Bodypart* param_childBodypart, bool blockSpawnpointForBodyparttype) {
     bool foundOne = false;
     
     // remove bp from childs list
@@ -143,6 +143,9 @@ namespace EDen {
     for(SpawnpointInformationListIterator it = spawnpoints.begin(); it != spawnpoints.end(); it++) {
       if((*it)->connectedBodypart == param_childBodypart) {
         (*it)->connectedBodypart = 0;
+		if(blockSpawnpointForBodyparttype) {
+			(*it)->removeSupportedType(getBodypartType());
+		}
         (*it)->occupied = false;
       };
     };
@@ -368,7 +371,7 @@ namespace EDen {
     return true;
   };
 
-  Organism* Bodypart::detachToNewOrganism() {
+  Organism* Bodypart::detachToNewOrganism(bool blockSpawnpointForBodypartType) {
     Organism* org;
     RuntimeManager* runtime;
 	Groundpart* groundpart = 0;
@@ -385,7 +388,7 @@ namespace EDen {
 
     if(parentBodypart != 0) {
 	  oldParentBodypart = parentBodypart;
-      parentBodypart->unregisterChildBodypart(this);
+      parentBodypart->unregisterChildBodypart(this,blockSpawnpointForBodypartType);
       parentBodypart = 0;
     };
     
@@ -409,12 +412,12 @@ namespace EDen {
     return org;
   };
 
-  bool Bodypart::detachToNowhere() {
+  bool Bodypart::detachToNowhere(bool blockSpawnpointForBodypartType) {
   RuntimeManager* runtime;
 
     std::string name = "Parentless Organism";
     if(parentBodypart != 0) {
-      parentBodypart->unregisterChildBodypart(this);
+      parentBodypart->unregisterChildBodypart(this,blockSpawnpointForBodypartType);
       parentBodypart = 0;
     };
     
@@ -508,6 +511,12 @@ namespace EDen {
       };
     };
     return foundOne;
+  };
+
+  bool SpawnpointInformation::removeSupportedType(BodypartType param_bpType) {
+    supportedBpTypes.remove(param_bpType);
+	  
+    return true;    
   };
 
   bool SpawnpointInformation::addSupportedType(BodypartType param_bpType) {

@@ -135,25 +135,25 @@ namespace EDen {
 
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Leaf Energie Production High Efficiency"));
 			// low energy
-		//gAndCond = new GeneticANDCondition();
-		//compAct = new GeneticCompoundAction();
-  //    
-		//cond = new GeneticBodypartTypeCondition(BPT_Leaf, GBT_equal);
+		gAndCond = new GeneticANDCondition();
+		compAct = new GeneticCompoundAction();
+      
+		cond = new GeneticBodypartTypeCondition(BPT_Leaf, GBT_equal);
 
-		//gAndCond->add(new GeneticBodypartStateCondition(BSP_alive, GBT_equal));
-		//gAndCond->add(cond);
-		//gAndCond->add(new GeneticChemicalCondition(GCC_space_left_more, 4.0f, "Energie"));
-		//gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, 0.4f, primaryResource));
-		//gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, 0.1f, "Sonne"));
-		//gAndCond->add(new GeneticChemicalCondition(GCC_current_value_less, 1.5f, "Sonne"));
+		gAndCond->add(new GeneticBodypartStateCondition(BSP_alive, GBT_equal));
+		gAndCond->add(cond);
+		gAndCond->add(new GeneticChemicalCondition(GCC_space_left_more, 4.0f, "Energie"));
+		gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, 0.4f, primaryResource));
+		gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, 0.1f, "Sonne"));
+		gAndCond->add(new GeneticChemicalCondition(GCC_current_value_less, 1.5f, "Sonne"));
 
-		//compAct->add(new GeneticChemicalConsumeAction("Sonne",0.1f));
-		//compAct->add(new GeneticSimpleChemicalConvertAction(primaryResource, "Energie", 0.4f, 10.0f));
-		//if(secondaryResource != "") {
-		//	compAct->add(new GeneticSimpleChemicalConvertAction(primaryResource, secondaryResource, 1.0f, 100.0f));
-		//}
+		compAct->add(new GeneticChemicalConsumeAction("Sonne",0.1f));
+		compAct->add(new GeneticSimpleChemicalConvertAction(primaryResource, "Energie", 0.4f, 10.0f));
+		if(secondaryResource != "") {
+			compAct->add(new GeneticSimpleChemicalConvertAction(primaryResource, secondaryResource, 1.0f, 100.0f));
+		}
 
-		//clauses->push_back(new GeneticClause(gAndCond, compAct, "Leaf Energie Production Low Efficiency"));
+		clauses->push_back(new GeneticClause(gAndCond, compAct, "Leaf Energie Production Low Efficiency"));
 	};
 
 	void GeneticCodeFactory::addEnergyConsumptionAndDead(GeneticClauseList* clauses, float idleEnergyUsage, unsigned int lifetime) {

@@ -763,7 +763,7 @@ namespace EDen {
       code->setSubSpeciesIdentifier(parentOrganism->getFitnessValue());
     };
     code->incGeneration();
-    bp->detachToNewOrganism();
+    bp->detachToNewOrganism(false);
   return true;
   };
 
@@ -797,7 +797,7 @@ namespace EDen {
 
   bool GeneticDropLeafAction::execute() {
     bp->setBodypartState(BSP_dead);
-	bp->detachToNowhere();
+	bp->detachToNowhere(true);
 	return true;
   };
 

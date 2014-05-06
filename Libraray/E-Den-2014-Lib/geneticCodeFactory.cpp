@@ -250,7 +250,7 @@ namespace EDen {
 		gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more, energyPercentage, "Energie"));
       
 		compAct->add(new GeneticSimpleMutateAction(0, seedMutation));
-		compAct->add(new GeneticDropSeedAction());
+		compAct->add(new GeneticDropSeedAction(0, true));
     
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Drop Seed"));
 	};

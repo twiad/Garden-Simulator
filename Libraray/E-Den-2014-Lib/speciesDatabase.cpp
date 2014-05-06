@@ -181,6 +181,9 @@ namespace EDen {
       orgsp->erase(it);
       changedSinceLastUpdate = true;
     };
+
+	org->getRootBodypart()->setScaleModifier(1.0f);
+
     return org;
   };
 

@@ -389,6 +389,13 @@ void sdl_test() {
 
   if(gpDatabase->getSpeciesCount() == 0) {
 	  addRandomOrganism();
+#ifndef DEBUG
+	  addRandomOrganism();
+	  addRandomOrganism();
+	  addRandomOrganism();
+	  addRandomOrganism();
+	  addRandomOrganism();
+#endif
   }
 
   run(1);

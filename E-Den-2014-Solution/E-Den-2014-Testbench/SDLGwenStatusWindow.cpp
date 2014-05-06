@@ -92,6 +92,7 @@ namespace EDen {
 			if(!foundOne) {
 				if(listBox->GetSelectedRow() == item) {
 					listBox->UnselectAll();
+					gp->clearScaleToOrganisms();
 				}
 				listBox->GetTable()->Remove(item);
 			};

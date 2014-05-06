@@ -261,9 +261,16 @@ namespace EDen {
 	  if(it == plantPositionMemory.end()) {
 		int numOrgs = organisms.size();
 		if(numOrgs <= 1) {
-			return width/2;
+			int newPosX = (int)Randomizer::value(width/9.0f*4.0f,width/9.0f*5.0f);
+			plantPositionMemory.insert(std::pair<Organism* , int>(param_organism, newPosX));
+			return newPosX;
 		}
 		else if(numOrgs <= 10) {
+			int newPosX = (int)Randomizer::value(width/5.0f*2.0f,width/5.0f*3.0f);
+			plantPositionMemory.insert(std::pair<Organism* , int>(param_organism, newPosX));
+			return newPosX;
+		}
+		else if(numOrgs <= 30) {
 			int newPosX = (int)Randomizer::value(width/3.0f,width/3.0f*2.0f);
 			plantPositionMemory.insert(std::pair<Organism* , int>(param_organism, newPosX));
 			return newPosX;
@@ -282,7 +289,7 @@ namespace EDen {
   int SingleDimensionHeightmapGroundpart::getBodypartPosX(Bodypart* param_bodypart) {
 	  Organism * org = param_bodypart->getParentOrganism();
 	  int orgX = getOrganismX(org);
-	  if(Randomizer::value(0.0f,1.0f) > 0.5) {
+	  if(Randomizer::value() >= 0.5f) {
 		  return orgX + Randomizer::value(3.0f,width / 50.0f);
 	  }
 	  else {

@@ -90,6 +90,9 @@ namespace EDen {
 				};
 			};
 			if(!foundOne) {
+				if(listBox->GetSelectedRow() == item) {
+					listBox->UnselectAll();
+				}
 				listBox->GetTable()->Remove(item);
 			};
 		};

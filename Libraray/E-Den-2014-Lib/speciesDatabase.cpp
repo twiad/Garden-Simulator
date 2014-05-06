@@ -238,8 +238,8 @@ namespace EDen {
 
   void OneSpeciesDatabase::updateTreshold() {
 	boost::mutex::scoped_lock lock(mutex);
-	if(changedSinceLastUpdate && !orgs.empty()) {
-      while(candidates.size() >= 0.9f * getMaxCandidates()) {
+	if(changedSinceLastUpdate) {
+      while(candidates.size() >= 0.9f * getMaxCandidates() || candidates.size() >= 0.9f * orgs.size()) {
 		  setTreshold(treshold + 1);
 	  };
 

@@ -36,6 +36,7 @@ namespace EDen {
 	primaryMarkedOrganism = 0;
 	statusWindow = 0;
 	statsWindow = 0;
+	lastStatusWindowPosition = 0;
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);

@@ -170,6 +170,14 @@ void sdl_run(int cycles) {
   activePrinter->print();
 
   SDL_RenderPresent(renderer);
+
+#ifndef DEBUG
+  if(activePrinter) {
+	  while(activePrinter->getNumSpecies() < 6) {
+		  addRandomOrganism();
+	  }
+  }
+#endif
 }
 
 void updateRuntimeState() {

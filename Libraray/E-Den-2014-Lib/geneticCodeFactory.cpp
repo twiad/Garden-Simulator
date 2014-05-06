@@ -38,10 +38,10 @@ namespace EDen {
 		float branchMutation = 0.1f;
 
 		float branchMaxSize = Randomizer::value(5.0f,15.0f);
-		int branchNumLeafSpawnpoints = 2;
-		int branchNumStickOrBranchSpawnpoints = 2;
+		int branchNumLeafSpawnpoints = 1;
+		int branchNumStickOrBranchSpawnpoints = 3;
 		int branchNumBranchSpawnpoints = 0;
-		int branchNumStickSpawnpoints = 0;
+		int branchNumStickSpawnpoints = 2;
 		float branchSpawnEnergyCost = 20.0f;
 		float branchSpawnPrimaryResourceCost = 350.0f;
 		float branchPrimaryResourceStorageSize = 200.0f;
@@ -51,8 +51,8 @@ namespace EDen {
 		//Color branchColor(1.00f,0.00f,0.00f,1.0f);
 
 		float stickMaxSize = Randomizer::value(5.0f,15.0f);
-		int stickNumLeafSpawnpoints = 4;
-		int stickNumStickOrBranchSpawnpoints = 2;
+		int stickNumLeafSpawnpoints = 6;
+		int stickNumStickOrBranchSpawnpoints = 1;
 		int stickNumStickSpawnpoints = 0;
 		int stickNumBranchSpawnpoints = 0;
 		int stickNumSeedSpawnpoints = 1;
@@ -319,7 +319,7 @@ namespace EDen {
 			unsigned int spawnpointIndex = 1;
 
 			for(unsigned int i = 0; i < numStickAndBranchSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(bpts, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(bpts, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, i < 2));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -327,7 +327,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numStickSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, i < 2));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -335,7 +335,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numBranchSpawnPoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Branch, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Branch, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, i < 2));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -343,7 +343,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numLeafSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, i < 2));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -415,9 +415,9 @@ namespace EDen {
 			float singleAngularStep = 40.0f / sumSpawnpoints;
 			float currentAngle = 5.0f;
 			unsigned int spawnpointIndex = 1;
-
+			
 			for(unsigned int i = 0; i < numStickAndBranchSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(bpts, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(bpts, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, i < 2));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -425,7 +425,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numStickSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Stick, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, i < 2));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -433,7 +433,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numBranchSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Branch, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Branch, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, i < 2));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -441,7 +441,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numLeafSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, i < 2));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;
@@ -449,7 +449,7 @@ namespace EDen {
 			}
 
 			for(unsigned int i = 0; i < numSeedSpawnpoints; i++) {
-				compAct->add(new GeneticAddSpawnpointAction(BPT_Seed, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, true));
+				compAct->add(new GeneticAddSpawnpointAction(BPT_Seed, spawnpointIndex, currentScaleModifier, (-1 + (((int)spawnpointIndex % 2) * 2)) * currentAngle, 0.0f, 0.0f, false, i < 2));
 
 				currentAngle += singleAngularStep;
 				currentScaleModifier += singleScaleModifierStep;

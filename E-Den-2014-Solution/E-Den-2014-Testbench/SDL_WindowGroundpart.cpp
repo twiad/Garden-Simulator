@@ -572,6 +572,45 @@ namespace EDen {
     return false;
   };
 
+  unsigned int SDL_WindowGroundpart::getNumSpecies() {
+	  std::map<unsigned int, std::string> speciesMap;
+	  speciesDatabase->getDebugOut(&speciesMap);
+
+	  std::map<unsigned int, unsigned int> countMap;
+	   unsigned int speciesID;
+	  for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+		  speciesID = (*it)->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier();
+		  if(speciesMap.count(speciesID) == 0) {
+			  if(countMap.count(speciesID) == 0) {
+				  countMap[speciesID] = 0;
+			  }
+//			  countMap[speciesID] += 1;
+		  }
+	  }
+
+	  return speciesMap.size() + countMap.size();
+  };
+
+  void SDL_WindowGroundpart::getDebugOut(std::map<unsigned int, std::string>* outList) {
+	  speciesDatabase->getDebugOut(outList);
+
+	  std::map<unsigned int, unsigned int> countMap;
+	  unsigned int speciesID;
+	  for(std::list<Organism*>::iterator it = organisms.begin(); it != organisms.end(); it++) {
+		  speciesID = (*it)->getRootBodypart()->getGeneticCode()->getSpeciesIdentifier();
+		  if(outList->count(speciesID) == 0) {
+			  if(countMap.count(speciesID) == 0) {
+				  countMap[speciesID] = 0;
+			  }
+			  //countMap[speciesID] += 1;
+		  }
+	  }
+
+	  for(std::map<unsigned int, unsigned int>::iterator it = countMap.begin(); it != countMap.end(); it++) {
+		  outList->insert(std::pair<unsigned int,std::string>((it->first),std::string("species").append(Gwen::Utility::ToString(it->first)).append("[0|0|0]")));
+	  }
+  };
+
   RuntimeManager* SDL_WindowGroundpart::getRuntimeManager() {
 	  return runtime;
   };

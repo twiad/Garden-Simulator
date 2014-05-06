@@ -72,7 +72,7 @@ namespace EDen {
 
 	void SDLGwenStatusWindow::update() {
 		std::map<unsigned int,std::string> outputs;
-		gp->getSpeciesDatabase()->getDebugOut(&outputs);
+		gp->getDebugOut(&outputs);
 
 		Gwen::Controls::Layout::TableRow* item;
 		unsigned int speciesID;

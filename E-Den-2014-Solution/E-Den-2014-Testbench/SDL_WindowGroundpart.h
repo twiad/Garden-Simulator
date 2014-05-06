@@ -166,6 +166,8 @@ namespace EDen {
 		void addScaleToOrganism(Organism* org);
 
 		bool orgsAlive();
+		unsigned int getNumSpecies();
+		void getDebugOut(std::map<unsigned int, std::string>* outList);
 
 		int getDimX();
 		int getDimY();

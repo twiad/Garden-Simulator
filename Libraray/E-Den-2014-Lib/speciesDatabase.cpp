@@ -145,6 +145,8 @@ namespace EDen {
   void OneSpeciesDatabase::push(Organism* org) {
     boost::mutex::scoped_lock lock(mutex);
     
+	org->getRootBodypart()->setScaleModifier(1.0f);
+
     changedSinceLastUpdate = true;
     if((candidates.size() < (unsigned)maxCandidates) && (org->getRootBodypart()->getGeneticCode()->getSubSpeciesIdentifier() >= treshold)) {
       candidates.push_back(org);
@@ -182,9 +184,7 @@ namespace EDen {
       changedSinceLastUpdate = true;
     };
 
-	org->getRootBodypart()->setScaleModifier(1.0f);
-
-    return org;
+	return org;
   };
 
   void OneSpeciesDatabase::removeLeastPerformantOrganism() {

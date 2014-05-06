@@ -584,7 +584,7 @@ namespace EDen {
 	  int newPosX;
 
 	  while(!emptySlotFound) {
-		posX = orgPosX + i;
+		posX = orgPosX + (i * 3);
 		windowPosX = (posX - (width / 2)) * scale + (dimx / 2) + renderOffeset;
 
 		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::ShadowState::LIT)) {
@@ -592,7 +592,7 @@ namespace EDen {
 			emptySlotFound = true;
 		}
 
-		posX = orgPosX - i;
+		posX = orgPosX - (i * 3);
 		windowPosX = (posX - (width / 2)) * scale + (dimx / 2) + renderOffeset;
 
 		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::ShadowState::LIT)) {

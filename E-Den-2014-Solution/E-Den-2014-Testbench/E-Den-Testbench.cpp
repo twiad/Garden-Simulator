@@ -161,15 +161,29 @@ void addRandomOrganism() {
 
 void sdl_run(int cycles) {
   if(!pause) {
-	run(cycles);
+	  int cps = runtime->getCps();
+	  if(cps > 180) {
+		  run(cycles);
+		  activePrinter->print(true);
+		  run(cycles);
+		  activePrinter->print(true);
+		  run(cycles);
+		  activePrinter->print(true);
+		  run(cycles);
+	  }
+	  else if(cps > 180) {
+		  run(cycles);
+		  activePrinter->print(true);
+		  run(cycles);
+	  }
+	  else {
+		  run(cycles);
+	  }
   }
-  //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-  //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-  //SDL_RenderClear(renderer);
 
   activePrinter->print();
 
-  SDL_RenderPresent(renderer);
+//  SDL_RenderPresent(renderer);
 
 #ifndef DEBUG
   if(activePrinter) {

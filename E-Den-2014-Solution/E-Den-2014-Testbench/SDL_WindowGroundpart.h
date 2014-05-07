@@ -101,7 +101,7 @@ namespace EDen {
 
 		bool drawLightDebug;
 
-		int req_print(Bodypart* param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked);
+		int req_print(Bodypart* param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked, bool fast);
 		void printHeigtmap();
 		
 		SDLGwenStatusWindow* statusWindow;
@@ -157,7 +157,7 @@ namespace EDen {
 		virtual bool registerOrganism(Organism* param_organism);
         virtual bool unregisterOrganism(Organism* param_organism);
 
-		virtual bool print();
+		virtual bool print(bool fast = false);
 
 		bool add(Organism* param_organism);
 		std::list<Organism*>* getOrganisms();

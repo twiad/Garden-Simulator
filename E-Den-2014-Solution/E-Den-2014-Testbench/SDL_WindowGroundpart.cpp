@@ -154,27 +154,29 @@ namespace EDen {
 	  scaleToOrganisms.push_back(org);
   };
 
-  bool SDL_WindowGroundpart::print() {
-    gwenRenderer->BeginContext(NULL);
-
-	//update childobjects data
-	if(orgInsprector->getOrganism() != primaryMarkedOrganism) {
-		orgInsprector->setOrganism(primaryMarkedOrganism);
-	};
-
-	orgInsprector->update();
-	if(statsWindow) statsWindow->update();
-	if(statusWindow) statusWindow->update();
-
+  bool SDL_WindowGroundpart::print(bool fast) {
 	SDL_Rect statusBarRect;
-	//draw Background 
-	statusBarRect.x = 0;
-	statusBarRect.y = 0;
-	statusBarRect.w = dimx;
-	statusBarRect.h = dimy;
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	//SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	SDL_RenderFillRect(renderer,&statusBarRect);
+	if(!fast) {
+		gwenRenderer->BeginContext(NULL);
+
+		//update childobjects data
+		if(orgInsprector->getOrganism() != primaryMarkedOrganism) {
+			orgInsprector->setOrganism(primaryMarkedOrganism);
+		};
+
+		orgInsprector->update();
+		if(statsWindow) statsWindow->update();
+		if(statusWindow) statusWindow->update();
+	
+		//draw Background 
+		statusBarRect.x = 0;
+		statusBarRect.y = 0;
+		statusBarRect.w = dimx;
+		statusBarRect.h = dimy;
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		//SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		SDL_RenderFillRect(renderer,&statusBarRect);
+	}
 
 	shadows->clear();
 
@@ -186,68 +188,69 @@ namespace EDen {
       org = *it;
       if( org->getState() != BSP_dead) {
 		if(scaleToOrganisms.size() != 0) {
-			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, isScaleToOrganism(org), org == primaryMarkedOrganism);
+			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, isScaleToOrganism(org), org == primaryMarkedOrganism, fast);
 		}
 		else {
-			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, true , org == primaryMarkedOrganism);
+			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, true , org == primaryMarkedOrganism, fast);
 		}
       };
     };
     
-	printHeigtmap();
-
 	shadows->distribute();
-	if(drawLightDebug) {
-		shadows->draw();
+
+	if(!fast) {
+		printHeigtmap();
+		if(drawLightDebug) {
+			shadows->draw();
+		}
+
+		//draw status bar
+		statusBarRect.x = 15;
+		statusBarRect.h = 15;
+		statusBarRect.y = 0;
+		statusBarRect.w = 100 * chemStorage->getCurrentPercentage("Wasser") / 100.0f;
+		SDL_SetRenderDrawColor(renderer, 0, 0, 140, 255);
+		SDL_RenderFillRect(renderer,&statusBarRect);
+		statusBarRect.y = 15;
+		statusBarRect.w = 100 * chemStorage->getCurrentPercentage("Goo") / 100.0f;
+		SDL_SetRenderDrawColor(renderer, 140, 30, 0, 255);
+		SDL_RenderFillRect(renderer,&statusBarRect);
+
+		if(organismsNumberLabel) {
+		  int new_numOrganisms, new_numEmptySpaces,new_cps;
+		  getNumOrganismsAndEmptySpaces(&new_numOrganisms,&new_numEmptySpaces);
+		  new_cps = runtime->getCps();
+
+		  if((new_numOrganisms != numOrganisms) || (new_numEmptySpaces != numEmptySpaces) || (new_cps != cps)) {
+			numOrganisms = new_numOrganisms;
+			numEmptySpaces = new_numEmptySpaces;
+			cps = new_cps;
+
+			organismsNumberLabel->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)).append("@").append(Gwen::Utility::ToString(cps)));
+		  }
+		}
+
+		if(waterPercentageLabel) {
+		  float newWaterPercentage = ceilf(chemStorage->getCurrentPercentage("Wasser") * 100) / 100;
+		  if(waterPercentage != newWaterPercentage) {
+			  waterPercentageLabel->SetText(Gwen::Utility::ToString(newWaterPercentage).append("%"));
+			  waterPercentage = newWaterPercentage;
+		  }
+		}
+
+		if(gooPercentageLabel) {
+		  float newGooPercentage = ceilf(chemStorage->getCurrentPercentage("Goo") * 100) / 100;
+		  if(gooPercentage != newGooPercentage) {
+			  gooPercentageLabel->SetText(Gwen::Utility::ToString(newGooPercentage).append("%"));
+			  gooPercentage = newGooPercentage;
+		  }
+		}
+
+		//render canvas and flip to window
+		pCanvas->RenderCanvas();
+		gwenRenderer->PresentContext(NULL);
+		gwenRenderer->EndContext(NULL);
 	}
-
-	//draw status bar
-	statusBarRect.x = 15;
-	statusBarRect.h = 15;
-	statusBarRect.y = 0;
-	statusBarRect.w = 100 * chemStorage->getCurrentPercentage("Wasser") / 100.0f;
-	SDL_SetRenderDrawColor(renderer, 0, 0, 140, 255);
-	SDL_RenderFillRect(renderer,&statusBarRect);
-	statusBarRect.y = 15;
-	statusBarRect.w = 100 * chemStorage->getCurrentPercentage("Goo") / 100.0f;
-	SDL_SetRenderDrawColor(renderer, 140, 30, 0, 255);
-	SDL_RenderFillRect(renderer,&statusBarRect);
-
-	if(organismsNumberLabel) {
-      int new_numOrganisms, new_numEmptySpaces,new_cps;
-      getNumOrganismsAndEmptySpaces(&new_numOrganisms,&new_numEmptySpaces);
-	  new_cps = runtime->getCps();
-
-	  if((new_numOrganisms != numOrganisms) || (new_numEmptySpaces != numEmptySpaces) || (new_cps != cps)) {
-        numOrganisms = new_numOrganisms;
-		numEmptySpaces = new_numEmptySpaces;
-		cps = new_cps;
-
-        organismsNumberLabel->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)).append("@").append(Gwen::Utility::ToString(cps)));
-	  }
-	}
-
-	if(waterPercentageLabel) {
-	  float newWaterPercentage = ceilf(chemStorage->getCurrentPercentage("Wasser") * 100) / 100;
-	  if(waterPercentage != newWaterPercentage) {
-		  waterPercentageLabel->SetText(Gwen::Utility::ToString(newWaterPercentage).append("%"));
-		  waterPercentage = newWaterPercentage;
-	  }
-	}
-
-	if(gooPercentageLabel) {
-	  float newGooPercentage = ceilf(chemStorage->getCurrentPercentage("Goo") * 100) / 100;
-	  if(gooPercentage != newGooPercentage) {
-		  gooPercentageLabel->SetText(Gwen::Utility::ToString(newGooPercentage).append("%"));
-		  gooPercentage = newGooPercentage;
-	  }
-	}
-
-	//render canvas and flip to window
-    pCanvas->RenderCanvas();
-	gwenRenderer->PresentContext(NULL);
-	gwenRenderer->EndContext(NULL);
-
 
 	adjustViewport();
 
@@ -398,7 +401,7 @@ namespace EDen {
 	  shadows->setSize(dimx,dimy);
   };
 
-  int SDL_WindowGroundpart::req_print(Bodypart *param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked) {
+  int SDL_WindowGroundpart::req_print(Bodypart *param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked, bool fast) {
 	int returnvalue = 0;
     
     if(param_bp) {
@@ -455,22 +458,24 @@ namespace EDen {
 			  }
 		  }
 
-		  if(renderer == 0) {
-			std::cout << "renderer is null\n";
-		  }
+		  if(!fast) {
+			if(renderer == 0) {
+				std::cout << "renderer is null\n";
+			  }
 
-		  if(marked) {
-			SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
-		  }
-		  else {
-			  if(relevantForScaling) {
-				  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 255);
+			  if(marked) {
+				SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
 			  }
 			  else {
-				  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 40 + 10);
+				  if(relevantForScaling) {
+					  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 255);
+				  }
+				  else {
+					  SDL_SetRenderDrawColor(renderer, param_bp->color.r * 255, param_bp->color.g * 255, param_bp->color.b * 255, param_bp->color.a * 40 + 10);
+				  }
 			  }
+			  SDL_RenderDrawLine(renderer,x1,dimy-(y1+1),x2,dimy-(y2+1));
 		  }
-		  SDL_RenderDrawLine(renderer,x1,dimy-(y1+1),x2,dimy-(y2+1));
 	  }
 
       SpawnpointInformationList* bpSpawnpoints = param_bp->getSpawnpoints();
@@ -479,7 +484,7 @@ namespace EDen {
         SpawnpointInformation* sp;
         if(((*it)->occupied) && ((*it)->position != 0)) { 
           sp = (*it)->connectedBodypart->getSpawnpointInformationForBodypart(param_bp);
-          returnvalue += req_print((*it)->connectedBodypart,x2,y2,a1 + 180.0f + sp->ang2d + (*it)->ang2d,a2 + sp->ang2 + (*it)->ang2,a3 + sp->rot + (*it)->rot, relevantForScaling, marked);
+          returnvalue += req_print((*it)->connectedBodypart,x2,y2,a1 + 180.0f + sp->ang2d + (*it)->ang2d,a2 + sp->ang2 + (*it)->ang2,a3 + sp->rot + (*it)->rot, relevantForScaling, marked, fast);
         };
       };
       //std::cout << returnvalue << std::endl;

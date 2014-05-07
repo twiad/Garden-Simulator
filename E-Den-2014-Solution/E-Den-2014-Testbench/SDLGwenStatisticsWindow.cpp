@@ -32,6 +32,12 @@ namespace EDen {
 		col->r = 120;
 		col->g = 120;
 		col->b = 120;
+
+		//col = &data["Random"].col;
+		//col->a = 255;
+		//col->r = 120;
+		//col->g = 120;
+		//col->b = 0;
 	};
 
 
@@ -70,6 +76,7 @@ namespace EDen {
 	void SDLGwenStatisticsWindow::update() {
 		//addDataPoint("AvgBodypartCount",runtime->getBodypartCount() / (double)runtime->getOrganisms().size());
 		addDataPoint("BodypartCount",runtime->getBodypartCount());
+		//addDataPoint("Random",Randomizer::value());
 		//for(std::list<Groundpart*>::iterator itGp = runtime->getGroundparts().begin(); itGp != runtime->getGroundparts().end(); itGp++) {
 
 		//}

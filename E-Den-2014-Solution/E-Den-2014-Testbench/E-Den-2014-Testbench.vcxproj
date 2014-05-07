@@ -140,8 +140,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib;$(SDL_TTF_HOME)\lib\x86;$(SDL_IMAGE_HOME)\lib\x86;$(GWEN_HOME)\lib\windows\vs2010;../Release;$(SDL_HOME)\lib;$(SDL_DRAW_HOME)\lib;..\..\Libraray\E-Den-2014-Lib\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>x86/SDL2main.lib;x86/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SDL_IMAGE_HOME)\lib\x86;$(BOOST_HOME_MSVC)\lib;$(SDL_HOME)\lib;$(SDL_TTF_HOME)\lib\x86;$(GWEN_HOME)\lib\windows\vs2010;..\..\Libraray\E-Den-2014-Lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>x86/SDL2main.lib;x86/SDL2.lib;E-Den-2014-Lib.lib;SDL2_image86.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -159,8 +163,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib64;../x64/Release;$(SDL_HOME)\lib;$(SDL_TTF_HOME)\lib\x64;$(SDL_IMAGE_HOME)\lib\x64;$(SDL_DRAW_HOME)\lib;$(GWEN_HOME)\lib\windows\vs2010x64;F:\src\E-Den-2014\Libraray\E-Den-2014-Lib\x64\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>x64/SDL2main.lib;x64/SDL2.lib;SDL_draw.lib;E-Den-2014-Lib.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(BOOST_HOME_MSVC)\lib64;../x64/Release;$(SDL_HOME)\lib;$(SDL_TTF_HOME)\lib\x64;$(SDL_IMAGE_HOME)\lib\x64;$(GWEN_HOME)\lib\windows\vs2010x64;F:\src\E-Den-2014\Libraray\E-Den-2014-Lib\x64\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>x64/SDL2main.lib;x64/SDL2.lib;E-Den-2014-Lib.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -186,6 +190,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\gwen\Projects\windows\vs2010\Renderer-SDL2.vcxproj">
       <Project>{2e1fb760-842e-8b41-867d-92aad44cdfa5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraray\E-Den-2014-Lib\E-Den-2014-Lib.vcxproj">
+      <Project>{114cdd91-885f-4a01-949f-aa495b0c935d}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

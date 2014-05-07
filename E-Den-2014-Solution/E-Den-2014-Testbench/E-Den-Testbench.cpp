@@ -72,6 +72,7 @@ char appSettingsPathP[MAX_PATH];
 bool printall;
 bool pause = false;
 bool slowMode = false;
+int fastmode = 0;
 
 SDL_SunlightProvider* sun;
 
@@ -142,7 +143,7 @@ bool updateCaption() {
 void addRandomOrganism() {
   Bodypart* bp;
   Organism* organism;
-  if(Randomizer::value() >= 0.5f) {
+  if(Randomizer::value() > 0.475f) {
 	bp = new Bodypart(BPT_Seed,GeneticCodeFactory::generateRandomSimplePlant());
 	organism = new Organism("RandomSimplePlant", bp, runtime);
   }
@@ -161,22 +162,21 @@ void addRandomOrganism() {
 
 void sdl_run(int cycles) {
   if(!pause) {
-	  int cps = runtime->getCps();
-	  if(cps > 180) {
-		  run(cycles);
-		  activePrinter->print(true);
-		  run(cycles);
-		  activePrinter->print(true);
-		  run(cycles);
-		  activePrinter->print(true);
+	  if(fastmode == 0) {
 		  run(cycles);
 	  }
-	  else if(cps > 180) {
-		  run(cycles);
-		  activePrinter->print(true);
+	  else if(fastmode == 1) {
+		  for(int i = 0; i < 9; i++) {
+			  run(cycles);
+			  activePrinter->print(true);
+		  }
 		  run(cycles);
 	  }
-	  else {
+	  else if(fastmode == 2) {
+		  for(int i = 0; i < 99; i++) {
+			  run(cycles);
+			  activePrinter->print(true);
+		  }
 		  run(cycles);
 	  }
   }
@@ -228,6 +228,18 @@ bool wait_for_events()
             slowMode = !slowMode;
             updateRuntimeState();
           }
+		  else if ( key[0] == 'F'  )
+			if(fastmode > 0) {
+				fastmode = 0;
+			}
+			else {
+				if(modifier == KMOD_LCTRL) {
+					fastmode = 2;
+				}
+				else {
+					fastmode = 1;
+				}
+			}
 		  else if ( key[0] == 'R'  ) {  //if 'r' is pressed
 			  addRandomOrganism();
           }

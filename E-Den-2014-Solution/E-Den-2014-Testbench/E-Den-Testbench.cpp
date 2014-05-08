@@ -198,6 +198,25 @@ void updateRuntimeState() {
   if(slowMode && !pause) runtime->setState(RMS_Slow);
   else if(pause) runtime->setState(RMS_Pause);
   else runtime->setState(RMS_Normal);
+
+  if(activePrinter) {
+	  if(pause) {
+		  activePrinter->setStatusLabelText("Paused");
+	  }
+	  else if(slowMode) {
+		  activePrinter->setStatusLabelText("Slow");
+	  }
+	  else if(fastmode == 0) {
+		  activePrinter->setStatusLabelText("");
+	  }
+	  else if(fastmode == 1) {
+		  activePrinter->setStatusLabelText("Fast (10)");
+	  }
+	  else if(fastmode == 2) {
+		  activePrinter->setStatusLabelText("Fast (100)");
+	  }
+	  activePrinter->print();
+  }
 };
 
 bool wait_for_events()
@@ -225,10 +244,12 @@ bool wait_for_events()
 			}
 		  }
           else if ( key[0] == 'Z'  ) {  //slow if 'z' is pressed
-            slowMode = !slowMode;
+            fastmode = 0;
+			slowMode = !slowMode;
             updateRuntimeState();
           }
-		  else if ( key[0] == 'F'  )
+		  else if ( key[0] == 'F'  ) {
+			slowMode = false;
 			if(fastmode > 0) {
 				fastmode = 0;
 			}
@@ -240,6 +261,8 @@ bool wait_for_events()
 					fastmode = 1;
 				}
 			}
+			updateRuntimeState();
+		  }
 		  else if ( key[0] == 'R'  ) {  //if 'r' is pressed
 			  addRandomOrganism();
           }

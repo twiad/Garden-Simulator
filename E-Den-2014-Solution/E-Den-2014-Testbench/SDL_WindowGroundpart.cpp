@@ -111,6 +111,8 @@ namespace EDen {
 	statusWindowButton->SetText("S");
 	statusWindowButtonEventHandler = new StatusWindowButtonEventHandler(this);
 	statusWindowButton->onPress.Add(statusWindowButtonEventHandler, &StatusWindowButtonEventHandler::onClick);
+	statusLabel = new Gwen::Controls::Label(pCanvas);
+	statusLabel->SetTextColor(Gwen::Color(250,200,0,255));
 
 	orgInsprector = new SDLGwenOrgnismInspector(pCanvas);
 
@@ -124,6 +126,7 @@ namespace EDen {
 	organismsNumberLabel->SetBounds(16,31,98,15);
 	organismsMinusButton->SetBounds(0,30,15,15);
 	statusWindowButton->SetBounds(130,30,15,15);
+	statusLabel->SetBounds(1,46,143,15);
 	orgInsprector->setBounds(dimx - 175,0,175,102);
 
     scale = SDL_SCALE;
@@ -614,6 +617,12 @@ namespace EDen {
 	  for(std::map<unsigned int, unsigned int>::iterator it = countMap.begin(); it != countMap.end(); it++) {
 		  outList->insert(std::pair<unsigned int,std::string>((it->first),std::string("species").append(Gwen::Utility::ToString(it->first)).append("[0|0|0]")));
 	  }
+  };
+
+  void SDL_WindowGroundpart::setStatusLabelText(std::string text) {
+	if(statusLabel) {
+		statusLabel->SetText(text);
+	};
   };
 
   RuntimeManager* SDL_WindowGroundpart::getRuntimeManager() {

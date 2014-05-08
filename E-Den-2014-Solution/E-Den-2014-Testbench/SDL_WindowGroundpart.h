@@ -131,6 +131,8 @@ namespace EDen {
 		Gwen::Controls::Button* statusWindowButton;
 		StatusWindowButtonEventHandler* statusWindowButtonEventHandler;
 
+		Gwen::Controls::Label* statusLabel;
+
 		SDLGwenOrgnismInspector* orgInsprector;
 
 		int numOrganisms, numEmptySpaces,cps;
@@ -168,6 +170,8 @@ namespace EDen {
 		bool orgsAlive();
 		unsigned int getNumSpecies();
 		void getDebugOut(std::map<unsigned int, std::string>* outList);
+
+		void setStatusLabelText(std::string text);
 
 		int getDimX();
 		int getDimY();

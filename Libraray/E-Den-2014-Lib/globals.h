@@ -116,6 +116,7 @@ namespace EDen {
     GCT_Compound = 1,
     GCT_Chemical,
     GCT_BodypartType,
+	GCT_ParentBodypartType,
     GCT_BodypartState,
     GCT_BodypartCreation,
     GCT_BodypartHP,

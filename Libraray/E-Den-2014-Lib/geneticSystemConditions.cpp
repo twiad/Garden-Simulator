@@ -150,6 +150,57 @@ namespace EDen {
     };
   };
 
+  GeneticParentBodypartTypeCondition::GeneticParentBodypartTypeCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_ParentBodypartType) {
+    desc->QueryIntAttribute("BodypartType",(int*)&bpType);
+    desc->QueryIntAttribute("ConditionType",(int*)&condType);
+    
+    setBodypart(param_bp);
+  };
+
+  GeneticParentBodypartTypeCondition::~GeneticParentBodypartTypeCondition() {
+    // GeneticCondition::~GeneticCondition();
+  };
+
+  GeneticCondition* GeneticParentBodypartTypeCondition::copy() {
+    return new GeneticParentBodypartTypeCondition(bpType,condType);
+  };
+
+  TiXmlElement* GeneticParentBodypartTypeCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("ParentBodypartTypeCondition");
+
+    element->SetAttribute("BodypartType",(int)bpType);
+    element->SetAttribute("ConditionType",(int)condType);
+
+    return element;
+  };
+
+  bool GeneticParentBodypartTypeCondition::setBodypart(Bodypart* p_bp) {
+    bp = p_bp;
+    return true;
+  };
+
+  bool GeneticParentBodypartTypeCondition::fullfilled() {
+	if(bp->getParentBodypart() == 0) {
+		return false;
+	}
+
+    switch(condType) {
+      case GBT_equal:
+        if(bp->getParentBodypart()->getBodypartType() == bpType) return true;
+        else return false;
+        break;
+      case GBT_notEqual:
+        if(bp->getParentBodypart()->getBodypartType() != bpType) return true;
+        else return false;
+        break;
+      case GBT_UNKNOWN:
+        return false;
+        break;
+      default: return false;
+    };
+  };
+
   GeneticBodypartStateCondition::GeneticBodypartStateCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_BodypartState) {
     desc->QueryIntAttribute("State",(int*)&bpState);
     desc->QueryIntAttribute("Type",(int*)&condType);

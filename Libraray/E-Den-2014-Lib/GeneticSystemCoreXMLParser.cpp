@@ -13,6 +13,7 @@ namespace EDen {
     else if(type == "ConditionAND") return new GeneticANDCondition(description);
     else if(type == "ChemicalCondition") return new GeneticChemicalCondition(description);
     else if(type == "BodypartTypeCondition") return new GeneticBodypartTypeCondition(description);
+	else if(type == "ParentBodypartTypeCondition") return new GeneticParentBodypartTypeCondition(description);
     else if(type == "BodypartStateCondition") return new GeneticBodypartStateCondition(description);
     else if(type == "HealthpointsCondition") return new GeneticHealthpointsCondition(description);
     else if(type == "ParentHealthpointsCondition") return new GeneticParentHealthpointsCondition(description);

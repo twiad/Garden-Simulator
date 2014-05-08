@@ -74,6 +74,30 @@ namespace EDen {
     virtual TiXmlElement* toXmlElement();
   };
 
+  class GeneticParentBodypartTypeCondition: public GeneticCondition {
+  protected:
+    Bodypart* bp;
+    BodypartType bpType;
+    GeneticStdConditionType condType;
+  public:
+    GeneticParentBodypartTypeCondition( 
+      BodypartType bodypartType, GeneticStdConditionType conditionType, Bodypart * param_bp = 0): 
+          GeneticCondition(GCT_ParentBodypartType), 
+          bp(param_bp),
+          bpType(bodypartType),
+          condType(conditionType) {};
+
+    GeneticParentBodypartTypeCondition(TiXmlElement* description, Bodypart * param_bp = 0);
+    virtual ~GeneticParentBodypartTypeCondition();
+
+    BodypartType getBodypartType();
+
+    virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
+  };
+
   class GeneticBodypartStateCondition: public GeneticCondition {
   protected:
     Bodypart* bp;

@@ -143,7 +143,7 @@ bool updateCaption() {
 void addRandomOrganism() {
   Bodypart* bp;
   Organism* organism;
-  if(Randomizer::value() > 0.475f) {
+  if(Randomizer::value() > 0.33f) {
 	bp = new Bodypart(BPT_Seed,GeneticCodeFactory::generateRandomSimplePlant());
 	organism = new Organism("RandomSimplePlant", bp, runtime);
   }

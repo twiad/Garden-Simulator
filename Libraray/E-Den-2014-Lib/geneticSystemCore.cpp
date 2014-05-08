@@ -212,10 +212,6 @@ namespace EDen {
   };
 
   GeneticClause::~GeneticClause() {
-    if(description != "Branch Creation") {
-      int i = 0 + 100;
-    };
-    
     delete cond;
     delete act;
   };

@@ -142,6 +142,7 @@ namespace EDen {
 
     for(GeneticClauseListIterator it = originalClauses.begin(); it != originalClauses.end(); it++) {
       if(!( (*it)->dependsOnUnfullfilledConditionType(GCT_BodypartType) ||
+			(*it)->dependsOnUnfullfilledConditionType(GCT_ParentBodypartType) ||
             (*it)->dependsOnUnfullfilledConditionType(GCT_BodypartCreation) )) {
         relevantClauses.push_back(*it);
       };

@@ -83,6 +83,7 @@ namespace EDen {
 
 		float leafDropSunAmount = 0.5f;
 		float leafDropEnergyPercentage = 10.0f;
+		bool doubleLeaf = Randomizer::value() > 0.33f;
 
 		float maxAmountMutationProbability = 0.3f;
 		float maxSizeMutationsProbability = 0.04f;
@@ -103,7 +104,7 @@ namespace EDen {
 
 		addBranch(clauses, branchSpawnEnergyCost, branchSpawnPrimaryResourceCost, branchMaxSize, branchColor, branchNumLeafSpawnpoints, branchNumStickSpawnpoints, branchNumBranchSpawnpoints, branchNumStickOrBranchSpawnpoints, branchMutation, primaryResource, branchPrimaryResourceStorageSize, branchEnergyStorageSize, secondaryResource, branchSecondaryResourceStorageSize);
 		addStick(clauses, stickSpawnEnergyCost, stickSpawnPrimaryResourceCost, stickMaxSize, stickColor, stickNumLeafSpawnpoints, stickNumStickSpawnpoints, stickNumBranchSpawnpoints, stickNumStickOrBranchSpawnpoints, stickNumSeedSpawnpoints, primaryResource, stickPrimaryResourceStorageSize, stickEnergyStorageSize, secondaryResource, stickSecondaryResourceStorageSize);
-		addLeaf(clauses, leafSpawnEnergyCost, leafSpawnPrimaryResourceCost, leafMaxSize, leafColor, primaryResource, leafPrimaryResourceStorageSize, leafEnergyStorageSize, secondaryResource, leafSecondaryResourceStorageSize);
+		addLeaf(clauses, doubleLeaf, leafSpawnEnergyCost, leafSpawnPrimaryResourceCost, leafMaxSize, leafColor, primaryResource, leafPrimaryResourceStorageSize, leafEnergyStorageSize, secondaryResource, leafSecondaryResourceStorageSize);
 		addSeed(clauses, seedSpawnEnergyCost, seedSpawnPrimaryResourceCost, seedMaxSize, seedColor, primaryResource, seedPrimaryResourceStorageSize, seedEnergyStorageSize, secondaryResource, seedSecondaryResourceStorageSize);
 
 		addMaxAmountMutations(mutations, maxAmountMutationProbability, primaryResource, secondaryResource);
@@ -474,14 +475,15 @@ namespace EDen {
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Stick Creation"));
 	};
 
-	void GeneticCodeFactory::addLeaf(GeneticClauseList* clauses, float energyCost, float primaryResourceCost, float maxSize, Color color, std::string primaryResource, unsigned int primaryResourceStorageSize, float energyStorageSize, std::string secondaryResource, unsigned int secondaryResourceStorageSize) {
+	void GeneticCodeFactory::addLeaf(GeneticClauseList* clauses, bool doubleLeaf, float energyCost, float primaryResourceCost, float maxSize, Color color, std::string primaryResource, unsigned int primaryResourceStorageSize, float energyStorageSize, std::string secondaryResource, unsigned int secondaryResourceStorageSize) {
 				// Spawn Action
 		GeneticANDCondition* gAndCond = new GeneticANDCondition();
 		GeneticORCondition* gOrCond = new GeneticORCondition();
 		GeneticCompoundAction* compAct = new GeneticCompoundAction();
-      
+
 		gOrCond->add(new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal));
 		gOrCond->add(new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal));
+		
         
 		gAndCond->add(new GeneticBodypartStateCondition(BSP_alive, GBT_equal));
 		gAndCond->add(gOrCond);
@@ -495,7 +497,23 @@ namespace EDen {
 		compAct->add(new GeneticChemicalConsumeAction(primaryResource, primaryResourceCost));
       
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Spawn Leaf"));
-
+				// doubleLeafSpawnaction
+		if(doubleLeaf) {
+			gAndCond = new GeneticANDCondition();
+			gAndCond->add(new GeneticBodypartStateCondition(BSP_alive, GBT_equal));
+			gAndCond->add(new GeneticBodypartTypeCondition(BPT_Leaf, GBT_equal));
+			gAndCond->add(new GeneticParentBodypartTypeCondition(BPT_Leaf, GBT_notEqual));
+			gAndCond->add(new GeneticSpawnpointPresentCondition(BPT_Leaf));
+			gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, energyCost, "Energie"));
+			gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, primaryResourceCost, primaryResource));
+      
+			compAct = new GeneticCompoundAction();
+			compAct->add(new GeneticSpawnBodypartAction(BPT_Leaf));
+			compAct->add(new GeneticChemicalConsumeAction("Energie", energyCost));
+			compAct->add(new GeneticChemicalConsumeAction(primaryResource, primaryResourceCost));
+      
+			clauses->push_back(new GeneticClause(gAndCond, compAct, "Spawn DoubleLeaf"));
+		}
 				// Creation Action
 		gAndCond = new GeneticANDCondition();
 		compAct = new GeneticCompoundAction();
@@ -508,8 +526,15 @@ namespace EDen {
 		std::list<BodypartType> bpts;
 		bpts.push_back(BPT_Branch);
 		bpts.push_back(BPT_Stick);
+		if(doubleLeaf) {
+			bpts.push_back(BPT_Leaf);
+		}
 
 		compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f,0.0f,0.0f));
+
+		if(doubleLeaf) {
+			compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 1, 0.5f, 90.0f,0.0f,0.0f,true));
+		}
 
 		//resources
 		compAct->add(new GeneticChangeMaxChemicalAmountAction(primaryResource, primaryResourceStorageSize));

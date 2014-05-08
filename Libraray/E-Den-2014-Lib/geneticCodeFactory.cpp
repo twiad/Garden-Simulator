@@ -83,7 +83,7 @@ namespace EDen {
 
 		float leafDropSunAmount = 0.5f;
 		float leafDropEnergyPercentage = 10.0f;
-		bool doubleLeaf = Randomizer::value() > 0.33f;
+		bool doubleLeaf = Randomizer::value() > 0.66f;
 
 		float maxAmountMutationProbability = 0.3f;
 		float maxSizeMutationsProbability = 0.04f;
@@ -533,7 +533,7 @@ namespace EDen {
 		compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f,0.0f,0.0f));
 
 		if(doubleLeaf) {
-			compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 1, 0.5f, 90.0f,0.0f,0.0f,true));
+			compAct->add(new GeneticAddSpawnpointAction(BPT_Leaf, 1, 0.2f, 90.0f,0.0f,0.0f,true));
 		}
 
 		//resources
@@ -609,7 +609,7 @@ namespace EDen {
 	};
 
 	void GeneticCodeFactory::addMaxSizeMutations(GeneticMutationList* mutations, float prob) {
-		mutations->push_back(new GeneticMaxSizeMutation(1.0f,1000.0f,2.0f,prob,"Max Size Mutation"));
+		mutations->push_back(new GeneticMaxSizeMutation(1.0f,10000.0f,2.0f,prob,"Max Size Mutation"));
 	};
 
 	void GeneticCodeFactory::addColorMutation(GeneticMutationList* mutations, float prob) {

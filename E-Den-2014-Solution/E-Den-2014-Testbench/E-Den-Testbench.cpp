@@ -143,7 +143,7 @@ bool updateCaption() {
 void addRandomOrganism() {
   Bodypart* bp;
   Organism* organism;
-  if(Randomizer::value() > 0.33f) {
+  if(Randomizer::value() > 0.4f) {
 	bp = new Bodypart(BPT_Seed,GeneticCodeFactory::generateRandomSimplePlant());
 	organism = new Organism("RandomSimplePlant", bp, runtime);
   }
@@ -241,6 +241,7 @@ bool wait_for_events()
           else if ( key[0] == 'S'  )  {
 			if(key[1] == 'p') {
 				pause = !pause;
+				updateRuntimeState();
 			}
 		  }
           else if ( key[0] == 'Z'  ) {  //slow if 'z' is pressed

@@ -67,6 +67,9 @@ namespace EDen {
 	Groundpart* getGroundpartWithEmptySpace();
 	Groundpart* getGroundpartWithEmptySpaceAndSpecies();
 
+	std::list<unsigned int> avgLifetimAccumulator;
+	void addLifetimeToAvgAccumulator(unsigned int lifetime);
+
     boost::thread* cpsWaiter;
     static void oneSecondTimer();
     static void processOrgs();
@@ -101,6 +104,7 @@ namespace EDen {
     int getOrganismCount();
     int getSeedCount();
     int getCps();
+	unsigned int getAvgLifetime();
     unsigned getPreferedOrganismCount();
     void setPreferedOrganismCount(unsigned pPreferedOrganismCount, bool killIfToMany = false);
     RuntimeManagerState getState();

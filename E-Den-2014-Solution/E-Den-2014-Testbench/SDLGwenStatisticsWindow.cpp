@@ -77,6 +77,7 @@ namespace EDen {
 		//addDataPoint("AvgBodypartCount",runtime->getBodypartCount() / (double)runtime->getOrganisms().size());
 		addDataPoint("BodypartCount",runtime->getBodypartCount());
 		//addDataPoint("Random",Randomizer::value());
+		addDataPoint("AvgLifetime", runtime->getAvgLifetime());
 		//for(std::list<Groundpart*>::iterator itGp = runtime->getGroundparts().begin(); itGp != runtime->getGroundparts().end(); itGp++) {
 
 		//}

@@ -9,6 +9,8 @@
 
 #define CANDIDATES_LEVEL (150 / 25)
 #define DATABASE_UPDATE_CYCLES 100
+
+#define START_AVG_LIFETIME 500
 namespace EDen {
   boost::mutex RuntimeManager::orgsToProcessMutex;
   boost::mutex RuntimeManager::orgsToDeleteMutex;
@@ -325,6 +327,7 @@ namespace EDen {
               new_orgs.push_front(org);
 		  }
           else {
+			  addLifetimeToAvgAccumulator(org->getLifetime());
 			  orgsToDelete.push_back(org);
 		  }
 	  }
@@ -335,7 +338,7 @@ namespace EDen {
 	Groundpart *gp = getGroundpartWithEmptySpaceAndSpecies();
 	if(gp == 0) gp = getGroundpartWithEmptySpace();
 
-    while(gp != 0 && (lastPlantAddedAt + (500.0f / preferedOrganismCount) <= cycles) && (noSeeds == false)) {
+    while(gp != 0 && (lastPlantAddedAt + (getAvgLifetime() / preferedOrganismCount) <= cycles) && (noSeeds == false)) {
 		Organism* seed = gp->addSeedFromDb();
 		if(seed == 0) {
 			seed = getNextSeed();
@@ -377,6 +380,29 @@ namespace EDen {
 
   int RuntimeManager::getCps() {
     return cps;
+  };
+
+  void RuntimeManager::addLifetimeToAvgAccumulator(unsigned int lifetime) {
+	unsigned int preferedAvgListSize = maxi(20, mini(getOrganismCount() * 2,500));
+	while(avgLifetimAccumulator.size() > preferedAvgListSize - 1) {
+		avgLifetimAccumulator.pop_back();
+	}
+	avgLifetimAccumulator.push_front(lifetime);
+  };
+
+  unsigned int RuntimeManager::getAvgLifetime() {
+	unsigned long sum = 0;
+	unsigned int num = 0;
+	for(std::list<unsigned int>::iterator it = avgLifetimAccumulator.begin(); it != avgLifetimAccumulator.end(); it++) {
+		sum += *it;
+		num++;
+	};
+	if(num > 0) {
+		return sum/num;
+	}
+	else {
+		return START_AVG_LIFETIME;
+	}
   };
 
   bool RuntimeManager::orgsAlive() {

@@ -34,7 +34,7 @@ namespace EDen {
     static int cps;
     static unsigned int bodypartCount;
 
-	static int lastPlantAddedAt;
+	static unsigned long lastPlantAddedAt;
 
 #ifdef USE_CL
     static CLDriver driver;

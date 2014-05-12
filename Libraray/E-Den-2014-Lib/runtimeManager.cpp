@@ -339,7 +339,7 @@ namespace EDen {
 
 	//unsigned long debugTemp = lastPlantAddedAt + (getAvgLifetime() / preferedOrganismCount);
 
-    while(gp != 0 && (lastPlantAddedAt + (getAvgLifetime() / preferedOrganismCount) <= cycles) && (noSeeds == false)) {
+    while(gp != 0 && (lastPlantAddedAt + ((getAvgLifetime() * 0.95f) / preferedOrganismCount) <= cycles) && (noSeeds == false)) {
 		Organism* seed = gp->addSeedFromDb();
 		if(seed == 0) {
 			seed = getNextSeed();
@@ -384,7 +384,7 @@ namespace EDen {
   };
 
   void RuntimeManager::addLifetimeToAvgAccumulator(unsigned int lifetime) {
-	unsigned int preferedAvgListSize = maxi(20, mini(getOrganismCount() * 2,500));
+	unsigned int preferedAvgListSize = maxi(20, mini(getOrganismCount() * 3,500));
 	while(avgLifetimAccumulator.size() > preferedAvgListSize - 1) {
 		avgLifetimAccumulator.pop_back();
 	}

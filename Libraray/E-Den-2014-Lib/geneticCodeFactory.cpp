@@ -44,6 +44,7 @@ namespace EDen {
 		int branchNumStickSpawnpoints = 2;
 		float branchSpawnEnergyCost = 20.0f;
 		float branchSpawnPrimaryResourceCost = 350.0f;
+		float branchBackwardCostMultiplier = Randomizer::value(10.0f,25.0f);
 		float branchPrimaryResourceStorageSize = 200.0f;
 		float branchSecondaryResourceStorageSize = 80.0f;
 		float branchEnergyStorageSize = 3.0f;
@@ -58,6 +59,7 @@ namespace EDen {
 		int stickNumSeedSpawnpoints = 1;
 		float stickSpawnEnergyCost = 5.0f;
 		float stickSpawnPrimaryResourceCost = 450.0f;
+		float stickBackwardCostMultiplier = Randomizer::value(7.5f,25.0f);
 		float stickPrimaryResourceStorageSize = 500.0f;
 		float stickSecondaryResourceStorageSize = 120.0f;
 		float stickEnergyStorageSize = 35.0f;
@@ -102,8 +104,8 @@ namespace EDen {
 		addSeedDrop(clauses, seedDropEnergyPercentage, seedDropEnergyAmount, seedMutation);
 		addLeafDrop(clauses, leafDropEnergyPercentage, leafDropSunAmount);
 
-		addBranch(clauses, branchSpawnEnergyCost, branchSpawnPrimaryResourceCost, branchMaxSize, branchColor, branchNumLeafSpawnpoints, branchNumStickSpawnpoints, branchNumBranchSpawnpoints, branchNumStickOrBranchSpawnpoints, branchMutation, primaryResource, branchPrimaryResourceStorageSize, branchEnergyStorageSize, secondaryResource, branchSecondaryResourceStorageSize);
-		addStick(clauses, stickSpawnEnergyCost, stickSpawnPrimaryResourceCost, stickMaxSize, stickColor, stickNumLeafSpawnpoints, stickNumStickSpawnpoints, stickNumBranchSpawnpoints, stickNumStickOrBranchSpawnpoints, stickNumSeedSpawnpoints, primaryResource, stickPrimaryResourceStorageSize, stickEnergyStorageSize, secondaryResource, stickSecondaryResourceStorageSize);
+		addBranch(clauses, branchSpawnEnergyCost, branchSpawnPrimaryResourceCost, stickBackwardCostMultiplier, branchMaxSize, branchColor, branchNumLeafSpawnpoints, branchNumStickSpawnpoints, branchNumBranchSpawnpoints, branchNumStickOrBranchSpawnpoints, branchMutation, primaryResource, branchPrimaryResourceStorageSize, branchEnergyStorageSize, secondaryResource, branchSecondaryResourceStorageSize);
+		addStick(clauses, stickSpawnEnergyCost, stickSpawnPrimaryResourceCost, stickBackwardCostMultiplier, stickMaxSize, stickColor, stickNumLeafSpawnpoints, stickNumStickSpawnpoints, stickNumBranchSpawnpoints, stickNumStickOrBranchSpawnpoints, stickNumSeedSpawnpoints, primaryResource, stickPrimaryResourceStorageSize, stickEnergyStorageSize, secondaryResource, stickSecondaryResourceStorageSize);
 		addLeaf(clauses, doubleLeaf, leafSpawnEnergyCost, leafSpawnPrimaryResourceCost, leafMaxSize, leafColor, primaryResource, leafPrimaryResourceStorageSize, leafEnergyStorageSize, secondaryResource, leafSecondaryResourceStorageSize);
 		addSeed(clauses, seedSpawnEnergyCost, seedSpawnPrimaryResourceCost, seedMaxSize, seedColor, primaryResource, seedPrimaryResourceStorageSize, seedEnergyStorageSize, secondaryResource, seedSecondaryResourceStorageSize);
 
@@ -273,7 +275,7 @@ namespace EDen {
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Drop Leaf without sun"));
 	};
 
-	void GeneticCodeFactory::addBranch(GeneticClauseList* clauses, float energyCost, float primaryResourceCost, float maxSize, Color color, unsigned int numLeafSpawnpoints, unsigned int numStickSpawnpoints, unsigned int numBranchSpawnPoints, unsigned int numStickAndBranchSpawnpoints, float branchMutation, std::string primaryResource, float primaryResourceStorageSize, float energyStorageSize, std::string secondaryResource, float secondaryResourceStorageSize) {
+	void GeneticCodeFactory::addBranch(GeneticClauseList* clauses, float energyCost, float primaryResourceCost, float backwardCostMultiplier, float maxSize, Color color, unsigned int numLeafSpawnpoints, unsigned int numStickSpawnpoints, unsigned int numBranchSpawnPoints, unsigned int numStickAndBranchSpawnpoints, float branchMutation, std::string primaryResource, float primaryResourceStorageSize, float energyStorageSize, std::string secondaryResource, float secondaryResourceStorageSize) {
 				// Spawn Action
 		GeneticANDCondition* gAndCond = new GeneticANDCondition();
 		GeneticORCondition* gOrCond = new GeneticORCondition();
@@ -297,8 +299,6 @@ namespace EDen {
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Spawn Branch"));
 
 				// Spawn Backwards Action
-		float backwardCostMultiplier = 20.0f;
-
 		gAndCond = new GeneticANDCondition();
 		gOrCond = new GeneticORCondition();
 		compAct = new GeneticCompoundAction();
@@ -396,7 +396,7 @@ namespace EDen {
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Branch Creation"));
 	};
 
-	void GeneticCodeFactory::addStick(GeneticClauseList* clauses, float energyCost, float primaryResourceCost, float maxSize, Color color, unsigned int numLeafSpawnpoints, unsigned int numStickSpawnpoints, unsigned int numBranchSpawnpoints, unsigned int numStickAndBranchSpawnpoints, unsigned int numSeedSpawnpoints, std::string primaryResource, float primaryResourceStorageSize, float energyStorageSize, std::string secondaryResource, float secondaryResourceStorageSize) {
+	void GeneticCodeFactory::addStick(GeneticClauseList* clauses, float energyCost, float primaryResourceCost, float backwardCostMultiplier, float maxSize, Color color, unsigned int numLeafSpawnpoints, unsigned int numStickSpawnpoints, unsigned int numBranchSpawnpoints, unsigned int numStickAndBranchSpawnpoints, unsigned int numSeedSpawnpoints, std::string primaryResource, float primaryResourceStorageSize, float energyStorageSize, std::string secondaryResource, float secondaryResourceStorageSize) {
 				// Spawn Action
 		GeneticANDCondition* gAndCond = new GeneticANDCondition();
 		GeneticORCondition* gOrCond = new GeneticORCondition();
@@ -419,8 +419,6 @@ namespace EDen {
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Spawn Stick"));
 		
 		   // Backward Spawn Action
-		float backwardCostMultiplier = 20.0f;
-
 		gAndCond = new GeneticANDCondition();
 		gOrCond = new GeneticORCondition();
 		compAct = new GeneticCompoundAction();

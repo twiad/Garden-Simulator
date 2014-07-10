@@ -835,4 +835,60 @@ namespace EDen {
     return element;
   };
 
+  ////////////////////////////////////////////////////////////////////////
+
+  GeneticSpawnParentAction::GeneticSpawnParentAction(Bodypart* p_bp, BodypartType p_typeToSpawn):GeneticAction(GAT_SpawnParentBP) {
+    bp = p_bp;
+	typeToSpawn = p_typeToSpawn;
+  };
+
+  GeneticSpawnParentAction::GeneticSpawnParentAction(TiXmlElement* description, Bodypart* p_bp): GeneticAction(GAT_SpawnParentBP) {
+    setBodypart(p_bp);
+	 int type;
+    description->QueryIntAttribute("Type",&type);
+    typeToSpawn = (BodypartType)type;
+  };
+
+  GeneticSpawnParentAction::~GeneticSpawnParentAction() {
+    
+  };
+
+  bool GeneticSpawnParentAction::execute() {
+	Bodypart* parent = bp->getParentBodypart();
+	if(parent != 0) {
+		parent->unregisterChildBodypart(bp);
+		Bodypart* newParent = new Bodypart(typeToSpawn,parent->getGeneticCode()->copy(),parent->getParentOrganism(),parent);
+    
+		if(newParent->spawnPointAvailable(bp->getBodypartType()) && parent->spawnBodypart(newParent)) {
+			newParent->spawnBodypart(bp);
+			return true;
+		}
+		else {
+		  newParent->destroy();
+		  delete newParent;
+		  parent->spawnBodypart(bp);
+		  return false;
+		}
+	}
+	else {
+		return false;
+	}
+  };
+
+  bool GeneticSpawnParentAction::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart;
+    return true;
+  };
+  
+  GeneticAction* GeneticSpawnParentAction::copy() {
+    return new GeneticSpawnParentAction(0,typeToSpawn);
+  };
+
+  TiXmlElement* GeneticSpawnParentAction::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("SpawnParentAction");
+	element->SetAttribute("Type",(int)typeToSpawn);
+    return element;
+  };
+
 } // namespace

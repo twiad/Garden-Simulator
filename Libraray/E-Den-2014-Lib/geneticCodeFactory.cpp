@@ -250,6 +250,10 @@ namespace EDen {
 		gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, energyAmount, "Energie"));
 		gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more, energyPercentage, "Energie"));
       
+
+		//changed here for testing
+		compAct->add(new GeneticSpawnParentAction(0,BPT_Stick));
+
 		compAct->add(new GeneticSimpleMutateAction(0, seedMutation));
 		compAct->add(new GeneticDropSeedAction(0, true));
     

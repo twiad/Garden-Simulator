@@ -34,6 +34,7 @@ namespace EDen {
     else if(type == "ChemicalConsumeAction") return new GeneticChemicalConsumeAction(description);
     else if(type == "SetColorAction") return new GeneticSetColorAction(description);
     else if(type == "SpawnBodypartAction") return new GeneticSpawnBodypartAction(description);
+	else if(type == "SpawnParentAction") return new GeneticSpawnParentAction(description);
     else if(type == "ChangeMaxChemicalAmountAction") return new GeneticChangeMaxChemicalAmountAction(description);
     else if(type == "AddSpawnpointAction") return new GeneticAddSpawnpointAction(description);
     else if(type == "GrowAction") return new GeneticGrowAction(description);

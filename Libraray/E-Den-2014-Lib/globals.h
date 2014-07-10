@@ -147,6 +147,7 @@ namespace EDen {
     GAT_ChangeMaxSize = 510,
     GAT_AddSpawnpoint = 520,
     GAT_SpawnBP = 530,
+	GAT_SpawnParentBP = 531,
     GAT_SetColor = 540,
 
 // and the last and least

@@ -324,6 +324,21 @@ namespace EDen {
     virtual TiXmlElement* toXmlElement();
   };
 
+  class GeneticSpawnParentAction: public GeneticAction {
+  protected:
+    Bodypart* bp;
+	BodypartType typeToSpawn;	
+  public:
+	GeneticSpawnParentAction(Bodypart* p_bp = 0, BodypartType p_typeToSpawn = BPT_Stick);
+    GeneticSpawnParentAction(TiXmlElement* description, Bodypart* p_bp = 0);
+    virtual ~GeneticSpawnParentAction();
+
+    virtual bool execute();
+    virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticAction* copy();
+    virtual TiXmlElement* toXmlElement();
+  };
+
 } // namespace
 
 #endif

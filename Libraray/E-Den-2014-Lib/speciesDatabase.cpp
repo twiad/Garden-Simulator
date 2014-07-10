@@ -10,7 +10,7 @@
 #define ORGS_TO_SAVE 100
 #define CANDIDATES_COUNT 200
 #define MAX_SIZE 2000
-#define LOWEST_SPECIES_SELECTION_COUNT 3
+#define LOWEST_SPECIES_SELECTION_COUNT 2
 #define XML_VERSION_STRING "0.1.0.3"
 
 namespace EDen {
@@ -487,22 +487,23 @@ namespace EDen {
 
   int SpeciesDatabase::getNextSpeciesId() {
     int speciesId;
-    static int lowest_species_count = 10;
+    static int lowest_species_count = LOWEST_SPECIES_SELECTION_COUNT;
 
     if(!speciesSelectionAlternater2) {
-      if(speciesSelectionAlternater) {
+      //if(speciesSelectionAlternater) {
         speciesId = getSpeciesIdWithLowestCount();
-        if(lowest_species_count++ > LOWEST_SPECIES_SELECTION_COUNT) {
-          speciesSelectionAlternater = !speciesSelectionAlternater;
-          lowest_species_count = 0;
-        };
-      }
-      else {
-        speciesId = getSpeciesIdWithHighestCount();
-        speciesSelectionAlternater2 = !speciesSelectionAlternater2;
         speciesSelectionAlternater = !speciesSelectionAlternater;
-      };
-      
+      //}
+  //    else {
+  //      speciesId = getSpeciesIdWithHighestCount();
+		//speciesSelectionAlternater = !speciesSelectionAlternater;
+		//
+  //    };
+
+      if(lowest_species_count++ >= LOWEST_SPECIES_SELECTION_COUNT) {
+		speciesSelectionAlternater2 = !speciesSelectionAlternater2;
+		lowest_species_count = 0;
+	  }	
     }
     else {
       std::map<unsigned int,OneSpeciesDatabase*>::iterator it;
@@ -567,7 +568,7 @@ namespace EDen {
   {
     doc = new TiXmlDocument();
 
-    TiXmlDeclaration * decl = new TiXmlDeclaration("1.0", "", "");
+    TiXmlDeclaration * decl = new TiXmlDeclaration("1.01", "", "");
     TiXmlElement * element1 = new TiXmlElement("E-DEN-CodeDefinition");
     TiXmlElement * element2 = new TiXmlElement("Version");
     TiXmlElement * element3 = new TiXmlElement("Database");

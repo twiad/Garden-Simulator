@@ -277,7 +277,9 @@ namespace EDen {
         childBodyparts.push_back(bp);
         bp->parentBodypart = this;
         bp->setScaleModifier(getSpawnpointInformationForBodypart(bp)->scaleModifier);
-        bp->init();
+		if(bp->getBodypartState() !=  BSP_alive) {
+			bp->init();
+		}
         return true;
       }
     };

@@ -33,12 +33,12 @@ namespace EDen {
 		}
 
 		float growthEnergyUseAmount = 0.5f;
-		float seedDropEnergyAmount = 600.0f;
+		float seedDropEnergyAmount = 500.0f;
 		float seedMutation = 1.0f;
 		float branchMutation = 0.1f;
 
 		float branchMaxSize = Randomizer::value(5.0f,15.0f);
-		int branchNumLeafSpawnpoints = 1;
+		int branchNumLeafSpawnpoints = 2;
 		int branchNumStickOrBranchSpawnpoints = 3;
 		int branchNumBranchSpawnpoints = 0;
 		int branchNumStickSpawnpoints = 2;
@@ -296,6 +296,29 @@ namespace EDen {
       
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Spawn Branch"));
 
+				// Spawn Backwards Action
+		float backwardCostMultiplier = 20.0f;
+
+		gAndCond = new GeneticANDCondition();
+		gOrCond = new GeneticORCondition();
+		compAct = new GeneticCompoundAction();
+      
+		gOrCond->add(new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal));
+		gOrCond->add(new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal));
+        
+		gAndCond->add(new GeneticBodypartStateCondition(BSP_alive, GBT_equal));
+		gAndCond->add(gOrCond);
+		gAndCond->add(new GeneticParentSpawnpointPresentCondition(BPT_Branch));
+		gAndCond->add(new GeneticBodypartSizeCondition(GBT_more, 4.5f));
+		gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, energyCost * backwardCostMultiplier, "Energie"));
+		gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, primaryResourceCost * backwardCostMultiplier, primaryResource));
+      
+		compAct->add(new GeneticSpawnParentAction(0, BPT_Branch));
+		compAct->add(new GeneticChemicalConsumeAction("Energie", energyCost));
+		compAct->add(new GeneticChemicalConsumeAction(primaryResource, primaryResourceCost));
+      
+		clauses->push_back(new GeneticClause(gAndCond, compAct, "Spawn Branch Backward"));
+
 				// Creation Action
 		gAndCond = new GeneticANDCondition();
 		compAct = new GeneticCompoundAction();
@@ -304,13 +327,19 @@ namespace EDen {
 		bpts.push_back(BPT_Branch);
 		bpts.push_back(BPT_Stick);
 
+		std::list<BodypartType> backwardSpwanpoint;
+		backwardSpwanpoint.push_back(BPT_Branch);
+		backwardSpwanpoint.push_back(BPT_Stick);
+		backwardSpwanpoint.push_back(BPT_Seed);
+
 		GeneticCondition* cond = new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal);
 		gAndCond->add(cond);
 		gAndCond->add(new GeneticBodypartCreationCondition());
 
-		//backwardSpawn
-		compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f));
+		//backwardSpawnpoints
+		compAct->add(new GeneticAddSpawnpointAction(backwardSpwanpoint, 0, 1.0f, 180.0f));
 
+		//other spawnpoints
 		unsigned int sumSpawnpoints = numStickAndBranchSpawnpoints + numBranchSpawnPoints + numStickSpawnpoints + numLeafSpawnpoints;
 		if(sumSpawnpoints > 0) {
 			float singleScaleModifierStep = 0.5f / sumSpawnpoints;
@@ -390,7 +419,7 @@ namespace EDen {
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Spawn Stick"));
 		
 		   // Backward Spawn Action
-		float backwardCostMultiplier = 2.0f;
+		float backwardCostMultiplier = 20.0f;
 
 		gAndCond = new GeneticANDCondition();
 		gOrCond = new GeneticORCondition();
@@ -407,8 +436,8 @@ namespace EDen {
 		gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, primaryResourceCost * backwardCostMultiplier, primaryResource));
       
 		compAct->add(new GeneticSpawnParentAction(0, BPT_Stick));
-		compAct->add(new GeneticChemicalConsumeAction("Energie", energyCost * backwardCostMultiplier));
-		compAct->add(new GeneticChemicalConsumeAction(primaryResource, primaryResourceCost * backwardCostMultiplier));
+		compAct->add(new GeneticChemicalConsumeAction("Energie", energyCost));
+		compAct->add(new GeneticChemicalConsumeAction(primaryResource, primaryResourceCost));
       
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Spawn Stick Backward"));
 

@@ -138,6 +138,23 @@ namespace EDen {
     virtual TiXmlElement* toXmlElement();
   };
 
+  class GeneticParentSpawnpointPresentCondition: public GeneticCondition {
+  protected:  
+    Bodypart* bp;
+    BodypartType bpType;
+  public:
+    GeneticParentSpawnpointPresentCondition(BodypartType param_bpType, Bodypart* param_bodypart = 0): 
+        GeneticCondition(GCT_ParentSpawnpointPresent), bp(param_bodypart), bpType(param_bpType) {};
+    GeneticParentSpawnpointPresentCondition(TiXmlElement* description, Bodypart * param_bp = 0);
+
+    virtual ~GeneticParentSpawnpointPresentCondition();
+
+    virtual bool fullfilled();
+    virtual bool setBodypart(Bodypart* param_bodypart);
+    virtual GeneticCondition* copy();
+    virtual TiXmlElement* toXmlElement();
+  };
+
   class GeneticHealthpointsCondition: public GeneticCondition {
   protected:
     Bodypart* bp;

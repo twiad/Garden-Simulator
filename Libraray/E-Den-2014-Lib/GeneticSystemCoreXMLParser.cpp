@@ -21,6 +21,7 @@ namespace EDen {
     else if(type == "SizeCondition") return new GeneticBodypartSizeCondition(description);
     else if(type == "CreationCondition") return new GeneticBodypartCreationCondition(description);
     else if(type == "SpawnpointPresentCondition") return new GeneticSpawnpointPresentCondition(description);
+	else if(type == "ParentSpawnpointPresentCondition") return new GeneticParentSpawnpointPresentCondition(description);
     else if(type == "CanGrowCondition") return new GeneticCanGrowCondition(description);
     else if(type == "HasParentCondition") return new GeneticHasParentCondition(description);
     else return 0;

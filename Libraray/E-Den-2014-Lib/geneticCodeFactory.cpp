@@ -250,10 +250,6 @@ namespace EDen {
 		gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, energyAmount, "Energie"));
 		gAndCond->add(new GeneticChemicalCondition(GCC_percentage_more, energyPercentage, "Energie"));
       
-
-		//changed here for testing
-		compAct->add(new GeneticSpawnParentAction(0,BPT_Stick));
-
 		compAct->add(new GeneticSimpleMutateAction(0, seedMutation));
 		compAct->add(new GeneticDropSeedAction(0, true));
     
@@ -392,6 +388,29 @@ namespace EDen {
 		compAct->add(new GeneticChemicalConsumeAction(primaryResource, primaryResourceCost));
       
 		clauses->push_back(new GeneticClause(gAndCond, compAct, "Spawn Stick"));
+		
+		   // Backward Spawn Action
+		float backwardCostMultiplier = 2.0f;
+
+		gAndCond = new GeneticANDCondition();
+		gOrCond = new GeneticORCondition();
+		compAct = new GeneticCompoundAction();
+      
+		gOrCond->add(new GeneticBodypartTypeCondition(BPT_Stick, GBT_equal));
+		gOrCond->add(new GeneticBodypartTypeCondition(BPT_Branch, GBT_equal));
+        
+		gAndCond->add(new GeneticBodypartStateCondition(BSP_alive, GBT_equal));
+		gAndCond->add(gOrCond);
+		gAndCond->add(new GeneticParentSpawnpointPresentCondition(BPT_Stick));
+		gAndCond->add(new GeneticBodypartSizeCondition(GBT_more, 4.5f));
+		gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, energyCost * backwardCostMultiplier, "Energie"));
+		gAndCond->add(new GeneticChemicalCondition(GCC_current_value_more, primaryResourceCost * backwardCostMultiplier, primaryResource));
+      
+		compAct->add(new GeneticSpawnParentAction(0, BPT_Stick));
+		compAct->add(new GeneticChemicalConsumeAction("Energie", energyCost * backwardCostMultiplier));
+		compAct->add(new GeneticChemicalConsumeAction(primaryResource, primaryResourceCost * backwardCostMultiplier));
+      
+		clauses->push_back(new GeneticClause(gAndCond, compAct, "Spawn Stick Backward"));
 
 				// Creation Action
 		gAndCond = new GeneticANDCondition();
@@ -411,7 +430,7 @@ namespace EDen {
 		bpts.push_back(BPT_Branch);
 		bpts.push_back(BPT_Stick);
 
-		compAct->add(new GeneticAddSpawnpointAction(bpts, 0, 1.0f, 180.0f));
+		compAct->add(new GeneticAddSpawnpointAction(backSpawnpoint, 0, 1.0f, 180.0f));
 
 		unsigned int sumSpawnpoints = numStickAndBranchSpawnpoints + numBranchSpawnpoints + numStickSpawnpoints + numLeafSpawnpoints + numSeedSpawnpoints;
 		if(sumSpawnpoints > 0) {

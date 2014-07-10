@@ -85,7 +85,7 @@ namespace EDen {
     bool addSpawnpoint(BodypartType param_bpType, int param_position = 0);
     bool addSpawnpoint(SpawnpointInformation* sp);
 
-    virtual bool spawnBodypart(Bodypart* bp);
+    virtual bool spawnBodypart(Bodypart* bp, SpawnpointInformation* spawnpointSuggestion = 0, SpawnpointInformation* partnerSpawnpointSuggestion = 0);
     virtual bool spawnPointAvailable(BodypartType bpType = BPT_UNKNOWN);
 
     ChemicalStorageLink* connectStorageToBodypart(Bodypart* bp);
@@ -97,7 +97,7 @@ namespace EDen {
     SpawnpointInformationList* getSpawnpoints();
     SpawnpointInformation* getSpawnpointInformationForBodypart(Bodypart* param_bp);
 
-    bool occupieSpawnpoint(Bodypart* param_odypart);
+    bool occupieSpawnpoint(Bodypart* param_odypart, SpawnpointInformation* spawnpointSuggestion = 0);
 
     bool detachFromOrganism();
     bool unregisterChildBodypart(Bodypart* param_childBodypart, bool blockSpawnpointForBodypartType = false);
@@ -107,6 +107,7 @@ namespace EDen {
     float getHealthpoints();
     bool hurt(float damage);
     bool heal(float health);
+	bool die();
 
     float getMaxSize();
     bool setMaxSize(float param_maxSize);

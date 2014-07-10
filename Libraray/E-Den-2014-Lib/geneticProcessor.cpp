@@ -100,7 +100,9 @@ namespace EDen {
         GeneticClause* clause = relevantClauses.back();
         //if(clause->description == "Spawn Seed")
         //  bla += 1;
+
         clause->run();
+
         //deleteMe is not used at the moment
         //if(!relevantClauses.back()->deleteMe)
 

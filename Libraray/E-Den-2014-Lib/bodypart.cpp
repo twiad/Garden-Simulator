@@ -105,7 +105,10 @@ namespace EDen {
   };
   
   Bodypart::~Bodypart() {
-    if(parentOrganism != 0) parentOrganism->unregisterBodypart(this);
+    if(parentOrganism != 0) {
+		parentOrganism->unregisterBodypart(this);
+	}
+
     destroy();
     delete genProcessor;
     genProcessor = 0;
@@ -216,16 +219,31 @@ namespace EDen {
     return true;
   };
 
-  bool Bodypart::occupieSpawnpoint(Bodypart* param_bodypart) {
+  bool Bodypart::occupieSpawnpoint(Bodypart* param_bodypart, SpawnpointInformation* spawnpointSuggestion) {
     bool foundSomething = false;
-    for(SpawnpointInformationListIterator it = spawnpoints.begin(); it != spawnpoints.end(); it++) {
-      if(((*it)->isSupportedType(param_bodypart->getBodypartType())) && ((*it)->occupied == false)) {
-        (*it)->occupied = true;
-        (*it)->connectedBodypart = param_bodypart;
-        foundSomething = true;
-        break;
-      }
-    };
+
+	if(spawnpointSuggestion != 0) {
+		for(SpawnpointInformationListIterator it = spawnpoints.begin(); it != spawnpoints.end(); it++) {
+			if(((*it) == spawnpointSuggestion) && ((*it)->isSupportedType(param_bodypart->getBodypartType())) && ((*it)->occupied == false)) {
+				(*it)->occupied = true;
+				(*it)->connectedBodypart = param_bodypart;
+				foundSomething = true;
+			break;
+		  }
+		};
+	}
+	else {
+		for(SpawnpointInformationListIterator it = spawnpoints.begin(); it != spawnpoints.end(); it++) {
+		  if(((*it)->isSupportedType(param_bodypart->getBodypartType())) && ((*it)->occupied == false)) {
+			(*it)->occupied = true;
+			(*it)->connectedBodypart = param_bodypart;
+			foundSomething = true;
+			break;
+		  }
+		};
+	}
+
+    
     return foundSomething;
   };
 
@@ -261,18 +279,29 @@ namespace EDen {
     return true;
   };
 
-  bool Bodypart::spawnBodypart(Bodypart* bp) { 
-    if((!spawnPointAvailable(bp->getBodypartType())) || (!bp->spawnPointAvailable(bpType))) {
+  bool Bodypart::spawnBodypart(Bodypart* bp, SpawnpointInformation* spawnpointSuggestion, SpawnpointInformation* partnerSpawnpointSuggestion) { 
+    if(((spawnpointSuggestion != 0) && !spawnPointAvailable(bp->getBodypartType())) || ((partnerSpawnpointSuggestion != 0) && !bp->spawnPointAvailable(bpType))) {
       return false;
     }
     else {
-      if((!occupieSpawnpoint(bp)) || (!bp->occupieSpawnpoint(this))) {
+	  if(partnerSpawnpointSuggestion == 0) {
+		  for(SpawnpointInformationListIterator it = bp->getSpawnpoints()->begin(); it != bp->getSpawnpoints()->end(); it++) {
+			  if((*it)->position == 0 && (*it)->occupied == false && (*it)->isSupportedType(getBodypartType())) {
+				  partnerSpawnpointSuggestion = (*it);
+				  break;
+			  };
+		  }
+	  }
+
+      if((!occupieSpawnpoint(bp,spawnpointSuggestion)) || (!bp->occupieSpawnpoint(this,partnerSpawnpointSuggestion))) {
         return false;
       }
       else {
         if(parentOrganism != 0) {
-          parentOrganism->registerBodypart(bp);
-          parentOrganism->addChemicalStorageLink(connectStorageToBodypart(bp));
+		  //if(bp->getParentOrganism() != parentOrganism) {
+			parentOrganism->registerBodypart(bp);
+			parentOrganism->addChemicalStorageLink(connectStorageToBodypart(bp));
+		  //}
         };
         childBodyparts.push_back(bp);
         bp->parentBodypart = this;
@@ -415,7 +444,7 @@ namespace EDen {
   };
 
   bool Bodypart::detachToNowhere(bool blockSpawnpointForBodypartType) {
-  RuntimeManager* runtime;
+	RuntimeManager* runtime = 0;
 
     std::string name = "Parentless Organism";
     if(parentBodypart != 0) {
@@ -503,6 +532,23 @@ namespace EDen {
 
     return true;
   };
+
+  bool Bodypart::die() {
+	for(BodypartListIterator it = childBodyparts.begin(); it != childBodyparts.end(); it++) {
+		(*it)->die();
+	}
+
+	setMaxSize(0.0f);
+    shrink(0.0f);
+    setBodypartState(BSP_dead);
+
+    if(parentOrganism) {
+      RuntimeManager* rm = parentOrganism->getRuntimeManager();
+      if(rm) rm->unregisterBodypart(this);
+    };
+
+	return true;
+  }
 
   bool SpawnpointInformation::isSupportedType(BodypartType param_bpType) {
     bool foundOne = false;

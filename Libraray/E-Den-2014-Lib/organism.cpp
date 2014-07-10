@@ -80,8 +80,31 @@ namespace EDen {
   };
 
   bool Organism::registerBodypart(Bodypart* param_bodypart) {
-    bodyparts.push_back(param_bodypart);
-    geneticProcessors.push_back(param_bodypart->getGeneticProcessor());
+	bool foundOne = false;
+	for(BodypartListIterator it = bodyparts.begin(); it != bodyparts.end(); it++) {
+		if((*it) == param_bodypart) {
+			foundOne = true;
+			break;
+		}
+	}
+	
+	if(!foundOne) {
+		bodyparts.push_back(param_bodypart);
+	}
+
+	foundOne = false;
+	GeneticProcessor* proc = param_bodypart->getGeneticProcessor();
+	for(GeneticProcessorListIterator it = geneticProcessors.begin(); it != geneticProcessors.end(); it++) {
+		if((*it) == proc) {
+			foundOne = true;
+			break;
+		}
+	}
+
+	if(!foundOne) {
+		geneticProcessors.push_back(proc);
+	}
+    
     param_bodypart->setParentOrganism(this);
     if(runtimeManager) {
       runtimeManager->registerBodypart(param_bodypart);
@@ -307,11 +330,12 @@ namespace EDen {
     GeneticProcessorList newProcs;
     GeneticProcessor* lastProc;
     
-    while(!geneticProcessors.empty()) {
+//	geneticProcessors.unique();
+	while(!geneticProcessors.empty()) {
 //      do {
 		lastProc = geneticProcessors.front();
-		geneticProcessors.pop_front();
         lastProc->executeRelevantClauses();
+		geneticProcessors.remove(lastProc);
 //      } 
 //      while((!geneticProcessors.empty()) && (lastProc != geneticProcessors.back()));
 //      if(!geneticProcessors.empty()) 
@@ -357,7 +381,11 @@ namespace EDen {
 
       if(bp->getParentOrganism() != 0) {
         bp->detachFromOrganism();
-      };
+      }
+	  else {
+		removeChemStorageLinksWithBodypart(bp);
+		removeGeneticProcessorWithBodypart(bp);
+	  }
       
       delete bp;
     }

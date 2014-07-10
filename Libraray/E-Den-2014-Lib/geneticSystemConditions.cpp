@@ -588,6 +588,43 @@ namespace EDen {
     else return false;
   };
 
+  GeneticParentSpawnpointPresentCondition::GeneticParentSpawnpointPresentCondition(TiXmlElement* desc, Bodypart* param_bp): GeneticCondition(GCT_SpawnpointPresent) {
+    desc->QueryIntAttribute("Type",(int*)&bpType);
+    
+    setBodypart(param_bp);
+  };
+
+  GeneticParentSpawnpointPresentCondition::~GeneticParentSpawnpointPresentCondition() {
+    // GeneticCondition::~GeneticCondition();       
+  };
+
+  GeneticCondition* GeneticParentSpawnpointPresentCondition::copy() {
+    return new GeneticParentSpawnpointPresentCondition(bpType);
+  };
+
+  TiXmlElement* GeneticParentSpawnpointPresentCondition::toXmlElement() {
+    TiXmlElement* element;
+    element = new TiXmlElement("ParentSpawnpointPresentCondition");
+
+    element->SetAttribute("Type",(int)bpType);
+
+    return element;
+  };
+
+  bool GeneticParentSpawnpointPresentCondition::setBodypart(Bodypart* param_bodypart) {
+    bp = param_bodypart; 
+    return true;
+  };
+
+  bool GeneticParentSpawnpointPresentCondition::fullfilled() {
+	if(bp->getParentBodypart() != 0 && 
+		bp->getParentBodypart()->getSpawnpointInformationForBodypart(bp) != 0 &&
+		bp->getParentBodypart()->getSpawnpointInformationForBodypart(bp)->isSupportedType(bpType)) {
+			return true;
+	}
+    else return false;
+  };
+
   GeneticCanGrowCondition::GeneticCanGrowCondition(Bodypart* param_bp): GeneticCondition(GCT_BodypartSize) {
     setBodypart(param_bp);
   };

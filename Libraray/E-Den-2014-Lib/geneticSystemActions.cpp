@@ -656,16 +656,7 @@ namespace EDen {
   };
   
   bool GeneticDieAction::execute() {
-    bp->setMaxSize(0.0f);
-    bp->shrink(0.0f);
-    bp->setBodypartState(BSP_dead);
-
-    Organism* org = bp->getParentOrganism();
-    if(org) {
-      RuntimeManager* rm = org->getRuntimeManager();
-      if(rm) rm->unregisterBodypart(bp);
-    };
-    return true;
+    return bp->die();
   };
 
   GeneticEmptyChemicalStorageAction::GeneticEmptyChemicalStorageAction(Bodypart* param_bodypart):GeneticAction(GAT_ChemicalConsume) {
@@ -835,8 +826,6 @@ namespace EDen {
     return element;
   };
 
-  ////////////////////////////////////////////////////////////////////////
-
   GeneticSpawnParentAction::GeneticSpawnParentAction(Bodypart* p_bp, BodypartType p_typeToSpawn):GeneticAction(GAT_SpawnParentBP) {
     bp = p_bp;
 	typeToSpawn = p_typeToSpawn;
@@ -856,17 +845,35 @@ namespace EDen {
   bool GeneticSpawnParentAction::execute() {
 	Bodypart* parent = bp->getParentBodypart();
 	if(parent != 0) {
+		SpawnpointInformation* spawnpoint = bp->getSpawnpointInformationForBodypart(parent);
+		SpawnpointInformation* parentSpawnpoint = parent->getSpawnpointInformationForBodypart(bp);
+
 		parent->unregisterChildBodypart(bp);
-		Bodypart* newParent = new Bodypart(typeToSpawn,parent->getGeneticCode()->copy(),parent->getParentOrganism(),parent);
+		RuntimeManager* runtime = 0;
+		Organism* org = bp->getParentOrganism();
+		if(org != 0) {
+			//remove storage link, but not the processor
+			org->unregisterBodypart(bp);
+			runtime = org->getRuntimeManager();
+			runtime->unregisterBodypart(bp);
+		}
+		
+		Bodypart* newParent = new Bodypart(typeToSpawn,parent->getGeneticCode()->copy());
     
-		if(newParent->spawnPointAvailable(bp->getBodypartType()) && parent->spawnBodypart(newParent)) {
-			newParent->spawnBodypart(bp);
+		if(newParent->spawnPointAvailable(bp->getBodypartType()) && parent->spawnBodypart(newParent,parentSpawnpoint)) {
+			newParent->spawnBodypart(bp,0,spawnpoint); //prevent spawn from registering processor at organism, but register new storage links
 			return true;
 		}
 		else {
 		  newParent->destroy();
-		  delete newParent;
-		  parent->spawnBodypart(bp);
+		  if(runtime) {
+			  runtime->addDelete(newParent);
+		  }
+		  else {
+			  delete newParent;
+		  }
+		  
+		  parent->spawnBodypart(bp,parentSpawnpoint,spawnpoint);  //prevent spawn from registering processor
 		  return false;
 		}
 	}

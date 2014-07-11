@@ -4,7 +4,6 @@
 #ifndef _E_DEN_GLOBALS_HEADER_
 #define _E_DEN_GLOBALS_HEADER_
 
-#include "stdafx.h"
 #include <list>
 #include <map>
 #include <boost/thread.hpp> 
@@ -51,7 +50,7 @@ namespace EDen {
   {
 	if (a && b && a != b && a <= li.size() && b <= li.size())
 	{
-		std::list<T>::iterator it_a, it_b = it_a = li.begin();
+		typename std::list<T>::iterator it_a, it_b = it_a = li.begin();
 
 		std::advance(it_a, --a);
 		std::advance(it_b, --b);

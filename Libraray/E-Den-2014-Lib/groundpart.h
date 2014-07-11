@@ -58,7 +58,7 @@ namespace EDen {
 	  int* heightmap;
 	  
 	  std::map<Organism* ,int> plantPositionMemory;
-	  std::map<int, std::list<Organism*>> alivePlantPositions;
+	  std::map<int, std::list<Organism*> > alivePlantPositions;
 	  typedef std::map<Organism* ,int>::iterator plantPositionMemoryIterator;
 
 	  void randomizeHeights();
@@ -73,7 +73,7 @@ namespace EDen {
 	  virtual bool dropOrganism(Organism* param_organism, Bodypart* param_parentBodypart);
 	  
 	  int getOrganismX(Organism* param_organism);
-	  Organism* SingleDimensionHeightmapGroundpart::getOrganismNearX(int posX);
+	  Organism* getOrganismNearX(int posX);
 	  bool isOccupiedByAlivePlant(int posX);
 
 	  float getHeightAt(int posX);

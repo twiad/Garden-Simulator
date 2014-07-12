@@ -68,11 +68,10 @@ RuntimeManager* runtime;
 RuntimeManager* runtime2;
 int cyclecount = 0;
 
-w_char appSettingsPath[MAX_PATH];
-char appSettingsPathP[MAX_PATH];
+char* appSettingsPathP;
 
 bool printall;
-bool pause = false;
+bool paused = false;
 bool slowMode = false;
 int fastmode = 0;
 
@@ -163,7 +162,7 @@ void addRandomOrganism() {
 }
 
 void sdl_run(int cycles) {
-  if(!pause) {
+  if(!paused) {
 	  if(fastmode == 0) {
 		  run(cycles);
 	  }
@@ -197,12 +196,12 @@ void sdl_run(int cycles) {
 }
 
 void updateRuntimeState() {
-  if(slowMode && !pause) runtime->setState(RMS_Slow);
-  else if(pause) runtime->setState(RMS_Pause);
+  if(slowMode && !paused) runtime->setState(RMS_Slow);
+  else if(paused) runtime->setState(RMS_Pause);
   else runtime->setState(RMS_Normal);
 
   if(activePrinter) {
-	  if(pause) {
+	  if(paused) {
 		  activePrinter->setStatusLabelText("Paused");
 	  }
 	  else if(slowMode) {
@@ -242,7 +241,7 @@ bool wait_for_events()
 	          quit = true;			
           else if ( key[0] == 'S'  )  {
 			if(key[1] == 'p') {
-				pause = !pause;
+				paused = !paused;
 				updateRuntimeState();
 			}
 		  }
@@ -276,7 +275,7 @@ bool wait_for_events()
 			  if(op4) op4->setDrawLightDebug(!op4->getDrawLightDebug());
           }
           else if ( key[0] == 'P'  ) { //pause if 'p' is pressed
-            pause = !pause;
+            paused = !paused;
             updateRuntimeState();
           }
           else if ( key[0] == 'M'  ) {
@@ -345,7 +344,7 @@ bool wait_for_events()
 	  }
 
       if(slowMode) 
-        SleepEx(250,true);
+        SDL_Delay(250);
     }
   } //while
   if(gp) delete gp;
@@ -645,12 +644,12 @@ void simpleSdl_test() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); 
 	SDL_RenderPresent(renderer);
 
-	SleepEx(1500,true);
+        SDL_Delay(1500);
 
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 
-	SleepEx(1500,true);
+	SDL_Delay(1500);
 }
 
 void gwenTest() {
@@ -673,11 +672,11 @@ void gwenTest() {
     // Create a GWEN skin
     Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(pRenderer);
     skin->SetRender(pRenderer);
-    skin->Init("DefaultSkin.png");
+    skin->Init(L"DefaultSkin.png");
     
     // Note, you can get fonts that cover many languages/locales to do Chinese,
     //       Arabic, Korean, etc. e.g. "Arial Unicode" (but it's 23MB!).
-    skin->SetDefaultFont("OpenSans.ttf", 11);
+    skin->SetDefaultFont(L"OpenSans.ttf", 11);
     
     // Create a Canvas (it's root, on which all other GWEN panels are created)
     Gwen::Controls::Canvas* pCanvas = new Gwen::Controls::Canvas(skin);
@@ -723,18 +722,11 @@ void gwenTest() {
     SDL_Quit();
 }
 
-void TCharToChar(const wchar_t* Src, char* Dest, int Size)
-{
-	WideCharToMultiByte(CP_ACP, 0, Src, wcslen(Src)+1, Dest , Size, NULL, NULL);
-}
-
 int main(int argc, char **argv)
 {
-  SHGetSpecialFolderPath(0,appSettingsPath,CSIDL_APPDATA,1);
-  TCharToChar(appSettingsPath, appSettingsPathP, MAX_PATH);
-  char * subdir = "\\eden";
-  strcat(appSettingsPathP,subdir);
-  mkdir(appSettingsPathP);
+  char* tmpString = SDL_GetPrefPath("Twiad","Eden");
+  appSettingsPathP = SDL_strdup(tmpString);
+  SDL_free(tmpString);
 
   cout << "\n\t\tThis is the E-Den-Testbench\n" << endl;
   cout << "loading autosave from " << appSettingsPathP << endl;

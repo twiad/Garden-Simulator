@@ -1,4 +1,5 @@
 GWENDIR=../../gwen/GWEN/gwen
+GWENLIBARCH=linux/gmake
 
 LIBDIR=Libraray
 MAINSRCDIR=E-Den-2014-Solution/E-Den-2014-Testbench
@@ -9,7 +10,7 @@ LIBOBJECTS=$(LIBDIR)/globals.o $(LIBDIR)/tinyxml.o $(LIBDIR)/tinyxmlerror.o $(LI
 
 MAINOBJECTS=SDLGwenStatusWindow.o SDLGwenStatisticsWindow.o SDLGwenOrgnismInspector.o organismPrinter.o SDL_WindowGroundpart.o E-Den-Testbench.o
 
-all: $(LIBDIR)/libeden.a $(LIBDIR)/libeden.so E-Den-2014
+all: $(LIBDIR)/libeden.so E-Den-2014
 
 $(LIBDIR)/libeden.a: $(LIBOBJECTS)
 		ar rc $@ $^
@@ -21,13 +22,13 @@ $(LIBDIR)/libeden.so: $(LIBOBJECTS)
 $(LIBDIR)/%.o: $(LIBSRCDIR)/%.cpp
 		gcc -fPIC -c -o $@ $^
 
-MAINDEPS=-I$(GWENDIR)/include -L$(GWENDIR)/lib/ -llibgwen_static.a -I$(LIBSRCDIR) -L$(LIBDIR) -llibeden.a
+MAINDEPS=-I$(GWENDIR)/include -L$(GWENDIR)/lib/$(GWENLIBARCH)/ -lgwen_static -lGWEN-Renderer-SDL2 -I$(LIBSRCDIR) -L$(LIBDIR) -leden -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lboost_thread-mt -lboost_system-mt
 
 E-Den-2014: $(MAINOBJECTS)
-		g++ -Wall $(MAINDEPS) -o $@ $^
+		g++ -Wall -static $(MAINDEPS) -o $@ $^
 
 %.o: $(MAINSRCDIR)/%.cpp
 		gcc -fPIC $(MAINDEPS) -c -o $@ $^
 
 clean:
-		rm $(LIBDIR)/libeden.a $(LIBDIR)/libeden.so $(LIBOBJECTS)
+		rm $(LIBDIR)/libeden.a $(LIBDIR)/libeden.so $(LIBOBJECTS) $(MAINOBJECTS)

@@ -59,8 +59,8 @@ namespace EDen {
 	gwenRenderer = new Gwen::Renderer::SDL2(renderer);
 	Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(gwenRenderer);
 	skin->SetRender(gwenRenderer);
-	skin->Init("DefaultSkin.png");
-	skin->SetDefaultFont("OpenSans.ttf", 10);
+	skin->Init(L"DefaultSkin.png");
+	skin->SetDefaultFont(L"OpenSans.ttf", 10);
 
 	pCanvas = new Gwen::Controls::Canvas(skin);
 	pCanvas->SetSize(dimx, dimy);
@@ -72,43 +72,43 @@ namespace EDen {
 	GwenInput->Initialize(pCanvas);
 
 	waterPlusButton = new Gwen::Controls::Button(pCanvas);
-    waterPlusButton->SetText("W+");
+    waterPlusButton->SetText(L"W+");
 	waterPlusEventHandler = new ResourceButtonEventHandler(this,"Wasser",true);
 	waterPlusButton->onPress.Add(waterPlusEventHandler, &ResourceButtonEventHandler::onClick);
 	waterMinusButton = new Gwen::Controls::Button(pCanvas);
-    waterMinusButton->SetText("W-");
+    waterMinusButton->SetText(L"W-");
 	waterMinusEventHandler = new ResourceButtonEventHandler(this,"Wasser",false);
 	waterMinusButton->onPress.Add(waterMinusEventHandler, &ResourceButtonEventHandler::onClick);
 	gooPlusButton = new Gwen::Controls::Button(pCanvas);
-    gooPlusButton->SetText("G+");
+    gooPlusButton->SetText(L"G+");
 	gooPlusEventHandler = new ResourceButtonEventHandler(this,"Goo",true);
 	gooPlusButton->onPress.Add(gooPlusEventHandler, &ResourceButtonEventHandler::onClick);
 	gooMinusButton = new Gwen::Controls::Button(pCanvas);
-    gooMinusButton->SetText("G-");
+    gooMinusButton->SetText(L"G-");
 	gooMinusEventHandler = new ResourceButtonEventHandler(this,"Goo",false);
 	gooMinusButton->onPress.Add(gooMinusEventHandler, &ResourceButtonEventHandler::onClick);
 	waterPercentageLabel = new Gwen::Controls::Label(pCanvas);
-	waterPercentageLabel->SetText("0%");
+	waterPercentageLabel->SetText(L"0%");
 	waterPercentageLabel->SetAlignment(3);
 	waterPercentageLabel->SetTextColor(Gwen::Color(250,200,0,255));
 	gooPercentageLabel = new Gwen::Controls::Label(pCanvas);
-	gooPercentageLabel->SetText("0%");
+	gooPercentageLabel->SetText(L"0%");
 	gooPercentageLabel->SetAlignment(3);
 	gooPercentageLabel->SetTextColor(Gwen::Color(250,200,0,255));
 	organismsNumberLabel = new Gwen::Controls::Label(pCanvas);
-	organismsNumberLabel->SetText("0/0");
+	organismsNumberLabel->SetText(L"0/0");
 	organismsNumberLabel->SetAlignment(3);
 	organismsNumberLabel->SetTextColor(Gwen::Color(250,200,0,255));
 	organismsPlusButton = new Gwen::Controls::Button(pCanvas);
-	organismsPlusButton->SetText("O+");
+	organismsPlusButton->SetText(L"O+");
 	organismsPlusButtonEventHandler = new OrganismCountButtonEventHandler(this,runtime,organismsNumberLabel,true);
 	organismsPlusButton->onPress.Add(organismsPlusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);
 	organismsMinusButton = new Gwen::Controls::Button(pCanvas);
-	organismsMinusButton->SetText("O-");
+	organismsMinusButton->SetText(L"O-");
 	organismsMinusButtonEventHandler = new OrganismCountButtonEventHandler(this,runtime,organismsNumberLabel,false);
 	organismsMinusButton->onPress.Add(organismsMinusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);	
 	statusWindowButton = new Gwen::Controls::Button(pCanvas);
-	statusWindowButton->SetText("S");
+	statusWindowButton->SetText(L"S");
 	statusWindowButtonEventHandler = new StatusWindowButtonEventHandler(this);
 	statusWindowButton->onPress.Add(statusWindowButtonEventHandler, &StatusWindowButtonEventHandler::onClick);
 	statusLabel = new Gwen::Controls::Label(pCanvas);
@@ -229,14 +229,14 @@ namespace EDen {
 			numEmptySpaces = new_numEmptySpaces;
 			cps = new_cps;
 
-			organismsNumberLabel->SetText(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)).append("@").append(Gwen::Utility::ToString(cps)));
+			organismsNumberLabel->SetText(Gwen::Utility::StringToUnicode(Gwen::Utility::ToString(numOrganisms).append("/").append(Gwen::Utility::ToString(numOrganisms + numEmptySpaces)).append("@").append(Gwen::Utility::ToString(cps))));
 		  }
 		}
 
 		if(waterPercentageLabel) {
 		  float newWaterPercentage = ceilf(chemStorage->getCurrentPercentage("Wasser") * 100) / 100;
 		  if(waterPercentage != newWaterPercentage) {
-			  waterPercentageLabel->SetText(Gwen::Utility::ToString(newWaterPercentage).append("%"));
+		    waterPercentageLabel->SetText(Gwen::Utility::StringToUnicode(Gwen::Utility::ToString(newWaterPercentage).append("%")));
 			  waterPercentage = newWaterPercentage;
 		  }
 		}
@@ -244,7 +244,7 @@ namespace EDen {
 		if(gooPercentageLabel) {
 		  float newGooPercentage = ceilf(chemStorage->getCurrentPercentage("Goo") * 100) / 100;
 		  if(gooPercentage != newGooPercentage) {
-			  gooPercentageLabel->SetText(Gwen::Utility::ToString(newGooPercentage).append("%"));
+		    gooPercentageLabel->SetText(Gwen::Utility::StringToUnicode(Gwen::Utility::ToString(newGooPercentage).append("%")));
 			  gooPercentage = newGooPercentage;
 		  }
 		}
@@ -641,7 +641,7 @@ namespace EDen {
 		posX = orgPosX + (i * 3);
 		windowPosX = (posX - (width / 2)) * scale + (dimx / 2) + renderOffeset;
 
-		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::ShadowState::LIT)) {
+		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::LIT)) {
 			newPosX = posX;
 			emptySlotFound = true;
 		}
@@ -649,7 +649,7 @@ namespace EDen {
 		posX = orgPosX - (i * 3);
 		windowPosX = (posX - (width / 2)) * scale + (dimx / 2) + renderOffeset;
 
-		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::ShadowState::LIT)) {
+		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::LIT)) {
 			newPosX = posX;
 			emptySlotFound = true;
 		}

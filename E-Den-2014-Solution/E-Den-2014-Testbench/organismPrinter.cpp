@@ -160,8 +160,8 @@ namespace EDen {
 	gwenRenderer = new Gwen::Renderer::SDL2(renderer);
 	Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(gwenRenderer);
 	skin->SetRender(gwenRenderer);
-	skin->Init("DefaultSkin.png");
-	skin->SetDefaultFont("OpenSans.ttf", 8);
+	skin->Init(L"DefaultSkin.png");
+	skin->SetDefaultFont(L"OpenSans.ttf", 8);
 
 	pCanvas = new Gwen::Controls::Canvas(skin);
 	pCanvas->SetSize(dimx, dimy);
@@ -173,31 +173,31 @@ namespace EDen {
 	GwenInput->Initialize(pCanvas);
 
 	waterPlusButton = new Gwen::Controls::Button(pCanvas);
-    waterPlusButton->SetText("W+");
+    waterPlusButton->SetText(L"W+");
 	waterPlusEventHandler = new ResourceButtonEventHandler(groundpart,"Wasser",true);
 	waterPlusButton->onPress.Add(waterPlusEventHandler, &ResourceButtonEventHandler::onClick);
 	waterMinusButton = new Gwen::Controls::Button(pCanvas);
-    waterMinusButton->SetText("W-");
+    waterMinusButton->SetText(L"W-");
 	waterMinusEventHandler = new ResourceButtonEventHandler(groundpart,"Wasser",false);
 	waterMinusButton->onPress.Add(waterMinusEventHandler, &ResourceButtonEventHandler::onClick);
 	gooPlusButton = new Gwen::Controls::Button(pCanvas);
-    gooPlusButton->SetText("G+");
+    gooPlusButton->SetText(L"G+");
 	gooPlusEventHandler = new ResourceButtonEventHandler(groundpart,"Goo",true);
 	gooPlusButton->onPress.Add(gooPlusEventHandler, &ResourceButtonEventHandler::onClick);
 	gooMinusButton = new Gwen::Controls::Button(pCanvas);
-    gooMinusButton->SetText("G-");
+    gooMinusButton->SetText(L"G-");
 	gooMinusEventHandler = new ResourceButtonEventHandler(groundpart,"Goo",false);
 	gooMinusButton->onPress.Add(gooMinusEventHandler, &ResourceButtonEventHandler::onClick);
 	organismsNumberLabel = new Gwen::Controls::Label(pCanvas);
-	organismsNumberLabel->SetText("0/0");
+	organismsNumberLabel->SetText(L"0/0");
 	organismsNumberLabel->SetAlignment(3);
 	organismsNumberLabel->SetTextColor(Gwen::Color(250,200,0,255));
 	organismsPlusButton = new Gwen::Controls::Button(pCanvas);
-	organismsPlusButton->SetText("O+");
+	organismsPlusButton->SetText(L"O+");
 	organismsPlusButtonEventHandler = new OrganismCountButtonEventHandler(groundpart,runtime,organismsNumberLabel,true);
 	organismsPlusButton->onPress.Add(organismsPlusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);
 	organismsMinusButton = new Gwen::Controls::Button(pCanvas);
-	organismsMinusButton->SetText("O-");
+	organismsMinusButton->SetText(L"O-");
 	organismsMinusButtonEventHandler = new OrganismCountButtonEventHandler(groundpart,runtime,organismsNumberLabel,false);
 	organismsMinusButton->onPress.Add(organismsMinusButtonEventHandler, &OrganismCountButtonEventHandler::onClick);	
 
@@ -824,7 +824,7 @@ namespace EDen {
 	  bool inserted = false;
 	  for(std::list<shadowInformation>::iterator it = list->begin(); it != list->end(); it++) {
 		  if( (*it).y < info.y)  {
-			  list->emplace(it,info);
+		    list->insert(it,info); // TODO: check this, was emplace before
 			  inserted = true;
 			  break;
 		  }
@@ -870,16 +870,16 @@ namespace EDen {
 	  akku /= 3.0f;
 
 	  if(akku > 0.95f) {
-		  return ShadowState::BLACK;
+		  return BLACK;
 	  }
 	  else if(akku > 0.6f) {
-		  return ShadowState::DARK;
+		  return DARK;
 	  }
 	  else if(akku > 0.05f) {
-		  return ShadowState::LIT;
+		  return LIT;
 	  }
 	  else {
-		  return ShadowState::BRIGHT_LIT;
+		  return BRIGHT_LIT;
 	  }
 	  
   };

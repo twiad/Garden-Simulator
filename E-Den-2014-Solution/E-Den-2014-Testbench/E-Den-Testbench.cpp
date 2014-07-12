@@ -5,9 +5,14 @@
 #include "organismPrinter.h"
 #include "runtimeManager.h"
 #include "geneticCodeFactory.h"
-#include "SDL.h"
-#include "SDL_ttf.h"
-#include "SDL_draw.h"
+
+#ifdef _WIN32
+#  include <SDL.h>
+#  include <SDL2_ttf.h>
+#else
+#  include <SDL2/SDL.h>
+#  include <SDL2/SDL_ttf.h>
+#endif
 
 #include "SDL_WindowGroundpart.h"
 #include "SDLGwenStatusWindow.h"
@@ -20,10 +25,7 @@
 #include <Gwen/Input/SDL2.h>
 #include <Gwen/Renderers/SDL2.h>
 
-#include "shlobj.h"
-#include "Shlwapi.h"
 #include <string.h>
-#include <direct.h>
 
 #define CYCLES_TO_RUN 3000
 #define PRINT_OUT_ALL_N_CYCLES 3000
@@ -66,7 +68,7 @@ RuntimeManager* runtime;
 RuntimeManager* runtime2;
 int cyclecount = 0;
 
-TCHAR appSettingsPath[MAX_PATH];
+w_char appSettingsPath[MAX_PATH];
 char appSettingsPathP[MAX_PATH];
 
 bool printall;

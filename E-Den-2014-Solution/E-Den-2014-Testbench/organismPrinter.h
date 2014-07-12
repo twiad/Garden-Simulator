@@ -6,9 +6,12 @@
 
 #include "organism.h"
 #include "runtimeManager.h"
-#include "SDL.h"
-#include "SDL_draw.h"
-#include "SDL_DirectPixelManipulation.h"
+
+#ifdef _WIN32
+#  include <SDL.h>
+#else
+#  include <SDL2/SDL.h>
+#endif
 
 #include <Gwen/Gwen.h>
 #include <Gwen/Skins/Simple.h>

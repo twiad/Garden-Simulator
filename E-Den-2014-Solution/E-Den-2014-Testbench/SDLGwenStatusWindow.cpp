@@ -15,8 +15,8 @@ namespace EDen {
 
 		Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(pRenderer);
 		skin->SetRender(pRenderer);
-		skin->Init("DefaultSkin.png");
-		skin->SetDefaultFont("OpenSans.ttf", 11);
+		skin->Init(L"DefaultSkin.png");
+		skin->SetDefaultFont(L"OpenSans.ttf", 11);
 
 		pCanvas = new Gwen::Controls::Canvas(skin);
 		pCanvas->SetSize(pos.w, pos.h);
@@ -78,7 +78,7 @@ namespace EDen {
 		unsigned int speciesID;
 		bool foundOne = false;
 
-		for(int i = listBox->GetTable()->RowCount() - 1; i >= 0 ; i--) {
+		for(int i = listBox->GetTable()->NumChildren() - 1; i >= 0 ; i--) {
 			item = listBox->GetTable()->GetRow(i);
 			speciesID = item->UserData.Get<unsigned int>("speciesID");
 			foundOne = false;
@@ -100,7 +100,7 @@ namespace EDen {
 
 		for(std::map<unsigned int,std::string>::iterator itOutputs = outputs.begin(); itOutputs != outputs.end(); itOutputs++) {
 			foundOne = false;
-			for(int i = listBox->GetTable()->RowCount() - 1; i >= 0 ; i--) {
+			for(int i = listBox->GetTable()->NumChildren() - 1; i >= 0 ; i--) {
 				item = listBox->GetTable()->GetRow(i);
 				speciesID = item->UserData.Get<unsigned int>("speciesID");
 				if(speciesID == itOutputs->first) {

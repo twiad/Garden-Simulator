@@ -160,9 +160,9 @@ namespace EDen {
 						}
 
 						if(font->data) {
-							pRenderer->RenderText(font, Gwen::Point(startX - 30,0),Gwen::Utility::ToString(maxValue));
-							pRenderer->RenderText(font, Gwen::Point(startX - 30,dimy - 10),Gwen::Utility::ToString(minValue));
-							pRenderer->RenderText(font, Gwen::Point(startX - ((maxDataValues*2)/3),dimy - 10),it->first);
+						  pRenderer->RenderText(font, Gwen::Point(startX - 30,0),Gwen::Utility::StringToUnicode(Gwen::Utility::ToString(maxValue)));
+						  pRenderer->RenderText(font, Gwen::Point(startX - 30,dimy - 10),Gwen::Utility::StringToUnicode(Gwen::Utility::ToString(minValue)));
+						  pRenderer->RenderText(font, Gwen::Point(startX - ((maxDataValues*2)/3),dimy - 10),Gwen::Utility::StringToUnicode(it->first));
 						}
 
 						currentViewport++;
@@ -187,8 +187,8 @@ namespace EDen {
 
 			Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(pRenderer);
 			skin->SetRender(pRenderer);
-			skin->Init("DefaultSkin.png");
-			skin->SetDefaultFont("OpenSans.ttf", 8);
+			skin->Init(L"DefaultSkin.png");
+			skin->SetDefaultFont(L"OpenSans.ttf", 8);
 
 			pCanvas = new Gwen::Controls::Canvas(skin);
 			pCanvas->SetSize(dimx, dimy);

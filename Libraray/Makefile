@@ -1,4 +1,4 @@
-LIBOBJECTS=globals.o tinyxml.o tinyxmlerror.o tinyxmlparser.o bodypart.o organism.o groundpart.o chemicalSystem.o geneticSystemCore.o geneticSystemActions.o geneticSystemConditions.o geneticSystemCoreXMLParser.o geneticMutation.o geneticProcessor.o chemicalDistributionSystem.o geneticDummyCode.o geneticCodeFactory.o speciesDatabase.o bodypartObserver.o
+LIBOBJECTS=globals.o tinyxml.o tinyxmlerror.o tinyxmlparser.o bodypart.o organism.o groundpart.o chemicalSystem.o geneticSystemCore.o geneticSystemActions.o geneticSystemConditions.o geneticSystemCoreXMLParser.o geneticMutation.o geneticCode.o geneticProcessor.o chemicalDistributionSystem.o geneticDummyCode.o geneticCodeFactory.o speciesDatabase.o bodypartObserver.o runtimeManager.o
 
 LIBSRCDIR=E-Den-2014-Lib
 

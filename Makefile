@@ -12,7 +12,7 @@ LIBOBJECTS=$(LIBDIR)/globals.o $(LIBDIR)/tinyxml.o $(LIBDIR)/tinyxmlerror.o $(LI
 
 MAINOBJECTS=SDLGwenStatusWindow.o SDLGwenStatisticsWindow.o SDLGwenOrgnismInspector.o organismPrinter.o SDL_WindowGroundpart.o E-Den-Testbench.o
 
-all: $(GWENDIR)/lib/$(GWENLIBARCH)/libGWEN-Renderer-SDL2.a $(GWENDIR)/lib/$(GWENLIBARCH)/libgwen_static.a $(LIBDIR)/libeden.a E-Den-2014
+all: $(GWENDIR)/lib/$(GWENLIBARCH)/libGWEN-Renderer-SDL2.a $(GWENDIR)/lib/$(GWENLIBARCH)/libgwen_static.a $(LIBDIR)/libeden.a bin/E-Den-2014
 
 $(LIBDIR)/libeden.a: $(LIBOBJECTS)
 		ar rc $@ $^
@@ -26,7 +26,7 @@ $(LIBDIR)/%.o: $(LIBSRCDIR)/%.cpp
 
 MAINDEPS=-I$(GWENDIR)/include -L$(GWENDIR)/lib/$(GWENLIBARCH)/ -lgwen_static -lGWEN-Renderer-SDL2 -I$(LIBSRCDIR) -L$(LIBDIR) -leden -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lboost_thread-mt -lboost_system-mt
 
-E-Den-2014: $(MAINOBJECTS)
+bin/E-Den-2014: $(MAINOBJECTS)
 		g++ $^ $(MAINDEPS) -o $@
 
 %.o: $(MAINSRCDIR)/%.cpp
@@ -39,6 +39,6 @@ $(GWENDIR)/lib/$(GWENLIBARCH)/libGWEN-Renderer-SDL2.a:
 		@cd $(GWENDIR)/Projects/$(GWENLIBARCH) && ${MAKE} --no-print-directory -C . -f Renderer-SDL2.make
 
 clean:
-		(rm E-Den-2014 $(LIBDIR)/libeden.a $(LIBDIR)/libeden.so $(LIBOBJECTS) $(MAINOBJECTS))&
+		(rm bin/E-Den-2014 $(LIBDIR)/libeden.a $(LIBDIR)/libeden.so $(LIBOBJECTS) $(MAINOBJECTS))&
 		@${MAKE} --no-print-directory -C . -f $(GWENDIR)/Projects/$(GWENLIBARCH)/GWEN-Static.make clean
 		@${MAKE} --no-print-directory -C . -f $(GWENDIR)/Projects/$(GWENLIBARCH)/Renderer-SDL2.make clean

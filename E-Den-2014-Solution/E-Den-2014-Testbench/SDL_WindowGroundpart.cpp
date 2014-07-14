@@ -36,7 +36,6 @@ namespace EDen {
 	primaryMarkedOrganism = 0;
 	statusWindow = 0;
 	statsWindow = 0;
-	lastStatusWindowPosition = 0;
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -115,24 +114,24 @@ namespace EDen {
 	statusLabel->SetTextColor(Gwen::Color(250,200,0,255));
 
 	orgInsprector = new SDLGwenOrgnismInspector(pCanvas);
+	statusWindow = new SDLGwenStatusWindow(this,200);
 
-	waterPlusButton->SetBounds(115,0,15,15);
-	waterPercentageLabel->SetBounds(16,1,98,15);
-	waterMinusButton->SetBounds(0,0,15,15);
-	gooPlusButton->SetBounds(115,15,15,15);
-	gooPercentageLabel->SetBounds(16,16,98,15);
-	gooMinusButton->SetBounds(0,15,15,15);
-	organismsPlusButton->SetBounds(115,30,15,15);
-	organismsNumberLabel->SetBounds(16,31,98,15);
-	organismsMinusButton->SetBounds(0,30,15,15);
-	statusWindowButton->SetBounds(130,30,15,15);
-	statusLabel->SetBounds(1,46,143,15);
-	orgInsprector->setBounds(dimx - 175,0,175,102);
+	waterPlusButton->SetBounds(245,0,15,15);
+	waterPercentageLabel->SetBounds(146,1,98,15);
+	waterMinusButton->SetBounds(130,0,15,15);
+	gooPlusButton->SetBounds(375,0,15,15);
+	gooPercentageLabel->SetBounds(276,1,98,15);
+	gooMinusButton->SetBounds(260,0,15,15);
+	organismsPlusButton->SetBounds(115,0,15,15);
+	organismsNumberLabel->SetBounds(16,1,98,15);
+	organismsMinusButton->SetBounds(0,0,15,15);
+	statusWindowButton->SetBounds(390,0,15,15);
+	statusLabel->SetBounds(176,16,143,15);
+	orgInsprector->setBounds(0,15,175,102);
 
     scale = SDL_SCALE;
 	renderOffeset = dimx/2;
 	moveMomentum = 0.0f;
-
   };
 
   bool SDL_WindowGroundpart::add(Organism* param_organism) {
@@ -169,7 +168,7 @@ namespace EDen {
 
 		orgInsprector->update();
 		if(statsWindow) statsWindow->update();
-		if(statusWindow) statusWindow->update();
+		if(statusWindow->isShown()) statusWindow->update();
 	
 		//draw Background 
 		statusBarRect.x = 0;
@@ -208,13 +207,13 @@ namespace EDen {
 		}
 
 		//draw status bar
-		statusBarRect.x = 15;
+		statusBarRect.x = 145;
 		statusBarRect.h = 15;
 		statusBarRect.y = 0;
 		statusBarRect.w = 100 * chemStorage->getCurrentPercentage("Wasser") / 100.0f;
 		SDL_SetRenderDrawColor(renderer, 0, 0, 140, 255);
 		SDL_RenderFillRect(renderer,&statusBarRect);
-		statusBarRect.y = 15;
+		statusBarRect.x = 275;
 		statusBarRect.w = 100 * chemStorage->getCurrentPercentage("Goo") / 100.0f;
 		SDL_SetRenderDrawColor(renderer, 140, 30, 0, 255);
 		SDL_RenderFillRect(renderer,&statusBarRect);
@@ -324,7 +323,7 @@ namespace EDen {
 	if(statsWindow) statsWindow->processEvent(evt);
 	if(statusWindow) statusWindow->processEvent(evt);
 
-	if(evt->window.windowID == SDL_GetWindowID(window) || ((statsWindow) && statsWindow->getSDLWindowID() == evt->window.windowID) || ((statusWindow) && statusWindow->getSDLWindowID() == evt->window.windowID)) {
+	if(evt->window.windowID == SDL_GetWindowID(window) || ((statsWindow) && statsWindow->getSDLWindowID() == evt->window.windowID)) {
 		if(evt->type == SDL_KEYDOWN) {
 			const char *key = SDL_GetKeyName(evt->key.keysym.sym);
 			if ( key[0] == 'S'  )  {
@@ -358,6 +357,10 @@ namespace EDen {
 
 	if(evt->window.windowID == SDL_GetWindowID(window)) {
 		bool eventDigested = GwenInput->ProcessEvent(evt);
+		if(!eventDigested) {
+			statusWindow->processEvent(evt);
+		}
+
 		if ((evt->type == SDL_WINDOWEVENT)) {
 			if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
 				resizeWindow(evt->window.data1, evt->window.data2);
@@ -381,10 +384,6 @@ namespace EDen {
 
 	if ((evt->type == SDL_WINDOWEVENT)) {
 		if(evt->window.event == SDL_WINDOWEVENT_CLOSE) {
-			if((statusWindow) && statusWindow->getSDLWindowID() == evt->window.windowID) {
-				hideStatusWindow();
-			};
-
 			if((statsWindow) && statsWindow->getSDLWindowID() == evt->window.windowID) {
 				if(statsWindow->isShown()) {
 					statsWindow->hide();
@@ -400,7 +399,8 @@ namespace EDen {
 	  dimy = pDimy;
 
 	  pCanvas->SetSize(dimx,dimy);
-	  orgInsprector->setBounds(dimx - 175,0,orgInsprector->getWidth(),orgInsprector->getHeight());
+	  orgInsprector->setBounds(0,15,orgInsprector->getWidth(),orgInsprector->getHeight());
+	  statusWindow->resizeWindow(dimx,dimy);
 	  shadows->setSize(dimx,dimy);
   };
 
@@ -444,7 +444,7 @@ namespace EDen {
 			  if((x1 <= 0) || (x2 <= 0)) {
 				  clip.moveLeft = true;
 			  }
-			  if((x1 > dimx) || (x2 > dimx)) {
+			  if((x1 + (((int)statusWindow->isShown()) * 200) > dimx) || (x2 + (((int)statusWindow->isShown()) * 200) > dimx)) {
 				  clip.moveRight = true;
 			  }
 			  if((y1 > dimy) || (y2 > dimy)) {
@@ -453,7 +453,7 @@ namespace EDen {
 			  if((x1 <= (dimx * SCALE_DOWN_HYST_FACTOR)) || (x2 <= (dimx * SCALE_DOWN_HYST_FACTOR))) {
 				  clip.scaleDownLeft = false;
 			  }
-			  if((x1 > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR))) || (x2 > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR)))) {
+			  if((x1 + (((int)statusWindow->isShown()) * 200)  > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR))) || (x2 + (((int)statusWindow->isShown()) * 200) > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR)))) {
 				  clip.scaleDownRight = false;
 			  }
 			  if((y1 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR))) || (y2 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR)))) {
@@ -641,7 +641,7 @@ namespace EDen {
 		posX = orgPosX + (i * 3);
 		windowPosX = (posX - (width / 2)) * scale + (dimx / 2) + renderOffeset;
 
-		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::LIT)) {
+		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::ShadowState::LIT)) {
 			newPosX = posX;
 			emptySlotFound = true;
 		}
@@ -649,7 +649,7 @@ namespace EDen {
 		posX = orgPosX - (i * 3);
 		windowPosX = (posX - (width / 2)) * scale + (dimx / 2) + renderOffeset;
 
-		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::LIT)) {
+		if((!isOccupiedByAlivePlant(posX)) && (shadows->getShadowStateAt(windowPosX, 0) >= SDL_ShadowAccumulator::ShadowState::LIT)) {
 			newPosX = posX;
 			emptySlotFound = true;
 		}
@@ -684,30 +684,21 @@ namespace EDen {
 	  return false;
   }
 
+  Gwen::Controls::Canvas* SDL_WindowGroundpart::getCanvas() {
+	  return pCanvas;
+  }
+
   void SDL_WindowGroundpart::toggleStatusWindow() {
-	  if(!statusWindow) {
-		  if(lastStatusWindowPosition == 0) {
-			statusWindow = new SDLGwenStatusWindow(this);
-		  }
-		  else {
-			statusWindow = new SDLGwenStatusWindow(this,*lastStatusWindowPosition);
-		  }
+	  if(statusWindow->isShown()) {
+		  hideStatusWindow();
 	  }
 	  else {
-		  hideStatusWindow();
+		  statusWindow->show(true);
 	  };
   }
 
   void SDL_WindowGroundpart::hideStatusWindow() {
-	SDLGwenStatusWindow* tmpPointer = statusWindow;
-	statusWindow = 0;
-	if(lastStatusWindowPosition == 0) {
-		lastStatusWindowPosition = new Gwen::Rect();
-	}
-	tmpPointer->getSize(&lastStatusWindowPosition->w,&lastStatusWindowPosition->h);
-	tmpPointer->getPosition(&lastStatusWindowPosition->x,&lastStatusWindowPosition->y);
-
-	delete tmpPointer;
+	statusWindow->show(false);
 	clearScaleToOrganisms();
   }
 }

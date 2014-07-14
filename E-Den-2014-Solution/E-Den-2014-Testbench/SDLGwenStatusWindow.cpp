@@ -24,7 +24,7 @@ namespace EDen {
 	void SDLGwenStatusWindow::processEvent(SDL_Event* evt) {
 		if(isShown()) {
 			if(evt->type == SDL_MOUSEBUTTONUP) {
-				if(evt->button.button == 3 && evt->button.x > gp->getDimX() - width) {
+				if(evt->button.button == 3 && evt->button.x > gp->getDimX() - width && evt->button.y < listBox->GetBounds().h) {
 					listBox->UnselectAll();
 					gp->clearScaleToOrganisms();
 				};

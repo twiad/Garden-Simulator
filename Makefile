@@ -40,5 +40,3 @@ $(GWENDIR)/lib/$(GWENLIBARCH)/libGWEN-Renderer-SDL2.a:
 
 clean:
 		(rm bin/E-Den-2014 $(LIBDIR)/libeden.a $(LIBDIR)/libeden.so $(LIBOBJECTS) $(MAINOBJECTS))&
-		@${MAKE} --no-print-directory -C . -f $(GWENDIR)/Projects/$(GWENLIBARCH)/GWEN-Static.make clean
-		@${MAKE} --no-print-directory -C . -f $(GWENDIR)/Projects/$(GWENLIBARCH)/Renderer-SDL2.make clean

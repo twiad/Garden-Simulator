@@ -38,8 +38,8 @@
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
-#define SDL_DIMX 1270
-#define SDL_DIMY 500
+#define SDL_DIMX 1024
+#define SDL_DIMY 600
 
 using namespace EDen; 
 using namespace std;
@@ -188,7 +188,7 @@ void sdl_run(int cycles) {
 
 #ifndef DEBUG
   if(activePrinter) {
-	  while(activePrinter->getNumSpecies() < 6) {
+	  while(activePrinter->getNumSpecies() < 2) {
 		  addRandomOrganism();
 	  }
   }
@@ -449,10 +449,6 @@ void sdl_test() {
   if(gpDatabase->getSpeciesCount() == 0) {
 	  addRandomOrganism();
 #ifndef DEBUG
-	  addRandomOrganism();
-	  addRandomOrganism();
-	  addRandomOrganism();
-	  addRandomOrganism();
 	  addRandomOrganism();
 #endif
   }

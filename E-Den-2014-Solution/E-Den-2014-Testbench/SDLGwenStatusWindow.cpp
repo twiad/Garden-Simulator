@@ -1,7 +1,6 @@
 #include "SDLGwenStatusWindow.h"
 
 namespace EDen {
-	SDLGwenStatusWindow;
 	SDLGwenStatusWindow::SDLGwenStatusWindow(SDL_WindowGroundpart* p_gp, int p_width)
 	{
 		gp = p_gp;
@@ -49,7 +48,7 @@ namespace EDen {
 			unsigned int numItems = 0;
 			bool foundOne = false;
 
-			for(int i = listBox->GetTable()->RowCount() - 1; i >= 0 ; i--) {
+			for(int i = listBox->GetTable()->NumChildren() - 1; i >= 0 ; i--) {
 				item = listBox->GetTable()->GetRow(i);
 				speciesID = item->UserData.Get<unsigned int>("speciesID");
 				foundOne = false;
@@ -72,7 +71,7 @@ namespace EDen {
 
 			for(std::map<unsigned int,std::string>::iterator itOutputs = outputs.begin(); itOutputs != outputs.end(); itOutputs++) {
 				foundOne = false;
-				for(int i = listBox->GetTable()->RowCount() - 1; i >= 0 ; i--) {
+				for(int i = listBox->GetTable()->NumChildren() - 1; i >= 0 ; i--) {
 					item = listBox->GetTable()->GetRow(i);
 					speciesID = item->UserData.Get<unsigned int>("speciesID");
 					if(speciesID == itOutputs->first) {

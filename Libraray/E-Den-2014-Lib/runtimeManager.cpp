@@ -4,7 +4,7 @@
 #include "globals.h"
 #include "runtimeManager.h"
 
-#define NUM_CORES 4
+#define NUM_CORES 1
 #define MAX_PLANT_COUNT (NUM_CORES + (NUM_CORES / 2))
 
 #define CANDIDATES_LEVEL (150 / 25)

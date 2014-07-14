@@ -24,16 +24,13 @@ namespace EDen {
 	void SDLGwenStatusWindow::processEvent(SDL_Event* evt) {
 		if(isShown()) {
 			if(evt->type == SDL_MOUSEBUTTONUP) {
-				if(evt->button.button == 3) {
+				if(evt->button.button == 3 && evt->button.x > gp->getDimX() - width) {
 					listBox->UnselectAll();
 					gp->clearScaleToOrganisms();
 				};
 			}
 			
-			if(evt->window.event == SDL_WINDOWEVENT_RESIZED) {
-				resizeWindow(evt->window.data1, evt->window.data2);
-			}
-			else if(evt->window.event == SDL_WINDOWEVENT_LEAVE) {
+			if(evt->window.event == SDL_WINDOWEVENT_LEAVE) {
 				if(hoverHandler->currentSpeciesID != 0) {
 					hoverHandler->currentSpeciesID = 0;
 					gp->clearScaleToOrganisms();
@@ -49,6 +46,7 @@ namespace EDen {
 
 			Gwen::Controls::Layout::TableRow* item;
 			unsigned int speciesID;
+			unsigned int numItems = 0;
 			bool foundOne = false;
 
 			for(int i = listBox->GetTable()->RowCount() - 1; i >= 0 ; i--) {
@@ -59,6 +57,7 @@ namespace EDen {
 					if(speciesID == itOutputs->first) {
 						item->SetCellText(0,itOutputs->second.append("(").append(Gwen::Utility::ToString(gp->getAliveOrganismsOfSpecies(itOutputs->first)).append(")")));
 						foundOne = true;
+						numItems++;
 						continue;
 					};
 				};
@@ -87,8 +86,11 @@ namespace EDen {
 					item->UserData.Set<unsigned int>("speciesID",itOutputs->first);
 					item->onHoverEnter.Add(hoverHandler,&ListItemHoverEventHandler::onHoverIn);
 					item->onHoverLeave.Add(hoverHandler,&ListItemHoverEventHandler::onHoverOut);
+					numItems++;
 				}
 			}
+
+			listBox->SetHeight(mini((int)(numItems)*20 + 4,gp->getDimY()));
 		
 			if(hoverHandler->currentSpeciesID != 0 || listBox->GetSelectedRow() != 0) {
 				int currentSpeciesID = hoverHandler->currentSpeciesID;

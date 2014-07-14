@@ -44,7 +44,7 @@ namespace EDen {
 		int branchNumStickSpawnpoints = 2;
 		float branchSpawnEnergyCost = 20.0f;
 		float branchSpawnPrimaryResourceCost = 350.0f;
-		float branchBackwardCostMultiplier = Randomizer::value(10.0f,25.0f);
+		float branchBackwardCostMultiplier = Randomizer::value(2.0f,25.0f);
 		float branchPrimaryResourceStorageSize = 200.0f;
 		float branchSecondaryResourceStorageSize = 80.0f;
 		float branchEnergyStorageSize = 3.0f;
@@ -59,7 +59,7 @@ namespace EDen {
 		int stickNumSeedSpawnpoints = 1;
 		float stickSpawnEnergyCost = 5.0f;
 		float stickSpawnPrimaryResourceCost = 450.0f;
-		float stickBackwardCostMultiplier = Randomizer::value(7.5f,25.0f);
+		float stickBackwardCostMultiplier = Randomizer::value(2.0f,25.0f);
 		float stickPrimaryResourceStorageSize = 500.0f;
 		float stickSecondaryResourceStorageSize = 120.0f;
 		float stickEnergyStorageSize = 35.0f;

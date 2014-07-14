@@ -104,9 +104,6 @@ namespace EDen {
 		int req_print(Bodypart* param_bp, int param_x, int param_y, float p_ang1, float p_ang2, float p_ang3, bool relevantForScaling, bool marked, bool fast);
 		void printHeigtmap();
 		
-		SDLGwenStatusWindow* statusWindow;
-		Gwen::Rect* lastStatusWindowPosition;
-
 		SDLGwenStatisticsWindow* statsWindow;
 
 		Gwen::Controls::Button* waterPlusButton;
@@ -134,6 +131,7 @@ namespace EDen {
 		Gwen::Controls::Label* statusLabel;
 
 		SDLGwenOrgnismInspector* orgInsprector;
+		SDLGwenStatusWindow* statusWindow;
 
 		int numOrganisms, numEmptySpaces,cps;
 		float waterPercentage, gooPercentage;
@@ -180,6 +178,7 @@ namespace EDen {
 		bool getDrawLightDebug();
 
 		void processEvent(SDL_Event* evt);
+		Gwen::Controls::Canvas* getCanvas();
 		void toggleStatusWindow();
 	};
 } // namespace

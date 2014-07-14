@@ -33,22 +33,19 @@ namespace EDen {
 			void onHoverOut(Gwen::Controls::Base* pControl);
 		};
 
-		SDL_Window *window;
-		Gwen::Renderer::SDL2 *pRenderer;
-		Gwen::Controls::Canvas* pCanvas;
-		Gwen::Input::SDL2* GwenInput;
-
 		SDL_WindowGroundpart* gp;
+
+		int width;
 
 		Gwen::Controls::ListBox* listBox;
 		ListItemHoverEventHandler* hoverHandler;
-	protected:
-		void resizeWindow(int dimx, int dimy);
 	public:
-		SDLGwenStatusWindow(SDL_WindowGroundpart* groundpart, Gwen::Rect position = Gwen::Rect(SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,STATUS_WINDOW_DIM_X,STATUS_WINDOW_DIM_Y));
+		SDLGwenStatusWindow(SDL_WindowGroundpart* groundpart, int width = STATUS_WINDOW_DIM_X);
 		~SDLGwenStatusWindow();
 
-		int getSDLWindowID();
+		bool isShown();
+		void show(bool shown);
+		void resizeWindow(int dimx, int dimy);
 
 		void processEvent(SDL_Event* evt);
 		void update();

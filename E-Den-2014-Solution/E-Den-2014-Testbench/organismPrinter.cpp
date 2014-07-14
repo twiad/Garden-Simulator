@@ -452,6 +452,8 @@ namespace EDen {
       //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
 
 	  if(relevantForScaling) {
+		  int drawableDimX = dimx;
+
 		  if((x1 <= 0) || (x2 <= 0)) {
 			  moveLeft = true;
 		  }

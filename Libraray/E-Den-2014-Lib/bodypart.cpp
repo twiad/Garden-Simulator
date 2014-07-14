@@ -361,7 +361,7 @@ namespace EDen {
   };
 
   SpawnpointInformation* Bodypart::getSpawnpointInformationForBodypart(Bodypart* param_bp) {
-    SpawnpointInformation* returnvalue;
+    SpawnpointInformation* returnvalue = 0;
     for(SpawnpointInformationListIterator it = spawnpoints.begin(); it != spawnpoints.end(); it++) {
       if((*it)->connectedBodypart == param_bp) {
         returnvalue = (*it);

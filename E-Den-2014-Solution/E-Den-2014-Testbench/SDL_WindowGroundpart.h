@@ -84,11 +84,15 @@ namespace EDen {
 			void reset();
 		};
 
-		SDL_Window *window;
-		SDL_Renderer *renderer;
-		Gwen::Renderer::SDL2 *gwenRenderer;
+		SDL_Window* window;
+		SDL_Renderer* renderer;
+		Gwen::Renderer::Base* gwenRenderer;
 		Gwen::Controls::Canvas* pCanvas;
 		Gwen::Input::SDL2* GwenInput;
+
+		SDL_Surface* softwareRendererSurface;
+		SDL_Renderer* softwareRenderer;
+		SDL_Renderer* hardwareRenderer;
 
 		RuntimeManager* runtime;
 		SDL_SunlightProvider* sun;
@@ -149,7 +153,7 @@ namespace EDen {
 
 		void hideStatusWindow();
 	  public:
-		SDL_WindowGroundpart(std::string name, int width, int height, float maxWater = 2.0e8, float maxGoo = 2.0e8, int emptySpaces = 1, RuntimeManager* runtimeManager = 0);
+		SDL_WindowGroundpart(std::string name, bool softwareRendered, int width, int height, float maxWater = 2.0e8, float maxGoo = 2.0e8, int emptySpaces = 1, RuntimeManager* runtimeManager = 0);
 		~SDL_WindowGroundpart();
 
 		RuntimeManager* getRuntimeManager();

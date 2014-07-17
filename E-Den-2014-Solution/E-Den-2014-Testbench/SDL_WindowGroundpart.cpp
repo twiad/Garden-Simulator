@@ -27,7 +27,7 @@ namespace EDen {
 		SDL_DestroyWindow(window);
 	};
 
-  SDL_WindowGroundpart::SDL_WindowGroundpart(std::string name, int width, int height, float maxWater, float maxGoo, int emptySpaces, RuntimeManager* runtimeManager) : SingleDimensionHeightmapGroundpart(name, width * 3, maxWater, maxGoo, emptySpaces) {
+  SDL_WindowGroundpart::SDL_WindowGroundpart(std::string name, bool p_softwareRendered, int width, int height, float maxWater, float maxGoo, int emptySpaces, RuntimeManager* runtimeManager) : SingleDimensionHeightmapGroundpart(name, width * 3, maxWater, maxGoo, emptySpaces) {
 	window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
 	if (!window) {
     	return;
@@ -37,8 +37,19 @@ namespace EDen {
 	statusWindow = 0;
 	statsWindow = 0;
 
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	hardwareRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_SetRenderDrawBlendMode(hardwareRenderer, SDL_BLENDMODE_BLEND);
+
+	if(p_softwareRendered) {
+		softwareRendererSurface = SDL_CreateRGBSurface(0,width,height,32,0xff000000,0x00ff0000,0x0000ff00,0x000000ff);
+		softwareRenderer = SDL_CreateSoftwareRenderer(softwareRendererSurface);
+		renderer = softwareRenderer;
+	}
+	else {
+		softwareRendererSurface = 0;
+		softwareRenderer = 0;
+		renderer = hardwareRenderer;
+	}
 
 	runtime = runtimeManager;
 	runtime->add(this);
@@ -55,7 +66,12 @@ namespace EDen {
 	drawLightDebug = false;
 
 	//renderer skin and layout from here
-	gwenRenderer = new Gwen::Renderer::SDL2(renderer);
+	if(p_softwareRendered) {
+		gwenRenderer = new Gwen::Renderer::SDL2Software(softwareRendererSurface);
+	}
+	else {
+		gwenRenderer = new Gwen::Renderer::SDL2(renderer);
+	}
 	Gwen::Skin::TexturedBase* skin = new Gwen::Skin::TexturedBase(gwenRenderer);
 	skin->SetRender(gwenRenderer);
 	skin->Init("DefaultSkin.png");
@@ -252,6 +268,20 @@ namespace EDen {
 		pCanvas->RenderCanvas();
 		gwenRenderer->PresentContext(NULL);
 		gwenRenderer->EndContext(NULL);
+		
+		if(softwareRendererSurface != 0) {
+			SDL_RenderClear(hardwareRenderer);
+			SDL_SetRenderDrawBlendMode(hardwareRenderer, SDL_BLENDMODE_BLEND);
+			
+			SDL_Texture* tmpTexture = SDL_CreateTextureFromSurface(hardwareRenderer,softwareRendererSurface);
+			SDL_RenderCopy(hardwareRenderer,tmpTexture,NULL,NULL);
+			SDL_DestroyTexture(tmpTexture);
+
+			//SDL_UpdateTexture(hardwareTexture, NULL, &softwareRendererSurface->pixels,softwareRendererSurface->pitch);
+			//SDL_RenderCopy(hardwareRenderer,hardwareTexture,NULL,NULL);
+			
+			SDL_RenderPresent(hardwareRenderer);
+		}
 	}
 
 	adjustViewport();

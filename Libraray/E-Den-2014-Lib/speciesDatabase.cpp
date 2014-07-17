@@ -63,7 +63,7 @@ namespace EDen {
     changedSinceLastUpdate = true;
     
     std::string filename = path;
-    filename.append("\\").append(name).append(".").append(pFilename);
+    filename.append("/").append(name).append(".").append(pFilename);
     
     doc = new TiXmlDocument(filename);
 	  
@@ -100,7 +100,7 @@ namespace EDen {
   int OneSpeciesDatabase::save(std::string pFilename) {
     if(size() > 0) {
       std::string filename = path;
-      filename.append("\\").append(name).append(".").append(pFilename);
+      filename.append("/").append(name).append(".").append(pFilename);
       
       doc = new TiXmlDocument(filename);
       bool loadOkay = doc->LoadFile();
@@ -348,7 +348,7 @@ namespace EDen {
 
   int SpeciesDatabase::load(std::string pFilename) {
     std::string filename = path;
-    filename.append("\\").append("species").append(".").append(pFilename);
+    filename.append("/").append("species").append(".").append(pFilename);
     
     doc = new TiXmlDocument(filename);
 	  
@@ -391,7 +391,7 @@ namespace EDen {
   int SpeciesDatabase::save(std::string p_filename) {
     if(size() > 0) {
       std::string filename = path;
-      filename.append("\\").append("species").append(".").append(p_filename);
+      filename.append("/").append("species").append(".").append(p_filename);
       
       doc = new TiXmlDocument(filename);
       bool loadOkay = doc->LoadFile();

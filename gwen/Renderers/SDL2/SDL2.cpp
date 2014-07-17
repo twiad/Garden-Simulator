@@ -82,7 +82,7 @@ namespace Gwen
             TTF_Font *tfont = static_cast<TTF_Font*>(pFont->data);
             Translate(pos.x, pos.y);
             
-            SDL_Surface *surf = TTF_RenderUTF8_Blended(tfont, Gwen::Utility::UnicodeToString(text).c_str(), m_color);
+            SDL_Surface *surf = TTF_RenderUNICODE_Blended(tfont, text, m_color);
             SDL_Texture *texture = SDL_CreateTextureFromSurface(m_renderer, surf);
             SDL_FreeSurface(surf);
             
@@ -111,7 +111,7 @@ namespace Gwen
                 return Gwen::Point(0, 0);
 
             int w,h;
-            TTF_SizeUTF8(tfont, Gwen::Utility::UnicodeToString(text).c_str(), &w,&h);
+            TTF_SizeUNICODE(tfont, text, &w,&h);
             
             return Point(w,h);
         }

@@ -48,8 +48,8 @@
 				font->realsize = font->size*Scale();
 				std::string fontFile(font->facename);
 
-				if (fontFile.find(".ttf") == std::string::npos)
-					fontFile += ".ttf";
+				if (fontFile.find(L".ttf") == std::string::npos)
+					fontFile += L".ttf";
 
 				TTF_Font *tfont = TTF_OpenFont(fontFile.c_str(), font->realsize);
 				if (!tfont)
@@ -69,13 +69,13 @@
 				}
 			}
 
-			void SDL2Software::RenderText(Gwen::Font* pFont, Gwen::Point pos, const Gwen::String& text)
+			void SDL2Software::RenderText(Gwen::Font* pFont, Gwen::Point pos, const Gwen::UnicodeString& text)
 			{
 				TTF_Font *tfont = static_cast<TTF_Font*>(pFont->data);
 				Translate(pos.x, pos.y);
             
-				SDL_Surface *surf = TTF_RenderUTF8_Blended(tfont, text.c_str(), m_color);
-				
+				SDL_Surface *surf = TTF_RenderUNICODE_Blended(tfont, text, m_color);
+
 				const SDL_Rect src = {0,0,surf->w,surf->h};
 				SDL_Rect dest = {pos.x,pos.y,surf->w,surf->h};
             
@@ -84,7 +84,7 @@
 				SDL_FreeSurface(surf);
 			}
 
-			Gwen::Point SDL2Software::MeasureText(Gwen::Font* pFont, const Gwen::String& text)
+			Gwen::Point SDL2Software::MeasureText(Gwen::Font* pFont, const Gwen::UnicodeString& text)
 			{
 				TTF_Font *tfont = static_cast<TTF_Font*>(pFont->data);
 
@@ -100,7 +100,7 @@
 					return Gwen::Point(0, 0);
 
 				int w,h;
-				TTF_SizeUTF8(tfont, text.c_str(), &w,&h);
+				TTF_SizeUNICODE(tfont, text, &w,&h);
             
 				return Point(w,h);
 			}
@@ -127,7 +127,7 @@
             
 				SDL_Texture *tex = NULL;
             
-				SDL_Surface *surf = IMG_Load(pTexture->name.c_str());
+				SDL_Surface *surf = IMG_Load(Gwen::Utility::UnicodeToString(pTexture->name).c_str());
 				tex = SDL_CreateTextureFromSurface(m_renderer, surf);
 				pTexture->surface = surf;
             

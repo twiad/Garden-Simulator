@@ -38,8 +38,8 @@
 #define CHEM_SYSTEM_CLK_DEVIDER 1
 #define SDL_RUN_FACTOR 2
 #define SDL_IDEL_CYCLES 1
-#define SDL_DIMX 1270
-#define SDL_DIMY 500
+#define SDL_DIMX 1024
+#define SDL_DIMY 600
 
 using namespace EDen; 
 using namespace std;
@@ -188,7 +188,7 @@ void sdl_run(int cycles) {
 
 #ifndef DEBUG
   if(activePrinter) {
-	  while(activePrinter->getNumSpecies() < 6) {
+	  while(activePrinter->getNumSpecies() < 2) {
 		  addRandomOrganism();
 	  }
   }
@@ -367,6 +367,9 @@ void sdl_test() {
   }
 
   runtime = new RuntimeManager();
+
+  // RPI specific startup parameter
+  runtime->setPreferedOrganismCount(9);
 //  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX*2,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
 //  runtime->add(gp);
 //
@@ -450,10 +453,6 @@ void sdl_test() {
 	  addRandomOrganism();
 #ifndef DEBUG
 	  addRandomOrganism();
-	  addRandomOrganism();
-	  addRandomOrganism();
-	  addRandomOrganism();
-	  addRandomOrganism();
 #endif
   }
 
@@ -491,6 +490,10 @@ void sdl_test() {
   //statsWindow = new SDLGwenStatisticsWindow(runtime);
 
   run(1);
+
+  // RPI startup parameters, untill displaylag fixed
+  fastmode = 1;
+  updateRuntimeState();
 
   wait_for_events();
 };

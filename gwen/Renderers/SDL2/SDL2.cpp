@@ -81,8 +81,14 @@ namespace Gwen
         {
             TTF_Font *tfont = static_cast<TTF_Font*>(pFont->data);
             Translate(pos.x, pos.y);
+
+	    Uint16* stext = new Uint16[text.length()+1];
+	    for (size_t i = 0; i < text.length(); ++i) {
+	      stext[i] = text[i]; 
+	    }
+	    stext[text.length()] = 0;
             
-            SDL_Surface *surf = TTF_RenderUNICODE_Blended(tfont, text, m_color);
+            SDL_Surface *surf = TTF_RenderUNICODE_Blended(tfont, stext, m_color);
             SDL_Texture *texture = SDL_CreateTextureFromSurface(m_renderer, surf);
             SDL_FreeSurface(surf);
             
@@ -93,6 +99,8 @@ namespace Gwen
             SDL_RenderCopy(m_renderer, texture, NULL, &dest);
             
             SDL_DestroyTexture(texture);
+
+	    delete stext;
         }
 
         Gwen::Point SDL2::MeasureText(Gwen::Font* pFont, const Gwen::UnicodeString& text)
@@ -111,7 +119,16 @@ namespace Gwen
                 return Gwen::Point(0, 0);
 
             int w,h;
-            TTF_SizeUNICODE(tfont, text, &w,&h);
+
+	    Uint16* stext = new Uint16[text.length()+1];
+	    for (size_t i = 0; i < text.length(); ++i) {
+	      stext[i] = text[i]; 
+	    }
+	    stext[text.length()] = 0;
+
+            TTF_SizeUNICODE(tfont, stext, &w,&h);
+
+	    delete stext;
             
             return Point(w,h);
         }

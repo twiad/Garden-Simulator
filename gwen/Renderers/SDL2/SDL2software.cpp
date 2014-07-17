@@ -46,12 +46,12 @@
 			void SDL2Software::LoadFont(Gwen::Font* font)
 			{
 				font->realsize = font->size*Scale();
-				std::string fontFile(font->facename);
+				Gwen::UnicodeString fontFile(font->facename);
 
-				if (fontFile.find(L".ttf") == std::string::npos)
+				if (fontFile.find(L".ttf") == Gwen::UnicodeString::npos)
 					fontFile += L".ttf";
 
-				TTF_Font *tfont = TTF_OpenFont(fontFile.c_str(), font->realsize);
+				TTF_Font *tfont = TTF_OpenFont(Gwen::Utility::UnicodeToString(fontFile).c_str(), font->realsize);
 				if (!tfont)
 				{
 					printf("Font load error: %s\n", TTF_GetError());
@@ -73,8 +73,14 @@
 			{
 				TTF_Font *tfont = static_cast<TTF_Font*>(pFont->data);
 				Translate(pos.x, pos.y);
+
+				Uint16* stext = new Uint16[text.length()+1];
+				for (size_t i = 0; i < text.length(); ++i) {
+				  stext[i] = text[i];
+				}
+				stext[text.length()] = 0;
             
-				SDL_Surface *surf = TTF_RenderUNICODE_Blended(tfont, text, m_color);
+				SDL_Surface *surf = TTF_RenderUNICODE_Blended(tfont, stext, m_color);
 
 				const SDL_Rect src = {0,0,surf->w,surf->h};
 				SDL_Rect dest = {pos.x,pos.y,surf->w,surf->h};
@@ -82,6 +88,8 @@
 				SDL_BlitSurface(surf,&src,m_surface,&dest);
             
 				SDL_FreeSurface(surf);
+
+				delete stext;
 			}
 
 			Gwen::Point SDL2Software::MeasureText(Gwen::Font* pFont, const Gwen::UnicodeString& text)
@@ -100,8 +108,17 @@
 					return Gwen::Point(0, 0);
 
 				int w,h;
-				TTF_SizeUNICODE(tfont, text, &w,&h);
+
+				Uint16* stext = new Uint16[text.length()+1];
+				for (size_t i = 0; i < text.length(); ++i) {
+				  stext[i] = text[i];
+				}
+				stext[text.length()] = 0;
+
+				TTF_SizeUNICODE(tfont, stext, &w,&h);
             
+				delete stext;
+
 				return Point(w,h);
 			}
 

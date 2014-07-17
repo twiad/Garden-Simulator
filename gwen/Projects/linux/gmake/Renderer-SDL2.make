@@ -130,4 +130,8 @@ $(OBJDIR)/SDL2.o: ../../../Renderers/SDL2/SDL2.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/SDL2software.o: ../../../Renderers/SDL2/SDL2software.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 -include $(OBJECTS:%.o=%.d)

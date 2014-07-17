@@ -32,32 +32,32 @@ namespace Gwen
             SDL2(SDL_Window *window);
             ~SDL2();
 
-            virtual void SetDrawColor(Gwen::Color color) override;
+            virtual void SetDrawColor(Gwen::Color color);
 
-            virtual void DrawFilledRect(Gwen::Rect rect) override;
+            virtual void DrawFilledRect(Gwen::Rect rect);
 
-            virtual void LoadFont(Gwen::Font* pFont) override;
-            virtual void FreeFont(Gwen::Font* pFont) override;
+            virtual void LoadFont(Gwen::Font* pFont);
+            virtual void FreeFont(Gwen::Font* pFont);
             virtual void RenderText(Gwen::Font* pFont, Gwen::Point pos,
-                                    const Gwen::String& text) override;
-            virtual Gwen::Point MeasureText(Gwen::Font* pFont, const Gwen::String& text) override;
+                                    const Gwen::String& text);
+            virtual Gwen::Point MeasureText(Gwen::Font* pFont, const Gwen::String& text);
 
-            void StartClip() override;
-            void EndClip() override;
+            void StartClip();
+            void EndClip();
 
             void DrawTexturedRect(Gwen::Texture* pTexture, Gwen::Rect pTargetRect,
                                   float u1 = 0.0f, float v1 = 0.0f,
-                                  float u2 = 1.0f, float v2 = 1.0f) override;
-            void        LoadTexture(Gwen::Texture* pTexture) override;
-            void        FreeTexture(Gwen::Texture* pTexture) override;
+                                  float u2 = 1.0f, float v2 = 1.0f);
+            void        LoadTexture(Gwen::Texture* pTexture);
+            void        FreeTexture(Gwen::Texture* pTexture);
             Gwen::Color PixelColour(Gwen::Texture* pTexture, unsigned int x, unsigned int y,
-                                    const Gwen::Color& col_default) override;
+                                    const Gwen::Color& col_default);
 
-            void DrawLinedRect(Gwen::Rect rect) override;
+            void DrawLinedRect(Gwen::Rect rect);
 
-            bool BeginContext(Gwen::WindowProvider* pWindow) override;
-            bool EndContext(Gwen::WindowProvider* pWindow) override;
-            bool PresentContext(Gwen::WindowProvider* pWindow) override;
+            bool BeginContext(Gwen::WindowProvider* pWindow);
+            bool EndContext(Gwen::WindowProvider* pWindow);
+            bool PresentContext(Gwen::WindowProvider* pWindow);
 
         protected:
 
@@ -71,32 +71,32 @@ namespace Gwen
 			SDL2Software(SDL_Surface *surface);
             ~SDL2Software();
 
-            virtual void SetDrawColor(Gwen::Color color) override;
+            virtual void SetDrawColor(Gwen::Color color);
 
-            virtual void DrawFilledRect(Gwen::Rect rect) override;
+            virtual void DrawFilledRect(Gwen::Rect rect);
 
-            virtual void LoadFont(Gwen::Font* pFont) override;
-            virtual void FreeFont(Gwen::Font* pFont) override;
+            virtual void LoadFont(Gwen::Font* pFont);
+            virtual void FreeFont(Gwen::Font* pFont);
             virtual void RenderText(Gwen::Font* pFont, Gwen::Point pos,
-                                    const Gwen::String& text) override;
-            virtual Gwen::Point MeasureText(Gwen::Font* pFont, const Gwen::String& text) override;
+                                    const Gwen::String& text);
+            virtual Gwen::Point MeasureText(Gwen::Font* pFont, const Gwen::String& text);
 
-            void StartClip() override;
-            void EndClip() override;
+            void StartClip();
+            void EndClip();
 
             void DrawTexturedRect(Gwen::Texture* pTexture, Gwen::Rect pTargetRect,
                                   float u1 = 0.0f, float v1 = 0.0f,
-                                  float u2 = 1.0f, float v2 = 1.0f) override;
-            void        LoadTexture(Gwen::Texture* pTexture) override;
-            void        FreeTexture(Gwen::Texture* pTexture) override;
+                                  float u2 = 1.0f, float v2 = 1.0f);
+            void        LoadTexture(Gwen::Texture* pTexture);
+            void        FreeTexture(Gwen::Texture* pTexture);
             Gwen::Color PixelColour(Gwen::Texture* pTexture, unsigned int x, unsigned int y,
-                                    const Gwen::Color& col_default) override;
+                                    const Gwen::Color& col_default);
 
-            void DrawLinedRect(Gwen::Rect rect) override;
+            void DrawLinedRect(Gwen::Rect rect);
 
-            bool BeginContext(Gwen::WindowProvider* pWindow) override;
-            bool EndContext(Gwen::WindowProvider* pWindow) override;
-            bool PresentContext(Gwen::WindowProvider* pWindow) override;
+            bool BeginContext(Gwen::WindowProvider* pWindow);
+            bool EndContext(Gwen::WindowProvider* pWindow);
+            bool PresentContext(Gwen::WindowProvider* pWindow);
 
         protected:
 			SDL_Color        m_color;

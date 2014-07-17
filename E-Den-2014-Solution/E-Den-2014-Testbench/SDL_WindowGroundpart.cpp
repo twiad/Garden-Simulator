@@ -441,10 +441,14 @@ namespace EDen {
 		  //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
 
 		  if(relevantForScaling) {
+			  int statusWindowSizeX = 0;
+			  int statusWindowSizeY = 0;
+			  statusWindow->getSize(&statusWindowSizeX, &statusWindowSizeY);
+
 			  if((x1 <= 0) || (x2 <= 0)) {
 				  clip.moveLeft = true;
 			  }
-			  if((x1 + (((int)statusWindow->isShown()) * 200) > dimx) || (x2 + (((int)statusWindow->isShown()) * 200) > dimx)) {
+			  if((x1 + (int)(y1 + statusWindowSizeY > dimy) * statusWindowSizeX > dimx) || (x2 + (int)(y1 + statusWindowSizeY > dimy) * statusWindowSizeX > dimx)) {
 				  clip.moveRight = true;
 			  }
 			  if((y1 > dimy) || (y2 > dimy)) {
@@ -453,7 +457,7 @@ namespace EDen {
 			  if((x1 <= (dimx * SCALE_DOWN_HYST_FACTOR)) || (x2 <= (dimx * SCALE_DOWN_HYST_FACTOR))) {
 				  clip.scaleDownLeft = false;
 			  }
-			  if((x1 + (((int)statusWindow->isShown()) * 200)  > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR))) || (x2 + (((int)statusWindow->isShown()) * 200) > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR)))) {
+			  if((x1 + statusWindowSizeX  > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR))) || (x2 + statusWindowSizeX > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR)))) {
 				  clip.scaleDownRight = false;
 			  }
 			  if((y1 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR))) || (y2 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR)))) {

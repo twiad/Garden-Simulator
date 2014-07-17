@@ -367,6 +367,9 @@ void sdl_test() {
   }
 
   runtime = new RuntimeManager();
+
+  // RPI specific startup parameter
+  runtime->setPreferedOrganismCount(9);
 //  gp = new SingleDimensionHeightmapGroundpart("GOO1",SDL_DIMX*2,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount());
 //  runtime->add(gp);
 //
@@ -487,6 +490,10 @@ void sdl_test() {
   //statsWindow = new SDLGwenStatisticsWindow(runtime);
 
   run(1);
+
+  // RPI startup parameters, untill displaylag fixed
+  fastmode = 1;
+  updateRuntimeState();
 
   wait_for_events();
 };

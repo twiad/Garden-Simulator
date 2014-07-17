@@ -28,7 +28,7 @@ namespace EDen {
 	};
 
   SDL_WindowGroundpart::SDL_WindowGroundpart(std::string name, int width, int height, float maxWater, float maxGoo, int emptySpaces, RuntimeManager* runtimeManager) : SingleDimensionHeightmapGroundpart(name, width * 3, maxWater, maxGoo, emptySpaces) {
-	window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_OPENGL);
 	if (!window) {
     	return;
 	}
@@ -37,8 +37,7 @@ namespace EDen {
 	statusWindow = 0;
 	statsWindow = 0;
 
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	runtime = runtimeManager;
 	runtime->add(this);
@@ -441,24 +440,29 @@ namespace EDen {
 		  //std::cout << "(" << x1 << "\t" << y1 << ")\t(" << x2 << "\t" << y2 << ")\n";
 
 		  if(relevantForScaling) {
-			  if((x1 <= 0) || (x2 <= 0)) {
-				  clip.moveLeft = true;
-			  }
-			  if((x1 + (((int)statusWindow->isShown()) * 200) > dimx) || (x2 + (((int)statusWindow->isShown()) * 200) > dimx)) {
-				  clip.moveRight = true;
-			  }
-			  if((y1 > dimy) || (y2 > dimy)) {
-				  clip.needToScaleY = true;
-			  };
-			  if((x1 <= (dimx * SCALE_DOWN_HYST_FACTOR)) || (x2 <= (dimx * SCALE_DOWN_HYST_FACTOR))) {
-				  clip.scaleDownLeft = false;
-			  }
-			  if((x1 + (((int)statusWindow->isShown()) * 200)  > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR))) || (x2 + (((int)statusWindow->isShown()) * 200) > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR)))) {
-				  clip.scaleDownRight = false;
-			  }
-			  if((y1 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR))) || (y2 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR)))) {
-				  clip.scaleDown = false;
-			  }
+		    
+		    int statusWindowSizeX = 0;
+		    int statusWindowSizeY = 0;
+		    statusWindow->getSize(&statusWindowSizeX, &statusWindowSizeY);
+
+		    if((x1 <= 0) || (x2 <= 0)) {
+		      clip.moveLeft = true;
+		    }
+		    if((x1 + (int)(y1 + statusWindowSizeY > dimy) * statusWindowSizeX > dimx) || (x2 + (int)(y1 + statusWindowSizeY > dimy) * statusWindowSizeX > dimx)) {
+		      clip.moveRight = true;
+		    }
+		    if((y1 > dimy) || (y2 > dimy)) {
+		      clip.needToScaleY = true;
+		    };
+		    if((x1 <= (dimx * SCALE_DOWN_HYST_FACTOR)) || (x2 <= (dimx * SCALE_DOWN_HYST_FACTOR))) {
+		      clip.scaleDownLeft = false;
+		    }
+		    if((x1 + statusWindowSizeX  > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR))) || (x2 + statusWindowSizeX > (dimx - (dimx * SCALE_DOWN_HYST_FACTOR)))) {
+		      clip.scaleDownRight = false;
+		    }
+		    if((y1 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR))) || (y2 > (dimy - (dimy * SCALE_DOWN_HYST_FACTOR)))) {
+		      clip.scaleDown = false;
+		    }
 		  }
 
 		  if(!fast) {

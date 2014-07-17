@@ -64,7 +64,7 @@ ifeq ($(config),debug)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/SDL2.o \
+	$(OBJDIR)/SDL2.o $(OBJDIR)/SDL2software.o \
 
 RESOURCES := \
 

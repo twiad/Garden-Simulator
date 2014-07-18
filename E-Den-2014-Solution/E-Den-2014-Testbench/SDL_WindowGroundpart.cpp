@@ -198,6 +198,10 @@ namespace EDen {
 
 	shadows->clear();
 
+	//calculate y offset
+	int heightAtViewportCenter = getHeightAt((width/2) + ((((dimx/2) - renderOffeset) - (dimx/2)) * (1.0f/scale))) * scale;
+	int heightmapOffset = 10 - heightAtViewportCenter;
+	
 	//draw organisms
     clip.reset();
     Organism* org;
@@ -206,10 +210,10 @@ namespace EDen {
       org = *it;
       if( org->getState() != BSP_dead) {
 		if(scaleToOrganisms.size() != 0) {
-			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, isScaleToOrganism(org), org == primaryMarkedOrganism, fast);
+			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1 + heightmapOffset, 0.0f, 0.0f, 0.0f, isScaleToOrganism(org), org == primaryMarkedOrganism, fast);
 		}
 		else {
-			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1, 0.0f, 0.0f, 0.0f, true , org == primaryMarkedOrganism, fast);
+			req_print(org->getRootBodypart(), (scale * getOrganismX(org)) + (dimx / 2) - ((getWidth() /  2) * scale) + renderOffeset, scale * getHeightAt(getOrganismX(org)) - 1 + heightmapOffset, 0.0f, 0.0f, 0.0f, true , org == primaryMarkedOrganism, fast);
 		}
       };
     };
@@ -586,9 +590,13 @@ namespace EDen {
 	  int halfDimX = dimx / 2;
 	  SDL_SetRenderDrawColor(renderer, 100, chemStorage->getCurrentPercentage("Wasser")/100.0f * 100 + 100, chemStorage->getCurrentPercentage("Goo")/100.0f * 100, 255);
 	  int ix;
+
+	  int heightAtViewportCenter = getHeightAt(halfGroundpartWidth + (((halfDimX - renderOffeset) - halfDimX) * (1.0f/scale))) * scale;
+	  int heightmapOffset = 10 - heightAtViewportCenter;
+
 	  for(int i = 0; i < dimx; i++) {
 		ix = i - renderOffeset;
-		height = getHeightAt(halfGroundpartWidth + ((ix - halfDimX) * (1.0f/scale))) * scale;
+		height = heightmapOffset + getHeightAt(halfGroundpartWidth + ((ix - halfDimX) * (1.0f/scale))) * scale;
 		SDL_RenderDrawLine(renderer, i,dimy - (1 + height), i,dimy - 1);
 	  };
   };

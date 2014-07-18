@@ -286,12 +286,17 @@ namespace EDen {
       orgsToProcess.push_back(*it);
     };
 
-    boost::thread_group threadpool;
+	if(NUM_CORES > 1) {
+		boost::thread_group threadpool;
 
-    for(int i = 0; i < numthreads; i++) {
-      threadpool.create_thread(&processOrgs);
-    };
-    threadpool.join_all();
+		for(int i = 0; i < numthreads; i++) {
+		  threadpool.create_thread(&processOrgs);
+		};
+		threadpool.join_all();
+	}
+	else {
+		processOrgs();
+	};
 
     cleanupDeadOrganisms();
 

@@ -394,7 +394,7 @@ void sdl_test() {
 //  activePrinter = op1;
 ////  op3 = new SDLOrganismPrinter(&window, SDL_DIMX,SDL_DIMY,runtime);
 
-  activePrinter = new SDL_WindowGroundpart("GOO1",true,SDL_DIMX,SDL_DIMY,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount(),runtime);
+  activePrinter = new SDL_WindowGroundpart("GOO1",false,SDL_DIMX,SDL_DIMY,MAX_WATER,MAX_GOO*2,runtime->getPreferedOrganismCount(),runtime);
   gp = activePrinter;
   gpDatabase = gp->getSpeciesDatabase();
   gpDatabase->setApplicationSettingsPath(appSettingsPathP);
